@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Public\AgencyController;
+use App\Http\Controllers\Public\GeneralController;
 use App\Http\Controllers\Public\LpkController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PageController;
@@ -21,16 +21,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // -----------------------------------------------------------------------------
-// 1. Agency Domain: thedarkandbright.com
+// 1. Main Domain: thedarkandbright.com (General)
 // -----------------------------------------------------------------------------
 Route::domain('thedarkandbright.com')->group(function () {
-    // Agency public routes
-    Route::get('/', [AgencyController::class, 'index'])->name('agency.home');
-    Route::get('/about', [AgencyController::class, 'about'])->name('agency.about');
-    Route::get('/services', [AgencyController::class, 'services'])->name('agency.services');
-    Route::get('/portfolio', [AgencyController::class, 'portfolio'])->name('agency.portfolio');
-    Route::get('/contact', [AgencyController::class, 'contact'])->name('agency.contact');
-    Route::post('/contact', [AgencyController::class, 'storeContact'])->name('agency.contact.store');
+    // General public routes
+    Route::get('/', [GeneralController::class, 'index'])->name('general.home');
+    Route::get('/about', [GeneralController::class, 'about'])->name('general.about');
+    Route::get('/services', [GeneralController::class, 'services'])->name('general.services');
+    Route::get('/portfolio', [GeneralController::class, 'portfolio'])->name('general.portfolio');
+    Route::get('/contact', [GeneralController::class, 'contact'])->name('general.contact');
+    Route::post('/contact', [GeneralController::class, 'storeContact'])->name('general.contact.store');
 
     // Auth routes (login, register, etc.)
     require __DIR__.'/auth.php';
@@ -48,13 +48,13 @@ Route::domain('thedarkandbright.com')->group(function () {
 });
 
 // -----------------------------------------------------------------------------
-// 2. LPK Domain: lpk.thedarkandbright.com
+// 2. Agency Domain: agency.thedarkandbright.com (LPK Target)
 // -----------------------------------------------------------------------------
-Route::domain('lpk.thedarkandbright.com')->group(function () {
-    Route::get('/', [LpkController::class, 'index'])->name('lpk.home');
-    Route::get('/programs', [LpkController::class, 'programs'])->name('lpk.programs');
-    Route::get('/contact', [LpkController::class, 'contact'])->name('lpk.contact');
-    Route::post('/contact', [LpkController::class, 'storeContact'])->name('lpk.contact.store');
+Route::domain('agency.thedarkandbright.com')->group(function () {
+    Route::get('/', [AgencyController::class, 'index'])->name('agency.home');
+    Route::get('/programs', [AgencyController::class, 'programs'])->name('agency.programs');
+    Route::get('/contact', [AgencyController::class, 'contact'])->name('agency.contact');
+    Route::post('/contact', [AgencyController::class, 'storeContact'])->name('agency.contact.store');
 });
 
 // -----------------------------------------------------------------------------

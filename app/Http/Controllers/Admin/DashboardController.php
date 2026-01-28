@@ -14,8 +14,8 @@ class DashboardController extends Controller
     {
         // Lead statistics
         $totalLeads = Lead::count();
+        $generalLeads = Lead::forDomain('general')->count();
         $agencyLeads = Lead::forDomain('agency')->count();
-        $lpkLeads = Lead::forDomain('lpk')->count();
         $newLeads = Lead::new()->count();
         $recentLeads = Lead::latest()->limit(10)->get();
 
@@ -29,8 +29,8 @@ class DashboardController extends Controller
 
         return view('admin.dashboard', compact(
             'totalLeads',
+            'generalLeads',
             'agencyLeads',
-            'lpkLeads',
             'newLeads',
             'recentLeads',
             'totalPortfolios',

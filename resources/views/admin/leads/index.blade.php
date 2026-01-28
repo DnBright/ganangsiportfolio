@@ -12,8 +12,8 @@
             <form method="GET" action="{{ route('admin.leads.index') }}" class="flex gap-4">
                 <select name="domain" class="border-gray-300 rounded-md">
                     <option value="">All Domains</option>
-                    <option value="agency" {{ request('domain') === 'agency' ? 'selected' : '' }}>Agency</option>
-                    <option value="lpk" {{ request('domain') === 'lpk' ? 'selected' : '' }}>LPK</option>
+                    <option value="general" {{ request('domain') === 'general' ? 'selected' : '' }}>Agency</option>
+                    <option value="general" {{ request('domain') === 'general' ? 'selected' : '' }}>LPK</option>
                 </select>
                 <select name="status" class="border-gray-300 rounded-md">
                     <option value="">All Status</option>
@@ -50,7 +50,7 @@
                         <td class="px-6 py-4">{{ $lead->email }}</td>
                         <td class="px-6 py-4">{{ $lead->phone ?? '-' }}</td>
                         <td class="px-6 py-4">
-                            <span class="px-2 py-1 text-xs rounded-full {{ $lead->domain === 'agency' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
+                            <span class="px-2 py-1 text-xs rounded-full {{ $lead->domain === 'general' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
                                 {{ ucfirst($lead->domain) }}
                             </span>
                         </td>

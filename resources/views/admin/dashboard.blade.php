@@ -17,12 +17,12 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="text-gray-600 text-sm">Agency Leads</div>
-                <div class="text-3xl font-bold text-gray-900">{{ $agencyLeads }}</div>
+                <div class="text-3xl font-bold text-gray-900">{{ $generalLeads }}</div>
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                 <div class="text-gray-600 text-sm">LPK Leads</div>
-                <div class="text-3xl font-bold text-gray-900">{{ $lpkLeads }}</div>
+                <div class="text-3xl font-bold text-gray-900">{{ $generalLeads }}</div>
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
@@ -60,7 +60,7 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $lead->email }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    {{ $lead->domain === 'agency' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
+                                    {{ $lead->domain === 'general' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
                                     {{ ucfirst($lead->domain) }}
                                 </span>
                             </td>

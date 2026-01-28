@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Models\Portfolio;
 use App\Models\Section;
 use App\Models\Lead;
 use Illuminate\Http\Request;
@@ -11,7 +10,7 @@ use Illuminate\Http\Request;
 class AgencyController extends Controller
 {
     /**
-     * Display the agency homepage
+     * Display the Agency homepage
      */
     public function index()
     {
@@ -20,33 +19,13 @@ class AgencyController extends Controller
             ->ordered()
             ->get();
 
-        $featuredPortfolios = Portfolio::forDomain('agency')
-            ->featured()
-            ->ordered()
-            ->limit(6)
-            ->get();
-
-        return view('agency.index', compact('sections', 'featuredPortfolios'));
+        return view('agency.index', compact('sections'));
     }
 
     /**
-     * Display the about page
+     * Display programs page
      */
-    public function about()
-    {
-        $sections = Section::forDomain('agency')
-            ->ofType('about')
-            ->active()
-            ->ordered()
-            ->get();
-
-        return view('agency.about', compact('sections'));
-    }
-
-    /**
-     * Display services page
-     */
-    public function services()
+    public function programs()
     {
         $sections = Section::forDomain('agency')
             ->ofType('services')
@@ -54,28 +33,11 @@ class AgencyController extends Controller
             ->ordered()
             ->get();
 
-        return view('agency.services', compact('sections'));
+        return view('agency.programs', compact('sections'));
     }
 
     /**
-     * Display portfolio page
-     */
-    public function portfolio()
-    {
-        $portfolios = Portfolio::forDomain('agency')
-            ->ordered()
-            ->paginate(12);
-
-        $categories = Portfolio::forDomain('agency')
-            ->distinct()
-            ->pluck('category')
-            ->filter();
-
-        return view('agency.portfolio', compact('portfolios', 'categories'));
-    }
-
-    /**
-     * Display contact page
+     * Display contact/registration page
      */
     public function contact()
     {
@@ -83,7 +45,7 @@ class AgencyController extends Controller
     }
 
     /**
-     * Store contact form submission
+     * Store contact/registration form submission
      */
     public function storeContact(Request $request)
     {
@@ -91,7 +53,6 @@ class AgencyController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'company' => 'nullable|string|max:255',
             'message' => 'required|string|max:2000',
         ]);
 
@@ -100,13 +61,12 @@ class AgencyController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
-            'company' => $validated['company'] ?? null,
             'message' => $validated['message'],
             'source' => 'agency_contact_form',
             'status' => 'new',
         ]);
 
         return redirect()->route('agency.contact')
-            ->with('success', 'Thank you for contacting us! We will get back to you soon.');
+            ->with('success', 'Terima kasih! Kami akan segera menghubungi Anda.');
     }
 }

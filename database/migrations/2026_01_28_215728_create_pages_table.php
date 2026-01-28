@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->enum('domain', ['agency', 'lpk'])->index();
+            $table->enum('domain', ['general', 'agency'])->index();
             $table->string('slug')->index();
             $table->string('title');
             $table->text('meta_description')->nullable();

@@ -26,29 +26,29 @@ class AdminUserSeeder extends Seeder
 
         // Create sample leads
         Lead::create([
-            'domain' => 'agency',
+            'domain' => 'general',
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'phone' => '+1234567890',
             'company' => 'Tech Corp',
             'message' => 'Interested in web development services.',
-            'source' => 'agency_contact_form',
+            'source' => 'general_contact_form',
             'status' => 'new',
         ]);
 
         Lead::create([
-            'domain' => 'lpk',
+            'domain' => 'agency',
             'name' => 'Jane Smith',
             'email' => 'jane@example.com',
             'phone' => '+0987654321',
             'message' => 'Ingin mendaftar program web development.',
-            'source' => 'lpk_contact_form',
+            'source' => 'agency_contact_form',
             'status' => 'new',
         ]);
 
         // Create sample portfolios
         Portfolio::create([
-            'domain' => 'agency',
+            'domain' => 'general',
             'title' => 'E-Commerce Platform',
             'slug' => 'e-commerce-platform',
             'client_name' => 'ShopNow Inc',
@@ -59,7 +59,7 @@ class AdminUserSeeder extends Seeder
         ]);
 
         Portfolio::create([
-            'domain' => 'agency',
+            'domain' => 'general',
             'title' => 'Corporate Website',
             'slug' => 'corporate-website',
             'client_name' => 'Business Solutions Ltd',

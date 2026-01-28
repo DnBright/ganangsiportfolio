@@ -33,7 +33,7 @@
                 </div>
                 <div>
                     <label class="font-semibold text-gray-700">Domain:</label>
-                    <p><span class="px-2 py-1 text-xs rounded-full {{ $lead->domain === 'agency' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">{{ ucfirst($lead->domain) }}</span></p>
+                    <p><span class="px-2 py-1 text-xs rounded-full {{ $lead->domain === 'general' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">{{ ucfirst($lead->domain) }}</span></p>
                 </div>
                 <div>
                     <label class="font-semibold text-gray-700">Source:</label>

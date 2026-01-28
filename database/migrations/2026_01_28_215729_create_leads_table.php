@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
-            $table->enum('domain', ['agency', 'lpk'])->index();
+            $table->enum('domain', ['general', 'agency'])->index();
             $table->string('name');
             $table->string('email');
             $table->string('phone')->nullable();

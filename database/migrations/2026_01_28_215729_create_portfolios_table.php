@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('portfolios', function (Blueprint $table) {
             $table->id();
-            $table->enum('domain', ['agency', 'lpk', 'both'])->default('agency')->index();
+            $table->enum('domain', ['general', 'agency', 'both'])->default('general')->index();
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('client_name')->nullable();

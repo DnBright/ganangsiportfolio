@@ -1,4 +1,4 @@
-@extends('agency.layout')
+@extends('general.layout')
 @section('title', 'Our Services')
 @section('content')
 <div class="hero" style="padding: 3rem 0;"><div class="container"><h1>Our Services</h1></div></div>

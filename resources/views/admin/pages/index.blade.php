@@ -7,7 +7,7 @@
             <a href="{{ route('admin.pages.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-md">Add Page</a>
         </div>
         <div class="bg-white p-6 rounded-lg shadow">
-            <p>Page management interface - Create and edit pages for agency and LPK domains.</p>
+            <p>Page management interface - Create and edit pages for general and LPK domains.</p>
         </div>
     </div>
 </div>

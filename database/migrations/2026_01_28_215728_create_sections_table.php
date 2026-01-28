@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->nullable()->constrained()->onDelete('cascade');
-            $table->enum('domain', ['agency', 'lpk'])->index();
+            $table->enum('domain', ['general', 'agency'])->index();
             $table->enum('section_type', ['hero', 'features', 'testimonials', 'cta', 'portfolio', 'team', 'contact', 'about', 'services'])->index();
             $table->string('title')->nullable();
             $table->json('content')->nullable();
