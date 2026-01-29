@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'The Dark and Bright General')</title>
     <meta name="description" content="@yield('meta_description', 'Professional digital agency services')">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; }
@@ -23,20 +23,7 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <div><strong>The Dark and Bright</strong></div>
-                <div>
-                    <a href="{{ route('general.home') }}">Home</a>
-                    <a href="{{ route('general.about') }}">About</a>
-                    <a href="{{ route('general.services') }}">Services</a>
-                    <a href="{{ route('general.portfolio') }}">Portfolio</a>
-                    <a href="{{ route('general.contact') }}">Contact</a>
-                </div>
-            </nav>
-        </div>
-    </header>
+    <div id="navbar-root"></div>
 
     @yield('content')
 

@@ -8,10 +8,10 @@
       "app.css"
     ]
   },
-  "resources/js/app.js": {
-    "file": "assets/app-CiZ6hk-B.js",
+  "resources/js/app.jsx": {
+    "file": "assets/app-cQFb26cV.js",
     "name": "app",
-    "src": "resources/js/app.js",
+    "src": "resources/js/app.jsx",
     "isEntry": true
   }
 }
