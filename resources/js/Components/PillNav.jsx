@@ -17,6 +17,7 @@ const PillNav = ({
 }) => {
     const resolvedPillTextColor = pillTextColor ?? baseColor;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [activeLang, setActiveLang] = useState('IND');
     const circleRefs = useRef([]);
     const tlRefs = useRef([]);
     const activeTweenRefs = useRef([]);
@@ -204,130 +205,134 @@ const PillNav = ({
     };
 
     const cssVars = {
-        ['--base']: baseColor,
-        ['--pill-bg']: pillColor,
-        ['--hover-text']: hoveredPillTextColor,
-        ['--pill-text']: resolvedPillTextColor,
-        ['--nav-h']: '42px',
-        ['--logo']: '36px',
-        ['--pill-pad-x']: '18px',
-        ['--pill-gap']: '3px'
+        ['--base']: '#ffffff',
+        ['--pill-bg']: '#000000',
+        ['--hover-text']: '#ffffff',
+        ['--pill-text']: '#000000',
+        ['--nav-h']: '46px',
+        ['--logo']: '32px',
+        ['--pill-pad-x']: '20px',
+        ['--pill-gap']: '4px'
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-4 pointer-events-none">
-            <nav
-                className={`pointer-events-auto relative w-max flex items-center justify-start box-border px-2 md:px-0 ${className}`}
-                aria-label="Primary"
-                style={cssVars}
-            >
+        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-6 pointer-events-none">
+            <div className="flex items-center gap-3 pointer-events-auto">
+                {/* Logo Section */}
                 <a
-                    href={items?.[0]?.href || '#'}
+                    href="/"
                     aria-label="Home"
                     onMouseEnter={handleLogoEnter}
                     ref={el => {
                         logoRef.current = el;
                     }}
-                    className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden shrink-0"
-                    style={{
-                        width: 'var(--nav-h)',
-                        height: 'var(--nav-h)',
-                        background: 'var(--base, #000)'
-                    }}
+                    className="flex h-[var(--nav-h)] w-[var(--nav-h)] items-center justify-center rounded-full bg-white shadow-sm border border-black/5"
+                    style={cssVars}
                 >
-                    {logo ? (
-                        <img src={logo} alt={logoAlt} ref={logoImgRef} className="w-full h-full object-cover block" />
-                    ) : (
-                        <span className="text-[10px] font-bold text-white leading-none">DNB</span>
-                    )}
+                    <img src="/images/logo-dnb.png" alt="Logo" ref={logoImgRef} className="w-8 h-8 object-contain" />
                 </a>
 
-                <div
-                    ref={navItemsRef}
-                    className="relative flex items-center rounded-full ml-1 md:ml-2 overflow-x-auto no-scrollbar max-w-[calc(100vw-60px)]"
-                    style={{
-                        height: 'var(--nav-h)',
-                        background: 'var(--base, #000)'
-                    }}
+                {/* Nav Items Pill */}
+                <nav
+                    className={`relative h-[var(--nav-h)] flex items-center justify-start bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm ${className}`}
+                    aria-label="Primary"
+                    style={cssVars}
                 >
-                    <ul
-                        role="menubar"
-                        className="list-none flex items-stretch m-0 p-[3px] h-full"
-                        style={{ gap: 'var(--pill-gap)' }}
-                    >
-                        {items.map((item, i) => {
-                            const isActive = activeHref === item.href;
+                    <div ref={navItemsRef} className="relative flex items-center h-full overflow-x-auto no-scrollbar max-w-[calc(100vw-150px)]">
+                        <ul
+                            role="menubar"
+                            className="list-none flex items-stretch m-0 p-0 h-full"
+                            style={{ gap: 'var(--pill-gap)' }}
+                        >
+                            {items.map((item, i) => {
+                                const isActive = activeHref === item.href;
 
-                            const pillStyle = {
-                                background: 'var(--pill-bg, #fff)',
-                                color: 'var(--pill-text, var(--base, #000))',
-                                paddingLeft: 'var(--pill-pad-x)',
-                                paddingRight: 'var(--pill-pad-x)'
-                            };
+                                const pillStyle = {
+                                    background: isActive ? 'var(--pill-bg)' : 'transparent',
+                                    color: isActive ? 'var(--hover-text)' : 'var(--pill-text)',
+                                    paddingLeft: 'var(--pill-pad-x)',
+                                    paddingRight: 'var(--pill-pad-x)'
+                                };
 
-                            const PillContent = (
-                                <>
-                                    <span
-                                        className="hover-circle absolute left-1/2 bottom-0 rounded-full z-[1] block pointer-events-none"
-                                        style={{
-                                            background: 'var(--base, #000)',
-                                            willChange: 'transform'
-                                        }}
-                                        aria-hidden="true"
-                                        ref={el => {
-                                            circleRefs.current[i] = el;
-                                        }}
-                                    />
-                                    <span className="label-stack relative inline-block leading-[1] z-[2]">
+                                const PillContent = (
+                                    <>
                                         <span
-                                            className="pill-label relative z-[2] inline-block leading-[1] text-[12px] md:text-[16px]"
-                                            style={{ willChange: 'transform' }}
-                                        >
-                                            {item.label}
-                                        </span>
-                                        <span
-                                            className="pill-label-hover absolute left-0 top-0 z-[3] inline-block text-[12px] md:text-[16px]"
+                                            className="hover-circle absolute left-1/2 bottom-0 rounded-full z-[1] block pointer-events-none"
                                             style={{
-                                                color: 'var(--hover-text, #fff)',
-                                                willChange: 'transform, opacity'
+                                                background: 'var(--pill-bg)',
+                                                willChange: 'transform'
                                             }}
                                             aria-hidden="true"
-                                        >
-                                            {item.label}
-                                        </span>
-                                    </span>
-                                    {isActive && (
-                                        <span
-                                            className="absolute left-1/2 -bottom-[6px] -translate-x-1/2 w-2 h-2 md:w-3 md:h-3 rounded-full z-[4]"
-                                            style={{ background: 'var(--base, #000)' }}
-                                            aria-hidden="true"
+                                            ref={el => {
+                                                circleRefs.current[i] = el;
+                                            }}
                                         />
-                                    )}
-                                </>
-                            );
+                                        <span className="label-stack relative inline-block leading-[1] z-[2]">
+                                            <span
+                                                className="pill-label relative z-[2] inline-block leading-[1] text-[13px] md:text-[14px] font-bold"
+                                                style={{
+                                                    willChange: 'transform',
+                                                    color: isActive ? 'var(--hover-text)' : 'inherit'
+                                                }}
+                                            >
+                                                {item.label}
+                                            </span>
+                                            <span
+                                                className="pill-label-hover absolute left-0 top-0 z-[3] inline-block text-[13px] md:text-[14px] font-bold"
+                                                style={{
+                                                    color: 'var(--hover-text)',
+                                                    willChange: 'transform, opacity'
+                                                }}
+                                                aria-hidden="true"
+                                            >
+                                                {item.label}
+                                            </span>
+                                        </span>
+                                    </>
+                                );
 
-                            const basePillClasses =
-                                'relative overflow-hidden inline-flex items-center justify-center h-full no-underline rounded-full box-border font-semibold leading-[0] uppercase tracking-[0.2px] whitespace-nowrap cursor-pointer px-0';
+                                const basePillClasses =
+                                    'relative overflow-hidden inline-flex items-center justify-center h-[calc(var(--nav-h)-8px)] my-auto no-underline rounded-full box-border font-semibold tracking-[0.2px] whitespace-nowrap cursor-pointer px-0 transition-colors duration-200';
 
-                            return (
-                                <li key={item.href} role="none" className="flex h-full">
-                                    <a
-                                        role="menuitem"
-                                        href={item.href}
-                                        className={basePillClasses}
-                                        style={pillStyle}
-                                        aria-label={item.ariaLabel || item.label}
-                                        onMouseEnter={() => handleEnter(i)}
-                                        onMouseLeave={() => handleLeave(i)}
-                                    >
-                                        {PillContent}
-                                    </a>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                                return (
+                                    <li key={item.href} role="none" className="flex items-center h-full">
+                                        <a
+                                            role="menuitem"
+                                            href={item.href}
+                                            className={basePillClasses}
+                                            style={pillStyle}
+                                            aria-label={item.ariaLabel || item.label}
+                                            onMouseEnter={() => handleEnter(i)}
+                                            onMouseLeave={() => handleLeave(i)}
+                                        >
+                                            {PillContent}
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </nav>
+
+                {/* Language Switcher Pill */}
+                <div
+                    className="flex h-[var(--nav-h)] items-center bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm gap-1"
+                    style={cssVars}
+                >
+                    {['IND', 'ENG'].map(lang => (
+                        <button
+                            key={lang}
+                            onClick={() => setActiveLang(lang)}
+                            className={`px-3 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${activeLang === lang
+                                    ? 'bg-black text-white'
+                                    : 'text-black hover:bg-black/5'
+                                }`}
+                        >
+                            {lang}
+                        </button>
+                    ))}
                 </div>
-            </nav>
+            </div>
         </div>
     );
 };
