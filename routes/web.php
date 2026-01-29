@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 // -----------------------------------------------------------------------------
+// Global Auth Routes (Accessible from any domain)
+// -----------------------------------------------------------------------------
+require __DIR__.'/auth.php';
+
+// -----------------------------------------------------------------------------
 // 1. Main Domain: thedarkandbright.com (General)
 // -----------------------------------------------------------------------------
 Route::domain('thedarkandbright.com')->group(function () {
@@ -32,12 +37,13 @@ Route::domain('thedarkandbright.com')->group(function () {
     Route::get('/contact', [GeneralController::class, 'contact'])->name('general.contact');
     Route::post('/contact', [GeneralController::class, 'storeContact'])->name('general.contact.store');
 
-    // Auth routes (login, register, etc.)
-    require __DIR__.'/auth.php';
-
     // Authenticated user routes
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', function () {
+            // If admin, redirect to admin home instead of user dashboard if they end up here
+            if (auth()->user()->role === 'admin') {
+                return redirect()->route('admin.dashboard');
+            }
             return view('dashboard');
         })->middleware('verified')->name('dashboard');
 
