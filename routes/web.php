@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\GeneralController;
-use App\Http\Controllers\Public\LpkController;
+use App\Http\Controllers\Public\AgencyController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\LeadController;
