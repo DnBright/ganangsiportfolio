@@ -215,9 +215,9 @@ const PillNav = ({
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-6 pointer-events-none">
+        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-4 pointer-events-none">
             <nav
-                className={`pointer-events-auto relative w-max flex items-center justify-start box-border ${className}`}
+                className={`pointer-events-auto relative w-max flex items-center justify-start box-border px-2 md:px-0 ${className}`}
                 aria-label="Primary"
                 style={cssVars}
             >
@@ -228,7 +228,7 @@ const PillNav = ({
                     ref={el => {
                         logoRef.current = el;
                     }}
-                    className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden"
+                    className="rounded-full p-2 inline-flex items-center justify-center overflow-hidden shrink-0"
                     style={{
                         width: 'var(--nav-h)',
                         height: 'var(--nav-h)',
@@ -244,7 +244,7 @@ const PillNav = ({
 
                 <div
                     ref={navItemsRef}
-                    className="relative items-center rounded-full hidden md:flex ml-2"
+                    className="relative flex items-center rounded-full ml-1 md:ml-2 overflow-x-auto no-scrollbar max-w-[calc(100vw-60px)]"
                     style={{
                         height: 'var(--nav-h)',
                         background: 'var(--base, #000)'
@@ -280,13 +280,13 @@ const PillNav = ({
                                     />
                                     <span className="label-stack relative inline-block leading-[1] z-[2]">
                                         <span
-                                            className="pill-label relative z-[2] inline-block leading-[1]"
+                                            className="pill-label relative z-[2] inline-block leading-[1] text-[12px] md:text-[16px]"
                                             style={{ willChange: 'transform' }}
                                         >
                                             {item.label}
                                         </span>
                                         <span
-                                            className="pill-label-hover absolute left-0 top-0 z-[3] inline-block"
+                                            className="pill-label-hover absolute left-0 top-0 z-[3] inline-block text-[12px] md:text-[16px]"
                                             style={{
                                                 color: 'var(--hover-text, #fff)',
                                                 willChange: 'transform, opacity'
@@ -298,7 +298,7 @@ const PillNav = ({
                                     </span>
                                     {isActive && (
                                         <span
-                                            className="absolute left-1/2 -bottom-[6px] -translate-x-1/2 w-3 h-3 rounded-full z-[4]"
+                                            className="absolute left-1/2 -bottom-[6px] -translate-x-1/2 w-2 h-2 md:w-3 md:h-3 rounded-full z-[4]"
                                             style={{ background: 'var(--base, #000)' }}
                                             aria-hidden="true"
                                         />
@@ -307,7 +307,7 @@ const PillNav = ({
                             );
 
                             const basePillClasses =
-                                'relative overflow-hidden inline-flex items-center justify-center h-full no-underline rounded-full box-border font-semibold text-[16px] leading-[0] uppercase tracking-[0.2px] whitespace-nowrap cursor-pointer px-0';
+                                'relative overflow-hidden inline-flex items-center justify-center h-full no-underline rounded-full box-border font-semibold leading-[0] uppercase tracking-[0.2px] whitespace-nowrap cursor-pointer px-0';
 
                             return (
                                 <li key={item.href} role="none" className="flex h-full">
@@ -327,63 +327,7 @@ const PillNav = ({
                         })}
                     </ul>
                 </div>
-
-                <button
-                    ref={hamburgerRef}
-                    onClick={toggleMobileMenu}
-                    aria-label="Toggle menu"
-                    aria-expanded={isMobileMenuOpen}
-                    className="md:hidden rounded-full border-0 flex flex-col items-center justify-center gap-1 cursor-pointer p-0 relative"
-                    style={{
-                        width: 'var(--nav-h)',
-                        height: 'var(--nav-h)',
-                        background: 'var(--base, #000)'
-                    }}
-                >
-                    <span
-                        className="hamburger-line w-4 h-0.5 rounded origin-center"
-                        style={{ background: 'var(--pill-bg, #fff)' }}
-                    />
-                    <span
-                        className="hamburger-line w-4 h-0.5 rounded origin-center"
-                        style={{ background: 'var(--pill-bg, #fff)' }}
-                    />
-                </button>
             </nav>
-
-            <div
-                ref={mobileMenuRef}
-                className="md:hidden absolute top-[3em] left-4 right-4 rounded-[27px] shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-[998] origin-top"
-                style={{
-                    ...cssVars,
-                    background: 'var(--base, #f0f0f0)'
-                }}
-            >
-                <ul className="list-none m-0 p-[3px] flex flex-col gap-[3px]">
-                    {items.map(item => {
-                        const defaultStyle = {
-                            background: 'var(--pill-bg, #fff)',
-                            color: 'var(--pill-text, #fff)'
-                        };
-
-                        const linkClasses =
-                            'block py-3 px-4 text-[16px] font-medium rounded-[50px] transition-all duration-200';
-
-                        return (
-                            <li key={item.href}>
-                                <a
-                                    href={item.href}
-                                    className={linkClasses}
-                                    style={defaultStyle}
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                    {item.label}
-                                </a>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
         </div>
     );
 };
