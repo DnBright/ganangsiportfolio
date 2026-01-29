@@ -3,13 +3,7 @@
 @section('title', 'Home - The Dark and Bright General')
 
 @section('content')
-<div class="hero">
-    <div class="container">
-        <h1>Transform Your Digital Presence</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Professional agency services for modern businesses</p>
-        <a href="{{ route('general.contact') }}" class="btn">Get Started</a>
-    </div>
-</div>
+<div id="hero-root"></div>
 
 <section class="section">
     <div class="container">

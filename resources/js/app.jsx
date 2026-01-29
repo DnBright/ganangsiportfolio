@@ -5,6 +5,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import PillNav from './Components/PillNav';
 
+import Hero from './Components/Hero';
+
 window.Alpine = Alpine;
 Alpine.start();
 
@@ -30,4 +32,11 @@ if (navbarRoot) {
             pillTextColor="#ffffff"
         />
     );
+}
+
+// Mount Hero if the container exists
+const heroRoot = document.getElementById('hero-root');
+if (heroRoot) {
+    const root = createRoot(heroRoot);
+    root.render(<Hero />);
 }
