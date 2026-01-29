@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/they9636/laravel_app
+            cd /home/they9636/public_html/laravel_app
             git pull origin main
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
