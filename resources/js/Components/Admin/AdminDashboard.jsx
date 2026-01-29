@@ -3,160 +3,125 @@ import VisionSidebar from './VisionSidebar';
 import StatCard from './StatCard';
 import VisionChart from './Charts/VisionChart';
 import ProjectTable from './ProjectTable';
+import WelcomeCard from './WelcomeCard';
+import SatisfactionGauge from './SatisfactionGauge';
+import ReferralTracking from './ReferralTracking';
+import ActiveUsersChart from './ActiveUsersChart';
 
 const AdminDashboard = ({ stats = {} }) => {
     return (
-        <div className="min-h-screen bg-[#060010] text-white p-6 font-sans antialiased overflow-hidden">
-            {/* Background Glows */}
-            <div className="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 blur-[150px] rounded-full pointer-events-none" />
-            <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-900/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="min-h-screen bg-[#060b26] text-white p-6 font-sans antialiased overflow-x-hidden selection:bg-blue-500/30">
+            {/* Background Glows (Matching Design) */}
+            <div className="fixed top-[-10%] left-[-5%] w-[60%] h-[60%] bg-[#2d5cfe]/10 blur-[120px] rounded-full pointer-events-none z-0" />
+            <div className="fixed bottom-[-5%] right-[-5%] w-[40%] h-[40%] bg-[#01c0c8]/5 blur-[100px] rounded-full pointer-events-none z-0" />
 
-            <div className="flex gap-6 relative z-10">
+            <div className="flex gap-6 relative z-10 max-w-[1600px] mx-auto">
                 {/* Sidebar */}
-                <VisionSidebar />
+                <div className="hidden xl:block w-64 shrink-0">
+                    <VisionSidebar />
+                </div>
 
                 {/* Main Content */}
-                <div className="flex-1 space-y-6 overflow-y-auto max-h-[calc(100vh-48px)] no-scrollbar">
-                    {/* Top Bar placeholder */}
-                    <div className="flex justify-between items-center px-2 py-4">
-                        <div className="text-sm opacity-50">Pages / Dashboard</div>
+                <div className="flex-1 space-y-6">
+                    {/* Top Bar / Breadcrumb */}
+                    <div className="flex justify-between items-center px-2">
+                        <div className="space-y-1">
+                            <p className="text-[10px] text-white/40 font-medium tracking-wider uppercase">Pages / Dashboard</p>
+                            <h1 className="text-sm font-bold tracking-tight">Dashboard</h1>
+                        </div>
                         <div className="flex items-center gap-4">
-                            <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl backdrop-blur-md text-xs">Search...</div>
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600" />
+                            <div className="bg-[#0f1535]/80 backdrop-blur-md border border-white/10 rounded-2xl px-4 py-2.5 flex items-center gap-2">
+                                <span className="text-white/40 text-xs">🔍</span>
+                                <input type="text" placeholder="Type here..." className="bg-transparent border-none outline-none text-xs w-32 placeholder:text-white/20" />
+                            </div>
+                            <div className="flex items-center gap-4 text-xs font-bold text-white/70">
+                                <span className="cursor-pointer hover:text-white transition-colors">👤 Sign In</span>
+                                <span className="cursor-pointer hover:text-white transition-colors">⚙️</span>
+                                <span className="cursor-pointer hover:text-white transition-colors">🔔</span>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    {/* Stats Row (4 columns) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <StatCard title="Today's Money" value="$53,000" growth="+55%" icon="money" />
-                        <StatCard title="Today's Users" value="2,300" growth="+3%" icon="users" />
-                        <StatCard title="New Clients" value="+3,462" growth="-2%" icon="clients" />
+                        <StatCard title="Today's Users" value="2,300" growth="+5%" icon="users" />
+                        <StatCard title="New Clients" value="+3,052" growth="-14%" icon="clients" />
                         <StatCard title="Total Sales" value="$173,000" growth="+8%" icon="sales" />
                     </div>
 
-                    {/* Top Row Charts/Info */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-1 bg-gradient-to-br from-blue-600/20 to-indigo-900/20 rounded-[30px] p-8 border border-white/10 backdrop-blur-xl relative overflow-hidden group">
-                            <img src="/images/jellyfish-bg.png" className="absolute right-[-20%] bottom-[-20%] w-full opacity-30 group-hover:scale-110 transition-transform duration-700" alt="" />
-                            <p className="text-sm opacity-60 mb-1">Welcome back,</p>
-                            <h2 className="text-3xl font-bold mb-4">Artur Johnson</h2>
-                            <p className="text-sm opacity-60 max-w-[200px]">Glad to see you again! Ask me anything.</p>
-                            <button className="mt-8 text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:translate-x-1 transition-transform">
-                                Tap to record <span className="text-blue-400">→</span>
-                            </button>
+                    {/* Middle Row (Welcome, Satisfaction, Referral) - 3 columns */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                        <div className="lg:col-span-5">
+                            <WelcomeCard name="Mark Johnson" />
                         </div>
-
-                        <div className="lg:col-span-1 bg-black/40 rounded-[30px] p-8 border border-white/5 backdrop-blur-xl">
-                            <h3 className="text-lg font-bold mb-6">Satisfaction Rate</h3>
-                            <div className="flex flex-col items-center justify-center pt-4">
-                                <div className="relative w-40 h-40 flex items-center justify-center">
-                                    <svg className="w-full h-full -rotate-90">
-                                        <circle cx="80" cy="80" r="70" className="stroke-white/5" strokeWidth="12" fill="none" />
-                                        <circle cx="80" cy="80" r="70" className="stroke-blue-500" strokeWidth="12" fill="none" strokeDasharray="440" strokeDashoffset="110" strokeLinecap="round" />
-                                    </svg>
-                                    <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                        <div className="text-4xl font-bold">95%</div>
-                                        <div className="text-[10px] opacity-40 uppercase">Based on likes</div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div className="lg:col-span-3">
+                            <SatisfactionGauge percentage={95} />
                         </div>
-
-                        <div className="lg:col-span-1 bg-black/40 rounded-[30px] p-8 border border-white/5 backdrop-blur-xl">
-                            <h3 className="text-lg font-bold mb-2">Referral Tracking</h3>
-                            <div className="space-y-6 mt-6">
-                                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                                    <p className="text-xs opacity-50 mb-1">Invited</p>
-                                    <p className="text-xl font-bold">145 people</p>
-                                </div>
-                                <div className="p-4 bg-white/5 rounded-2xl border border-white/5">
-                                    <p className="text-xs opacity-50 mb-1">Bonus</p>
-                                    <p className="text-xl font-bold">1,465</p>
-                                </div>
-                            </div>
+                        <div className="lg:col-span-4">
+                            <ReferralTracking />
                         </div>
                     </div>
 
-                    {/* Main Chart Section */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div className="bg-black/40 rounded-[30px] p-8 border border-white/5 backdrop-blur-xl">
-                            <h3 className="text-lg font-bold">Sales overview</h3>
-                            <p className="text-xs text-green-400 mt-1 mb-8">(+5) more in 2021</p>
-                            <div className="h-64 flex items-end gap-2">
-                                {/* Mock Wave Chart using pure CSS/Tailwind for initial pass */}
-                                <div className="w-full h-full bg-gradient-to-t from-blue-600/20 to-transparent relative rounded-b-2xl">
-                                    <div className="absolute inset-0 border-b border-white/10 border-dashed" />
-                                    <VisionChart type="area" />
-                                </div>
+                    {/* Charts Row - 2 columns */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        <div className="lg:col-span-7 bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6">
+                            <div className="mb-0">
+                                <h3 className="text-sm font-bold mb-1">Sales overview</h3>
+                                <p className="text-xs text-green-400 font-bold mb-8">(+5) more <span className="text-white/40 font-normal">in 2021</span></p>
+                            </div>
+                            <div className="h-[280px]">
+                                <VisionChart type="area" />
                             </div>
                         </div>
-
-                        <div className="bg-black/40 rounded-[30px] p-8 border border-white/5 backdrop-blur-xl flex flex-col">
-                            <div className="mb-8">
-                                <div className="h-48 w-full bg-gradient-to-br from-blue-600 to-indigo-800 rounded-2xl p-4 overflow-hidden relative">
-                                    <VisionChart type="bar" />
-                                </div>
-                            </div>
-                            <h3 className="text-lg font-bold mb-2">Active Users</h3>
-                            <p className="text-xs opacity-60">(+23) than last week</p>
-                            <div className="grid grid-cols-4 gap-4 mt-8">
-                                <div>
-                                    <p className="text-xs opacity-40 mb-1">Users</p>
-                                    <p className="font-bold">32,984</p>
-                                </div>
-                                <div>
-                                    <p className="text-xs opacity-40 mb-1">Clicks</p>
-                                    <p className="font-bold">2.42m</p>
-                                </div>
-                                <div>
-                                    <p className="text-xs opacity-40 mb-1">Sales</p>
-                                    <p className="font-bold">2,400$</p>
-                                </div>
-                                <div>
-                                    <p className="text-xs opacity-40 mb-1">Items</p>
-                                    <p className="font-bold">320</p>
-                                </div>
-                            </div>
+                        <div className="lg:col-span-5 h-full">
+                            <ActiveUsersChart />
                         </div>
                     </div>
 
-                    {/* Projects Table Section */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 bg-black/40 rounded-[30px] p-8 border border-white/5 backdrop-blur-xl">
-                            <div className="flex justify-between items-center mb-6">
+                    {/* Bottom Row - Projects & Orders */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-6">
+                        <div className="lg:col-span-8 bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6">
+                            <div className="flex justify-between items-center mb-6 px-1">
                                 <div>
-                                    <h3 className="text-lg font-bold">Projects</h3>
-                                    <p className="text-xs opacity-60">30 done this month</p>
+                                    <h3 className="text-sm font-bold mb-1">Projects</h3>
+                                    <p className="text-xs text-white/50 flex items-center gap-1">
+                                        <span className="text-green-500 font-bold">✔</span> 30 done <span className="text-white/30 lowercase">this month</span>
+                                    </p>
                                 </div>
-                                <button className="text-white/40 hover:text-white">•••</button>
+                                <span className="bg-[#1b2252]/60 p-2 rounded-xl text-[10px] cursor-pointer hover:bg-white/10">⋮</span>
                             </div>
-                            <ProjectTable />
+                            <div className="overflow-x-auto">
+                                <ProjectTable />
+                            </div>
                         </div>
 
-                        <div className="lg:col-span-1 bg-black/40 rounded-[30px] p-8 border border-white/5 backdrop-blur-xl">
-                            <h3 className="text-lg font-bold mb-2">Orders overview</h3>
-                            <p className="text-xs text-green-400 mb-8">+30% this month</p>
-                            <div className="space-y-6">
-                                <div className="flex gap-4">
-                                    <div className="w-1 h-32 bg-white/10 rounded-full relative">
-                                        <div className="absolute top-0 left-[-4px] w-3 h-3 bg-blue-500 rounded-full border-2 border-[#060010]" />
-                                        <div className="absolute top-16 left-[-4px] w-3 h-3 bg-blue-500 rounded-full border-2 border-[#060010]" />
-                                    </div>
-                                    <div className="space-y-12">
+                        <div className="lg:col-span-4 bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6">
+                            <div className="mb-8 px-1">
+                                <h3 className="text-sm font-bold mb-1">Orders overview</h3>
+                                <p className="text-xs text-green-400 font-bold mb-0">+30% <span className="text-white/40 font-normal">this month</span></p>
+                            </div>
+                            <div className="space-y-8 pl-2">
+                                {[
+                                    { title: '$2400, Design changes', time: '22 DEC 7:20 PM', color: 'bg-blue-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]' },
+                                    { title: 'New order #1832412', time: '21 DEC 11:21 PM', color: 'bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]' },
+                                    { title: 'Server Payments for April', time: '21 DEC 9:28 PM', color: 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' },
+                                    { title: 'New card added for order #4395133', time: '20 DEC 3:52 PM', color: 'bg-orange-400 shadow-[0_0_10px_rgba(251,146,60,0.5)]' },
+                                    { title: 'Unlock packages for development', time: '19 DEC 11:35 PM', color: 'bg-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.5)]' },
+                                    { title: 'New order #9851213', time: '18 DEC 4:41 PM', color: 'bg-[#1b2252]' },
+                                ].map((order, i) => (
+                                    <div key={i} className="flex gap-4 relative">
+                                        {i < 5 && <div className="w-[2px] h-full bg-white/10 absolute left-[5px] top-6" />}
+                                        <div className={`w-2.5 h-2.5 rounded-full ${order.color} mt-1 relative z-10`} />
                                         <div>
-                                            <p className="text-sm font-bold">$2400, Design changes</p>
-                                            <p className="text-xs opacity-40 uppercase">22 DEC 7:20 PM</p>
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-bold">New order #1832412</p>
-                                            <p className="text-xs opacity-40 uppercase">21 DEC 11:21 PM</p>
+                                            <p className="text-xs font-bold leading-tight tracking-tight">{order.title}</p>
+                                            <p className="text-[10px] text-white/40 mt-1 font-bold">{order.time}</p>
                                         </div>
                                     </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -3,46 +3,63 @@ import React from 'react';
 const VisionChart = ({ type }) => {
     if (type === 'area') {
         return (
-            <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 400 200">
+            <svg className="w-full h-full" viewBox="0 0 800 300" preserveAspectRatio="none">
                 <defs>
                     <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.5" />
-                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                        <stop offset="0%" stopColor="#2d5cfe" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#2d5cfe" stopOpacity="0" />
                     </linearGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
                 </defs>
+
+                {/* Horizontal Grid lines */}
+                {[0, 1, 2, 3, 4].map(i => (
+                    <line
+                        key={i}
+                        x1="0" y1={i * 75} x2="800" y2={i * 75}
+                        stroke="rgba(255,255,255,0.05)" strokeWidth="1"
+                    />
+                ))}
+
+                {/* Smooth Area Path */}
                 <path
-                    d="M0,150 Q50,120 100,140 T200,80 T300,110 T400,60 L400,200 L0,200 Z"
+                    d="M0,250 C100,200 200,280 300,180 C400,80 500,200 600,150 C700,100 800,180 800,180 V300 H0 Z"
                     fill="url(#areaGradient)"
-                    className="animate-pulse"
                 />
+
+                {/* Neon Line */}
                 <path
-                    d="M0,150 Q50,120 100,140 T200,80 T300,110 T400,60"
+                    d="M0,250 C100,200 200,280 300,180 C400,80 500,200 600,150 C700,100 800,180 800,180"
                     fill="none"
-                    stroke="#3b82f6"
+                    stroke="#2d5cfe"
                     strokeWidth="3"
-                    strokeLinecap="round"
+                    filter="url(#glow)"
                 />
+
+                {/* Floating Data Points */}
+                <circle cx="300" cy="180" r="4" fill="#fff" filter="url(#glow)" />
+                <circle cx="600" cy="150" r="4" fill="#fff" filter="url(#glow)" />
             </svg>
         );
     }
 
-    if (type === 'bar') {
-        return (
-            <div className="w-full h-full flex items-end justify-between px-2 gap-1 px-4">
-                {[40, 70, 45, 90, 65, 85, 30, 75, 50].map((height, i) => (
-                    <div
-                        key={i}
-                        className="w-2 bg-white/20 rounded-full relative group transition-all duration-500 hover:bg-white/40"
-                        style={{ height: `${height}%` }}
-                    >
-                        <div className="absolute inset-0 bg-blue-400 opacity-0 group-hover:opacity-100 transition-opacity rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
-    return null;
+    return (
+        <div className="flex h-full items-end justify-between gap-1">
+            {[40, 70, 45, 90, 65, 85, 30, 75, 50, 60, 80, 55].map((h, i) => (
+                <div
+                    key={i}
+                    className="flex-1 bg-white/20 rounded-full hover:bg-white transition-all cursor-pointer"
+                    style={{ height: `${h}%` }}
+                />
+            ))}
+        </div>
+    );
 };
 
 export default VisionChart;

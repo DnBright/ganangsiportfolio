@@ -7,22 +7,25 @@ const StatCard = ({ title, value, growth, icon }) => {
             case 'users': return '👥';
             case 'clients': return '💼';
             case 'sales': return '🛒';
-            default: return '📈';
+            default: return '📊';
         }
     };
 
+    const isPositive = growth.startsWith('+');
+
     return (
-        <div className="bg-black/40 backdrop-blur-xl border border-white/5 rounded-[30px] p-6 flex justify-between items-center group hover:bg-white/5 transition-all duration-300">
-            <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest opacity-40 mb-1">{title}</p>
+        <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[24px] p-5 flex items-center justify-between group hover:border-white/20 transition-all duration-300">
+            <div className="space-y-1">
+                <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{title}</p>
                 <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold">{value}</span>
-                    <span className={`text-[10px] font-bold ${growth.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+                    <h3 className="text-lg font-bold tracking-tight">{value}</h3>
+                    <span className={`text-[10px] font-bold ${isPositive ? 'text-green-400' : 'text-red-500'}`}>
                         {growth}
                     </span>
                 </div>
             </div>
-            <div className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center text-xl shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform duration-300">
+
+            <div className="w-11 h-11 bg-[#2d5cfe] rounded-xl flex items-center justify-center text-lg shadow-[0_0_15px_rgba(45,92,254,0.4)] group-hover:scale-110 transition-transform">
                 {getIcon()}
             </div>
         </div>
