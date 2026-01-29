@@ -14,10 +14,10 @@ if (navbarRoot) {
     const root = createRoot(navbarRoot);
     const navItems = [
         { label: 'Home', href: '/' },
-        { label: 'About', href: '/about' },
-        { label: 'Services', href: '/services' },
+        { label: 'Layanan', href: '/services' },
         { label: 'Portfolio', href: '/portfolio' },
-        { label: 'Contact', href: '/contact' }
+        { label: 'Tentang', href: '/about' },
+        { label: 'Kontak', href: '/contact' }
     ];
 
     root.render(
