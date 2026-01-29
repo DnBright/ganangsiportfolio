@@ -205,10 +205,10 @@ const PillNav = ({
     };
 
     const cssVars = {
-        ['--base']: '#ffffff',
-        ['--pill-bg']: '#000000',
-        ['--hover-text']: '#ffffff',
-        ['--pill-text']: '#000000',
+        ['--base']: baseColor,
+        ['--pill-bg']: pillColor,
+        ['--hover-text']: hoveredPillTextColor,
+        ['--pill-text']: resolvedPillTextColor,
         ['--nav-h']: '46px',
         ['--logo']: '32px',
         ['--pill-pad-x']: '20px',
@@ -229,7 +229,7 @@ const PillNav = ({
                     className="flex h-[var(--nav-h)] w-[var(--nav-h)] items-center justify-center rounded-full bg-white shadow-sm border border-black/5"
                     style={cssVars}
                 >
-                    <img src="/images/logo-dnb.png" alt="Logo" ref={logoImgRef} className="w-8 h-8 object-contain" />
+                    <img src="/images/logo-3d-user.png" alt="Logo" ref={logoImgRef} className="w-8 h-8 object-contain" />
                 </a>
 
                 {/* Nav Items Pill */}
@@ -324,8 +324,8 @@ const PillNav = ({
                             key={lang}
                             onClick={() => setActiveLang(lang)}
                             className={`px-3 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${activeLang === lang
-                                    ? 'bg-black text-white'
-                                    : 'text-black hover:bg-black/5'
+                                ? 'bg-black text-white'
+                                : 'text-black hover:bg-black/5'
                                 }`}
                         >
                             {lang}

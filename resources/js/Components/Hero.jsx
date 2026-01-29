@@ -3,28 +3,33 @@ import { gsap } from 'gsap';
 
 const Hero = () => {
     const heroRef = useRef(null);
-    const contentRef = useRef(null);
-    const lightRef = useRef(null);
+    const topSectionRef = useRef(null);
+    const bottomSectionRef = useRef(null);
 
     useEffect(() => {
-        // Subtle entry animation
         const ctx = gsap.context(() => {
-            gsap.from(contentRef.current.children, {
+            gsap.from(topSectionRef.current, {
+                y: -50,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.hero-cube', {
+                scale: 0.8,
+                opacity: 0,
+                duration: 1.2,
+                delay: 0.3,
+                ease: 'back.out(1.7)'
+            });
+
+            gsap.from(bottomSectionRef.current.children, {
                 y: 30,
                 opacity: 0,
                 duration: 1,
                 stagger: 0.2,
+                delay: 0.6,
                 ease: 'power3.out'
-            });
-
-            // Subtle light movement
-            gsap.to(lightRef.current, {
-                x: '20%',
-                y: '10%',
-                duration: 8,
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut'
             });
         }, heroRef);
 
@@ -32,76 +37,47 @@ const Hero = () => {
     }, []);
 
     return (
-        <section
-            ref={heroRef}
-            className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#060010] text-white px-6 pt-20"
-        >
-            {/* Background Accents */}
+        <section ref={heroRef} className="relative min-h-screen bg-[#1a1616] overflow-hidden">
+            {/* White Top Section with Squared edges but very rounded bottom */}
             <div
-                ref={lightRef}
-                className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-600/10 blur-[120px] pointer-events-none"
-            />
-            <div
-                className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/10 blur-[100px] pointer-events-none"
-            />
-
-            {/* Grid Pattern overlay */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-50 pointer-events-none" />
-
-            <div ref={contentRef} className="relative z-10 max-w-5xl w-full text-center space-y-8">
-                <div className="flex justify-center mb-8">
-                    <div className="relative group">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                ref={topSectionRef}
+                className="relative bg-white pt-32 pb-40 rounded-b-[100px] md:rounded-b-[200px] shadow-sm z-10 mx-4 mt-4 rounded-t-[40px]"
+            >
+                <div className="container mx-auto px-6 flex flex-col items-center">
+                    <div className="relative w-full max-w-2xl flex justify-center">
                         <img
-                            src="/images/logo-dnb.png"
-                            alt="Dark and Bright Logo"
-                            className="relative w-24 h-24 md:w-32 md:h-32 object-contain"
+                            src="/images/logo-3d-user.png"
+                            alt="Dark and Bright 3D Logo"
+                            className="hero-cube w-full h-auto max-w-[650px] object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)] z-10"
                         />
                     </div>
                 </div>
+            </div>
 
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/5 text-blue-400 text-xs font-medium uppercase tracking-widest mb-4">
-                    <span className="relative flex h-2 w-2 mr-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                    </span>
-                    Enterprise Digital Strategy
+            {/* Dark Bottom Section */}
+            <div
+                ref={bottomSectionRef}
+                className="container mx-auto px-6 py-28 md:py-40 grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+            >
+                <div className="space-y-10">
+                    <h1 className="text-6xl md:text-[100px] font-black text-white tracking-tighter leading-[0.9] uppercase">
+                        DARK AND BRIGHT
+                    </h1>
+                    <p className="text-white/90 text-xl md:text-3xl font-medium max-w-2xl leading-relaxed">
+                        Dark and Bright adalah layanan web development yang menghadirkan website
+                        modern, responsif, dan selaras dengan branding bisnis. Kami menggabungkan
+                        desain yang kuat dan teknologi efisien untuk menciptakan website yang tidak
+                        hanya menarik, tetapi juga bekerja optimal.
+                    </p>
                 </div>
 
-                <h1 className="text-5xl md:text-8xl font-black tracking-tight leading-[1.0] uppercase">
-                    Digital Stagnation is <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-200 to-indigo-300">
-                        A Business Liability.
-                    </span>
-                </h1>
-
-                <p className="text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed font-light">
-                    Scale your legacy. We bridge the gap between fragmented digital footprints and <span className="text-white font-medium">high-performance enterprise dominance.</span>
-                </p>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                    <a
-                        href="/contact"
-                        className="group relative px-8 py-4 bg-white text-black font-semibold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95"
-                    >
-                        <span className="relative z-10">Start Your Transition</span>
-                        <div className="absolute inset-0 bg-blue-400 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                    </a>
-
-                    <a
-                        href="/services"
-                        className="px-8 py-4 border border-white/10 rounded-full font-medium hover:bg-white/5 transition-colors"
-                    >
-                        Explore Solutions
-                    </a>
-                </div>
-
-                {/* Modular elements / Trust badges */}
-                <div className="pt-20 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-40">
-                    <div className="text-sm font-mono tracking-tighter uppercase">01. Strategy</div>
-                    <div className="text-sm font-mono tracking-tighter uppercase">02. Engineering</div>
-                    <div className="text-sm font-mono tracking-tighter uppercase">03. Performance</div>
-                    <div className="text-sm font-mono tracking-tighter uppercase">04. Scalability</div>
+                <div className="hidden md:flex justify-end relative">
+                    {/* Overlapping Pages Placeholder using CSS */}
+                    <div className="relative w-96 h-96">
+                        <div className="absolute top-0 right-0 w-72 h-96 bg-white rounded-2xl shadow-2xl rotate-[-25deg] translate-x-24 border border-gray-100/50 opacity-90"></div>
+                        <div className="absolute top-0 right-0 w-72 h-96 bg-white rounded-2xl shadow-2xl rotate-[-15deg] translate-x-12 border border-gray-100/50 opacity-95"></div>
+                        <div className="absolute top-0 right-0 w-72 h-96 bg-white rounded-2xl shadow-2xl rotate-[-5deg] border border-gray-100/50"></div>
+                    </div>
                 </div>
             </div>
         </section>

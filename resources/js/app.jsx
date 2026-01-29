@@ -27,10 +27,10 @@ if (navbarRoot) {
         <PillNav
             items={navItems}
             activeHref={window.location.pathname}
-            baseColor="#1a1a2e"
-            pillColor="#00adb5"
+            baseColor="#000000"
+            pillColor="#000000"
             hoveredPillTextColor="#ffffff"
-            pillTextColor="#ffffff"
+            pillTextColor="#000000"
         />
     );
 }

@@ -8,12 +8,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: #fff; background: #060010; }
+        body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: #1a1616; background: #ffffff; }
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .section { padding: 4rem 0; }
-        .btn { display: inline-block; padding: 0.8rem 2rem; background: #00adb5; color: white; text-decoration: none; border-radius: 5px; }
-        .btn:hover { background: #007b83; }
-        footer { background: #020005; color: #666; padding: 4rem 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .btn { display: inline-block; padding: 0.8rem 2rem; background: #1a1616; color: white; text-decoration: none; border-radius: 5px; }
+        .btn:hover { background: #333; }
+        footer { background: #1a1616; color: #888; padding: 4rem 0; text-align: center; }
     </style>
 </head>
 <body>
