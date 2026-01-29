@@ -23,7 +23,9 @@
     </style>
 </head>
 <body>
-    <div id="navbar-root"></div>
+    <div style="height: 100px; position: relative; z-index: 1000;">
+        <div id="navbar-root"></div>
+    </div>
 
     @yield('content')
 
