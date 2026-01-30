@@ -11,6 +11,7 @@ import SloganServices from './Components/SloganServices';
 import PortfolioShowcase from './Components/PortfolioShowcase';
 import Solutions from './Components/Solutions';
 import ContactFooter from './Components/ContactFooter';
+import AdminLogin from './Components/Admin/Auth/AdminLogin';
 import { LanguageProvider } from './Contexts/LanguageContext';
 
 window.Alpine = Alpine;
@@ -151,6 +152,24 @@ if (contactFooterRoot) {
     root.render(
         <LanguageProvider>
             <ContactFooter />
+        </LanguageProvider>
+    );
+}
+
+// Mount AdminLogin if the container exists
+const adminLoginRoot = document.getElementById('admin-login-root');
+if (adminLoginRoot) {
+    const root = createRoot(adminLoginRoot);
+    const data = adminLoginRoot.dataset;
+    root.render(
+        <LanguageProvider>
+            <AdminLogin
+                csrfToken={data.csrf}
+                loginUrl={data.loginUrl}
+                oldEmail={data.oldEmail}
+                errors={data.errors ? JSON.parse(data.errors) : {}}
+                status={data.status}
+            />
         </LanguageProvider>
     );
 }
