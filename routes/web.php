@@ -115,9 +115,26 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
             
             // 2. Run Migrations
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+            
+            // 3. Failsafe: Create table manually if still missing (for shared hosting issues)
+            if (!\Illuminate\Support\Facades\Schema::hasTable('proposals')) {
+                \Illuminate\Support\Facades\DB::statement("
+                    CREATE TABLE IF NOT EXISTS proposals (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        client_name VARCHAR(255) NOT NULL,
+                        industry VARCHAR(255) NULL,
+                        target_website VARCHAR(255) NULL,
+                        problem_statement TEXT NULL,
+                        proposal_content TEXT NULL,
+                        pricing VARCHAR(255) NULL,
+                        status VARCHAR(50) DEFAULT 'Draft',
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                ");
+            }
 
-            // 3. Verify Table Existence
+            // 4. Verify Table Existence
             $tableExists = \Illuminate\Support\Facades\Schema::hasTable('proposals');
             $databaseName = \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
             $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
@@ -131,8 +148,7 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
                     'host' => $host,
                 ],
                 'proposals_table_exists' => $tableExists,
-                'migration_output' => $migrateOutput,
-                'message' => $tableExists ? 'Database is READY.' : 'Table missing after migration!'
+                'message' => $tableExists ? 'Database is READY.' : 'Table missing after all attempts!'
             ]);
         } catch (\Exception $e) {
             return response()->json([

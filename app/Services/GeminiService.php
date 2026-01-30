@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\Log;
 class GeminiService
 {
     protected $apiKey;
-    protected $baseUrlV1 = 'https://generativelanguage.googleapis.com/v1/models/';
-    protected $baseUrlBeta = 'https://generativelanguage.googleapis.com/v1beta/models/';
+    protected $baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
     protected $models = [
-        'gemini-1.5-flash', 
+        'gemini-2.0-flash',
         'gemini-1.5-flash-latest',
-        'gemini-1.5-pro',
-        'gemini-pro',
-        'gemini-1.0-pro'
+        'gemini-flash-latest',
+        'gemini-pro-latest',
+        'gemini-2.0-flash-lite-001'
     ];
 
     public function __construct()
@@ -31,45 +30,42 @@ class GeminiService
 
         $prompt = $this->buildPrompt($data);
         $lastError = 'Unknown error';
-        $endpoints = [$this->baseUrlV1, $this->baseUrlBeta];
 
-        foreach ($endpoints as $baseUrl) {
-            foreach ($this->models as $model) {
-                try {
-                    $endpoint = $baseUrl . $model . ':generateContent?key=' . $this->apiKey;
-                    
-                    $response = Http::post($endpoint, [
-                        'contents' => [
-                            [
-                                'parts' => [
-                                    ['text' => $prompt]
-                                ]
+        foreach ($this->models as $model) {
+            try {
+                $endpoint = $this->baseUrl . $model . ':generateContent?key=' . $this->apiKey;
+                
+                $response = Http::post($endpoint, [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt]
                             ]
-                        ],
-                        'generationConfig' => [
-                            'temperature' => 0.7,
-                            'topK' => 40,
-                            'topP' => 0.95,
-                            'maxOutputTokens' => 4096,
                         ]
-                    ]);
+                    ],
+                    'generationConfig' => [
+                        'temperature' => 0.7,
+                        'topK' => 40,
+                        'topP' => 0.95,
+                        'maxOutputTokens' => 4096,
+                    ]
+                ]);
 
-                    if ($response->successful()) {
-                        $result = $response->json();
-                        return $result['candidates'][0]['content']['parts'][0]['text'] ?? 'AI gagal menghasilkan konten.';
-                    }
-
-                    $lastError = $response->json()['error']['message'] ?? 'Unknown error';
-                    Log::warning("Gemini $baseUrl with $model failed: $lastError. Trying next...");
-
-                } catch (\Exception $e) {
-                    $lastError = $e->getMessage();
-                    Log::error("Gemini Service Exception with $model on $baseUrl: " . $lastError);
+                if ($response->successful()) {
+                    $result = $response->json();
+                    return $result['candidates'][0]['content']['parts'][0]['text'] ?? 'AI gagal menghasilkan konten.';
                 }
+
+                $lastError = $response->json()['error']['message'] ?? 'Unknown error';
+                Log::warning("Gemini model $model failed: $lastError. Trying next...");
+
+            } catch (\Exception $e) {
+                $lastError = $e->getMessage();
+                Log::error("Gemini Service Exception with $model: " . $lastError);
             }
         }
 
-        return "Gemini API Error (All models and versions failed): " . $lastError;
+        return "Gemini API Error (Confirmed models failed): " . $lastError;
     }
 
     protected function buildPrompt($data)
