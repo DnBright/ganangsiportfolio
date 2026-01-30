@@ -12,6 +12,7 @@ import DraftAI from './Proposal/DraftAI';
 import ProposalEditorComponent from './Proposal/ProposalEditor';
 import ProposalLibrary from './Proposal/ProposalLibrary';
 import TemplatesPrompt from './Proposal/TemplatesPrompt';
+import Performance from './Proposal/Performance';
 
 const AdminDashboard = ({ stats = {} }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -55,6 +56,8 @@ const AdminDashboard = ({ stats = {} }) => {
                 return <ProposalLibrary />;
             case 'templates_prompt':
                 return <TemplatesPrompt />;
+            case 'performance':
+                return <Performance />;
             case 'dashboard':
             default:
                 return (
