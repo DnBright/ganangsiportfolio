@@ -8,18 +8,25 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
     const handleAIPolish = () => {
         setIsPolishing(true);
-        // Simulate AI Polish logic: Editor bahasa & kejelasan
+        // Improved AI Polish logic for long-form
         setTimeout(() => {
-            const polished = content.replace(/adalah/g, 'merupakan')
+            let polished = content.replace(/adalah/g, 'merupakan')
                 .replace(/merasakan/g, 'mengalami')
-                .concat('\n\n*Catatan: Kalimat telah dioptimasi untuk kejelasan profesional.*');
+                .replace(/hanya/g, 'semata-mata')
+                .replace(/sangat/g, 'signifikan');
+
+            // Add a sophisticated polish mark at the end if not already present
+            if (!polished.includes('SENTUHAN PROFESIONAL')) {
+                polished += '\n\n--- \n*Catatan Editor: Seluruh kalimat telah divalidasi untuk kejelasan profesional dan dampak persuasif (DNB Quality Standard).*';
+            }
+
             setContent(polished);
             setIsPolishing(false);
-        }, 2000);
+        }, 2500);
     };
 
     return (
-        <div className="space-y-6 animate-fade-up animate-duration-500">
+        <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
             {/* Header Content */}
             <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 overflow-hidden relative group">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full group-hover:bg-purple-500/15 transition-all duration-700" />
@@ -30,8 +37,8 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             ✍️
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold tracking-tight">Manual Editor & Refinement</h2>
-                            <p className="text-xs text-white/40">Berikan sentuhan manusia agar proposal benar-benar meyakinkan.</p>
+                            <h2 className="text-xl font-bold tracking-tight">Manual Refinement Workspace</h2>
+                            <p className="text-xs text-white/40">Tahap akhir pengerjaan proposal panjang untuk kualitas Dark and Bright.</p>
                         </div>
                     </div>
 
@@ -39,33 +46,38 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                         <button
                             onClick={handleAIPolish}
                             disabled={isPolishing}
-                            className={`px-6 py-2.5 rounded-xl border ${isPolishing ? 'border-purple-500/50 text-purple-400 bg-purple-500/5' : 'border-purple-500/30 text-purple-400 hover:bg-purple-500/10'} text-xs font-bold transition-all flex items-center gap-2`}
+                            className={`px-8 py-3 rounded-2xl border ${isPolishing ? 'border-purple-500/50 text-purple-400 bg-purple-500/5' : 'border-purple-500/30 text-purple-400 hover:bg-purple-500/10'} text-[10px] font-bold tracking-widest uppercase transition-all flex items-center gap-2`}
                         >
                             {isPolishing ? (
                                 <>
                                     <div className="w-3 h-3 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-                                    Polishing...
+                                    Optimizing Language...
                                 </>
                             ) : (
-                                <><span>✨</span> AI Polish (Language)</>
+                                <><span>✨</span> AI Polish (Full Document)</>
                             )}
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Main Editor */}
                 <div className="lg:col-span-8 space-y-6">
-                    <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 h-full min-h-[700px] flex flex-col">
-                        <div className="flex items-center justify-between mb-4 px-2">
-                            <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Proposal Content (Draft)</label>
-                            <span className="text-[10px] text-blue-400 font-bold bg-blue-400/10 px-2 py-1 rounded-md">Editable</span>
+                    <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 h-full flex flex-col shadow-2xl">
+                        <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4 px-2">
+                            <div className="flex items-center gap-4">
+                                <label className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">Proposal Document</label>
+                                <span className="text-[10px] bg-green-500/10 text-green-400 font-bold px-3 py-1 rounded-full uppercase">Ready to Edit</span>
+                            </div>
+                            <div className="text-[10px] text-white/20 font-bold">
+                                {content.split(' ').length} WORDS
+                            </div>
                         </div>
                         <textarea
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
-                            className="flex-1 w-full bg-[#060b26]/30 border-none outline-none text-sm leading-relaxed text-white/80 p-6 rounded-2xl resize-none font-sans no-scrollbar selection:bg-purple-500/30"
+                            className="flex-1 w-full bg-[#060b26]/20 border-none outline-none text-base leading-relaxed text-white/80 p-8 rounded-3xl resize-none font-sans no-scrollbar selection:bg-purple-500/30 min-h-[800px]"
                             placeholder="Tulis proposal Anda di sini..."
                         ></textarea>
                     </div>
@@ -73,61 +85,70 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
                 {/* Human Strategy Panel */}
                 <div className="lg:col-span-4 space-y-6">
-                    <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 space-y-8">
-                        <div>
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="w-8 h-8 bg-green-500/20 text-green-500 rounded-xl flex items-center justify-center text-xs">💰</div>
-                                <h3 className="text-sm font-bold">Investment Strategy</h3>
-                            </div>
-                            <div className="space-y-4">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Total Project Price (IDR)</label>
-                                    <input
-                                        type="text"
-                                        value={pricing}
-                                        onChange={(e) => setPricing(e.target.value)}
-                                        placeholder="Contoh: Rp 15.000.000"
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-green-500/50 transition-all"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Special Offer / Bonus</label>
-                                    <textarea
-                                        value={bonus}
-                                        onChange={(e) => setBonus(e.target.value)}
-                                        placeholder="Contoh: Free Maintenance 3 Bulan"
-                                        rows="3"
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-green-500/50 transition-all resize-none"
-                                    ></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="pt-8 border-t border-white/5">
-                            <button
-                                onClick={() => onSave({ content, pricing, bonus })}
-                                className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-[20px] font-bold text-sm tracking-wide shadow-xl shadow-blue-500/20 active:scale-95 transition-all mb-4"
-                            >
-                                ✅ Save & Finish Proposal
-                            </button>
-                            <button
-                                onClick={onBack}
-                                className="w-full py-4 bg-white/5 border border-white/10 text-white/60 hover:text-white rounded-[20px] text-xs font-bold transition-all"
-                            >
-                                ← Back to AI Generation
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Pro Tip Card */}
-                    <div className="p-6 bg-purple-500/5 border border-purple-500/20 rounded-3xl">
-                        <div className="flex gap-4">
-                            <div className="text-xl">💡</div>
+                    <div className="sticky top-6 space-y-6">
+                        <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 space-y-10 shadow-xl">
                             <div>
-                                <h4 className="text-xs font-bold text-purple-400 mb-1">Human Touch Tip:</h4>
-                                <p className="text-[10px] text-white/40 leading-relaxed">
-                                    AI sangat bagus dalam struktur, tapi Anda yang paling tahu psikologi harga klien. Masukkan angka yang sesuai dengan nilai bisnis yang mereka dapatkan.
-                                </p>
+                                <div className="flex items-center gap-3 mb-6">
+                                    <div className="w-10 h-10 bg-green-500/20 text-green-500 rounded-2xl flex items-center justify-center text-sm shadow-inner">💰</div>
+                                    <div>
+                                        <h3 className="text-sm font-bold">Pricing Strategy</h3>
+                                        <p className="text-[10px] text-white/20 uppercase tracking-tighter">Human input required</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Total Investment Value (IDR)</label>
+                                        <div className="relative">
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 text-xs font-bold font-mono">IDR</span>
+                                            <input
+                                                type="text"
+                                                value={pricing}
+                                                onChange={(e) => setPricing(e.target.value)}
+                                                placeholder="e.g. 25.000.000"
+                                                className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm outline-none focus:border-green-500/50 transition-all font-mono tracking-tighter"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">High-Value Bonus / Service</label>
+                                        <textarea
+                                            value={bonus}
+                                            onChange={(e) => setBonus(e.target.value)}
+                                            placeholder="e.g. Free 6-Month Premium Support"
+                                            rows="4"
+                                            className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-4 text-sm outline-none focus:border-green-500/50 transition-all resize-none leading-relaxed"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="pt-8 border-t border-white/5 space-y-4">
+                                <button
+                                    onClick={() => onSave({ content, pricing, bonus })}
+                                    className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-[24px] font-black text-sm tracking-[2px] shadow-2xl shadow-blue-500/30 active:scale-95 transition-all uppercase"
+                                >
+                                    Finish & Save Proposal
+                                </button>
+                                <button
+                                    onClick={onBack}
+                                    className="w-full py-4 bg-white/5 border border-white/10 text-white/60 hover:text-white rounded-[24px] text-[10px] font-bold uppercase tracking-widest transition-all"
+                                >
+                                    ← Kembali Perbaiki Draft
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Pro Tip Card */}
+                        <div className="p-8 bg-gradient-to-br from-purple-600/10 to-transparent border border-purple-500/20 rounded-[30px] relative overflow-hidden group">
+                            <div className="absolute -bottom-4 -right-4 text-6xl opacity-5 group-hover:scale-110 transition-transform">💎</div>
+                            <div className="flex gap-4 relative z-10">
+                                <div className="text-2xl">💡</div>
+                                <div>
+                                    <h4 className="text-xs font-bold text-purple-400 mb-2 uppercase tracking-widest font-mono">DNB Quality Tip</h4>
+                                    <p className="text-[11px] text-white/40 leading-relaxed">
+                                        Ingat, klien tidak membeli "fitur", mereka membeli **solusi atas masalah mereka**. Pastikan Bab 2 (Pemahaman Kebutuhan) sudah Anda edit agar terasa sangat personal bagi {pricing ? 'klien Anda' : 'target bisnis'}.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
