@@ -80,11 +80,19 @@ const Hero = () => {
             </div>
 
             {/* Core Message & Action Overlay */}
-            <div className="absolute bottom-[8vh] left-0 w-full flex flex-col items-center z-40 px-6">
-                <div className="gsap-stagger flex flex-col items-center">
-                    <p className="text-white mix-blend-difference text-center max-w-2xl text-lg md:text-2xl font-bold leading-relaxed mb-10 tracking-wide">
-                        Kami membangun solusi digital yang serius dengan pendekatan artistik dan teknis yang presisi.
-                    </p>
+            <div className="absolute bottom-[5vh] left-0 w-full flex flex-col items-center z-40 px-6">
+                <div className="gsap-stagger flex flex-col items-center w-full max-w-4xl">
+                    <div className="relative w-full py-8 mb-8 overflow-hidden">
+                        {/* Split background for slogan text clarity */}
+                        <div className="absolute inset-0 flex">
+                            <div className="w-1/2 bg-black/40 backdrop-blur-sm"></div>
+                            <div className="w-1/2 bg-white/40 backdrop-blur-sm"></div>
+                        </div>
+                        <p className="relative z-10 text-white mix-blend-difference text-center px-8 text-lg md:text-2xl font-black leading-relaxed tracking-wide uppercase">
+                            Kami membangun solusi digital yang serius dengan pendekatan artistik dan teknis yang presisi.
+                        </p>
+                    </div>
+
                     <div className="flex gap-8 md:gap-12">
                         <a href="#work" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden">
                             <span className="relative z-10 text-white mix-blend-difference font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-black">
