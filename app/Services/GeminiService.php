@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Log;
 class GeminiService
 {
     protected $apiKey;
-    protected $endpoint = 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent';
+    protected $baseUrl = 'https://generativelanguage.googleapis.com/v1beta/models/';
+    protected $models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
 
     public function __construct()
     {
@@ -22,36 +23,43 @@ class GeminiService
         }
 
         $prompt = $this->buildPrompt($data);
+        $lastError = 'Unknown error';
 
-        try {
-            $response = Http::post($this->endpoint . '?key=' . $this->apiKey, [
-                'contents' => [
-                    [
-                        'parts' => [
-                            ['text' => $prompt]
+        foreach ($this->models as $model) {
+            try {
+                $endpoint = $this->baseUrl . $model . ':generateContent?key=' . $this->apiKey;
+                
+                $response = Http::post($endpoint, [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $prompt]
+                            ]
                         ]
+                    ],
+                    'generationConfig' => [
+                        'temperature' => 0.7,
+                        'topK' => 40,
+                        'topP' => 0.95,
+                        'maxOutputTokens' => 4096,
                     ]
-                ],
-                'generationConfig' => [
-                    'temperature' => 0.7,
-                    'topK' => 40,
-                    'topP' => 0.95,
-                    'maxOutputTokens' => 4096,
-                ]
-            ]);
+                ]);
 
-            if ($response->successful()) {
-                $result = $response->json();
-                return $result['candidates'][0]['content']['parts'][0]['text'] ?? 'AI gagal menghasilkan konten.';
+                if ($response->successful()) {
+                    $result = $response->json();
+                    return $result['candidates'][0]['content']['parts'][0]['text'] ?? 'AI gagal menghasilkan konten.';
+                }
+
+                $lastError = $response->json()['error']['message'] ?? 'Unknown error';
+                Log::warning("Gemini Model $model failed: $lastError. Trying next...");
+
+            } catch (\Exception $e) {
+                $lastError = $e->getMessage();
+                Log::error("Gemini Service Exception with $model: " . $lastError);
             }
-
-            Log::error('Gemini API Error: ' . $response->body());
-            return "Gemini API Error: " . ($response->json()['error']['message'] ?? 'Unknown error');
-
-        } catch (\Exception $e) {
-            Log::error('Gemini Service Exception: ' . $e->getMessage());
-            return "Exception: " . $e->getMessage();
         }
+
+        return "Gemini API Error (All models failed): " . $lastError;
     }
 
     protected function buildPrompt($data)

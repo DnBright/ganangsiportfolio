@@ -121,11 +121,15 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
             $tableExists = \Illuminate\Support\Facades\Schema::hasTable('proposals');
             $databaseName = \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
             $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+            $host = config('database.connections.' . $driver . '.host') ?? 'N/A';
 
             return response()->json([
                 'status' => 'success',
-                'database' => $databaseName,
-                'driver' => $driver,
+                'env_check' => [
+                    'connection' => $driver,
+                    'database' => $databaseName,
+                    'host' => $host,
+                ],
                 'proposals_table_exists' => $tableExists,
                 'migration_output' => $migrateOutput,
                 'message' => $tableExists ? 'Database is READY.' : 'Table missing after migration!'
@@ -133,6 +137,10 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
+                'connection_info' => [
+                    'database' => env('DB_DATABASE'),
+                    'host' => env('DB_HOST'),
+                ],
                 'message' => $e->getMessage()
             ], 500);
         }
