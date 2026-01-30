@@ -150,11 +150,12 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
         $apiKey = config('services.gemini.key');
         if (!$apiKey) return "API Key is MISSING in backend config.";
 
-        $models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+        $modelsToTest = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
         $results = [];
 
+        // 1. Test specific models
         foreach (['v1', 'v1beta'] as $version) {
-            foreach ($models as $model) {
+            foreach ($modelsToTest as $model) {
                 $url = "https://generativelanguage.googleapis.com/$version/models/$model:generateContent?key=$apiKey";
                 try {
                     $response = \Illuminate\Support\Facades\Http::post($url, [
@@ -167,9 +168,19 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
             }
         }
 
+        // 2. List all available models to see what the key actually has access to
+        $listModels = [];
+        try {
+            $listResponse = \Illuminate\Support\Facades\Http::get("https://generativelanguage.googleapis.com/v1beta/models?key=$apiKey");
+            $listModels = $listResponse->json()['models'] ?? 'Empty or Error: ' . ($listResponse->json()['error']['message'] ?? 'Unknown');
+        } catch (\Exception $e) {
+            $listModels = 'EXCEPTION: ' . $e->getMessage();
+        }
+
         return response()->json([
             'api_key_last_4' => substr($apiKey, -4),
-            'results' => $results
+            'results' => $results,
+            'actually_available_models' => $listModels
         ]);
     });
 });
