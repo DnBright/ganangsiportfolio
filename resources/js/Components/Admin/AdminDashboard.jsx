@@ -8,15 +8,44 @@ import SatisfactionGauge from './SatisfactionGauge';
 import ReferralTracking from './ReferralTracking';
 import ActiveUsersChart from './ActiveUsersChart';
 import CreateProposal from './Proposal/CreateProposal';
+import DraftAI from './Proposal/DraftAI';
 
 const AdminDashboard = ({ stats = {} }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [currentProposal, setCurrentProposal] = useState(null);
+    const [draftResult, setDraftResult] = useState('');
 
     const renderContent = () => {
         switch (activeTab) {
             case 'create_proposal':
-                return <CreateProposal onSubmit={(data) => console.log('Proposal Data:', data)} />;
-            case 'dashboard':
+                return (
+                    <CreateProposal
+                        onSubmit={(data) => {
+                            setCurrentProposal(data);
+                            setActiveTab('draft_ai');
+                        }}
+                    />
+                );
+            case 'draft_ai':
+                return (
+                    <DraftAI
+                        analysisData={currentProposal || {}}
+                        onBack={() => setActiveTab('create_proposal')}
+                        onNext={(draft) => {
+                            setDraftResult(draft);
+                            setActiveTab('editor_proposal');
+                        }}
+                    />
+                );
+            case 'editor_proposal':
+                return (
+                    <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-10 h-[600px] flex items-center justify-center flex-col text-center">
+                        <div className="w-20 h-20 bg-blue-500/20 rounded-full flex items-center justify-center text-3xl mb-4">✍️</div>
+                        <h2 className="text-xl font-bold mb-2">Step 3: Editor Proposal</h2>
+                        <p className="text-white/40 text-sm max-w-md">This is where you add the "Human Touch" – specific pricing, custom sections, and final polish.</p>
+                        <button className="mt-8 px-8 py-3 bg-white/5 border border-white/10 rounded-xl text-xs font-bold hover:bg-white/10 transition-all" onClick={() => setActiveTab('draft_ai')}>← Back to AI Draft</button>
+                    </div>
+                );
             default:
                 return (
                     <>
