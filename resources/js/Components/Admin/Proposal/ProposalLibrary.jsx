@@ -35,8 +35,8 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
 
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500">
-            {/* Hidden Printable Area - Explicitly handled for Print Engine */}
-            <div id="proposal-printable-area" className="hidden print:block fixed inset-0 z-[9999] bg-white">
+            {/* Hidden Printable Area */}
+            <div className="hidden print:block">
                 {printingProposal && <ProposalPrintTemplate proposal={printingProposal} />}
             </div>
 
@@ -205,12 +205,6 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
                         </div>
                     </div>
                 )}
-            </div>
-
-            {/* Diagnostic Footer */}
-            <div className="mt-10 pt-6 border-t border-white/5 flex justify-between items-center text-[10px] text-white/10 uppercase tracking-[4px]">
-                <div>DNB CORE SYSTEM v3.1 (STABLE)</div>
-                <div>LAST BUILD: {new Date().toLocaleTimeString()}</div>
             </div>
         </div>
     );
