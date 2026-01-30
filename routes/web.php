@@ -33,6 +33,7 @@ Route::domain('thedarkandbright.com')->group(function () {
     Route::get('/', [GeneralController::class, 'index'])->name('general.home');
     Route::get('/about', [GeneralController::class, 'about'])->name('general.about');
     Route::get('/services', [GeneralController::class, 'services'])->name('general.services');
+    Route::get('/solutions', [GeneralController::class, 'solutions'])->name('general.solutions');
     Route::get('/portfolio', [GeneralController::class, 'portfolio'])->name('general.portfolio');
     Route::get('/contact', [GeneralController::class, 'contact'])->name('general.contact');
     Route::post('/contact', [GeneralController::class, 'storeContact'])->name('general.contact.store');

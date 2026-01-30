@@ -58,6 +58,14 @@ class GeneralController extends Controller
     }
 
     /**
+     * Display solutions page
+     */
+    public function solutions()
+    {
+        return view('general.solutions');
+    }
+
+    /**
      * Display portfolio page
      */
     public function portfolio()
