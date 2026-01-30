@@ -14,7 +14,24 @@ html {
 }
 
 /* Professional Proposal Printing Styles */
+.no-print {
+  display: block;
+  /* Default on screen */
+}
+
 @media print {
+
+  /* Global No-Print Utility */
+  .no-print,
+  .print\:hidden,
+  nav,
+  button,
+  .xl\:block,
+  header,
+  footer,
+  aside {
+    display: none !important;
+  }
 
   /* Critical Reset for Multi-page support */
   html,
@@ -23,11 +40,14 @@ html {
     color: black !important;
     font-family: 'Inter', sans-serif !important;
     height: auto !important;
+    width: 100% !important;
     overflow: visible !important;
     position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* Force all parent containers to be visible and allow flow */
+  /* Force all parent containers to be invisible and allow flow */
   div,
   section,
   main,
@@ -37,33 +57,21 @@ html {
     height: auto !important;
     display: block !important;
     position: static !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
-  /* Hide UI/Dashboard elements */
-  .xl\:block,
-  nav,
-  button,
-  .fixed,
-  .xl\:w-64,
-  .top-bar,
-  .header-content,
-  .no-print,
-  [class*="blur-"],
-  [class*="fixed"] {
-    display: none !important;
-  }
-
-  /* Expand content to full paper width */
-  .flex-1,
-  .max-w-\[1600px\],
+  /* Layout Container */
   .proposal-print-container {
+    display: block !important;
+    visibility: visible !important;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 1in !important;
+    /* Standard document margin */
     background: white !important;
-    box-shadow: none !important;
-    border: none !important;
     position: static !important;
   }
 
@@ -74,25 +82,40 @@ html {
   h4 {
     color: #000 !important;
     page-break-after: avoid;
-    margin-top: 1in !important;
+    margin-top: 0.5in !important;
   }
 
   h2 {
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 15px;
+    font-size: 24pt !important;
+    margin-bottom: 20px;
   }
 
   p,
   li,
   .whitespace-pre-wrap {
-    font-size: 11pt !important;
-    line-height: 1.6 !important;
-    color: #333 !important;
+    font-size: 12pt !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 15px;
+  }
+
+  /* Hidden UI/Chrome Elements explicitly */
+  [class*="backdrop-blur"],
+  [class*="bg-opacity"],
+  [class*="fixed"],
+  [class*="blur-"],
+  [class*="shadow-"] {
+    display: none !important;
+    background: none !important;
+    box-shadow: none !important;
   }
 
   /* Ensure smooth breaks */
   .whitespace-pre-wrap {
     word-wrap: break-word !important;
     page-break-inside: auto !important;
+    display: block !important;
   }
 }

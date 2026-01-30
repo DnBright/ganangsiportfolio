@@ -32,7 +32,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
             {/* Header Content */}
-            <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 overflow-hidden relative group">
+            <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 overflow-hidden relative group no-print">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full group-hover:bg-purple-500/15 transition-all duration-700" />
 
                 <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -102,7 +102,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                 </div>
 
                 {/* Human Strategy Panel */}
-                <div className="lg:col-span-4 space-y-6">
+                <div className="lg:col-span-4 space-y-6 no-print">
                     <div className="sticky top-6 space-y-6">
                         <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 space-y-10 shadow-xl">
                             <div>
@@ -157,7 +157,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                         </div>
 
                         {/* Pro Tip Card */}
-                        <div className="p-8 bg-gradient-to-br from-purple-600/10 to-transparent border border-purple-500/20 rounded-[30px] relative overflow-hidden group">
+                        <div className="p-8 bg-gradient-to-br from-purple-600/10 to-transparent border border-purple-500/20 rounded-[30px] relative overflow-hidden group print:hidden">
                             <div className="absolute -bottom-4 -right-4 text-6xl opacity-5 group-hover:scale-110 transition-transform">💎</div>
                             <div className="flex gap-4 relative z-10">
                                 <div className="text-2xl">💡</div>

@@ -206,14 +206,14 @@ const AdminDashboard = ({ stats = {} }) => {
 
             <div className="flex gap-6 relative z-10 max-w-[1600px] mx-auto">
                 {/* Sidebar */}
-                <div className="hidden xl:block w-64 shrink-0">
+                <div className="hidden xl:block w-64 shrink-0 no-print">
                     <VisionSidebar activeTab={activeTab} onNavigate={(id) => setActiveTab(id)} />
                 </div>
 
                 {/* Main Dynamic Content Area */}
                 <div className="flex-1 space-y-6 min-h-[600px]">
                     {/* Top Bar / Breadcrumb */}
-                    <div className="flex justify-between items-center px-2">
+                    <div className="flex justify-between items-center px-2 no-print">
                         <div className="space-y-1">
                             <p className="text-[10px] text-white/40 font-medium tracking-wider uppercase">Pages / {activeTab === 'dashboard' ? 'Dashboard' : 'Proposal'}</p>
                             <h1 className="text-sm font-bold tracking-tight capitalize">{activeTab.replace('_', ' ')}</h1>
