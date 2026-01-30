@@ -41,8 +41,15 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
                 return;
             }
 
+            console.log('DraftAI: Sending generation request with:', {
+                client_name: analysisData.client_name,
+                industry: analysisData.industry || 'General',
+                problem_statement: analysisData.client_problem || analysisData.problem_statement || ''
+            });
+
             try {
-                const response = await axios.post('/proposals/generate-draft', {
+                const api = window.axios || axios;
+                const response = await api.post('/proposals/generate-draft', {
                     client_name: analysisData.client_name,
                     industry: analysisData.industry || 'General',
                     target_website: analysisData.target_website || '',
