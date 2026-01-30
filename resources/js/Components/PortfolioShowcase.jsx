@@ -6,125 +6,149 @@ gsap.registerPlugin(ScrollTrigger);
 
 const PortfolioShowcase = ({ portfolios = [] }) => {
     const sectionRef = useRef(null);
-    const containerRef = useRef(null);
 
-    // Hardcoded projects as requested by user
-    const displayPortfolios = [
-        { title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" },
-        { title: "Kursus Jepang", category: "Education Platform", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" },
-        { title: "Ayaka", category: "Beauty & Wellness", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
-        { title: "AKAB", category: "Technology Systems", image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=1200&q=80" }
+    // Case study format with context
+    const caseStudies = [
+        {
+            title: "Sistem Manajemen Akademik",
+            clientType: "Institusi Pendidikan",
+            problem: "Administrasi manual, data mahasiswa tersebar di berbagai file Excel",
+            solution: "Platform terpusat untuk pendaftaran, nilai, dan jadwal",
+            result: "Hemat 15 jam/minggu untuk staff admin, data real-time untuk 500+ mahasiswa",
+            image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80",
+            tags: ["Web App", "Dashboard", "Automation"]
+        },
+        {
+            title: "Portal Manajemen Proyek",
+            clientType: "Perusahaan Konstruksi",
+            problem: "Koordinasi tim lapangan dan kantor tidak efisien, laporan terlambat",
+            solution: "Sistem tracking proyek dengan update real-time dan notifikasi otomatis",
+            result: "Pengurangan waktu pelaporan dari 3 hari menjadi 1 jam",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+            tags: ["Project Management", "Mobile-Friendly", "Real-time"]
+        },
+        {
+            title: "Sistem Pendaftaran Online",
+            clientType: "Lembaga Pelatihan",
+            problem: "Proses pendaftaran manual via WhatsApp dan form fisik",
+            solution: "Platform pendaftaran online dengan payment gateway terintegrasi",
+            result: "Otomasi 100% proses pendaftaran, peningkatan konversi 40%",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+            tags: ["E-commerce", "Payment", "CRM"]
+        },
+        {
+            title: "Dashboard Operasional",
+            clientType: "Perusahaan Logistik",
+            problem: "Data operasional tidak terpusat, keputusan lambat",
+            solution: "Dashboard analytics dengan visualisasi data real-time",
+            result: "Keputusan operasional 3x lebih cepat, efisiensi rute 25%",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+            tags: ["Analytics", "Dashboard", "Data Visualization"]
+        }
     ];
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            if (window.innerWidth > 768) {
-                const totalWidth = containerRef.current.scrollWidth;
-                const windowWidth = window.innerWidth;
-
-                // Horizontal Scroll Animation
-                gsap.to(containerRef.current, {
-                    x: () => -(totalWidth - windowWidth + 100), // Scroll until end with padding
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top top",
-                        end: () => `+=${totalWidth}`,
-                        pin: true,
-                        scrub: 1,
-                        anticipatePin: 1
-                    }
-                });
-            }
+            gsap.from(".portfolio-card", {
+                y: 60,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 70%",
+                }
+            });
         }, sectionRef);
 
         return () => ctx.revert();
-    }, [displayPortfolios]);
+    }, []);
 
     return (
-        <section ref={sectionRef} className="relative bg-[#0a0a0a] text-white overflow-hidden">
-            {/* Context Header (Absolute) */}
-            <div className="absolute top-10 left-6 md:left-12 z-20 mix-blend-difference">
-                <span className="text-xs font-mono uppercase tracking-[0.4em] text-white/50">
-                    Selected Works // {new Date().getFullYear()}
-                </span>
-            </div>
+        <section ref={sectionRef} className="w-full bg-white py-20 md:py-32 px-6 md:px-12 lg:px-24">
+            <div className="max-w-7xl mx-auto">
 
-            {/* Horizontal Scroll Container */}
-            <div className="h-screen w-full flex items-center overflow-hidden">
-                <div
-                    ref={containerRef}
-                    className="flex gap-12 md:gap-24 px-6 md:px-24 items-center"
-                    style={{ width: 'max-content' }}
-                >
-                    {/* Intro Card */}
-                    <div className="w-[80vw] md:w-[40vw] flex-shrink-0">
-                        <h2 className="text-6xl md:text-9xl font-black leading-[0.85] tracking-tighter uppercase mb-8">
-                            FEATURED <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-600">PROJECTS</span>
-                        </h2>
-                        <p className="max-w-md text-white/60 text-lg md:text-xl font-light leading-relaxed">
-                            A curation of our finest digital craftsmanship. Each project is a testament to our dedication to precision and aesthetics.
-                        </p>
-                        <div className="mt-12 flex items-center gap-4 animate-pulse">
-                            <span className="text-xs uppercase tracking-widest">Scroll to Explore</span>
-                            <div className="h-[1px] w-12 bg-white"></div>
-                        </div>
-                    </div>
+                {/* Section Header */}
+                <div className="mb-16">
+                    <p className="text-sm text-blue-600 font-semibold uppercase tracking-wider mb-4">Bukti Nyata</p>
+                    <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
+                        Sistem yang Sudah Membantu Klien Kami
+                    </h2>
+                    <p className="text-xl text-gray-600 max-w-3xl">
+                        Dari institusi pendidikan hingga perusahaan swasta, kami telah membantu berbagai organisasi meningkatkan efisiensi operasional mereka.
+                    </p>
+                </div>
 
-                    {/* Portfolio Cards */}
-                    {displayPortfolios.map((item, index) => (
-                        <div
-                            key={index}
-                            className="group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden"
-                        >
-                            {/* Image with Parallax Hover */}
-                            <div className="absolute inset-0 overflow-hidden">
+                {/* Case Studies Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                    {caseStudies.map((study, index) => (
+                        <div key={index} className="portfolio-card group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-2xl hover:border-blue-200 transition-all duration-500">
+                            {/* Image */}
+                            <div className="relative h-64 overflow-hidden bg-gray-100">
                                 <img
-                                    src={item.image && item.image.startsWith('http') ? item.image : (item.image ? `/storage/${item.image}` : `https://source.unsplash.com/random/1200x800?sig=${index}`)}
-                                    alt={item.title}
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-100"
+                                    src={study.image}
+                                    alt={study.title}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                                <div className="absolute top-4 left-4">
+                                    <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold text-gray-900 rounded-full">
+                                        {study.clientType}
+                                    </span>
+                                </div>
                             </div>
 
-                            {/* Content Overlay */}
-                            <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-between z-10">
-                                <div className="flex justify-between items-start">
-                                    <span className="text-xs font-mono border border-white/20 px-3 py-1 rounded-full backdrop-blur-md">
-                                        {item.category || 'Development'}
-                                    </span>
-                                    <span className="text-4xl font-black opacity-20">0{index + 1}</span>
+                            {/* Content */}
+                            <div className="p-8">
+                                <h3 className="text-2xl font-bold text-black mb-4 group-hover:text-blue-600 transition-colors">
+                                    {study.title}
+                                </h3>
+
+                                {/* Problem */}
+                                <div className="mb-4">
+                                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Masalah</p>
+                                    <p className="text-sm text-gray-700">{study.problem}</p>
                                 </div>
 
-                                <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                                    <h3 className="text-4xl md:text-6xl font-black uppercase leading-none mb-4 mix-blend-difference">
-                                        {item.title}
-                                    </h3>
-                                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                        <a href="#" className="inline-flex items-center gap-2 text-sm uppercase tracking-widest hover:underline underline-offset-4">
-                                            View Case Study
-                                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M5 12h14M12 5l7 7-7 7" />
-                                            </svg>
-                                        </a>
-                                    </div>
+                                {/* Solution */}
+                                <div className="mb-4">
+                                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Solusi</p>
+                                    <p className="text-sm text-gray-700">{study.solution}</p>
+                                </div>
+
+                                {/* Result */}
+                                <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+                                    <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Hasil</p>
+                                    <p className="text-sm font-semibold text-blue-900">{study.result}</p>
+                                </div>
+
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-2">
+                                    {study.tags.map((tag, i) => (
+                                        <span key={i} className="px-3 py-1 bg-gray-100 text-xs text-gray-600 rounded-full">
+                                            {tag}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     ))}
-
-                    {/* Outro / View All */}
-                    <div className="w-[50vw] md:w-[30vw] flex-shrink-0 flex items-center justify-center">
-                        <a
-                            href="/portfolio"
-                            className="group relative w-48 h-48 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500"
-                        >
-                            <span className="text-sm font-black uppercase tracking-widest relative z-10">View All Work</span>
-                            <div className="absolute inset-0 bg-white rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out"></div>
-                        </a>
-                    </div>
                 </div>
+
+                {/* Bottom CTA */}
+                <div className="mt-16 text-center">
+                    <p className="text-gray-600 mb-6">Ingin hasil serupa untuk organisasi Anda?</p>
+                    <a
+                        href="#contact"
+                        className="inline-flex items-center justify-center px-8 py-4 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl"
+                    >
+                        Diskusikan Proyek Anda
+                        <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+
             </div>
         </section>
     );
