@@ -3,152 +3,113 @@ import { gsap } from 'gsap';
 
 const Hero = () => {
     const heroRef = useRef(null);
-    const topSectionRef = useRef(null);
-    const bottomSectionRef = useRef(null);
-    const contentRef = useRef(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Initial states
-            gsap.set('.premium-element', { opacity: 0, y: 30 });
+            const tl = gsap.timeline({ defaults: { ease: "expo.inOut" } });
+            const isMobile = window.innerWidth < 768;
 
-            const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.2 } });
+            // Reset states for cinematic entrance
+            gsap.set(".side-dark", { [isMobile ? 'yPercent' : 'xPercent']: -100 });
+            gsap.set(".side-bright", { [isMobile ? 'yPercent' : 'xPercent']: 100 });
+            gsap.set(".hero-logo", { scale: 0, opacity: 0, rotateY: 180 });
+            gsap.set(".gsap-stagger", { y: 50, opacity: 0 });
 
-            tl.from(topSectionRef.current, {
-                y: -100,
-                opacity: 0,
-                duration: 1.5
-            })
-                .from('.hero-logo-container', {
-                    scale: 0.9,
-                    opacity: 0,
-                    duration: 1.5
-                }, '-=1.2')
-                .to('.premium-element', {
-                    opacity: 1,
-                    y: 0,
-                    stagger: 0.1,
-                    duration: 1
-                }, '-=1');
+            tl.to(".side-dark", { [isMobile ? 'yPercent' : 'xPercent']: 0, duration: 1.8 })
+                .to(".side-bright", { [isMobile ? 'yPercent' : 'xPercent']: 0, duration: 1.8 }, "<")
+                .to(".hero-logo", { scale: 1, opacity: 1, rotateY: 0, duration: 1.5, ease: "back.out(1.2)" }, "-=0.8")
+                .to(".gsap-stagger", { y: 0, opacity: 1, stagger: 0.15, duration: 1 }, "-=1");
 
-            // Floating animation for pages
-            gsap.to('.floating-page', {
-                y: -15,
-                duration: 4,
-                repeat: -1,
-                yoyo: true,
-                stagger: 0.4,
-                ease: 'sine.inOut'
-            });
+            // Interactive logo movement
+            const handleMove = (e) => {
+                const { clientX, clientY } = e;
+                const x = (clientX / window.innerWidth - 0.5) * 25;
+                const y = (clientY / window.innerHeight - 0.5) * 25;
+                gsap.to(".hero-logo", { rotationY: x, rotationX: -y, duration: 0.8, ease: "power2.out" });
+            };
 
-            // Interactive effect on logo (magnetic feel)
-            const logo = document.querySelector('.hero-logo-container');
-            if (logo) {
-                const handleMouseMove = (e) => {
-                    const rect = logo.getBoundingClientRect();
-                    const x = (e.clientX - rect.left) / rect.width - 0.5;
-                    const y = (e.clientY - rect.top) / rect.height - 0.5;
-                    gsap.to('.hero-cube', {
-                        rotationY: x * 25,
-                        rotationX: -y * 25,
-                        transformPerspective: 1000,
-                        duration: 0.6
-                    });
-                };
-                const handleMouseLeave = () => {
-                    gsap.to('.hero-cube', { rotationY: 0, rotationX: 0, duration: 1.2, ease: 'elastic.out(1, 0.3)' });
-                };
-                logo.addEventListener('mousemove', handleMouseMove);
-                logo.addEventListener('mouseleave', handleMouseLeave);
-                return () => {
-                    logo.removeEventListener('mousemove', handleMouseMove);
-                    logo.removeEventListener('mouseleave', handleMouseLeave);
-                };
-            }
+            window.addEventListener("mousemove", handleMove);
+            return () => window.removeEventListener("mousemove", handleMove);
         }, heroRef);
 
         return () => ctx.revert();
     }, []);
 
     return (
-        <section ref={heroRef} className="relative min-h-screen bg-[#0a0a0a] overflow-hidden">
-            {/* White Top Section - The Premium Stage */}
-            <div
-                ref={topSectionRef}
-                className="relative bg-white pt-28 pb-48 rounded-b-[120px] md:rounded-b-[240px] shadow-[0_10px_60px_rgba(0,0,0,0.08)] z-10 mx-2 mt-2 rounded-t-[50px] overflow-hidden"
-            >
-                {/* Subtle Grid Pattern for Technical Feel */}
-                <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+        <section ref={heroRef} className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden bg-white">
+            {/* Dark & Bright Identity Badge */}
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 z-50 gsap-stagger">
+                <span className="text-white mix-blend-difference font-black text-[10px] md:text-xs tracking-[0.6em] uppercase opacity-40">
+                    Dark & Bright Agency // Precision & Focus
+                </span>
+            </div>
 
-                <div className="container mx-auto px-6 flex flex-col items-center relative z-10">
-                    <div className="hero-logo-container relative w-full max-w-2xl flex justify-center">
-                        {/* Soft Ambient Glow */}
-                        <div className="absolute inset-0 bg-blue-600/[0.03] blur-[120px] rounded-full scale-150"></div>
+            {/* DARK Side (Black background, White Text) */}
+            <div className="side-dark relative h-1/2 md:h-full w-full md:w-1/2 bg-black flex items-center justify-center md:justify-end md:pr-[5vw] z-10 border-b md:border-b-0 md:border-r border-white/5">
+                <div className="gsap-stagger text-right">
+                    <h2 className="text-[18vw] md:text-[14vw] font-black text-white leading-[0.8] tracking-tighter uppercase select-none opacity-90">
+                        DARK
+                    </h2>
+                    <p className="text-white/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
+                        Absolute Integrity
+                    </p>
+                </div>
+            </div>
 
-                        <img
-                            src="/images/logo-3d-user.png"
-                            alt="Dark and Bright 3D Logo"
-                            className="hero-cube w-full h-auto max-w-[640px] object-contain drop-shadow-[0_45px_75px_rgba(0,0,0,0.18)] z-10"
-                        />
-                    </div>
+            {/* BRIGHT Side (White background, Black Text) */}
+            <div className="side-bright relative h-1/2 md:h-full w-full md:w-1/2 bg-white flex items-center justify-center md:justify-start md:pl-[5vw] z-10">
+                <div className="gsap-stagger">
+                    <h2 className="text-[18vw] md:text-[14vw] font-black text-black leading-[0.8] tracking-tighter uppercase select-none opacity-90">
+                        BRIGHT
+                    </h2>
+                    <p className="text-black/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
+                        Digital Clarity
+                    </p>
+                </div>
+            </div>
 
-                    <div className="mt-14 text-center premium-element">
-                        <span className="px-6 py-2 rounded-full bg-black/[0.03] text-black/40 text-[10px] font-bold uppercase tracking-[0.4em] mb-4 inline-block border border-black/[0.05]">
-                            Elite Web Development Suite
-                        </span>
+            {/* The 3D Logo Centerpiece */}
+            <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+                <div className="hero-logo w-[28vh] h-[28vh] md:w-[55vh] md:h-[55vh] flex items-center justify-center pointer-events-auto">
+                    <img
+                        src="/images/logo-3d-user.png"
+                        alt="Dark and Bright"
+                        className="w-full h-auto object-contain drop-shadow-[0_0_80px_rgba(255,255,255,0.12)]"
+                    />
+                </div>
+            </div>
+
+            {/* Core Message & Action Overlay */}
+            <div className="absolute bottom-[8vh] left-0 w-full flex flex-col items-center z-40 px-6">
+                <div className="gsap-stagger flex flex-col items-center">
+                    <p className="text-white mix-blend-difference text-center max-w-2xl text-base md:text-xl font-light leading-relaxed mb-10 opacity-70 tracking-wide font-medium italic underline decoration-blue-500/50 underline-offset-8">
+                        Kami membangun solusi digital yang serius dengan pendekatan artistik dan teknis yang presisi.
+                    </p>
+                    <div className="flex gap-8 md:gap-12">
+                        <a href="#work" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden">
+                            <span className="relative z-10 text-white mix-blend-difference font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-black">
+                                PROJECTS
+                            </span>
+                            <div className="absolute inset-0 bg-white translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
+                            <div className="absolute inset-0 border border-white/30"></div>
+                        </a>
+                        <a href="#contact" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden bg-white shadow-2xl">
+                            <span className="relative z-10 text-black font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-white">
+                                DISCUSS
+                            </span>
+                            <div className="absolute inset-0 bg-black -translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            {/* Dark Bottom Section - The Serious Messaging */}
-            <div
-                ref={bottomSectionRef}
-                className="container mx-auto px-6 py-36 md:py-52 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center relative"
-            >
-                <div className="space-y-14">
-                    <div className="space-y-8">
-                        <h1 className="premium-element text-7xl md:text-[115px] font-black text-white tracking-tighter leading-[0.82] uppercase">
-                            PRESISI <span className="text-white/20">&</span><br />
-                            PROFESIONAL.
-                        </h1>
-                        <p className="premium-element text-white/70 text-xl md:text-3xl font-light max-w-2xl leading-relaxed">
-                            Dark and Bright adalah solusi nyata bagi perusahaan yang membutuhkan website
-                            dengan <span className="text-white font-medium italic underline decoration-blue-500/50 underline-offset-8">integritas tinggi</span>.
-                            Kami mengatasi hambatan koding kompleks untuk memastikan bisnis Anda mendominasi ranah digital.
-                        </p>
-                    </div>
+            {/* Subtle Cinematic Grain */}
+            <div className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay z-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
 
-                    <div className="premium-element flex flex-wrap gap-8 pt-6">
-                        <a href="#contact" className="px-12 py-6 bg-white text-black font-black rounded-full hover:bg-gray-100 transition-colors duration-300 shadow-[0_20px_40px_rgba(255,255,255,0.1)] text-sm uppercase tracking-widest">
-                            Mulai Konsultasi Serius
-                        </a>
-                        <a href="#portfolio" className="px-12 py-6 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all duration-300 backdrop-blur-md text-sm uppercase tracking-widest">
-                            Eksplorasi Solusi
-                        </a>
-                    </div>
-                </div>
-
-                <div className="hidden lg:flex justify-end relative premium-element">
-                    {/* Visual representation of structural integrity */}
-                    <div className="relative w-[480px] h-[480px]">
-                        <div className="floating-page absolute top-0 right-0 w-80 h-[500px] bg-white rounded-[2rem] shadow-2xl rotate-[-25deg] translate-x-24 border border-white/10 opacity-30 backdrop-blur-xl"></div>
-                        <div className="floating-page absolute top-0 right-0 w-80 h-[500px] bg-white rounded-[2rem] shadow-2xl rotate-[-15deg] translate-x-12 border border-white/10 opacity-60 backdrop-blur-md"></div>
-                        <div className="floating-page absolute top-0 right-0 w-80 h-[500px] bg-white rounded-[2rem] shadow-2xl rotate-[-5deg] border border-white/20 bg-gradient-to-br from-white to-gray-50 p-10 flex flex-col">
-                            <div className="flex gap-2 mb-8">
-                                <div className="w-3 h-3 bg-red-400/20 rounded-full"></div>
-                                <div className="w-3 h-3 bg-yellow-400/20 rounded-full"></div>
-                                <div className="w-3 h-3 bg-green-400/20 rounded-full"></div>
-                            </div>
-                            <div className="w-full h-5 bg-black/[0.03] rounded-lg mb-4"></div>
-                            <div className="w-4/5 h-5 bg-black/[0.03] rounded-lg mb-4"></div>
-                            <div className="w-full h-40 bg-gray-100/50 rounded-3xl border border-black/[0.03] mt-auto"></div>
-                        </div>
-                    </div>
-                </div>
+            {/* Vertical Scroll Hint */}
+            <div className="absolute bottom-10 right-10 md:right-20 z-40 flex flex-col items-center opacity-10">
+                <div className="w-[1px] h-20 bg-white mix-blend-difference gsap-stagger"></div>
             </div>
-
-            {/* Subtle glow in the distance */}
-            <div className="absolute bottom-[-10%] left-[-10%] w-[1000px] h-[1000px] bg-blue-500/[0.02] blur-[200px] rounded-full pointer-events-none"></div>
         </section>
     );
 };
