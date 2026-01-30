@@ -238,14 +238,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 <div className="cover-content">
                     {/* Logo Area */}
                     <div className="logo-section">
-                        {/* Replicating the logo from image (3D Cube-ish icon) */}
-                        <svg className="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M50 5L15 25V65L50 85L85 65V25L50 5Z" fill="#1e293b" />
-                            <path d="M50 5L85 25L50 45L15 25L50 5Z" fill="#334155" />
-                            <path d="M15 25L50 45V85L15 65V25Z" fill="#0f172a" />
-                            <path d="M50 45L85 25V65L50 85V45Z" fill="#475569" />
-                            <text x="35" y="60" fill="white" fontSize="25" fontWeight="900" fontFamily="sans-serif">DB</text>
-                        </svg>
+                        <img src="/assets/logo-dnb.png" className="logo-icon" alt="Dark and Bright Logo" />
                         <div className="logo-text-large">{agencyName.toUpperCase()}</div>
                         <div className="logo-subtext">DIGITAL SYSTEMS, NET FAST WEBSITES</div>
                     </div>
