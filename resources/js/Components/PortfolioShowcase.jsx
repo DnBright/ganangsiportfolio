@@ -8,12 +8,12 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const sectionRef = useRef(null);
     const containerRef = useRef(null);
 
-    // If no portfolios, use placeholders for dev/demo purposes
-    const displayPortfolios = portfolios.length > 0 ? portfolios : [
-        { title: "Project Alpha", category: "Web Development", image: "/images/placeholder-1.jpg" },
-        { title: "Beta Brand", category: "Identity", image: "/images/placeholder-2.jpg" },
-        { title: "Gamma App", category: "Mobile App", image: "/images/placeholder-3.jpg" },
-        { title: "Delta System", category: "SaaS Platform", image: "/images/placeholder-4.jpg" }
+    // Hardcoded projects as requested by user
+    const displayPortfolios = [
+        { title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: null },
+        { title: "Kursus Jepang", category: "Education Platform", image: null },
+        { title: "Ayaka", category: "Beauty & Wellness", image: null },
+        { title: "AKAB", category: "Technology Systems", image: null }
     ];
 
     useEffect(() => {
