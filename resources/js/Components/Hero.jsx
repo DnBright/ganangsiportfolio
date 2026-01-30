@@ -79,35 +79,22 @@ const Hero = () => {
                 </div>
             </div>
 
-            {/* Core Message & Action Overlay */}
-            <div className="absolute bottom-[5vh] left-0 w-full flex flex-col items-center z-40 px-6">
-                <div className="gsap-stagger flex flex-col items-center w-full max-w-4xl">
-                    <div className="relative w-full py-8 mb-8 overflow-hidden">
-                        {/* Split background for slogan text clarity */}
-                        <div className="absolute inset-0 flex">
-                            <div className="w-1/2 bg-black/40 backdrop-blur-sm"></div>
-                            <div className="w-1/2 bg-white/40 backdrop-blur-sm"></div>
-                        </div>
-                        <p className="relative z-10 text-white mix-blend-difference text-center px-8 text-lg md:text-2xl font-black leading-relaxed tracking-wide uppercase">
-                            Kami membangun solusi digital yang serius dengan pendekatan artistik dan teknis yang presisi.
-                        </p>
-                    </div>
-
-                    <div className="flex gap-8 md:gap-12">
-                        <a href="#work" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden">
-                            <span className="relative z-10 text-white mix-blend-difference font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-black">
-                                PROJECTS
-                            </span>
-                            <div className="absolute inset-0 bg-white translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
-                            <div className="absolute inset-0 border border-white/30"></div>
-                        </a>
-                        <a href="#contact" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden bg-white shadow-2xl">
-                            <span className="relative z-10 text-black font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-white">
-                                DISCUSS
-                            </span>
-                            <div className="absolute inset-0 bg-black -translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
-                        </a>
-                    </div>
+            {/* Action Overlay */}
+            <div className="absolute bottom-[12vh] left-0 w-full flex flex-col items-center z-40 px-6">
+                <div className="gsap-stagger flex gap-8 md:gap-12">
+                    <a href="#work" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden">
+                        <span className="relative z-10 text-white mix-blend-difference font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-black">
+                            PROJECTS
+                        </span>
+                        <div className="absolute inset-0 bg-white translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
+                        <div className="absolute inset-0 border border-white/30"></div>
+                    </a>
+                    <a href="#contact" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden bg-white shadow-2xl">
+                        <span className="relative z-10 text-black font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-white">
+                            DISCUSS
+                        </span>
+                        <div className="absolute inset-0 bg-black -translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
+                    </a>
                 </div>
             </div>
 
