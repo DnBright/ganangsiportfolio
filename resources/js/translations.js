@@ -116,8 +116,8 @@ export const translations = {
             en: "Selected Works"
         },
         year: {
-            id: "Karya Terpilih",
-            en: "Selected Works"
+            id: "Tahun",
+            en: "Year"
         },
         featured: {
             id: "PROYEK UNGGULAN",
@@ -192,10 +192,18 @@ export const translations = {
         copyright: {
             id: "Hak Cipta Dilindungi",
             en: "All rights reserved"
+        },
+        privacy: {
+            id: "Kebijakan Privasi",
+            en: "Privacy Policy"
+        },
+        terms: {
+            id: "Syarat & Ketentuan",
+            en: "Terms of Service"
         }
     },
 
-    // Navigation
+    // Navigation & Common Actions
     nav: {
         home: {
             id: "Beranda",
@@ -220,6 +228,16 @@ export const translations = {
         contact: {
             id: "Kontak",
             en: "Contact"
+        }
+    },
+    actions: {
+        projects: {
+            id: "PROYEK",
+            en: "PROJECTS"
+        },
+        discuss: {
+            id: "DISKUSI",
+            en: "DISCUSS"
         }
     }
 };

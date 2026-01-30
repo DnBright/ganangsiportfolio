@@ -2,31 +2,33 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MagicBentoCard from './MagicBentoCard';
+import { useLanguage } from '../Contexts/LanguageContext';
+import { t } from '../translations';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const solutions = [
     {
-        title: "Institusi & Pendidikan",
-        description: "Transformasi digital untuk ekosistem pendidikan masa depan. Sistem manajemen pembelajaran, administrasi, dan operasional yang terintegrasi.",
+        titleKey: "solutions.education.title",
+        descKey: "solutions.education.desc",
         icon: "🎓",
         image: "/images/solutions/education.png"
     },
     {
-        title: "Perusahaan & Bisnis",
-        description: "Solusi enterprise yang scalable untuk mempercepat pertumbuhan bisnis. Otomasi workflow, analitik data, dan efisiensi operasional.",
+        titleKey: "solutions.business.title",
+        descKey: "solutions.business.desc",
         icon: "🏢",
         image: "/images/solutions/business.png"
     },
     {
-        title: "Digitalisasi Administrasi",
-        description: "Ubah tumpukan kertas menjadi data digital yang mudah diakses. Hemat waktu, kurangi error, dan tingkatkan produktivitas tim.",
+        titleKey: "solutions.digitalization.title",
+        descKey: "solutions.digitalization.desc",
         icon: "⚡",
         image: "/images/solutions/digitalization.png"
     },
     {
-        title: "Sistem Berbasis Kebutuhan",
-        description: "Bukan solusi generik. Kami membangun sistem yang dirancang khusus untuk memecahkan masalah unik organisasi Anda.",
+        titleKey: "solutions.custom.title",
+        descKey: "solutions.custom.desc",
         icon: "🎯",
         image: "/images/solutions/custom.png"
     }
@@ -36,6 +38,7 @@ const Solutions = () => {
     const sectionRef = useRef(null);
     const headerRef = useRef(null);
     const gridRef = useRef(null);
+    const { language } = useLanguage();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -71,13 +74,10 @@ const Solutions = () => {
         <section ref={sectionRef} className="w-full bg-white text-black py-24 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto">
                 <div ref={headerRef} className="mb-20">
-                    <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">Solusi</h2>
+                    <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">{t('solutions.headline', language)}</h2>
                     <h3 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                        Kamu bukan tukang website, <br /> tapi <span className="text-gray-900 border-b-4 border-black">problem solver.</span>
+                        {t('solutions.subtitle', language)}
                     </h3>
-                    <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-                        Kami tidak sekadar menulis kode. Kami menganalisis masalah, merancang strategi, dan membangun sistem yang memberikan dampak nyata bagi bisnis Anda.
-                    </p>
                 </div>
 
                 <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
@@ -85,9 +85,9 @@ const Solutions = () => {
                         <MagicBentoCard key={index} image={item.image} className="h-full group">
                             <div className="h-full p-8 flex flex-col items-start justify-start">
                                 <div className="text-4xl mb-6">{item.icon}</div>
-                                <h4 className="text-2xl font-bold mb-4 translate-x-0 group-hover:translate-x-2 transition-transform duration-300">{item.title}</h4>
+                                <h4 className="text-2xl font-bold mb-4 translate-x-0 group-hover:translate-x-2 transition-transform duration-300">{t(item.titleKey, language)}</h4>
                                 <p className="text-gray-600 leading-relaxed">
-                                    {item.description}
+                                    {t(item.descKey, language)}
                                 </p>
                             </div>
                         </MagicBentoCard>

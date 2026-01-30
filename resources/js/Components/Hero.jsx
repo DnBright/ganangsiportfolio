@@ -87,14 +87,14 @@ const Hero = () => {
                 <div className="gsap-stagger flex gap-8 md:gap-12">
                     <a href="#work" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden">
                         <span className="relative z-10 text-white mix-blend-difference font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-black">
-                            PROJECTS
+                            {t('actions.projects', language)}
                         </span>
                         <div className="absolute inset-0 bg-white translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
                         <div className="absolute inset-0 border border-white/30"></div>
                     </a>
                     <a href="#contact" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden bg-white shadow-2xl">
                         <span className="relative z-10 text-black font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-white">
-                            DISCUSS
+                            {t('actions.discuss', language)}
                         </span>
                         <div className="absolute inset-0 bg-black -translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
                     </a>

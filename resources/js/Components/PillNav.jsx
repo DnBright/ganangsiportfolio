@@ -10,16 +10,15 @@ const PillNav = ({
     activeHref,
     className = '',
     ease = 'power3.easeOut',
-    baseColor = '#fff',
+    baseColor = '#000000',
     pillColor = '#060010',
-    hoveredPillTextColor = '#060010',
+    hoveredPillTextColor = '#FFFFFF',
     pillTextColor,
     onMobileMenuClick,
     initialLoadAnimation = true
 }) => {
     const resolvedPillTextColor = pillTextColor ?? baseColor;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeLang, setActiveLang] = useState('IND');
     const circleRefs = useRef([]);
     const tlRefs = useRef([]);
     const activeTweenRefs = useRef([]);
@@ -318,31 +317,27 @@ const PillNav = ({
                 </nav>
 
                 {/* Language Switcher */}
-                <button
-                    onClick={toggleLanguage}
-                    className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black hover:bg-black hover:text-white transition-all duration-300 font-semibold text-sm"
-                >
-                    <span>{language === 'id' ? '🇮🇩 ID' : '🇬🇧 EN'}</span>
-                </button>
-
-                {/* Language Switcher Pill */}
-                <div
-                    className="flex h-[var(--nav-h)] items-center bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm gap-1"
-                    style={cssVars}
-                >
-                    {['IND', 'ENG'].map(lang => (
-                        <button
-                            key={lang}
-                            onClick={() => setActiveLang(lang)}
-                            className={`px-3 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${activeLang === lang
-                                ? 'bg-black text-white'
-                                : 'text-black hover:bg-black/5'
-                                }`}
-                        >
-                            {lang}
-                        </button>
-                    ))}
+                <div className="flex items-center gap-1 bg-white/95 backdrop-blur-md rounded-full border border-black/10 p-1 shadow-sm h-[var(--nav-h)]">
+                    <button
+                        onClick={() => language !== 'id' && toggleLanguage()}
+                        className={`px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${language === 'id'
+                            ? 'bg-black text-white'
+                            : 'text-black/60 hover:text-black hover:bg-black/5'
+                            }`}
+                    >
+                        IND
+                    </button>
+                    <button
+                        onClick={() => language !== 'en' && toggleLanguage()}
+                        className={`px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${language === 'en'
+                            ? 'bg-black text-white'
+                            : 'text-black/60 hover:text-black hover:bg-black/5'
+                            }`}
+                    >
+                        ENG
+                    </button>
                 </div>
+
             </div>
         </div>
     );

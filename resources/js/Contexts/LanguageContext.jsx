@@ -20,7 +20,20 @@ export const LanguageProvider = ({ children }) => {
         const newLang = language === 'id' ? 'en' : 'id';
         setLanguage(newLang);
         localStorage.setItem('language', newLang);
+        // Dispatch custom event for cross-root sync
+        window.dispatchEvent(new CustomEvent('language-change', { detail: newLang }));
     };
+
+    useEffect(() => {
+        const handleLanguageChange = (e) => {
+            if (e.detail !== language) {
+                setLanguage(e.detail);
+            }
+        };
+
+        window.addEventListener('language-change', handleLanguageChange);
+        return () => window.removeEventListener('language-change', handleLanguageChange);
+    }, [language]);
 
     useEffect(() => {
         // Persist language preference

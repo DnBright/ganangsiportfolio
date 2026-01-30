@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../Contexts/LanguageContext';
+import { t } from '../translations';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PortfolioShowcase = ({ portfolios = [] }) => {
     const sectionRef = useRef(null);
     const containerRef = useRef(null);
+    const { language } = useLanguage();
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
@@ -45,8 +48,8 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
         <section ref={sectionRef} className="relative bg-[#0a0a0a] text-white overflow-hidden">
             {/* Context Header (Absolute) */}
             <div className="absolute top-10 left-6 md:left-12 z-20 mix-blend-difference">
-                <span className="text-xs font-mono uppercase tracking-[0.4em] text-white/50">
-                    Selected Works // {new Date().getFullYear()}
+                <span className="text-xs font-mono uppercase tracking-[0.3em] text-white/40">
+                    {t('portfolio.scroll', language)}
                 </span>
             </div>
 
@@ -59,15 +62,14 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                 >
                     {/* Intro Card */}
                     <div className="w-[80vw] md:w-[40vw] flex-shrink-0">
-                        <h2 className="text-6xl md:text-9xl font-black leading-[0.85] tracking-tighter uppercase mb-8">
-                            FEATURED <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-600">PROJECTS</span>
+                        <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
+                            {t('portfolio.featured', language)}
                         </h2>
-                        <p className="max-w-md text-white/60 text-lg md:text-xl font-light leading-relaxed">
-                            A curation of our finest digital craftsmanship. Each project is a testament to our dedication to precision and aesthetics.
+                        <p className="text-base md:text-lg text-white/60 max-w-2xl leading-relaxed">
+                            {t('portfolio.subtitle', language)}
                         </p>
                         <div className="mt-12 flex items-center gap-4 animate-pulse">
-                            <span className="text-xs uppercase tracking-widest">Scroll to Explore</span>
+                            <span className="text-xs uppercase tracking-widest">{t('portfolio.scroll', language)}</span>
                             <div className="h-[1px] w-12 bg-white"></div>
                         </div>
                     </div>
@@ -103,7 +105,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     </h3>
                                     <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                                         <a href="#" className="inline-flex items-center gap-2 text-sm uppercase tracking-widest hover:underline underline-offset-4">
-                                            View Case Study
+                                            {t('portfolio.viewCase', language)}
                                             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                 <path d="M5 12h14M12 5l7 7-7 7" />
                                             </svg>
@@ -120,7 +122,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                             href="/portfolio"
                             className="group relative w-48 h-48 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-black transition-all duration-500"
                         >
-                            <span className="text-sm font-black uppercase tracking-widest relative z-10">View All Work</span>
+                            <span className="text-sm font-black uppercase tracking-widest relative z-10">{t('portfolio.viewAll', language)}</span>
                             <div className="absolute inset-0 bg-white rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out"></div>
                         </a>
                     </div>
