@@ -9,6 +9,7 @@ import Hero from './Components/Hero';
 import AdminDashboard from './Components/Admin/AdminDashboard';
 import SloganServices from './Components/SloganServices';
 import PortfolioShowcase from './Components/PortfolioShowcase';
+import ContactFooter from './Components/ContactFooter';
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -66,4 +67,11 @@ if (portfolioRoot) {
     const root = createRoot(portfolioRoot);
     const portfolios = portfolioRoot.dataset.portfolios ? JSON.parse(portfolioRoot.dataset.portfolios) : [];
     root.render(<PortfolioShowcase portfolios={portfolios} />);
+}
+
+// Mount ContactFooter if the container exists
+const contactFooterRoot = document.getElementById('contact-footer-root');
+if (contactFooterRoot) {
+    const root = createRoot(contactFooterRoot);
+    root.render(<ContactFooter />);
 }
