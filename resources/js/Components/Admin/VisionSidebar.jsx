@@ -1,31 +1,30 @@
 import React, { useState } from 'react';
 
-const VisionSidebar = () => {
+const VisionSidebar = ({ activeTab, onNavigate }) => {
     const [proposalExpanded, setProposalExpanded] = useState(false);
 
     const menuItems = [
-        { id: 'dashboard', label: 'Dashboard', icon: '🏠', active: true },
-        { id: 'leads', label: 'Leads', icon: '👥', active: false },
+        { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
+        { id: 'leads', label: 'Leads', icon: '👥' },
         {
             id: 'proposal',
             label: 'Proposal Generator',
             icon: '📝',
-            active: false,
             hasSubmenu: true,
             children: [
-                { label: 'Create Proposal', icon: '➕' },
-                { label: 'Draft AI', icon: '🤖' },
-                { label: 'Editor Proposal', icon: '✍️' },
-                { label: 'Proposal Library', icon: '📚' },
-                { label: 'Templates & Prompt', icon: '⚡' },
-                { label: 'Performance', icon: '📈' },
+                { id: 'create_proposal', label: 'Create Proposal', icon: '➕' },
+                { id: 'draft_ai', label: 'Draft AI', icon: '🤖' },
+                { id: 'editor_proposal', label: 'Editor Proposal', icon: '✍️' },
+                { id: 'proposal_library', label: 'Proposal Library', icon: '📚' },
+                { id: 'templates_prompt', label: 'Templates & Prompt', icon: '⚡' },
+                { id: 'performance', label: 'Performance', icon: '📈' },
             ]
         },
-        { id: 'projects', label: 'Projects', icon: '💼', active: false },
-        { id: 'portfolio', label: 'Portfolio', icon: '📁', active: false },
+        { id: 'projects', label: 'Projects', icon: '💼' },
+        { id: 'portfolio', label: 'Portfolio', icon: '📁' },
     ];
 
-    const settingsItems = [
+    const managementItems = [
         { id: 'users', label: 'Users / Team', icon: '👤' },
         { id: 'settings', label: 'Settings', icon: '⚙️' },
     ];
@@ -45,17 +44,23 @@ const VisionSidebar = () => {
             <div className="flex-1 space-y-8">
                 <div>
                     <nav className="space-y-1">
-                        {menuItems.map((item, i) => (
+                        {menuItems.map((item) => (
                             <div key={item.id} className="space-y-1">
                                 <div
-                                    onClick={() => item.hasSubmenu && setProposalExpanded(!proposalExpanded)}
-                                    className={`flex items-center gap-4 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 group ${item.active ? 'bg-[#1a2c8a] shadow-lg shadow-blue-900/20' : 'hover:bg-white/5'
+                                    onClick={() => {
+                                        if (item.hasSubmenu) {
+                                            setProposalExpanded(!proposalExpanded);
+                                        } else {
+                                            onNavigate(item.id);
+                                        }
+                                    }}
+                                    className={`flex items-center gap-4 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 group ${activeTab === item.id ? 'bg-[#1a2c8a] shadow-lg shadow-blue-900/20' : 'hover:bg-white/5'
                                         }`}
                                 >
-                                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm transition-transform duration-300 group-hover:scale-110 ${item.active ? 'bg-blue-600' : 'bg-[#1b2252]'}`}>
+                                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm transition-transform duration-300 group-hover:scale-110 ${activeTab === item.id ? 'bg-blue-600' : 'bg-[#1b2252]'}`}>
                                         {item.icon}
                                     </div>
-                                    <span className={`text-xs font-bold flex-1 ${item.active ? 'text-white' : 'text-white/40 group-hover:text-white'}`}>
+                                    <span className={`text-xs font-bold flex-1 ${activeTab === item.id ? 'text-white' : 'text-white/40 group-hover:text-white'}`}>
                                         {item.label}
                                     </span>
                                     {item.hasSubmenu && (
@@ -71,10 +76,11 @@ const VisionSidebar = () => {
                                         {item.children.map((child, ci) => (
                                             <div
                                                 key={ci}
-                                                className="flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-pointer hover:bg-white/5 group transition-colors"
+                                                onClick={() => onNavigate(child.id)}
+                                                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl cursor-pointer group transition-colors ${activeTab === child.id ? 'bg-white/5' : 'hover:bg-white/5'}`}
                                             >
-                                                <span className="text-[10px] opacity-20 group-hover:opacity-100 transition-opacity">{child.icon}</span>
-                                                <span className="text-[10px] font-bold text-white/30 group-hover:text-white transition-colors">
+                                                <span className={`text-[10px] transition-opacity ${activeTab === child.id ? 'opacity-100' : 'opacity-20 group-hover:opacity-100'}`}>{child.icon}</span>
+                                                <span className={`text-[10px] font-bold transition-colors ${activeTab === child.id ? 'text-white' : 'text-white/30 group-hover:text-white'}`}>
                                                     {child.label}
                                                 </span>
                                             </div>
@@ -89,19 +95,36 @@ const VisionSidebar = () => {
                 <div>
                     <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest px-4 mb-3">Management</p>
                     <nav className="space-y-1">
-                        {settingsItems.map((item, i) => (
+                        {managementItems.map((item) => (
                             <div
                                 key={item.id}
-                                className="flex items-center gap-4 px-4 py-3 rounded-2xl cursor-pointer hover:bg-white/5 transition-all duration-300 group"
+                                onClick={() => onNavigate(item.id)}
+                                className={`flex items-center gap-4 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 group ${activeTab === item.id ? 'bg-white/5' : 'hover:bg-white/5'}`}
                             >
-                                <div className="w-8 h-8 rounded-xl bg-[#1b2252] flex items-center justify-center text-sm transition-transform duration-300 group-hover:scale-110">
+                                <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm transition-transform duration-300 group-hover:scale-110 ${activeTab === item.id ? 'bg-blue-600 animate-pulse' : 'bg-[#1b2252]'}`}>
                                     {item.icon}
                                 </div>
-                                <span className="text-xs font-bold text-white/40 group-hover:text-white transition-colors">
+                                <span className={`text-xs font-bold ${activeTab === item.id ? 'text-white' : 'text-white/40 group-hover:text-white'}`}>
                                     {item.label}
                                 </span>
                             </div>
                         ))}
+
+                        {/* Logout Button */}
+                        <form action="/logout" method="POST" className="mt-4">
+                            <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]')?.content} />
+                            <button
+                                type="submit"
+                                className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl cursor-pointer hover:bg-red-500/10 transition-all duration-300 group border border-transparent hover:border-red-500/20"
+                            >
+                                <div className="w-8 h-8 rounded-xl bg-red-500/10 flex items-center justify-center text-sm group-hover:bg-red-500 group-hover:animate-bounce transition-all">
+                                    🚪
+                                </div>
+                                <span className="text-xs font-bold text-red-500/60 group-hover:text-red-500">
+                                    Logout
+                                </span>
+                            </button>
+                        </form>
                     </nav>
                 </div>
             </div>
