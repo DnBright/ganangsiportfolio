@@ -34,25 +34,29 @@ if (navbarRoot) {
         React.useEffect(() => {
             const observerOptions = {
                 root: null,
-                rootMargin: '-40% 0px -40% 0px', // Detect section in the middle of viewport
+                rootMargin: '-10% 0px -80% 0px', // Focus on the top area of the viewport
                 threshold: 0
             };
 
             const observerCallback = (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        // Map root IDs back to simple anchor IDs if needed
-                        let activeId = '#' + id;
-                        if (id === 'hero-root') activeId = '#beranda';
-                        if (id === 'slogan-services-root') activeId = '#layanan';
-                        if (id === 'solutions-root') activeId = '#solusi';
-                        if (id === 'portfolio-root') activeId = '#portfolio';
-                        if (id === 'contact-footer-root') activeId = '#kontak';
+                const intersecting = entries.filter(e => e.isIntersecting);
 
-                        setActiveSection(activeId);
-                    }
-                });
+                if (intersecting.length > 0) {
+                    // Pick the section closest to the top of the viewport
+                    const winner = intersecting.reduce((prev, curr) => {
+                        return (prev.boundingClientRect.top > curr.boundingClientRect.top) ? curr : prev;
+                    });
+
+                    const id = winner.target.id;
+                    let activeId = '#' + id;
+                    if (id === 'hero-root') activeId = '#beranda';
+                    if (id === 'slogan-services-root') activeId = '#layanan';
+                    if (id === 'solutions-root') activeId = '#solusi';
+                    if (id === 'portfolio-root') activeId = '#portfolio';
+                    if (id === 'contact-footer-root') activeId = '#kontak';
+
+                    setActiveSection(activeId);
+                }
             };
 
             const observer = new IntersectionObserver(observerCallback, observerOptions);
