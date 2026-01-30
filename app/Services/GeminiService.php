@@ -58,9 +58,18 @@ class GeminiService
                     // Clean up markdown code blocks if the AI includes them
                     $text = preg_replace('/```json\s?|\s?```/', '', $text);
                     
-                    return json_decode($text, true) ?? [
+                    $decoded = json_decode($text, true);
+                    
+                    if (is_array($decoded)) {
+                        // Ensure all elements are strings to prevent React crash (Error #31)
+                        return array_map(function($val) {
+                            return is_array($val) ? json_encode($val) : (string)$val;
+                        }, $decoded);
+                    }
+
+                    return [
                         'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
-                        'bab_1' => $text, // Fallback if not valid JSON
+                        'bab_1' => (string)$text, // Fallback if not valid JSON
                         'bab_2' => '',
                         'bab_3' => '',
                         'bab_4' => ''
@@ -76,7 +85,13 @@ class GeminiService
             }
         }
 
-        return "Gemini API Error (Confirmed models failed): " . $lastError;
+        return [
+            'title' => 'Error Generation',
+            'bab_1' => "Gemini API Error (Confirmed models failed): " . $lastError,
+            'bab_2' => '',
+            'bab_3' => '',
+            'bab_4' => ''
+        ];
     }
 
     protected function buildPrompt($data)

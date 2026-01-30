@@ -144,7 +144,9 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
 
                         <div className="space-y-12">
                             <div className="border-l-4 border-cyan-500 pl-6">
-                                <h3 className="text-2xl font-black text-white mb-2 uppercase tracking-tight">{draftContent?.title || 'Draft Terbentuk'}</h3>
+                                <h3 className="text-2xl font-black text-white mb-2 uppercase tracking-tight">
+                                    {typeof draftContent?.title === 'object' ? JSON.stringify(draftContent.title) : (draftContent?.title || 'Draft Terbentuk')}
+                                </h3>
                                 <p className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">DNB Agency Strategic Document</p>
                             </div>
 
@@ -158,7 +160,7 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
                                     <div className="absolute top-8 left-[-1px] w-1 h-8 bg-cyan-500 rounded-full opacity-50" />
                                     <h4 className="text-xs font-bold text-cyan-500 uppercase tracking-[6px] mb-8">{section.title}</h4>
                                     <div className="whitespace-pre-wrap font-sans text-sm md:text-md leading-[1.8] text-white/80 selection:bg-cyan-500/30">
-                                        {section.content || 'Konten sedang disiapkan atau tidak tersedia.'}
+                                        {typeof section.content === 'object' ? JSON.stringify(section.content) : (section.content || 'Konten sedang disiapkan atau tidak tersedia.')}
                                     </div>
                                 </div>
                             ))}
