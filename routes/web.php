@@ -102,16 +102,39 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     // Proposal Management
     Route::get('/proposals', [ProposalController::class, 'index'])->name('admin.proposals.index');
     Route::post('/proposals', [ProposalController::class, 'store'])->name('admin.proposals.store');
+    Route::post('/proposals/generate-draft', [ProposalController::class, 'generateDraft'])->name('admin.proposals.generate');
     Route::patch('/proposals/{proposal}', [ProposalController::class, 'update'])->name('admin.proposals.update');
     Route::delete('/proposals/{proposal}', [ProposalController::class, 'destroy'])->name('admin.proposals.destroy');
 
-    // Temporary Migration Route (Visit admin.thedarkandbright.com/run-migrations to fix the database)
+    // Temporary Migration & DB Fix Route
     Route::get('/run-migrations', function () {
         try {
+            // 1. Clear Caches
+            \Illuminate\Support\Facades\Artisan::call('config:clear');
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            
+            // 2. Run Migrations
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            return "Migrations successful! <br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
+            $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+
+            // 3. Verify Table Existence
+            $tableExists = \Illuminate\Support\Facades\Schema::hasTable('proposals');
+            $databaseName = \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
+            $driver = \Illuminate\Support\Facades\DB::connection()->getDriverName();
+
+            return response()->json([
+                'status' => 'success',
+                'database' => $databaseName,
+                'driver' => $driver,
+                'proposals_table_exists' => $tableExists,
+                'migration_output' => $migrateOutput,
+                'message' => $tableExists ? 'Database is READY.' : 'Table missing after migration!'
+            ]);
         } catch (\Exception $e) {
-            return "Migration failed: " . $e->getMessage();
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 500);
         }
     });
 });

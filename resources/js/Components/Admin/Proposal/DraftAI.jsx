@@ -23,81 +23,30 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
             }
         }, 800);
 
-        const timer = setTimeout(() => {
-            clearInterval(interval);
-            setIsGenerating(false);
+        const generateAIPost = async () => {
+            try {
+                const response = await axios.post('/proposals/generate-draft', {
+                    client_name: analysisData.client_name,
+                    industry: analysisData.industry,
+                    target_website: analysisData.target_website,
+                    problem_statement: analysisData.client_problem
+                });
 
-            const detailedContent = `
-# PROPOSAL STRATEGIS PENGEMBANGAN EKOSISTEM DIGITAL
-**Dipasok Khusus Untuk:** ${analysisData.client_name || 'Klien'}
-**Industri:** ${analysisData.industry}
-**Tanggal:** ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
+                setDraftContent(response.data.draft);
+                setIsGenerating(false);
+                clearInterval(interval);
+            } catch (error) {
+                console.error('Gemini Generation Error:', error);
+                setDraftContent(`Maaf, terjadi kesalahan saat menghubungi AI: ${error.response?.data?.message || error.message}. \n\nPastikan GEMINI_API_KEY sudah terpasang di file .env server Anda.`);
+                setIsGenerating(false);
+                clearInterval(interval);
+            }
+        };
 
----
-
-## 1. PENDAHULUAN: VISI & TRANSFORMASI DIGITAL
-Terima kasih atas kepercayaan Anda kepada DNB Agency. Proposal ini bukanlah sekadar dokumen penawaran teknis, melainkan sebuah peta jalan strategis untuk membawa bisnis Anda ke level berikutnya melalui keunggulan digital.
-
-Dalam era ekonomi digital saat ini, kehadiran website bukan lagi pilihan, melainkan fondasi utama kredibilitas. Bisnis di sektor ${analysisData.industry} menuntut kepercayaan tinggi dari calon konsumen, dan website adalah representasi pertama dari integritas layanan Anda. Kami hadir untuk memastikan pesan brand Anda tersampaikan dengan jernih, profesional, dan mampu mengonversi pengunjung menjadi klien setia.
-
-## 2. PEMAHAMAN MENDALAM TERHADAP KEBUTUHAN KLIEN
-Setelah melakukan analisis terhadap profil bisnis Anda, kami mengidentifikasi bahwa hambatan utama yang sedang dihadapi adalah:
-> **"${analysisData.client_problem}"**
-
-**Analisis Akar Masalah:**
-- **In-efisiensi Operasional:** Proses manual yang masih dominan menyebabkan potensi human error dan keterlambatan respon terhadap permintaan klien.
-- **Lost Opportunity:** Ketidakadaan platform yang dapat diakses 24/7 membuat Anda kehilangan peluang closing saat tim sedang offline.
-- **Trust Deficit:** Calon klien di era modern cenderung melakukan riset digital sebelum transaksi; tanpa website yang memadai, brand Anda berisiko dianggap kurang kompeten dibandingkan kompetitor.
-
-## 3. SOLUSI STRATEGIS: PENGEMBANGAN WEBSITE HIGH-CONVERSION
-Kami tidak hanya memberikan "website", kami membangun sebuah "mesin pertumbuhan". Solusi yang kami tawarkan mencakup:
-
-**A. Arsitektur Berfokus Nilai (Value-Driven Architecture)**
-Website akan dirancang dengan psikologi warna dan tata letak yang memaksa pengunjung untuk melihat nilai utama (unique selling point) bisnis Anda dalam 3 detik pertama.
-
-**B. Sistem Manajemen Konten Mandiri**
-Anda akan memiliki kontrol penuh untuk memperbarui portofolio, layanan, atau pengumuman tanpa harus memiliki keahlian coding. Ini adalah efisiensi jangka panjang yang kami tawarkan.
-
-**C. Optimasi Keamanan & Kecepatan**
-Menggunakan standar enkripsi modern untuk menjaga data klien Anda dan memastikan website dapat diakses dengan cepat bahkan di koneksi internet yang terbatas.
-
-## 4. RUANG LINGKUP PEKERJAAN (DETAILED SCOPE)
-Pengerjaan akan dibagi menjadi beberapa modul krusial:
-
-- **Modul Strategi & UX:** Penentuan struktur informasi, pembuatan sitemap, dan wireframing interaktif.
-- **Modul Desain Visual:** Pembuatan antarmuka (UI) yang mencerminkan karakter kuat dari brand ${analysisData.client_name}.
-- **Modul Pengembangan Backend:** Pembangunan database yang kokoh, sistem pendaftaran online, dan integrasi WhatsApp API.
-- **Modul Optimasi SEO Dasar:** Memastikan bisnis Anda mudah ditemukan di Google untuk kata kunci relevan di industri ${analysisData.industry}.
-- **Modul Pelatihan (Handover):** Sesi khusus untuk mengajari tim Anda cara mengoperasikan dashboard website secara maksimal.
-
-## 5. ESTIMASI TIMELINE & TAHAPAN SPRINT
-Proyek ini akan dikerjakan menggunakan metodologi Agile untuk menjamin transparansi:
-
-- **Fase 1: Discovery & Planning (Hari 1-3)**
-  Validasi requirement, pengumpulan aset konten, dan finalisasi sitemap.
-- **Fase 2: UI/UX Design Sprint (Hari 4-8)**
-  Pembuatan prototype desain untuk Anda tinjau dan setujui sebelum masuk tahap coding.
-- **Fase 3: Development & Integration (Hari 9-20)**
-  Proses coding intensif, integrasi fitur fungsional, dan pembangunan database.
-- **Fase 4: Internal Testing & Bug Fixing (Hari 21-24)**
-  Uji coba di berbagai perangkat (Mobile, Tablet, Desktop) untuk memastikan performa maksimal.
-- **Fase 5: Launch & Training (Hari 25-30)**
-  Migrasi ke domain utama dan training operasional untuk tim Anda.
-
-## 6. PENUTUP & KOMITMEN KEMITRAAN
-Investasi digital adalah investasi jangka panjang. DNB Agency berkomitmen untuk tidak hanya menjadi "vendor", tetapi menjadi mitra pertumbuhan yang siap mendukung keberlanjutan bisnis Anda.
-
-Kami percaya bahwa dengan solusi yang tepat, hambatan operasional Anda saat ini akan berubah menjadi keunggulan kompetitif yang signifikan. Kami siap memulai langkah besar ini bersama Anda.
-
-**Hormat Kami,**
-*Project Lead - DNB Agency*
-            `;
-            setDraftContent(detailedContent);
-        }, 5000);
+        generateAIPost();
 
         return () => {
             clearInterval(interval);
-            clearTimeout(timer);
         };
     }, [analysisData]);
 
