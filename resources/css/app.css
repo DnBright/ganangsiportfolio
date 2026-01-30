@@ -12,3 +12,72 @@ html {
     animation: spin 3s linear infinite;
   }
 }
+
+/* Professional Proposal Printing Styles */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  /* Hide everything except the print-target */
+  .xl\:block,
+  nav,
+  button,
+  .fixed,
+  .xl\:w-64,
+  .top-bar,
+  .header-content,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Expand the content to full page */
+  .flex-1,
+  .max-w-\[1600px\],
+  .proposal-print-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Style headers for physical paper */
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #000 !important;
+    page-break-after: avoid;
+  }
+
+  h2 {
+    margin-top: 1.5in !important;
+    /* Force space for new sections */
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+  }
+
+  /* Text readability */
+  p,
+  li {
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+  }
+
+  /* Hide the glow backgrounds */
+  div[class*="blur-"] {
+    display: none !important;
+  }
+
+  /* Ensure the main container is visible */
+  .min-h-screen {
+    background: white !important;
+    padding: 0 !important;
+  }
+}

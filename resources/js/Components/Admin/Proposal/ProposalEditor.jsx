@@ -25,6 +25,10 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         }, 2500);
     };
 
+    const handlePrintPreview = () => {
+        window.print();
+    };
+
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
             {/* Header Content */}
@@ -43,6 +47,12 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     </div>
 
                     <div className="flex items-center gap-3">
+                        <button
+                            onClick={handlePrintPreview}
+                            className="px-6 py-3 rounded-2xl border border-white/20 text-white/60 hover:text-white hover:bg-white/5 text-[10px] font-bold tracking-widest uppercase transition-all flex items-center gap-2"
+                        >
+                            <span>🖨️</span> Print Preview
+                        </button>
                         <button
                             onClick={handleAIPolish}
                             disabled={isPolishing}
@@ -74,12 +84,14 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                                 {content.split(' ').length} WORDS
                             </div>
                         </div>
-                        <textarea
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            className="flex-1 w-full bg-[#060b26]/20 border-none outline-none text-base leading-relaxed text-white/80 p-8 rounded-3xl resize-none font-sans no-scrollbar selection:bg-purple-500/30 min-h-[800px]"
-                            placeholder="Tulis proposal Anda di sini..."
-                        ></textarea>
+                        <div className="proposal-print-container">
+                            <textarea
+                                value={content}
+                                onChange={(e) => setContent(e.target.value)}
+                                className="flex-1 w-full bg-[#060b26]/20 border-none outline-none text-base leading-relaxed text-white/80 p-8 rounded-3xl resize-none font-sans no-scrollbar selection:bg-purple-500/30 min-h-[800px]"
+                                placeholder="Tulis proposal Anda di sini..."
+                            ></textarea>
+                        </div>
                     </div>
                 </div>
 

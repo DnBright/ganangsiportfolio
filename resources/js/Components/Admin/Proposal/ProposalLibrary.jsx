@@ -13,6 +13,11 @@ const ProposalLibrary = ({ proposals = [] }) => {
         }, 3000);
     };
 
+    const handlePrint = (proposal) => {
+        // Simple print command for the current dashboard view
+        window.print();
+    };
+
     const getStatusStyle = (status) => {
         switch (status) {
             case 'Approved': return 'bg-green-400/10 text-green-400 border-green-400/20';
@@ -94,7 +99,8 @@ const ProposalLibrary = ({ proposals = [] }) => {
                                                 <span className="text-xs font-bold text-white/70">{p.value}</span>
                                             </td>
                                             <td className="px-6 py-5 text-right">
-                                                <div className="flex justify-end gap-2">
+                                                <div className="flex justify-end gap-2 no-print">
+                                                    <button onClick={() => handlePrint(p)} className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="Print/Download">🖨️</button>
                                                     <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="View">👁️</button>
                                                     <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="Duplicate">📋</button>
                                                 </div>
