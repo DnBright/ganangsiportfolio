@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
-const ProposalPrintTemplate = ({ proposal, agencyName = "DNB Agency" }) => {
+const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => {
     if (!proposal) return null;
 
     const today = new Date().toLocaleDateString('id-ID', {
@@ -10,125 +10,316 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "DNB Agency" }) => {
         year: 'numeric'
     });
 
+    const validUntil = new Date();
+    validUntil.setDate(validUntil.getDate() + 14);
+    const validStr = validUntil.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
     return (
         <div className="proposal-print-wrapper bg-white text-[#1a1c2e] font-sans">
-            {/* CSS for Print Optimization */}
+            {/* CSS for High-Fidelity Design (Polygonal & Branded) */}
             <style>
                 {`
                 @media print {
                     @page {
                         size: A4;
-                        margin: 20mm;
+                        margin: 0;
                     }
                     body {
                         -webkit-print-color-adjust: exact;
+                        margin: 0;
                     }
                     .page-break {
                         page-break-before: always;
                     }
+                    .no-print { display: none; }
                 }
+
                 .proposal-print-wrapper {
-                    max-width: 800px;
+                    width: 210mm;
                     margin: 0 auto;
-                    line-height: 1.6;
+                    color: #1a202c;
                 }
-                .markdown-content h2 {
-                    font-size: 1.5rem;
-                    font-weight: 800;
-                    margin-top: 2rem;
-                    margin-bottom: 1rem;
-                    color: #0f172a;
-                    border-bottom: 2px solid #e2e8f0;
-                    padding-bottom: 0.5rem;
-                    text-transform: uppercase;
-                    letter-spacing: 1px;
-                }
-                .markdown-content p {
-                    margin-bottom: 1.25rem;
-                    text-align: justify;
-                }
-                .markdown-content strong {
-                    color: #1e293b;
-                }
+
+                /* COVER PAGE STYLING */
                 .cover-page {
-                    height: 100vh;
+                    position: relative;
+                    height: 296.5mm; /* A4 height */
+                    background: #fff;
+                    overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
+                    padding: 80px 60px;
+                }
+
+                .bg-polygon-top {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 70%;
+                    height: 40%;
+                    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+                    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 80%);
+                    z-index: 1;
+                }
+
+                .bg-polygon-accent {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 35%;
+                    height: 45%;
+                    background: #0f172a;
+                    clip-path: polygon(0% 0%, 100% 0%, 80% 60%, 0% 100%);
+                    z-index: 2;
+                }
+
+                .bg-polygon-bottom {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 30%;
+                    background: linear-gradient(225deg, #0ea5e9 0%, #0284c7 100%);
+                    clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 30% 70%);
+                    z-index: 1;
+                }
+
+                .cover-content {
+                    position: relative;
+                    z-index: 10;
+                    margin-top: 15%;
+                }
+
+                .cover-logo {
+                    color: #fff;
+                    margin-bottom: 2rem;
+                }
+
+                .cover-title-group h2 {
+                    font-size: 14px;
+                    letter-spacing: 0.4em;
+                    color: #0ea5e9;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    margin-bottom: 0.5rem;
+                }
+
+                .cover-title-group h1 {
+                    font-size: 64px;
+                    font-weight: 900;
+                    line-height: 1;
+                    color: #0f172a;
+                    text-transform: uppercase;
+                    margin-bottom: 1rem;
+                }
+
+                .expand-tagline {
+                    color: #0ea5e9;
+                    font-weight: 700;
+                    font-size: 14px;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    margin-bottom: 3rem;
+                }
+
+                .company-name-label {
+                    font-size: 12px;
+                    font-weight: 800;
+                    color: #64748b;
+                    text-transform: uppercase;
+                    margin-bottom: 0.25rem;
+                }
+
+                .prepared-for {
+                    margin-top: auto;
+                    padding-bottom: 40px;
+                }
+
+                .prepared-for p {
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #94a3b8;
+                    text-transform: uppercase;
+                }
+
+                .prepared-for h3 {
+                    font-size: 24px;
+                    font-weight: 900;
+                    color: #0f172a;
+                    text-transform: uppercase;
+                }
+
+                /* INTERNAL PAGE STYLING */
+                .internal-page {
+                    position: relative;
+                    min-height: 297mm;
+                    padding: 40mm 20mm 25mm 20mm;
+                    background: white;
+                }
+
+                .page-header {
+                    position: absolute;
+                    top: 20mm;
+                    left: 20mm;
+                    right: 20mm;
+                    display: flex;
+                    justify-content: space-between;
                     align-items: center;
-                    text-align: center;
-                    border: 15px solid #0f172a;
-                    padding: 40px;
-                    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+                    border-bottom: 1px solid #e2e8f0;
+                    padding-bottom: 5px;
+                }
+
+                .page-footer {
+                    position: absolute;
+                    bottom: 15mm;
+                    left: 20mm;
+                    right: 20mm;
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 9px;
+                    color: #94a3b8;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                }
+
+                .section-number {
+                    font-size: 80px;
+                    font-weight: 900;
+                    color: #f1f5f9;
+                    position: absolute;
+                    top: 35mm;
+                    left: 15mm;
+                    z-index: 0;
+                }
+
+                .section-title {
+                    font-size: 24px;
+                    font-weight: 900;
+                    color: #0f172a;
+                    text-transform: uppercase;
+                    margin-bottom: 2rem;
+                    position: relative;
+                    z-index: 1;
+                    border-left: 6px solid #0ea5e9;
+                    padding-left: 15px;
+                }
+
+                .markdown-content {
+                    position: relative;
+                    z-index: 1;
+                    font-size: 11pt;
+                    line-height: 1.7;
+                    color: #334155;
+                }
+
+                .markdown-content h4 {
+                    font-weight: 800;
+                    color: #0f172a;
+                    margin-top: 1.5rem;
+                    margin-bottom: 0.5rem;
+                    text-transform: uppercase;
+                }
+
+                .markdown-content p {
+                    margin-bottom: 1rem;
+                    text-align: justify;
+                }
+
+                .markdown-content ul {
+                    list-style-type: none;
+                    margin-bottom: 1.5rem;
+                }
+
+                .markdown-content li {
+                    position: relative;
+                    padding-left: 1.5rem;
+                    margin-bottom: 0.5rem;
+                }
+
+                .markdown-content li:before {
+                    content: "•";
+                    position: absolute;
+                    left: 0;
+                    color: #0ea5e9;
+                    font-weight: bold;
                 }
                 `}
             </style>
 
             {/* COVER PAGE */}
             <div className="cover-page page-break">
-                <div className="w-24 h-24 bg-[#0f172a] rounded-2xl flex items-center justify-center text-white text-4xl mb-8 shadow-xl">
-                    D
-                </div>
-                <h2 className="text-[10px] font-bold tracking-[8px] uppercase text-slate-400 mb-2">{agencyName} Strategic Document</h2>
-                <h1 className="text-4xl font-black text-slate-900 mb-6 leading-tight uppercase tracking-tight">
-                    {proposal.title || 'Business Transformation Proposal'}
-                </h1>
-                <div className="w-20 h-1 bg-blue-600 mb-8" />
+                <div className="bg-polygon-top" />
+                <div className="bg-polygon-accent" />
+                <div className="bg-polygon-bottom" />
 
-                <div className="space-y-4 mb-12">
-                    <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Prepared exclusively for:</p>
-                    <p className="text-2xl font-black text-slate-800 uppercase tracking-tighter">{proposal.client_name}</p>
+                <div className="cover-logo">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-black text-[#0f172a] text-xl">D</div>
+                        <div className="text-left font-black text-white leading-tight">
+                            <div className="text-sm tracking-tighter">{agencyName.toUpperCase()}</div>
+                            <div className="text-[8px] tracking-[3px] opacity-60">AGENCY PLATFORM</div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="mt-auto pt-10 border-t border-slate-100 w-full flex justify-between items-center px-10">
-                    <div className="text-left">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Document Date</p>
-                        <p className="text-xs font-bold text-slate-700">{today}</p>
+                <div className="cover-content">
+                    <div className="cover-title-group">
+                        <h2>PROJECT</h2>
+                        <h1>PROPOSAL</h1>
                     </div>
-                    <div className="text-right">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Classification</p>
-                        <p className="text-xs font-bold text-blue-600 uppercase">Highly Confidential</p>
+                    <div className="expand-tagline">Expand Your Business With Us Now</div>
+
+                    <div className="company-name-label">COMPANY NAME</div>
+                    <div className="font-bold text-slate-700 text-lg mb-8">{agencyName.toUpperCase()}</div>
+
+                    <div className="grid grid-cols-2 gap-8 text-[11px] font-bold text-slate-500">
+                        <div>
+                            <div className="text-slate-400 mb-1">Proposal Issued :</div>
+                            <div className="text-slate-800">{today}</div>
+                        </div>
+                        <div>
+                            <div className="text-slate-400 mb-1">Proposal Valid :</div>
+                            <div className="text-slate-800">{validStr}</div>
+                        </div>
                     </div>
+                </div>
+
+                <div className="prepared-for">
+                    <p>Prepared for</p>
+                    <h3>{proposal.client_name}</h3>
                 </div>
             </div>
 
-            {/* CONTENT SECTIONS */}
-            <div className="py-10 px-8">
-                {[
-                    { title: 'Bab 1: Executive Audit & Analysis', content: proposal.bab_1 },
-                    { title: 'Bab 2: Transformatif Solutions & ROI', content: proposal.bab_2 },
-                    { title: 'Bab 3: Roadmap & Investment', content: proposal.bab_3 },
-                    { title: 'Bab 4: Conclusion & Action', content: proposal.bab_4 },
-                ].map((section, index) => (
-                    <div key={index} className="mb-12 page-break">
-                        <div className="flex items-center gap-4 mb-6">
-                            <span className="text-4xl font-black text-slate-100 tabular-nums">0{index + 1}</span>
-                            <h2 className="text-xl font-extrabold text-slate-900 m-0 p-0 border-none uppercase tracking-tight">
-                                {section.title}
-                            </h2>
-                        </div>
-                        <div className="markdown-content text-slate-700 text-[11pt] leading-relaxed">
-                            <ReactMarkdown>{section.content}</ReactMarkdown>
-                        </div>
+            {/* INTERNAL PAGES */}
+            {[
+                { title: 'Executive Audit & Analysis', content: proposal.bab_1 },
+                { title: 'Transformatif Solutions & ROI', content: proposal.bab_2 },
+                { title: 'Roadmap & Investment', content: proposal.bab_3 },
+                { title: 'Conclusion & Action', content: proposal.bab_4 },
+            ].map((section, index) => (
+                <div key={index} className="internal-page page-break">
+                    <div className="page-header">
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{agencyName} Strategic Doc</div>
+                        <div className="text-[10px] font-black text-blue-500 uppercase">Page {index + 2}</div>
                     </div>
-                ))}
 
-                {/* CLOSING FOOTER ON LAST PAGE */}
-                <div className="mt-20 pt-10 border-t-2 border-slate-900 flex justify-between items-end">
-                    <div>
-                        <h4 className="font-black text-slate-900 uppercase">DNB Agency</h4>
-                        <p className="text-[10px] text-slate-500 max-w-xs uppercase leading-tight font-bold">
-                            Strategic Marketing Intelligence & <br />
-                            High-Performance Digital Solutions
-                        </p>
+                    <div className="section-number">0{index + 1}</div>
+                    <h2 className="section-title">{section.title}</h2>
+
+                    <div className="markdown-content">
+                        <ReactMarkdown>{section.content}</ReactMarkdown>
                     </div>
-                    <div className="text-right">
-                        <p className="text-[10px] text-slate-400 font-bold mb-1 italic">Approved Strategic Document</p>
-                        <div className="w-32 h-0.5 bg-slate-200 ml-auto mb-2" />
-                        <p className="text-[10px] font-bold">admin.thedarkandbright.com</p>
+
+                    <div className="page-footer">
+                        <div>{agencyName} - {proposal.client_name}</div>
+                        <div>Confidential & Strategic</div>
                     </div>
                 </div>
-            </div>
+            ))}
         </div>
     );
 };
