@@ -20,21 +20,30 @@ Alpine.start();
 const navbarRoot = document.getElementById('navbar-root');
 if (navbarRoot) {
     const root = createRoot(navbarRoot);
+
+    // Check if we are on the landing page
+    const isLandingPage = !!document.getElementById('hero-root');
+
     const navItems = [
-        { label: 'nav.home', href: '#beranda' },
-        { label: 'nav.services', href: '#layanan' },
-        { label: 'nav.solutions', href: '#solusi' },
-        { label: 'nav.portfolio', href: '#portfolio' },
-        { label: 'nav.contact', href: '#kontak' }
+        { label: 'nav.home', href: isLandingPage ? '#beranda' : '/#beranda' },
+        { label: 'nav.services', href: isLandingPage ? '#layanan' : '/#layanan' },
+        { label: 'nav.solutions', href: isLandingPage ? '#solusi' : '/#solusi' },
+        { label: 'nav.portfolio', href: isLandingPage ? '#portfolio' : '/#portfolio' },
+        { label: 'nav.contact', href: isLandingPage ? '#kontak' : '/#kontak' }
     ];
 
     const NavbarWrapper = () => {
-        const [activeSection, setActiveSection] = React.useState('#beranda');
+        // Initial state: only highlight if on landing page
+        const [activeSection, setActiveSection] = React.useState(() => {
+            return isLandingPage ? '#beranda' : null;
+        });
 
         React.useEffect(() => {
+            if (!isLandingPage) return;
+
             const observerOptions = {
                 root: null,
-                rootMargin: '-10% 0px -80% 0px', // Focus on the top area of the viewport
+                rootMargin: '-10% 0px -80% 0px',
                 threshold: 0
             };
 
@@ -42,7 +51,6 @@ if (navbarRoot) {
                 const intersecting = entries.filter(e => e.isIntersecting);
 
                 if (intersecting.length > 0) {
-                    // Pick the section closest to the top of the viewport
                     const winner = intersecting.reduce((prev, curr) => {
                         return (prev.boundingClientRect.top > curr.boundingClientRect.top) ? curr : prev;
                     });
@@ -94,7 +102,6 @@ if (heroRoot) {
 const adminDashboardRoot = document.getElementById('admin-dashboard-root');
 if (adminDashboardRoot) {
     const root = createRoot(adminDashboardRoot);
-    // Parse data from data attributes if needed
     const data = adminDashboardRoot.dataset.stats ? JSON.parse(adminDashboardRoot.dataset.stats) : {};
     root.render(
         <LanguageProvider>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useLanguage } from '../Contexts/LanguageContext';
 import { t } from '../translations';
@@ -30,9 +30,22 @@ const PillNav = ({
     const logoRef = useRef(null);
     const { language, toggleLanguage } = useLanguage();
 
+    // Centralized animation function
+    const animateItem = useCallback((index, shouldShow) => {
+        const tl = tlRefs.current[index];
+        if (!tl) return;
+
+        activeTweenRefs.current[index]?.kill();
+        activeTweenRefs.current[index] = tl.tweenTo(shouldShow ? tl.duration() : 0, {
+            duration: shouldShow ? 0.3 : 0.2,
+            ease,
+            overwrite: 'auto'
+        });
+    }, [ease]);
+
     useEffect(() => {
         const layout = () => {
-            circleRefs.current.forEach(circle => {
+            circleRefs.current.forEach((circle, index) => {
                 if (!circle?.parentElement) return;
 
                 const pill = circle.parentElement;
@@ -59,9 +72,6 @@ const PillNav = ({
                 if (label) gsap.set(label, { y: 0 });
                 if (white) gsap.set(white, { y: h + 12, opacity: 0 });
 
-                const index = circleRefs.current.indexOf(circle);
-                if (index === -1) return;
-
                 tlRefs.current[index]?.kill();
                 const tl = gsap.timeline({ paused: true });
 
@@ -77,6 +87,11 @@ const PillNav = ({
                 }
 
                 tlRefs.current[index] = tl;
+
+                // Re-sync after layout if it's the active one
+                if (items[index].href === activeHref) {
+                    animateItem(index, true);
+                }
             });
         };
 
@@ -120,56 +135,25 @@ const PillNav = ({
         return () => window.removeEventListener('resize', onResize);
     }, [items, ease, initialLoadAnimation]);
 
-    const handleEnter = i => {
-        const tl = tlRefs.current[i];
-        if (!tl) return;
-        activeTweenRefs.current[i]?.kill();
-        activeTweenRefs.current[i] = tl.tweenTo(tl.duration(), {
-            duration: 0.3,
-            ease,
-            overwrite: 'auto'
+    // Handle scroll-based activation
+    useEffect(() => {
+        items.forEach((item, i) => {
+            // Only deactivate if we're not currently hovering on it
+            // (Actually, scroll detection should take precedence for active state)
+            const isMatch = item.href === activeHref;
+            animateItem(i, isMatch);
         });
+    }, [activeHref, items, animateItem]);
+
+    const handleEnter = i => {
+        animateItem(i, true);
     };
 
     const handleLeave = i => {
-        // Don't leave if it's the active one
+        // If it's the active section, don't clear the highlight
         if (items[i].href === activeHref) return;
-
-        const tl = tlRefs.current[i];
-        if (!tl) return;
-        activeTweenRefs.current[i]?.kill();
-        activeTweenRefs.current[i] = tl.tweenTo(0, {
-            duration: 0.2,
-            ease,
-            overwrite: 'auto'
-        });
+        animateItem(i, false);
     };
-
-    // Handle initial active state and changes
-    useEffect(() => {
-        items.forEach((item, i) => {
-            const tl = tlRefs.current[i];
-            if (!tl) return;
-
-            if (item.href === activeHref) {
-                // Activate this one
-                activeTweenRefs.current[i]?.kill();
-                activeTweenRefs.current[i] = tl.tweenTo(tl.duration(), {
-                    duration: 0.3,
-                    ease,
-                    overwrite: 'auto'
-                });
-            } else {
-                // Deactivate all others
-                activeTweenRefs.current[i]?.kill();
-                activeTweenRefs.current[i] = tl.tweenTo(0, {
-                    duration: 0.2,
-                    ease,
-                    overwrite: 'auto'
-                });
-            }
-        });
-    }, [activeHref, items, ease]);
 
     const handleLogoEnter = () => {
         const img = logoImgRef.current;
