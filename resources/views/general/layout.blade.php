@@ -21,10 +21,6 @@
 
     @yield('content')
 
-    <footer>
-        <div class="container">
-            <p>&copy; {{ date('Y') }} The Dark and Bright General. All rights reserved.</p>
-        </div>
-    </footer>
+
 </body>
 </html>
