@@ -41,6 +41,8 @@ const AdminDashboard = ({ stats = {} }) => {
 
     const handleAddProposal = async (finalData) => {
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
             const newProposalData = {
                 client_name: currentProposal?.client_name || 'Unnamed Client',
                 industry: currentProposal?.industry || 'General',
@@ -51,12 +53,18 @@ const AdminDashboard = ({ stats = {} }) => {
                 status: 'Approved'
             };
 
-            await axios.post('/proposals', newProposalData);
+            await axios.post('/proposals', newProposalData, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
             fetchProposals();
             setActiveTab('proposal_library');
         } catch (error) {
-            console.error('Error saving proposal:', error);
-            alert('Failed to save proposal to database. Please try again.');
+            console.error('Error saving proposal:', error.response?.data || error.message);
+            const errorMsg = error.response?.data?.message || 'Failed to save proposal to database. Please check console for details.';
+            alert(errorMsg);
         }
     };
 

@@ -15,13 +15,31 @@ html {
 
 /* Professional Proposal Printing Styles */
 @media print {
+
+  /* Critical Reset for Multi-page support */
+  html,
   body {
     background: white !important;
     color: black !important;
     font-family: 'Inter', sans-serif !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
   }
 
-  /* Hide everything except the print-target */
+  /* Force all parent containers to be visible and allow flow */
+  div,
+  section,
+  main,
+  #app,
+  #admin-dashboard-root {
+    overflow: visible !important;
+    height: auto !important;
+    display: block !important;
+    position: static !important;
+  }
+
+  /* Hide UI/Dashboard elements */
   .xl\:block,
   nav,
   button,
@@ -29,11 +47,13 @@ html {
   .xl\:w-64,
   .top-bar,
   .header-content,
-  .no-print {
+  .no-print,
+  [class*="blur-"],
+  [class*="fixed"] {
     display: none !important;
   }
 
-  /* Expand the content to full page */
+  /* Expand content to full paper width */
   .flex-1,
   .max-w-\[1600px\],
   .proposal-print-container {
@@ -44,40 +64,35 @@ html {
     background: white !important;
     box-shadow: none !important;
     border: none !important;
+    position: static !important;
   }
 
-  /* Style headers for physical paper */
+  /* Document Typography */
   h1,
   h2,
   h3,
   h4 {
     color: #000 !important;
     page-break-after: avoid;
+    margin-top: 1in !important;
   }
 
   h2 {
-    margin-top: 1.5in !important;
-    /* Force space for new sections */
     border-bottom: 2px solid #ddd;
     padding-bottom: 10px;
   }
 
-  /* Text readability */
   p,
-  li {
+  li,
+  .whitespace-pre-wrap {
     font-size: 11pt !important;
     line-height: 1.6 !important;
     color: #333 !important;
   }
 
-  /* Hide the glow backgrounds */
-  div[class*="blur-"] {
-    display: none !important;
-  }
-
-  /* Ensure the main container is visible */
-  .min-h-screen {
-    background: white !important;
-    padding: 0 !important;
+  /* Ensure smooth breaks */
+  .whitespace-pre-wrap {
+    word-wrap: break-word !important;
+    page-break-inside: auto !important;
   }
 }
