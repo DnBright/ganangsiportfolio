@@ -148,13 +148,28 @@ const PillNav = ({
     // Handle initial active state and changes
     useEffect(() => {
         items.forEach((item, i) => {
+            const tl = tlRefs.current[i];
+            if (!tl) return;
+
             if (item.href === activeHref) {
-                handleEnter(i);
+                // Activate this one
+                activeTweenRefs.current[i]?.kill();
+                activeTweenRefs.current[i] = tl.tweenTo(tl.duration(), {
+                    duration: 0.3,
+                    ease,
+                    overwrite: 'auto'
+                });
             } else {
-                handleLeave(i);
+                // Deactivate all others
+                activeTweenRefs.current[i]?.kill();
+                activeTweenRefs.current[i] = tl.tweenTo(0, {
+                    duration: 0.2,
+                    ease,
+                    overwrite: 'auto'
+                });
             }
         });
-    }, [activeHref, items]);
+    }, [activeHref, items, ease]);
 
     const handleLogoEnter = () => {
         const img = logoImgRef.current;
