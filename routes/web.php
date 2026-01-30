@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\PortfolioController;
+use App\Http\Controllers\ProposalController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -97,6 +98,12 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
         'update' => 'admin.portfolios.update',
         'destroy' => 'admin.portfolios.destroy',
     ]);
+
+    // Proposal Management
+    Route::get('/proposals', [ProposalController::class, 'index'])->name('admin.proposals.index');
+    Route::post('/proposals', [ProposalController::class, 'store'])->name('admin.proposals.store');
+    Route::patch('/proposals/{proposal}', [ProposalController::class, 'update'])->name('admin.proposals.update');
+    Route::delete('/proposals/{proposal}', [ProposalController::class, 'destroy'])->name('admin.proposals.destroy');
 });
 
 // -----------------------------------------------------------------------------

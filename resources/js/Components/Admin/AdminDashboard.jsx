@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import VisionSidebar from './VisionSidebar';
 import StatCard from './StatCard';
 import VisionChart from './Charts/VisionChart';
@@ -13,34 +13,51 @@ import ProposalEditorComponent from './Proposal/ProposalEditor';
 import ProposalLibrary from './Proposal/ProposalLibrary';
 import TemplatesPrompt from './Proposal/TemplatesPrompt';
 import Performance from './Proposal/Performance';
+import axios from 'axios'; // Added axios import
 
 const AdminDashboard = ({ stats = {} }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [currentProposal, setCurrentProposal] = useState(null);
     const [draftResult, setDraftResult] = useState('');
-    const [proposals, setProposals] = useState([
-        { id: 1, client: 'LPK Sakura Indonesia', industry: 'LPK', date: '2026-01-28', status: 'Approved', value: 'Rp 12.000.000' },
-        { id: 2, client: 'PT. Maju Bersama', industry: 'Company Profile', date: '2026-01-29', status: 'Sent', value: 'Rp 8.500.000' },
-        { id: 3, client: 'Solo Digital Service', industry: 'Service', date: '2026-01-29', status: 'Draft', value: '-' },
-        { id: 4, client: 'LPK Global Pintar', industry: 'LPK', date: '2026-01-15', status: 'Rejected', value: 'Rp 15.000.000' },
-    ]);
+    const [proposals, setProposals] = useState([]); // Changed to empty array
     const [savedTemplates, setSavedTemplates] = useState([
         { id: 1, name: 'Standard LPK Template', industry: 'LPK', date: '2026-01-10', quality: 'High' },
         { id: 2, name: 'Creative Agency Pitch', industry: 'Startup', date: '2026-01-12', quality: 'Balanced' },
         { id: 3, name: 'Corporate Profile v2', industry: 'Manufacturing', date: '2026-01-20', quality: 'Professional' },
     ]);
 
-    const handleAddProposal = (finalData) => {
-        const newProposal = {
-            id: Date.now(),
-            client: currentProposal?.client_name || 'Unnamed Client',
-            industry: currentProposal?.industry || 'General',
-            date: new Date().toISOString().split('T')[0],
-            status: 'Approved',
-            value: finalData.pricing || '-'
-        };
-        setProposals([newProposal, ...proposals]);
-        setActiveTab('proposal_library');
+    const fetchProposals = async () => {
+        try {
+            const response = await axios.get('/proposals');
+            setProposals(response.data);
+        } catch (error) {
+            console.error('Error fetching proposals:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProposals();
+    }, []);
+
+    const handleAddProposal = async (finalData) => {
+        try {
+            const newProposalData = {
+                client_name: currentProposal?.client_name || 'Unnamed Client',
+                industry: currentProposal?.industry || 'General',
+                target_website: currentProposal?.target_website || '',
+                problem_statement: currentProposal?.problem_statement || '',
+                proposal_content: finalData.content || draftResult,
+                pricing: finalData.pricing || '-',
+                status: 'Approved'
+            };
+
+            await axios.post('/proposals', newProposalData);
+            fetchProposals();
+            setActiveTab('proposal_library');
+        } catch (error) {
+            console.error('Error saving proposal:', error);
+            alert('Failed to save proposal to database. Please try again.');
+        }
     };
 
     const renderContent = () => {

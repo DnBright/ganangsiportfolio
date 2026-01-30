@@ -4,6 +4,7 @@ const ProposalLibrary = ({ proposals = [] }) => {
     const [selectedProposal, setSelectedProposal] = useState(null);
     const [showInsights, setShowInsights] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [printingContent, setPrintingContent] = useState('');
 
     const handleAnalyze = () => {
         setIsAnalyzing(true);
@@ -14,8 +15,11 @@ const ProposalLibrary = ({ proposals = [] }) => {
     };
 
     const handlePrint = (proposal) => {
-        // Simple print command for the current dashboard view
-        window.print();
+        setPrintingContent(proposal.proposal_content);
+        // Wait for state update to occur before printing
+        setTimeout(() => {
+            window.print();
+        }, 300);
     };
 
     const getStatusStyle = (status) => {
@@ -30,6 +34,11 @@ const ProposalLibrary = ({ proposals = [] }) => {
 
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500">
+            {/* Hidden Printable Area */}
+            <div className="hidden print:block proposal-print-container text-black bg-white p-0 whitespace-pre-wrap">
+                {printingContent}
+            </div>
+
             {/* Header Content */}
             <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 overflow-hidden relative group">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-emerald-500/10 blur-[80px] rounded-full group-hover:bg-emerald-500/15 transition-all duration-700" />
@@ -82,13 +91,13 @@ const ProposalLibrary = ({ proposals = [] }) => {
                                     {proposals.map((p) => (
                                         <tr key={p.id} className="hover:bg-white/5 transition-colors group">
                                             <td className="px-6 py-5">
-                                                <p className="text-sm font-bold text-white/90 group-hover:text-white">{p.client}</p>
+                                                <p className="text-sm font-bold text-white/90 group-hover:text-white">{p.client_name}</p>
                                             </td>
                                             <td className="px-6 py-5">
                                                 <span className="text-xs text-white/40">{p.industry}</span>
                                             </td>
                                             <td className="px-6 py-5">
-                                                <span className="text-xs text-white/40">{p.date}</span>
+                                                <span className="text-xs text-white/40">{p.created_at ? new Date(p.created_at).toLocaleDateString() : p.date}</span>
                                             </td>
                                             <td className="px-6 py-5">
                                                 <span className={`text-[10px] font-bold px-3 py-1 rounded-full border ${getStatusStyle(p.status)}`}>
@@ -96,7 +105,7 @@ const ProposalLibrary = ({ proposals = [] }) => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-5">
-                                                <span className="text-xs font-bold text-white/70">{p.value}</span>
+                                                <span className="text-xs font-bold text-white/70">{p.pricing}</span>
                                             </td>
                                             <td className="px-6 py-5 text-right">
                                                 <div className="flex justify-end gap-2 no-print">
