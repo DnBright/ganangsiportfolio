@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProposalLibrary = ({ proposals = [], onEdit, onDelete }) => {
+const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
     const [selectedProposal, setSelectedProposal] = useState(null);
     const [showInsights, setShowInsights] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -134,9 +134,16 @@ ${proposal.bab_4 || ''}
                                                     <button
                                                         onClick={() => onEdit && onEdit(p)}
                                                         className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-blue-400"
-                                                        title="Edit"
+                                                        title="View/Edit"
                                                     >
-                                                        ✍️
+                                                        👁️
+                                                    </button>
+                                                    <button
+                                                        onClick={() => onDuplicate && onDuplicate(p)}
+                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-emerald-400"
+                                                        title="Duplicate"
+                                                    >
+                                                        📋
                                                     </button>
                                                     <button
                                                         onClick={() => {
@@ -144,7 +151,7 @@ ${proposal.bab_4 || ''}
                                                                 onDelete && onDelete(p.id);
                                                             }
                                                         }}
-                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-red-400"
+                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-white/20 hover:text-red-400"
                                                         title="Delete"
                                                     >
                                                         🗑️

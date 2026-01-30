@@ -114,6 +114,27 @@ const AdminDashboard = ({ stats = {} }) => {
         setActiveTab('editor_proposal');
     };
 
+    const handleDuplicateProposal = (proposal) => {
+        // Strip out IDs and dates for duplication
+        const duplicateData = {
+            ...proposal,
+            client_name: `${proposal.client_name} (Copy)`,
+            id: null,
+            created_at: null,
+            updated_at: null
+        };
+
+        setCurrentProposal(duplicateData);
+        setDraftResult({
+            title: proposal.title,
+            bab_1: proposal.bab_1,
+            bab_2: proposal.bab_2,
+            bab_3: proposal.bab_3,
+            bab_4: proposal.bab_4
+        });
+        setActiveTab('editor_proposal');
+    };
+
     const renderContent = () => {
         switch (activeTab) {
             case 'create_proposal':
@@ -158,6 +179,7 @@ const AdminDashboard = ({ stats = {} }) => {
                     <ProposalLibrary
                         proposals={proposals}
                         onEdit={handleEditProposal}
+                        onDuplicate={handleDuplicateProposal}
                         onDelete={handleDeleteProposal}
                     />
                 );
