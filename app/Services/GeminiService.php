@@ -53,7 +53,18 @@ class GeminiService
 
                 if ($response->successful()) {
                     $result = $response->json();
-                    return $result['candidates'][0]['content']['parts'][0]['text'] ?? 'AI gagal menghasilkan konten.';
+                    $text = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
+                    
+                    // Clean up markdown code blocks if the AI includes them
+                    $text = preg_replace('/```json\s?|\s?```/', '', $text);
+                    
+                    return json_decode($text, true) ?? [
+                        'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
+                        'bab_1' => $text, // Fallback if not valid JSON
+                        'bab_2' => '',
+                        'bab_3' => '',
+                        'bab_4' => ''
+                    ];
                 }
 
                 $lastError = $response->json()['error']['message'] ?? 'Unknown error';
@@ -75,25 +86,26 @@ class GeminiService
         $website = $data['target_website'] ?? 'Tidak disebutkan';
         $problem = $data['problem_statement'] ?? 'Tidak disebutkan';
 
-        return "Anda adalah Senior Proposal Writer di DNB Agency (Dark and Bright), agensi pemasaran digital elit. 
+        return 'Anda adalah Senior Proposal Writer di DNB Agency (Dark and Bright), agensi pemasaran digital elit. 
         Tugas Anda adalah menulis proposal bisnis yang sangat persuasif, profesional, dan komprehensif dalam Bahasa Indonesia.
         
-        Klien: $client
-        Industri: $industry
-        Website Target: $website
-        Masalah Utama: $problem
+        Klien: ' . $client . '
+        Industri: ' . $industry . '
+        Website Target: ' . $website . '
+        Masalah Utama: ' . $problem . '
         
         Persyaratan Proposal:
-        1. Panjang proposal harus sekitar 5-6 halaman jika dicetak (sekitar 1500-2000 kata).
-        2. Gunakan nada bicara yang berwibawa, solutif, dan 'mahal'.
-        3. Struktur proposal harus mencakup bab-bab berikut:
-           - Bab 1: Eksekutif Summary & Visi (Buat pembukaan yang memukau).
-           - Bab 2: Analisis Audit Mendalam (Bedah website target/bisnis mereka).
-           - Bab 3: Strategi Dark & Bright (Solusi digital marketing yang transformatif).
-           - Bab 4: Timeline & Metode Kerja.
-           - Bab 5: Kenapa DNB Agency? (Social proof dan otoritas).
-           - Bab 6: Kesimpulan & Call to Action.
+        1. Anda WAJIB mengembalikan hasil dalam format JSON murni tanpa teks lainnya.
+        2. Format JSON harus memiliki key: "title", "bab_1", "bab_2", "bab_3", "bab_4".
+        3. Setiap Bab harus berisi teks yang sangat mendalam dan persuasif (minimal 400-500 kata per bab).
+        4. Gunakan nada bicara yang berwibawa, solutif, dan "mahal".
+        5. Struktur Konten:
+           - title: Judul Proposal yang menarik (contoh: "Transformasi Digital Visioner untuk [Nama Klien]").
+           - bab_1: Eksekutif Summary & Analisis Audit (Audit website/bisnis mereka secara spesifik).
+           - bab_2: Strategi Dark & Bright (Solusi digital marketing yang transformatif dan teknis).
+           - bab_3: Timeline, Metode Kerja, & Kenapa DNB Agency? (Social proof dan otoritas).
+           - bab_4: Kesimpulan & Call to Action yang kuat.
         
-        Tuliskan isi proposal secara lengkap dan mendalam (bukan hanya poin-poin). Tambahkan detail teknis digital marketing (SEO, Ads, UI/UX, dll) yang relevan dengan industri mereka.";
+        Jangan sertakan kata-kata pembuka atau penutup di luar JSON. Kembalikan hanya objek JSON tersebut.';
     }
 }

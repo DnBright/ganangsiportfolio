@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 
 const ProposalEditor = ({ draftContent, onBack, onSave }) => {
-    const [content, setContent] = useState(draftContent);
+    const [title, setTitle] = useState(draftContent.title || '');
+    const [bab1, setBab1] = useState(draftContent.bab_1 || '');
+    const [bab2, setBab2] = useState(draftContent.bab_2 || '');
+    const [bab3, setBab3] = useState(draftContent.bab_3 || '');
+    const [bab4, setBab4] = useState(draftContent.bab_4 || '');
     const [pricing, setPricing] = useState('');
     const [bonus, setBonus] = useState('');
     const [isPolishing, setIsPolishing] = useState(false);
 
     const handleAIPolish = () => {
         setIsPolishing(true);
-        // Improved AI Polish logic for long-form
         setTimeout(() => {
-            let polished = content.replace(/adalah/g, 'merupakan')
+            const polish = (text) => text.replace(/adalah/g, 'merupakan')
                 .replace(/merasakan/g, 'mengalami')
                 .replace(/hanya/g, 'semata-mata')
                 .replace(/sangat/g, 'signifikan');
 
-            // Add a sophisticated polish mark at the end if not already present
-            if (!polished.includes('SENTUHAN PROFESIONAL')) {
-                polished += '\n\n--- \n*Catatan Editor: Seluruh kalimat telah divalidasi untuk kejelasan profesional dan dampak persuasif (DNB Quality Standard).*';
-            }
+            setBab1(polish(bab1));
+            setBab2(polish(bab2));
+            setBab3(polish(bab3));
+            setBab4(polish(bab4));
 
-            setContent(polished);
             setIsPolishing(false);
-        }, 2500);
+        }, 2000);
     };
 
     const handlePrintPreview = () => {
@@ -73,30 +75,50 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Main Editor */}
-                <div className="lg:col-span-8 space-y-6">
-                    <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 h-full flex flex-col shadow-2xl">
-                        <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4 px-2">
-                            <div className="flex items-center gap-4">
-                                <label className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">Proposal Document</label>
-                                <span className="text-[10px] bg-green-500/10 text-green-400 font-bold px-3 py-1 rounded-full uppercase">Ready to Edit</span>
-                            </div>
-                            <div className="text-[10px] text-white/20 font-bold">
-                                {content.split(' ').length} WORDS
-                            </div>
-                        </div>
-                        <div className="proposal-print-container">
-                            {/* Hidden on screen, visible on paper */}
-                            <div className="hidden print:block whitespace-pre-wrap text-black bg-white p-0">
-                                {content}
-                            </div>
+                <div className="lg:col-span-8 space-y-8">
+                    {/* Title Section */}
+                    <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 shadow-2xl">
+                        <label className="text-[10px] text-cyan-400 font-bold uppercase tracking-[4px] mb-4 block">Proposal Title</label>
+                        <input
+                            type="text"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="w-full bg-transparent border-none outline-none text-2xl font-black text-white placeholder:text-white/10"
+                            placeholder="Enter Proposal Title..."
+                        />
+                    </div>
 
-                            {/* Visible on screen, hidden on paper */}
-                            <textarea
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                                className="flex-1 w-full bg-[#060b26]/20 border-none outline-none text-base leading-relaxed text-white/80 p-8 rounded-3xl resize-none font-sans no-scrollbar selection:bg-purple-500/30 min-h-[800px] print:hidden"
-                                placeholder="Tulis proposal Anda di sini..."
-                            ></textarea>
+                    {/* Chapters Section */}
+                    <div className="space-y-8">
+                        {[
+                            { id: 'bab1', label: 'Bab 1: Executive Summary', value: bab1, setter: setBab1 },
+                            { id: 'bab2', label: 'Bab 2: Problems & Solutions', value: bab2, setter: setBab2 },
+                            { id: 'bab3', label: 'Bab 3: Roadmap & Strategy', value: bab3, setter: setBab3 },
+                            { id: 'bab4', label: 'Bab 4: Final Conclusion', value: bab4, setter: setBab4 },
+                        ].map((chapter) => (
+                            <div key={chapter.id} className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 shadow-2xl group transition-all duration-500 hover:border-cyan-500/20">
+                                <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
+                                    <label className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">{chapter.label}</label>
+                                    <span className="text-[10px] text-white/10 font-bold uppercase">{chapter.value.split(' ').length} WORDS</span>
+                                </div>
+                                <textarea
+                                    value={chapter.value}
+                                    onChange={(e) => chapter.setter(e.target.value)}
+                                    className="w-full bg-transparent border-none outline-none text-base leading-relaxed text-white/70 min-h-[300px] resize-none font-sans no-scrollbar"
+                                    placeholder={`Isi ${chapter.label} di sini...`}
+                                ></textarea>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Print Only Container */}
+                    <div className="hidden print:block bg-white text-black p-10 space-y-12">
+                        <h1 className="text-4xl font-black uppercase border-b-4 border-black pb-4">{title}</h1>
+                        <div className="space-y-10">
+                            <div><h2 className="text-xl font-bold mb-4">Bab 1: Executive Summary</h2><p className="whitespace-pre-wrap">{bab1}</p></div>
+                            <div><h2 className="text-xl font-bold mb-4">Bab 2: Problems & Solutions</h2><p className="whitespace-pre-wrap">{bab2}</p></div>
+                            <div><h2 className="text-xl font-bold mb-4">Bab 3: Roadmap & Strategy</h2><p className="whitespace-pre-wrap">{bab3}</p></div>
+                            <div><h2 className="text-xl font-bold mb-4">Bab 4: Final Conclusion</h2><p className="whitespace-pre-wrap">{bab4}</p></div>
                         </div>
                     </div>
                 </div>
@@ -142,7 +164,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
                             <div className="pt-8 border-t border-white/5 space-y-4">
                                 <button
-                                    onClick={() => onSave({ content, pricing, bonus })}
+                                    onClick={() => onSave({ title, bab_1: bab1, bab_2: bab2, bab_3: bab3, bab_4: bab4, pricing, bonus })}
                                     className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-[24px] font-black text-sm tracking-[2px] shadow-2xl shadow-blue-500/30 active:scale-95 transition-all uppercase"
                                 >
                                     Finish & Save Proposal

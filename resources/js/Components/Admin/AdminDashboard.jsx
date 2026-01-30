@@ -18,7 +18,13 @@ import axios from 'axios'; // Added axios import
 const AdminDashboard = ({ stats = {} }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [currentProposal, setCurrentProposal] = useState(null);
-    const [draftResult, setDraftResult] = useState('');
+    const [draftResult, setDraftResult] = useState({
+        title: '',
+        bab_1: '',
+        bab_2: '',
+        bab_3: '',
+        bab_4: ''
+    });
     const [proposals, setProposals] = useState([]); // Changed to empty array
     const [savedTemplates, setSavedTemplates] = useState([
         { id: 1, name: 'Standard LPK Template', industry: 'LPK', date: '2026-01-10', quality: 'High' },
@@ -48,7 +54,12 @@ const AdminDashboard = ({ stats = {} }) => {
                 industry: currentProposal?.industry || 'General',
                 target_website: currentProposal?.target_website || '',
                 problem_statement: currentProposal?.problem_statement || '',
-                proposal_content: finalData.content || draftResult,
+                title: finalData.title || draftResult.title,
+                bab_1: finalData.bab_1 || draftResult.bab_1,
+                bab_2: finalData.bab_2 || draftResult.bab_2,
+                bab_3: finalData.bab_3 || draftResult.bab_3,
+                bab_4: finalData.bab_4 || draftResult.bab_4,
+                proposal_content: finalData.content || '', // Keep for compatibility if needed
                 pricing: finalData.pricing || '-',
                 status: 'Approved'
             };

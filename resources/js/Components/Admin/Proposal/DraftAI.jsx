@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 const DraftAI = ({ analysisData, onBack, onNext }) => {
     const [isGenerating, setIsGenerating] = useState(true);
-    const [draftContent, setDraftContent] = useState('');
+    const [draftContent, setDraftContent] = useState({
+        title: '',
+        bab_1: '',
+        bab_2: '',
+        bab_3: '',
+        bab_4: ''
+    });
     const [generationStep, setGenerationStep] = useState(0);
 
     const steps = [
@@ -37,7 +43,14 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
                 clearInterval(interval);
             } catch (error) {
                 console.error('Gemini Generation Error:', error);
-                setDraftContent(`Maaf, terjadi kesalahan saat menghubungi AI: ${error.response?.data?.message || error.message}. \n\nPastikan GEMINI_API_KEY sudah terpasang di file .env server Anda.`);
+                const errorText = `Maaf, terjadi kesalahan saat menghubungi AI: ${error.response?.data?.message || error.message}. \n\nPastikan GEMINI_API_KEY sudah terpasang di file .env server Anda.`;
+                setDraftContent({
+                    title: 'Error Generation',
+                    bab_1: errorText,
+                    bab_2: '',
+                    bab_3: '',
+                    bab_4: ''
+                });
                 setIsGenerating(false);
                 clearInterval(interval);
             }
@@ -111,8 +124,26 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
                             </div>
                         </div>
 
-                        <div className="bg-[#060b26]/50 rounded-[30px] p-8 md:p-10 border border-white/5 whitespace-pre-wrap font-sans text-sm md:text-base leading-relaxed text-white/90 selection:bg-cyan-500/30">
-                            {draftContent}
+                        <div className="space-y-12">
+                            <div className="border-l-4 border-cyan-500 pl-6">
+                                <h3 className="text-2xl font-black text-white mb-2 uppercase tracking-tight">{draftContent.title}</h3>
+                                <p className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">DNB Agency Strategic Document</p>
+                            </div>
+
+                            {[
+                                { title: 'Bab 1: Executive Audit', content: draftContent.bab_1 },
+                                { title: 'Bab 2: Transformatif Solutions', content: draftContent.bab_2 },
+                                { title: 'Bab 3: Roadmap & Authority', content: draftContent.bab_3 },
+                                { title: 'Bab 4: Conclusion & Action', content: draftContent.bab_4 },
+                            ].map((section, idx) => (
+                                <div key={idx} className="bg-[#060b26]/50 rounded-[40px] p-8 md:p-12 border border-white/5 relative group hover:border-cyan-500/20 transition-all duration-500">
+                                    <div className="absolute top-8 left-[-1px] w-1 h-8 bg-cyan-500 rounded-full opacity-50" />
+                                    <h4 className="text-xs font-bold text-cyan-500 uppercase tracking-[6px] mb-8">{section.title}</h4>
+                                    <div className="whitespace-pre-wrap font-sans text-sm md:text-md leading-[1.8] text-white/80 selection:bg-cyan-500/30">
+                                        {section.content}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
 
                         <div className="mt-12 flex flex-col md:flex-row items-center justify-between gap-6 pt-10 border-t border-white/5">
