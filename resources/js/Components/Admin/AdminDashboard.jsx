@@ -35,11 +35,16 @@ const AdminDashboard = ({ stats = {} }) => {
     const fetchProposals = async () => {
         try {
             const response = await axios.get('/proposals');
-            setProposals(response.data);
+            setProposals(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error('Error fetching proposals:', error);
+            setProposals([]);
         }
     };
+
+    useEffect(() => {
+        console.log('AdminDashboard: currentProposal updated:', currentProposal);
+    }, [currentProposal]);
 
     useEffect(() => {
         fetchProposals();

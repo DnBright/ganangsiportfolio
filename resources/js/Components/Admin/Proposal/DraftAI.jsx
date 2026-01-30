@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const DraftAI = ({ analysisData, onBack, onNext }) => {
     const [isGenerating, setIsGenerating] = useState(true);
@@ -21,6 +22,11 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
     ];
 
     useEffect(() => {
+        if (!analysisData?.client_name) return;
+
+        setIsGenerating(true);
+        setGenerationStep(0);
+
         let currentStep = 0;
         const interval = setInterval(() => {
             if (currentStep < steps.length - 1) {
