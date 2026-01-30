@@ -45,9 +45,9 @@ const Hero = () => {
             </div>
 
             {/* DARK Side (Black background, White Text) */}
-            <div className="side-dark relative h-1/2 md:h-full w-full md:w-1/2 bg-black flex items-center justify-center md:justify-end md:pr-[5vw] z-10 border-b md:border-b-0 md:border-r border-white/5">
+            <div className="side-dark relative h-1/2 md:h-full w-full md:w-1/2 bg-black flex items-center justify-center md:justify-end md:pr-[12vw] z-10 border-b md:border-b-0 md:border-r border-white/5">
                 <div className="gsap-stagger text-right">
-                    <h2 className="text-[18vw] md:text-[14vw] font-black text-white leading-[0.8] tracking-tighter uppercase select-none opacity-90">
+                    <h2 className="text-[16vw] md:text-[11vw] font-black text-white leading-[0.8] tracking-tighter uppercase select-none opacity-90">
                         DARK
                     </h2>
                     <p className="text-white/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
@@ -57,9 +57,9 @@ const Hero = () => {
             </div>
 
             {/* BRIGHT Side (White background, Black Text) */}
-            <div className="side-bright relative h-1/2 md:h-full w-full md:w-1/2 bg-white flex items-center justify-center md:justify-start md:pl-[5vw] z-10">
+            <div className="side-bright relative h-1/2 md:h-full w-full md:w-1/2 bg-white flex items-center justify-center md:justify-start md:pl-[12vw] z-10">
                 <div className="gsap-stagger">
-                    <h2 className="text-[18vw] md:text-[14vw] font-black text-black leading-[0.8] tracking-tighter uppercase select-none opacity-90">
+                    <h2 className="text-[16vw] md:text-[11vw] font-black text-black leading-[0.8] tracking-tighter uppercase select-none opacity-90">
                         BRIGHT
                     </h2>
                     <p className="text-black/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
