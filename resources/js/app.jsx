@@ -21,19 +21,58 @@ const navbarRoot = document.getElementById('navbar-root');
 if (navbarRoot) {
     const root = createRoot(navbarRoot);
     const navItems = [
-        { label: 'nav.home', href: '/' },
-        { label: 'nav.services', href: '/services' },
-        { label: 'nav.solutions', href: '/solutions' },
-        { label: 'nav.portfolio', href: '/portfolio' },
-        { label: 'nav.about', href: '/about' },
-        { label: 'nav.contact', href: '/contact' }
+        { label: 'nav.home', href: '#beranda' },
+        { label: 'nav.services', href: '#layanan' },
+        { label: 'nav.solutions', href: '#solusi' },
+        { label: 'nav.portfolio', href: '#portfolio' },
+        { label: 'nav.contact', href: '#kontak' }
     ];
 
-    root.render(
-        <LanguageProvider>
-            <PillNav items={navItems} />
-        </LanguageProvider>
-    );
+    const NavbarWrapper = () => {
+        const [activeSection, setActiveSection] = React.useState('#beranda');
+
+        React.useEffect(() => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '-40% 0px -40% 0px', // Detect section in the middle of viewport
+                threshold: 0
+            };
+
+            const observerCallback = (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        // Map root IDs back to simple anchor IDs if needed
+                        let activeId = '#' + id;
+                        if (id === 'hero-root') activeId = '#beranda';
+                        if (id === 'slogan-services-root') activeId = '#layanan';
+                        if (id === 'solutions-root') activeId = '#solusi';
+                        if (id === 'portfolio-root') activeId = '#portfolio';
+                        if (id === 'contact-footer-root') activeId = '#kontak';
+
+                        setActiveSection(activeId);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            ['hero-root', 'slogan-services-root', 'solutions-root', 'portfolio-root', 'contact-footer-root'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) observer.observe(el);
+            });
+
+            return () => observer.disconnect();
+        }, []);
+
+        return (
+            <LanguageProvider>
+                <PillNav items={navItems} activeHref={activeSection} />
+            </LanguageProvider>
+        );
+    };
+
+    root.render(<NavbarWrapper />);
 }
 
 // Mount Hero if the container exists

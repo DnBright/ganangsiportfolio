@@ -132,6 +132,9 @@ const PillNav = ({
     };
 
     const handleLeave = i => {
+        // Don't leave if it's the active one
+        if (items[i].href === activeHref) return;
+
         const tl = tlRefs.current[i];
         if (!tl) return;
         activeTweenRefs.current[i]?.kill();
@@ -141,6 +144,17 @@ const PillNav = ({
             overwrite: 'auto'
         });
     };
+
+    // Handle initial active state and changes
+    useEffect(() => {
+        items.forEach((item, i) => {
+            if (item.href === activeHref) {
+                handleEnter(i);
+            } else {
+                handleLeave(i);
+            }
+        });
+    }, [activeHref, items]);
 
     const handleLogoEnter = () => {
         const img = logoImgRef.current;
@@ -250,8 +264,8 @@ const PillNav = ({
                                 const isActive = activeHref === item.href;
 
                                 const pillStyle = {
-                                    background: isActive ? 'var(--pill-bg)' : 'transparent',
-                                    color: isActive ? 'var(--hover-text)' : 'var(--pill-text)',
+                                    background: 'transparent',
+                                    color: 'var(--pill-text)',
                                     paddingLeft: 'var(--pill-pad-x)',
                                     paddingRight: 'var(--pill-pad-x)'
                                 };
