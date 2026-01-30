@@ -244,7 +244,7 @@ const PillNav = ({
                             className="list-none flex items-stretch m-0 p-0 h-full"
                             style={{ gap: 'var(--pill-gap)' }}
                         >
-                            {navItems.map((item, i) => {
+                            {items.map((item, i) => {
                                 const isActive = activeHref === item.href;
 
                                 const pillStyle = {
@@ -332,14 +332,6 @@ const PillNav = ({
                         </button>
                     ))}
                 </div>
-
-                {/* CTA Button */}
-                <a
-                    href="#contact"
-                    className="hidden md:inline-flex items-center px-6 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg"
-                >
-                    Konsultasi Gratis
-                </a>
             </div>
         </div>
     );

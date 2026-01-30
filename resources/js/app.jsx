@@ -11,7 +11,6 @@ import SloganServices from './Components/SloganServices';
 import PortfolioShowcase from './Components/PortfolioShowcase';
 import Solutions from './Components/Solutions';
 import ContactFooter from './Components/ContactFooter';
-import ImpactIntro from './Components/ImpactIntro';
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -62,13 +61,6 @@ const sloganServicesRoot = document.getElementById('slogan-services-root');
 if (sloganServicesRoot) {
     const root = createRoot(sloganServicesRoot);
     root.render(<SloganServices />);
-}
-
-// Mount ImpactIntro if the container exists
-const impactIntroRoot = document.getElementById('impact-intro-root');
-if (impactIntroRoot) {
-    const root = createRoot(impactIntroRoot);
-    root.render(<ImpactIntro />);
 }
 
 // Mount Solutions if the container exists
