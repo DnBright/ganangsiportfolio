@@ -1,17 +1,9 @@
 import React, { useState } from 'react';
 
-const ProposalLibrary = () => {
+const ProposalLibrary = ({ proposals = [] }) => {
     const [selectedProposal, setSelectedProposal] = useState(null);
     const [showInsights, setShowInsights] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
-
-    // Mock history data
-    const [proposals, setProposals] = useState([
-        { id: 1, client: 'LPK Sakura Indonesia', industry: 'LPK', date: '2026-01-28', status: 'Approved', value: 'Rp 12.000.000' },
-        { id: 2, client: 'PT. Maju Bersama', industry: 'Company Profile', date: '2026-01-29', status: 'Sent', value: 'Rp 8.500.000' },
-        { id: 3, client: 'Solo Digital Service', industry: 'Service', date: '2026-01-29', status: 'Draft', value: '-' },
-        { id: 4, client: 'LPK Global Pintar', industry: 'LPK', date: '2026-01-15', status: 'Rejected', value: 'Rp 15.000.000' },
-    ]);
 
     const handleAnalyze = () => {
         setIsAnalyzing(true);
@@ -163,7 +155,7 @@ const ProposalLibrary = () => {
 
                             <div className="mt-10 p-4 border border-white/5 rounded-2xl text-center">
                                 <p className="text-[9px] text-white/20 uppercase tracking-widest font-bold mb-1">Knowledge Base Status</p>
-                                <p className="text-[10px] text-emerald-400/60">Updated with 4 historical documents</p>
+                                <p className="text-[10px] text-emerald-400/60">Updated with {proposals.length} historical documents</p>
                             </div>
                         </div>
                     </div>

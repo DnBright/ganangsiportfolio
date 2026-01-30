@@ -18,6 +18,25 @@ const AdminDashboard = ({ stats = {} }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [currentProposal, setCurrentProposal] = useState(null);
     const [draftResult, setDraftResult] = useState('');
+    const [proposals, setProposals] = useState([
+        { id: 1, client: 'LPK Sakura Indonesia', industry: 'LPK', date: '2026-01-28', status: 'Approved', value: 'Rp 12.000.000' },
+        { id: 2, client: 'PT. Maju Bersama', industry: 'Company Profile', date: '2026-01-29', status: 'Sent', value: 'Rp 8.500.000' },
+        { id: 3, client: 'Solo Digital Service', industry: 'Service', date: '2026-01-29', status: 'Draft', value: '-' },
+        { id: 4, client: 'LPK Global Pintar', industry: 'LPK', date: '2026-01-15', status: 'Rejected', value: 'Rp 15.000.000' },
+    ]);
+
+    const handleAddProposal = (finalData) => {
+        const newProposal = {
+            id: Date.now(),
+            client: currentProposal?.client_name || 'Unnamed Client',
+            industry: currentProposal?.industry || 'General',
+            date: new Date().toISOString().split('T')[0],
+            status: 'Approved',
+            value: finalData.pricing || '-'
+        };
+        setProposals([newProposal, ...proposals]);
+        setActiveTab('proposal_library');
+    };
 
     const renderContent = () => {
         switch (activeTab) {
@@ -46,14 +65,11 @@ const AdminDashboard = ({ stats = {} }) => {
                     <ProposalEditorComponent
                         draftContent={draftResult}
                         onBack={() => setActiveTab('draft_ai')}
-                        onSave={(finalData) => {
-                            console.log('Final Proposal:', finalData);
-                            setActiveTab('proposal_library');
-                        }}
+                        onSave={handleAddProposal}
                     />
                 );
             case 'proposal_library':
-                return <ProposalLibrary />;
+                return <ProposalLibrary proposals={proposals} />;
             case 'templates_prompt':
                 return <TemplatesPrompt />;
             case 'performance':
