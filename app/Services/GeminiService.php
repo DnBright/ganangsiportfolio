@@ -117,8 +117,8 @@ class GeminiService
         5. Struktur Konten:
            - title: Judul Proposal yang menarik (contoh: "Transformasi Digital Visioner untuk [Nama Klien]").
            - bab_1: Eksekutif Summary & Analisis Audit (Audit website/bisnis mereka secara spesifik).
-           - bab_2: Strategi Dark & Bright (Solusi digital marketing yang transformatif dan teknis).
-           - bab_3: Timeline, Metode Kerja, & Kenapa DNB Agency? (Social proof dan otoritas).
+           - bab_2: Strategi Dark & Bright (Solusi digital marketing transformatif) & Estimasi ROI (Berikan proyeksi matematis atau nilai tambah bisnis yang akan mereka dapatkan).
+           - bab_3: Roadmap, Otoritas DNB, & Struktur Investasi (Berikan transparansi biaya atau paket investasi yang disarankan secara profesional).
            - bab_4: Kesimpulan & Call to Action yang kuat.
         
         Jangan sertakan kata-kata pembuka atau penutup di luar JSON. Kembalikan hanya objek JSON tersebut.';
