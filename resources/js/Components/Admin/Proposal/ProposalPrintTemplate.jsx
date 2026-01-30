@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
-const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => {
+const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => {
     if (!proposal) return null;
 
     const today = new Date().toLocaleDateString('id-ID', {
@@ -10,17 +10,14 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => 
         year: 'numeric'
     });
 
-    const validUntil = new Date();
-    validUntil.setDate(validUntil.getDate() + 14);
-    const validStr = validUntil.toLocaleDateString('id-ID', {
-        day: 'numeric',
+    const currentMonthYear = new Date().toLocaleDateString('id-ID', {
         month: 'long',
         year: 'numeric'
     });
 
     return (
         <div className="proposal-print-wrapper bg-white text-[#1a1c2e] font-sans">
-            {/* CSS for High-Fidelity Design (Polygonal & Branded) */}
+            {/* CSS for Exact Cover Page Replication */}
             <style>
                 {`
                 @media print {
@@ -35,145 +32,191 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => 
                     .page-break {
                         page-break-before: always;
                     }
-                    .no-print { display: none; }
                 }
 
                 .proposal-print-wrapper {
                     width: 210mm;
                     margin: 0 auto;
                     color: #1a202c;
+                    background: #fff;
                 }
 
-                /* COVER PAGE STYLING */
+                /* REPLICATED COVER PAGE STYLING */
                 .cover-page {
                     position: relative;
-                    height: 296.5mm; /* A4 height */
+                    height: 297mm;
                     background: #fff;
                     overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                    padding: 80px 60px;
+                    padding: 0;
                 }
 
-                .bg-polygon-top {
-                    position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 70%;
-                    height: 40%;
-                    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
-                    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 80%);
-                    z-index: 1;
-                }
-
-                .bg-polygon-accent {
+                /* Diagonal Slanted Background */
+                .cover-bg-dark {
                     position: absolute;
                     top: 0;
                     left: 0;
-                    width: 35%;
-                    height: 45%;
-                    background: #0f172a;
-                    clip-path: polygon(0% 0%, 100% 0%, 80% 60%, 0% 100%);
-                    z-index: 2;
-                }
-
-                .bg-polygon-bottom {
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
                     width: 100%;
-                    height: 30%;
-                    background: linear-gradient(225deg, #0ea5e9 0%, #0284c7 100%);
-                    clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 30% 70%);
+                    height: 100%;
+                    background: #111827; /* Dark grayish-navy */
+                    clip-path: polygon(0 0, 100% 0, 25% 100%, 0% 100%);
                     z-index: 1;
                 }
 
                 .cover-content {
                     position: relative;
                     z-index: 10;
-                    margin-top: 15%;
+                    padding: 40px 60px;
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
                 }
 
-                .cover-logo {
+                /* Logo Section */
+                .logo-section {
+                    margin-bottom: 30px;
+                }
+                .logo-icon {
+                    width: 50px;
+                    height: 50px;
+                    margin-bottom: 10px;
+                }
+                .logo-text-large {
                     color: #fff;
-                    margin-bottom: 2rem;
-                }
-
-                .cover-title-group h2 {
-                    font-size: 14px;
-                    letter-spacing: 0.4em;
-                    color: #0ea5e9;
-                    font-weight: 800;
-                    text-transform: uppercase;
-                    margin-bottom: 0.5rem;
-                }
-
-                .cover-title-group h1 {
-                    font-size: 64px;
-                    font-weight: 900;
-                    line-height: 1;
-                    color: #0f172a;
-                    text-transform: uppercase;
-                    margin-bottom: 1rem;
-                }
-
-                .expand-tagline {
-                    color: #0ea5e9;
-                    font-weight: 700;
-                    font-size: 14px;
-                    text-transform: uppercase;
-                    letter-spacing: 2px;
-                    margin-bottom: 3rem;
-                }
-
-                .company-name-label {
-                    font-size: 12px;
-                    font-weight: 800;
-                    color: #64748b;
-                    text-transform: uppercase;
-                    margin-bottom: 0.25rem;
-                }
-
-                .prepared-for {
-                    margin-top: auto;
-                    padding-bottom: 40px;
-                }
-
-                .prepared-for p {
-                    font-size: 12px;
-                    font-weight: 700;
-                    color: #94a3b8;
-                    text-transform: uppercase;
-                }
-
-                .prepared-for h3 {
                     font-size: 24px;
+                    font-weight: 800;
+                    line-height: 1;
+                    margin-bottom: 2px;
+                }
+                .logo-subtext {
+                    color: rgba(255,255,255,0.6);
+                    font-size: 10px;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                }
+
+                /* Technology Illustration Place-holder (futuristic schematic) */
+                .tech-illustration {
+                    position: relative;
+                    width: 100%;
+                    height: 250px;
+                    margin-top: 20px;
+                    margin-bottom: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                .tech-image {
+                    width: 80%;
+                    max-width: 400px;
+                    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+                }
+
+                /* Main Heading Area */
+                .heading-area {
+                    margin-top: 20px;
+                    margin-bottom: 40px;
+                }
+                .heading-main {
+                    font-size: 48px;
                     font-weight: 900;
-                    color: #0f172a;
+                    line-height: 1.1;
+                    color: #fff; /* Part of it is on dark background */
                     text-transform: uppercase;
+                    letter-spacing: -1px;
+                }
+                /* Mix blend mode for text overlap color inversion effect if needed, 
+                   but usually simpler to handle via layout in print */
+                .heading-white-area {
+                    color: #111827;
+                }
+
+                .client-info-area {
+                    margin-bottom: 30px;
+                }
+                .client-name-display {
+                    font-size: 32px;
+                    font-weight: 800;
+                    color: #fff;
+                    text-transform: uppercase;
+                    margin-bottom: 15px;
+                    position: relative;
+                }
+                .client-name-display::after {
+                    content: '';
+                    display: block;
+                    width: 100%;
+                    height: 1.5px;
+                    background: rgba(255,255,255,0.3);
+                    margin-top: 15px;
+                }
+
+                .problem-statement-display {
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: #fff;
+                    opacity: 0.9;
+                }
+
+                /* Metadata Footer */
+                .cover-metadata {
+                    margin-top: auto;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    text-align: right;
+                    color: #4b5563;
+                    font-size: 12px;
+                    font-weight: 600;
+                    line-height: 1.6;
+                }
+                .meta-item span {
+                    font-weight: 800;
+                    color: #1f2937;
                 }
 
                 /* INTERNAL PAGE STYLING */
                 .internal-page {
                     position: relative;
                     min-height: 297mm;
-                    padding: 40mm 20mm 25mm 20mm;
+                    padding: 30mm 20mm;
                     background: white;
                 }
-
-                .page-header {
+                .internal-header {
                     position: absolute;
-                    top: 20mm;
+                    top: 15mm;
                     left: 20mm;
                     right: 20mm;
                     display: flex;
                     justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid #e2e8f0;
+                    font-size: 9px;
+                    font-weight: 800;
+                    color: #94a3b8;
+                    border-bottom: 1.5px solid #f1f5f9;
                     padding-bottom: 5px;
+                    text-transform: uppercase;
                 }
-
-                .page-footer {
+                .section-title-wrap {
+                    margin-bottom: 40px;
+                    border-left: 8px solid #111827;
+                    padding-left: 20px;
+                }
+                .section-title-wrap h2 {
+                    font-size: 28px;
+                    font-weight: 900;
+                    color: #111827;
+                    text-transform: uppercase;
+                    margin: 0;
+                }
+                .markdown-content {
+                    font-size: 11pt;
+                    line-height: 1.8;
+                    color: #374151;
+                    text-align: justify;
+                }
+                .markdown-content strong { color: #000; font-weight: 800; }
+                .internal-footer {
                     position: absolute;
                     bottom: 15mm;
                     left: 20mm;
@@ -181,116 +224,66 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => 
                     display: flex;
                     justify-content: space-between;
                     font-size: 9px;
-                    color: #94a3b8;
-                    font-weight: 700;
-                    text-transform: uppercase;
-                }
-
-                .section-number {
-                    font-size: 80px;
-                    font-weight: 900;
-                    color: #f1f5f9;
-                    position: absolute;
-                    top: 35mm;
-                    left: 15mm;
-                    z-index: 0;
-                }
-
-                .section-title {
-                    font-size: 24px;
-                    font-weight: 900;
-                    color: #0f172a;
-                    text-transform: uppercase;
-                    margin-bottom: 2rem;
-                    position: relative;
-                    z-index: 1;
-                    border-left: 6px solid #0ea5e9;
-                    padding-left: 15px;
-                }
-
-                .markdown-content {
-                    position: relative;
-                    z-index: 1;
-                    font-size: 11pt;
-                    line-height: 1.7;
-                    color: #334155;
-                }
-
-                .markdown-content h4 {
                     font-weight: 800;
-                    color: #0f172a;
-                    margin-top: 1.5rem;
-                    margin-bottom: 0.5rem;
+                    color: #cbd5e1;
                     text-transform: uppercase;
-                }
-
-                .markdown-content p {
-                    margin-bottom: 1rem;
-                    text-align: justify;
-                }
-
-                .markdown-content ul {
-                    list-style-type: none;
-                    margin-bottom: 1.5rem;
-                }
-
-                .markdown-content li {
-                    position: relative;
-                    padding-left: 1.5rem;
-                    margin-bottom: 0.5rem;
-                }
-
-                .markdown-content li:before {
-                    content: "•";
-                    position: absolute;
-                    left: 0;
-                    color: #0ea5e9;
-                    font-weight: bold;
                 }
                 `}
             </style>
 
             {/* COVER PAGE */}
             <div className="cover-page page-break">
-                <div className="bg-polygon-top" />
-                <div className="bg-polygon-accent" />
-                <div className="bg-polygon-bottom" />
-
-                <div className="cover-logo">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-black text-[#0f172a] text-xl">D</div>
-                        <div className="text-left font-black text-white leading-tight">
-                            <div className="text-sm tracking-tighter">{agencyName.toUpperCase()}</div>
-                            <div className="text-[8px] tracking-[3px] opacity-60">AGENCY PLATFORM</div>
-                        </div>
-                    </div>
-                </div>
+                <div className="cover-bg-dark" />
 
                 <div className="cover-content">
-                    <div className="cover-title-group">
-                        <h2>PROJECT</h2>
-                        <h1>PROPOSAL</h1>
+                    {/* Logo Area */}
+                    <div className="logo-section">
+                        {/* Replicating the logo from image (3D Cube-ish icon) */}
+                        <svg className="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 5L15 25V65L50 85L85 65V25L50 5Z" fill="#1e293b" />
+                            <path d="M50 5L85 25L50 45L15 25L50 5Z" fill="#334155" />
+                            <path d="M15 25L50 45V85L15 65V25Z" fill="#0f172a" />
+                            <path d="M50 45L85 25V65L50 85V45Z" fill="#475569" />
+                            <text x="35" y="60" fill="white" fontSize="25" fontWeight="900" fontFamily="sans-serif">DB</text>
+                        </svg>
+                        <div className="logo-text-large">{agencyName.toUpperCase()}</div>
+                        <div className="logo-subtext">DIGITAL SYSTEMS, NET FAST WEBSITES</div>
                     </div>
-                    <div className="expand-tagline">Expand Your Business With Us Now</div>
 
-                    <div className="company-name-label">COMPANY NAME</div>
-                    <div className="font-bold text-slate-700 text-lg mb-8">{agencyName.toUpperCase()}</div>
+                    {/* Tech Schematic Illustration */}
+                    <div className="tech-illustration">
+                        <img
+                            src="https://img.freepik.com/premium-vector/abstract-technology-schematic-circuit-background_1017-31350.jpg"
+                            className="tech-image"
+                            alt="Technology Perspective"
+                            style={{ mixBlendMode: 'screen', opacity: '0.8' }}
+                        />
+                    </div>
 
-                    <div className="grid grid-cols-2 gap-8 text-[11px] font-bold text-slate-500">
-                        <div>
-                            <div className="text-slate-400 mb-1">Proposal Issued :</div>
-                            <div className="text-slate-800">{today}</div>
-                        </div>
-                        <div>
-                            <div className="text-slate-400 mb-1">Proposal Valid :</div>
-                            <div className="text-slate-800">{validStr}</div>
+                    {/* Heading Group */}
+                    <div className="heading-area">
+                        <div className="heading-main">
+                            PROPOSAL PENGEMBANGAN<br />
+                            WEBSITE & SISTEM DIGITAL
                         </div>
                     </div>
-                </div>
 
-                <div className="prepared-for">
-                    <p>Prepared for</p>
-                    <h3>{proposal.client_name}</h3>
+                    {/* Client & Problem Area */}
+                    <div className="client-info-area">
+                        <div className="client-name-display">
+                            {proposal.client_name}
+                        </div>
+                        <div className="problem-statement-display">
+                            {proposal.problem_statement || "Digitalisasi Informasi, Penerimaan Siswa, dan Manajemen Konten"}
+                        </div>
+                    </div>
+
+                    {/* Footer Metadata */}
+                    <div className="cover-metadata">
+                        <div className="meta-item">Tanggal Proposal: <span>{today}</span></div>
+                        <div className="meta-item">Versi Dokumen: <span>v1.0 / {currentMonthYear}</span></div>
+                        <div className="meta-item">Status Dokumen: <span>Confidential</span></div>
+                    </div>
                 </div>
             </div>
 
@@ -302,21 +295,22 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => 
                 { title: 'Conclusion & Action', content: proposal.bab_4 },
             ].map((section, index) => (
                 <div key={index} className="internal-page page-break">
-                    <div className="page-header">
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{agencyName} Strategic Doc</div>
-                        <div className="text-[10px] font-black text-blue-500 uppercase">Page {index + 2}</div>
+                    <div className="internal-header">
+                        <div>{agencyName} STRATEGIC DOCUMENT</div>
+                        <div>PAGE 0{index + 2}</div>
                     </div>
 
-                    <div className="section-number">0{index + 1}</div>
-                    <h2 className="section-title">{section.title}</h2>
+                    <div className="section-title-wrap">
+                        <h2>{section.title}</h2>
+                    </div>
 
                     <div className="markdown-content">
                         <ReactMarkdown>{section.content}</ReactMarkdown>
                     </div>
 
-                    <div className="page-footer">
-                        <div>{agencyName} - {proposal.client_name}</div>
-                        <div>Confidential & Strategic</div>
+                    <div className="internal-footer">
+                        <div>OFFICIAL STRATEGIC DOCUMENT / 2026</div>
+                        <div>{proposal.client_name} - CONFIDENTIAL</div>
                     </div>
                 </div>
             ))}
