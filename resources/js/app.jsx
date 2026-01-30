@@ -8,6 +8,7 @@ import PillNav from './Components/PillNav';
 import Hero from './Components/Hero';
 import AdminDashboard from './Components/Admin/AdminDashboard';
 import SloganServices from './Components/SloganServices';
+import PortfolioShowcase from './Components/PortfolioShowcase';
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -57,4 +58,12 @@ const sloganServicesRoot = document.getElementById('slogan-services-root');
 if (sloganServicesRoot) {
     const root = createRoot(sloganServicesRoot);
     root.render(<SloganServices />);
+}
+
+// Mount PortfolioShowcase if the container exists
+const portfolioRoot = document.getElementById('portfolio-root');
+if (portfolioRoot) {
+    const root = createRoot(portfolioRoot);
+    const portfolios = portfolioRoot.dataset.portfolios ? JSON.parse(portfolioRoot.dataset.portfolios) : [];
+    root.render(<PortfolioShowcase portfolios={portfolios} />);
 }
