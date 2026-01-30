@@ -85,10 +85,16 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             </div>
                         </div>
                         <div className="proposal-print-container">
+                            {/* Hidden on screen, visible on paper */}
+                            <div className="hidden print:block whitespace-pre-wrap text-black bg-white p-0">
+                                {content}
+                            </div>
+
+                            {/* Visible on screen, hidden on paper */}
                             <textarea
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
-                                className="flex-1 w-full bg-[#060b26]/20 border-none outline-none text-base leading-relaxed text-white/80 p-8 rounded-3xl resize-none font-sans no-scrollbar selection:bg-purple-500/30 min-h-[800px]"
+                                className="flex-1 w-full bg-[#060b26]/20 border-none outline-none text-base leading-relaxed text-white/80 p-8 rounded-3xl resize-none font-sans no-scrollbar selection:bg-purple-500/30 min-h-[800px] print:hidden"
                                 placeholder="Tulis proposal Anda di sini..."
                             ></textarea>
                         </div>
