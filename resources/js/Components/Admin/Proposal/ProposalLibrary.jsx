@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import ProposalPrintTemplate from './ProposalPrintTemplate';
 
 const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
     const [selectedProposal, setSelectedProposal] = useState(null);
     const [showInsights, setShowInsights] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
-    const [printingContent, setPrintingContent] = useState('');
+    const [printingProposal, setPrintingProposal] = useState(null);
 
     const handleAnalyze = () => {
         setIsAnalyzing(true);
@@ -15,26 +16,11 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
     };
 
     const handlePrint = (proposal) => {
-        const fullContent = `
-# ${proposal.title || 'Proposal'}
-
-## Bab 1: Executive Audit
-${proposal.bab_1 || ''}
-
-## Bab 2: Transformatif Solutions
-${proposal.bab_2 || ''}
-
-## Bab 3: Roadmap & Authority
-${proposal.bab_3 || ''}
-
-## Bab 4: Conclusion & Action
-${proposal.bab_4 || ''}
-        `;
-        setPrintingContent(fullContent);
-        // Wait for state update to occur before printing
+        setPrintingProposal(proposal);
+        // Wait for React to render the template into the hidden div before printing
         setTimeout(() => {
             window.print();
-        }, 300);
+        }, 500);
     };
 
     const getStatusStyle = (status) => {
@@ -50,8 +36,8 @@ ${proposal.bab_4 || ''}
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500">
             {/* Hidden Printable Area */}
-            <div className="hidden print:block proposal-print-container text-black bg-white p-0 whitespace-pre-wrap">
-                {printingContent}
+            <div className="hidden print:block">
+                {printingProposal && <ProposalPrintTemplate proposal={printingProposal} />}
             </div>
 
             {/* Header Content */}
