@@ -82,7 +82,7 @@ const Hero = () => {
             {/* Core Message & Action Overlay */}
             <div className="absolute bottom-[8vh] left-0 w-full flex flex-col items-center z-40 px-6">
                 <div className="gsap-stagger flex flex-col items-center">
-                    <p className="text-white mix-blend-difference text-center max-w-2xl text-base md:text-xl font-light leading-relaxed mb-10 opacity-70 tracking-wide font-medium italic underline decoration-blue-500/50 underline-offset-8">
+                    <p className="text-white mix-blend-difference text-center max-w-2xl text-lg md:text-2xl font-bold leading-relaxed mb-10 tracking-wide">
                         Kami membangun solusi digital yang serius dengan pendekatan artistik dan teknis yang presisi.
                     </p>
                     <div className="flex gap-8 md:gap-12">
