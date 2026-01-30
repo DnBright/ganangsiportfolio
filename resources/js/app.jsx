@@ -7,6 +7,7 @@ import PillNav from './Components/PillNav';
 
 import Hero from './Components/Hero';
 import AdminDashboard from './Components/Admin/AdminDashboard';
+import SloganServices from './Components/SloganServices';
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -49,4 +50,11 @@ if (adminDashboardRoot) {
     // Parse data from data attributes if needed
     const data = adminDashboardRoot.dataset.stats ? JSON.parse(adminDashboardRoot.dataset.stats) : {};
     root.render(<AdminDashboard stats={data} />);
+}
+
+// Mount SloganServices if the container exists
+const sloganServicesRoot = document.getElementById('slogan-services-root');
+if (sloganServicesRoot) {
+    const root = createRoot(sloganServicesRoot);
+    root.render(<SloganServices />);
 }

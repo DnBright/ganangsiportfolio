@@ -4,26 +4,7 @@
 
 @section('content')
 <div id="hero-root"></div>
-
-<section class="section">
-    <div class="container">
-        <h2 style="text-align: center; margin-bottom: 3rem; font-weight: 800; text-transform: uppercase;">Our Services</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-            <div style="padding: 2.5rem; background: #f8f8f8; border-radius: 20px; transition: transform 0.3s ease;">
-                <h3 style="margin-bottom: 1rem;">Web Development</h3>
-                <p style="color: #555;">Custom websites and web applications built with modern technologies.</p>
-            </div>
-            <div style="padding: 2.5rem; background: #f8f8f8; border-radius: 20px; transition: transform 0.3s ease;">
-                <h3 style="margin-bottom: 1rem;">Digital Marketing</h3>
-                <p style="color: #555;">Strategic marketing campaigns to grow your online presence.</p>
-            </div>
-            <div style="padding: 2.5rem; background: #f8f8f8; border-radius: 20px; transition: transform 0.3s ease;">
-                <h3 style="margin-bottom: 1rem;">Brand Design</h3>
-                <p style="color: #555;">Professional branding and visual identity design services.</p>
-            </div>
-        </div>
-    </div>
-</section>
+<div id="slogan-services-root"></div>
 
 @if($featuredPortfolios->count() > 0)
 <section class="section" style="background: #1a1616; color: white;">
