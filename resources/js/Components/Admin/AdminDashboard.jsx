@@ -64,16 +64,21 @@ const AdminDashboard = ({ stats = {} }) => {
                 bab_2: finalData.bab_2 || draftResult.bab_2,
                 bab_3: finalData.bab_3 || draftResult.bab_3,
                 bab_4: finalData.bab_4 || draftResult.bab_4,
-                proposal_content: finalData.content || '', // Keep for compatibility if needed
                 pricing: finalData.pricing || '-',
                 status: 'Approved'
             };
 
-            await axios.post('/proposals', newProposalData, {
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
-                }
-            });
+            if (currentProposal?.id) {
+                // Update existing
+                await axios.patch(`/proposals/${currentProposal.id}`, newProposalData, {
+                    headers: { 'X-CSRF-TOKEN': csrfToken }
+                });
+            } else {
+                // Create new
+                await axios.post('/proposals', newProposalData, {
+                    headers: { 'X-CSRF-TOKEN': csrfToken }
+                });
+            }
 
             fetchProposals();
             setActiveTab('proposal_library');
@@ -82,6 +87,31 @@ const AdminDashboard = ({ stats = {} }) => {
             const errorMsg = error.response?.data?.message || 'Failed to save proposal to database. Please check console for details.';
             alert(errorMsg);
         }
+    };
+
+    const handleDeleteProposal = async (id) => {
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            await axios.delete(`/proposals/${id}`, {
+                headers: { 'X-CSRF-TOKEN': csrfToken }
+            });
+            fetchProposals();
+        } catch (error) {
+            console.error('Error deleting proposal:', error);
+            alert('Gagal menghapus proposal.');
+        }
+    };
+
+    const handleEditProposal = (proposal) => {
+        setCurrentProposal(proposal);
+        setDraftResult({
+            title: proposal.title,
+            bab_1: proposal.bab_1,
+            bab_2: proposal.bab_2,
+            bab_3: proposal.bab_3,
+            bab_4: proposal.bab_4
+        });
+        setActiveTab('editor_proposal');
     };
 
     const renderContent = () => {
@@ -124,7 +154,13 @@ const AdminDashboard = ({ stats = {} }) => {
                     />
                 );
             case 'proposal_library':
-                return <ProposalLibrary proposals={proposals} />;
+                return (
+                    <ProposalLibrary
+                        proposals={proposals}
+                        onEdit={handleEditProposal}
+                        onDelete={handleDeleteProposal}
+                    />
+                );
             case 'templates_prompt':
                 return (
                     <TemplatesPrompt

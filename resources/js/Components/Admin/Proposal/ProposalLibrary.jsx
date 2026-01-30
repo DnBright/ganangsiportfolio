@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProposalLibrary = ({ proposals = [] }) => {
+const ProposalLibrary = ({ proposals = [], onEdit, onDelete }) => {
     const [selectedProposal, setSelectedProposal] = useState(null);
     const [showInsights, setShowInsights] = useState(false);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -131,8 +131,24 @@ ${proposal.bab_4 || ''}
                                             <td className="px-6 py-5 text-right">
                                                 <div className="flex justify-end gap-2 no-print">
                                                     <button onClick={() => handlePrint(p)} className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="Print/Download">🖨️</button>
-                                                    <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="View">👁️</button>
-                                                    <button className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="Duplicate">📋</button>
+                                                    <button
+                                                        onClick={() => onEdit && onEdit(p)}
+                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-blue-400"
+                                                        title="Edit"
+                                                    >
+                                                        ✍️
+                                                    </button>
+                                                    <button
+                                                        onClick={() => {
+                                                            if (window.confirm(`Hapus proposal untuk ${p.client_name}?`)) {
+                                                                onDelete && onDelete(p.id);
+                                                            }
+                                                        }}
+                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-red-400"
+                                                        title="Delete"
+                                                    >
+                                                        🗑️
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
