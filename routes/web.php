@@ -104,6 +104,16 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     Route::post('/proposals', [ProposalController::class, 'store'])->name('admin.proposals.store');
     Route::patch('/proposals/{proposal}', [ProposalController::class, 'update'])->name('admin.proposals.update');
     Route::delete('/proposals/{proposal}', [ProposalController::class, 'destroy'])->name('admin.proposals.destroy');
+
+    // Temporary Migration Route (Visit admin.thedarkandbright.com/run-migrations to fix the database)
+    Route::get('/run-migrations', function () {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            return "Migrations successful! <br><pre>" . \Illuminate\Support\Facades\Artisan::output() . "</pre>";
+        } catch (\Exception $e) {
+            return "Migration failed: " . $e->getMessage();
+        }
+    });
 });
 
 // -----------------------------------------------------------------------------
