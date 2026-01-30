@@ -9,6 +9,7 @@ import Hero from './Components/Hero';
 import AdminDashboard from './Components/Admin/AdminDashboard';
 import SloganServices from './Components/SloganServices';
 import PortfolioShowcase from './Components/PortfolioShowcase';
+import Solutions from './Components/Solutions';
 import ContactFooter from './Components/ContactFooter';
 
 window.Alpine = Alpine;
@@ -21,6 +22,7 @@ if (navbarRoot) {
     const navItems = [
         { label: 'Home', href: '/' },
         { label: 'Layanan', href: '/services' },
+        { label: 'Solusi', href: '/solutions' },
         { label: 'Portfolio', href: '/portfolio' },
         { label: 'Tentang', href: '/about' },
         { label: 'Kontak', href: '/contact' }
@@ -59,6 +61,13 @@ const sloganServicesRoot = document.getElementById('slogan-services-root');
 if (sloganServicesRoot) {
     const root = createRoot(sloganServicesRoot);
     root.render(<SloganServices />);
+}
+
+// Mount Solutions if the container exists
+const solutionsRoot = document.getElementById('solutions-root');
+if (solutionsRoot) {
+    const root = createRoot(solutionsRoot);
+    root.render(<Solutions />);
 }
 
 // Mount PortfolioShowcase if the container exists
