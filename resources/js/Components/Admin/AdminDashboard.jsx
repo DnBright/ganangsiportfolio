@@ -99,6 +99,7 @@ const AdminDashboard = ({ stats = {} }) => {
             case 'draft_ai':
                 return (
                     <DraftAI
+                        key={currentProposal?.client_name || 'ai_draft'}
                         analysisData={currentProposal || {}}
                         onBack={() => setActiveTab('create_proposal')}
                         onNext={(draft) => {

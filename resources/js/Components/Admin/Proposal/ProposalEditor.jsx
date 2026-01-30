@@ -99,7 +99,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             <div key={chapter.id} className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 shadow-2xl group transition-all duration-500 hover:border-cyan-500/20">
                                 <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
                                     <label className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">{chapter.label}</label>
-                                    <span className="text-[10px] text-white/10 font-bold uppercase">{chapter.value.split(' ').length} WORDS</span>
+                                    <span className="text-[10px] text-white/10 font-bold uppercase">{(chapter.value || '').split(' ').length} WORDS</span>
                                 </div>
                                 <textarea
                                     value={chapter.value}

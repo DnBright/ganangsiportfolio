@@ -23,6 +23,8 @@ class ProposalController extends Controller
 
     public function generateDraft(Request $request)
     {
+        Log::info('Generate Draft Request Data:', $request->all());
+        
         $data = $request->validate([
             'client_name' => 'required|string|max:255',
             'industry' => 'nullable|string|max:255',
