@@ -10,10 +10,10 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
-        { title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: null },
-        { title: "Kursus Jepang", category: "Education Platform", image: null },
-        { title: "Ayaka", category: "Beauty & Wellness", image: null },
-        { title: "AKAB", category: "Technology Systems", image: null }
+        { title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" },
+        { title: "Kursus Jepang", category: "Education Platform", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" },
+        { title: "Ayaka", category: "Beauty & Wellness", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
+        { title: "AKAB", category: "Technology Systems", image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=1200&q=80" }
     ];
 
     useEffect(() => {
@@ -81,7 +81,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                             {/* Image with Parallax Hover */}
                             <div className="absolute inset-0 overflow-hidden">
                                 <img
-                                    src={item.image ? `/storage/${item.image}` : `https://source.unsplash.com/random/1200x800?sig=${index}`}
+                                    src={item.image && item.image.startsWith('http') ? item.image : (item.image ? `/storage/${item.image}` : `https://source.unsplash.com/random/1200x800?sig=${index}`)}
                                     alt={item.title}
                                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-100"
                                 />
