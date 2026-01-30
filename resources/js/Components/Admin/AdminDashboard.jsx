@@ -10,6 +10,7 @@ import ActiveUsersChart from './ActiveUsersChart';
 import CreateProposal from './Proposal/CreateProposal';
 import DraftAI from './Proposal/DraftAI';
 import ProposalEditorComponent from './Proposal/ProposalEditor';
+import ProposalLibrary from './Proposal/ProposalLibrary';
 
 const AdminDashboard = ({ stats = {} }) => {
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -49,6 +50,9 @@ const AdminDashboard = ({ stats = {} }) => {
                         }}
                     />
                 );
+            case 'proposal_library':
+                return <ProposalLibrary />;
+            case 'dashboard':
             default:
                 return (
                     <>
