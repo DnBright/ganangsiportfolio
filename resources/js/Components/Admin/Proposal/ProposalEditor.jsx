@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
 const ProposalEditor = ({ draftContent, onBack, onSave }) => {
-    const [title, setTitle] = useState(draftContent.title || '');
-    const [bab1, setBab1] = useState(draftContent.bab_1 || '');
-    const [bab2, setBab2] = useState(draftContent.bab_2 || '');
-    const [bab3, setBab3] = useState(draftContent.bab_3 || '');
-    const [bab4, setBab4] = useState(draftContent.bab_4 || '');
+    const [title, setTitle] = useState(draftContent?.title || '');
+    const [bab1, setBab1] = useState(draftContent?.bab_1 || '');
+    const [bab2, setBab2] = useState(draftContent?.bab_2 || '');
+    const [bab3, setBab3] = useState(draftContent?.bab_3 || '');
+    const [bab4, setBab4] = useState(draftContent?.bab_4 || '');
     const [pricing, setPricing] = useState('');
     const [bonus, setBonus] = useState('');
     const [isPolishing, setIsPolishing] = useState(false);

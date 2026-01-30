@@ -53,7 +53,7 @@ const AdminDashboard = ({ stats = {} }) => {
                 client_name: currentProposal?.client_name || 'Unnamed Client',
                 industry: currentProposal?.industry || 'General',
                 target_website: currentProposal?.target_website || '',
-                problem_statement: currentProposal?.problem_statement || '',
+                problem_statement: currentProposal?.problem_statement || currentProposal?.client_problem || '',
                 title: finalData.title || draftResult.title,
                 bab_1: finalData.bab_1 || draftResult.bab_1,
                 bab_2: finalData.bab_2 || draftResult.bab_2,
@@ -96,7 +96,13 @@ const AdminDashboard = ({ stats = {} }) => {
                         analysisData={currentProposal || {}}
                         onBack={() => setActiveTab('create_proposal')}
                         onNext={(draft) => {
-                            setDraftResult(draft);
+                            setDraftResult(draft || {
+                                title: 'Untitled',
+                                bab_1: '',
+                                bab_2: '',
+                                bab_3: '',
+                                bab_4: ''
+                            });
                             setActiveTab('editor_proposal');
                         }}
                     />

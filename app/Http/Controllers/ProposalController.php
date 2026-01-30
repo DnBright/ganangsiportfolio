@@ -50,7 +50,6 @@ class ProposalController extends Controller
                 'bab_2' => 'nullable|string',
                 'bab_3' => 'nullable|string',
                 'bab_4' => 'nullable|string',
-                'proposal_content' => 'nullable|string',
                 'pricing' => 'nullable|string|max:255',
                 'status' => 'nullable|string|in:Draft,Sent,Approved,Rejected',
             ]);
@@ -85,7 +84,6 @@ class ProposalController extends Controller
             'bab_2' => 'nullable|string',
             'bab_3' => 'nullable|string',
             'bab_4' => 'nullable|string',
-            'proposal_content' => 'nullable|string',
             'pricing' => 'nullable|string|max:255',
             'status' => 'nullable|string|in:Draft,Sent,Approved,Rejected',
         ]);

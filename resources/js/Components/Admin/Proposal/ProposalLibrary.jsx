@@ -15,7 +15,22 @@ const ProposalLibrary = ({ proposals = [] }) => {
     };
 
     const handlePrint = (proposal) => {
-        setPrintingContent(proposal.proposal_content);
+        const fullContent = `
+# ${proposal.title || 'Proposal'}
+
+## Bab 1: Executive Audit
+${proposal.bab_1 || ''}
+
+## Bab 2: Transformatif Solutions
+${proposal.bab_2 || ''}
+
+## Bab 3: Roadmap & Authority
+${proposal.bab_3 || ''}
+
+## Bab 4: Conclusion & Action
+${proposal.bab_4 || ''}
+        `;
+        setPrintingContent(fullContent);
         // Wait for state update to occur before printing
         setTimeout(() => {
             window.print();
@@ -81,6 +96,7 @@ const ProposalLibrary = ({ proposals = [] }) => {
                                     <tr className="border-b border-white/5">
                                         <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">Client Name</th>
                                         <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">Industry</th>
+                                        <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">Problem Statement</th>
                                         <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">Date</th>
                                         <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">Status</th>
                                         <th className="px-6 py-5 text-[10px] font-bold text-white/30 uppercase tracking-widest">Value</th>
@@ -95,6 +111,11 @@ const ProposalLibrary = ({ proposals = [] }) => {
                                             </td>
                                             <td className="px-6 py-5">
                                                 <span className="text-xs text-white/40">{p.industry}</span>
+                                            </td>
+                                            <td className="px-6 py-5">
+                                                <p className="text-[10px] text-white/40 italic line-clamp-2 max-w-[200px] leading-relaxed">
+                                                    {p.problem_statement || 'Tidak ada catatan masalah.'}
+                                                </p>
                                             </td>
                                             <td className="px-6 py-5">
                                                 <span className="text-xs text-white/40">{p.created_at ? new Date(p.created_at).toLocaleDateString() : p.date}</span>

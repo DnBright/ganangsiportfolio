@@ -16,7 +16,6 @@ class Proposal extends Model
         'bab_2',
         'bab_3',
         'bab_4',
-        'proposal_content',
         'pricing',
         'status',
     ];

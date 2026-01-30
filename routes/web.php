@@ -130,7 +130,6 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
                         bab_2 LONGTEXT NULL,
                         bab_3 LONGTEXT NULL,
                         bab_4 LONGTEXT NULL,
-                        proposal_content LONGTEXT NULL,
                         pricing VARCHAR(255) NULL,
                         status VARCHAR(50) DEFAULT 'Draft',
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
