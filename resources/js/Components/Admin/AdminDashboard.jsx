@@ -85,6 +85,7 @@ const AdminDashboard = ({ stats = {} }) => {
                 return (
                     <CreateProposal
                         onSubmit={(data) => {
+                            console.log('Proposal Form Data:', data);
                             setCurrentProposal(data);
                             setActiveTab('draft_ai');
                         }}
@@ -96,6 +97,7 @@ const AdminDashboard = ({ stats = {} }) => {
                         analysisData={currentProposal || {}}
                         onBack={() => setActiveTab('create_proposal')}
                         onNext={(draft) => {
+                            console.log('AI Draft Result Received:', draft);
                             setDraftResult(draft || {
                                 title: 'Untitled',
                                 bab_1: '',

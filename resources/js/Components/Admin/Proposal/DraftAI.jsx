@@ -30,12 +30,17 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
         }, 800);
 
         const generateAIPost = async () => {
+            if (!analysisData?.client_name) {
+                console.warn('DraftAI: client_name is missing, skipping generation.', analysisData);
+                return;
+            }
+
             try {
                 const response = await axios.post('/proposals/generate-draft', {
                     client_name: analysisData.client_name,
-                    industry: analysisData.industry,
-                    target_website: analysisData.target_website,
-                    problem_statement: analysisData.client_problem
+                    industry: analysisData.industry || 'General',
+                    target_website: analysisData.target_website || '',
+                    problem_statement: analysisData.client_problem || analysisData.problem_statement || ''
                 });
 
                 setDraftContent(response.data.draft);
