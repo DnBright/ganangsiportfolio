@@ -145,6 +145,33 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
             ], 500);
         }
     });
+
+    Route::get('/run-gemini-debug', function () {
+        $apiKey = config('services.gemini.key');
+        if (!$apiKey) return "API Key is MISSING in backend config.";
+
+        $models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+        $results = [];
+
+        foreach (['v1', 'v1beta'] as $version) {
+            foreach ($models as $model) {
+                $url = "https://generativelanguage.googleapis.com/$version/models/$model:generateContent?key=$apiKey";
+                try {
+                    $response = \Illuminate\Support\Facades\Http::post($url, [
+                        'contents' => [['parts' => [['text' => 'Hi']]]]
+                    ]);
+                    $results["$version-$model"] = $response->successful() ? 'SUCCESS' : 'FAILED: ' . ($response->json()['error']['message'] ?? 'Unknown');
+                } catch (\Exception $e) {
+                    $results["$version-$model"] = 'EXCEPTION: ' . $e->getMessage();
+                }
+            }
+        }
+
+        return response()->json([
+            'api_key_last_4' => substr($apiKey, -4),
+            'results' => $results
+        ]);
+    });
 });
 
 // -----------------------------------------------------------------------------
