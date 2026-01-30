@@ -239,8 +239,8 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     {/* Logo Area */}
                     <div className="logo-section">
                         <img src="/assets/logo-dnb.png" className="logo-icon" alt="Dark and Bright Logo" />
-                        <div className="logo-text-large">{agencyName}</div>
-                        <div className="logo-subtext">Digital Systems, Net Fast Websites</div>
+                        <div className="logo-text-large">{agencyName.toUpperCase()}</div>
+                        <div className="logo-subtext">DIGITAL SYSTEMS, NET FAST WEBSITES</div>
                     </div>
 
                     {/* Tech Schematic Illustration */}
