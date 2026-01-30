@@ -117,7 +117,7 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
                                 <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-bounce [animation-delay:-0.15s]"></span>
                                 <span className="h-1.5 w-1.5 rounded-full bg-cyan-500 animate-bounce"></span>
                             </div>
-                            <p className="text-xs text-white/40 italic mt-4">"Membangun narasi strategis untuk mengatasi masalah: ${analysisData.client_problem}"</p>
+                            <p className="text-xs text-white/40 italic mt-4">{`"Membangun narasi strategis untuk mengatasi masalah: ${analysisData?.client_problem || analysisData?.problem_statement || ''}"`}</p>
                         </div>
                     </div>
                 ) : (

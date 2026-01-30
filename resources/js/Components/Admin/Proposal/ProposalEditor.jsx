@@ -13,7 +13,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     const handleAIPolish = () => {
         setIsPolishing(true);
         setTimeout(() => {
-            const polish = (text) => text.replace(/adalah/g, 'merupakan')
+            const polish = (text) => (text || '').replace(/adalah/g, 'merupakan')
                 .replace(/merasakan/g, 'mengalami')
                 .replace(/hanya/g, 'semata-mata')
                 .replace(/sangat/g, 'signifikan');
