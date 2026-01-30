@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
-const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => {
+const ProposalPrintTemplate = ({ proposal, agencyName = "DARK AND BRIGHT" }) => {
     if (!proposal) return null;
 
     const today = new Date().toLocaleDateString('id-ID', {
@@ -10,17 +10,9 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => 
         year: 'numeric'
     });
 
-    const validUntil = new Date();
-    validUntil.setDate(validUntil.getDate() + 14);
-    const validStr = validUntil.toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
-
     return (
         <div className="proposal-print-wrapper bg-white text-[#1a1c2e] font-sans">
-            {/* CSS for High-Fidelity Design (Polygonal & Branded) */}
+            {/* CSS for Ultra-Minimalist Monochrome Architectural Design */}
             <style>
                 {`
                 @media print {
@@ -35,288 +27,319 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark And Bright" }) => 
                     .page-break {
                         page-break-before: always;
                     }
-                    .no-print { display: none; }
                 }
 
                 .proposal-print-wrapper {
                     width: 210mm;
                     margin: 0 auto;
-                    color: #1a202c;
+                    color: #000;
+                    background: #fff;
                 }
 
-                /* COVER PAGE STYLING */
+                /* SHARED ELEMENTS */
+                .logo-container {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+                .logo-box {
+                    width: 40px;
+                    height: 40px;
+                    background: #000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                    font-weight: 900;
+                    font-size: 24px;
+                }
+                .logo-text {
+                    font-size: 18px;
+                    font-weight: 900;
+                    letter-spacing: -0.5px;
+                }
+
+                /* COVER PAGE STYLING (MATCHING IMAGE) */
                 .cover-page {
                     position: relative;
-                    height: 296.5mm; /* A4 height */
+                    height: 297mm;
                     background: #fff;
-                    overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                    padding: 80px 60px;
+                    padding: 20mm;
+                    overflow: hidden;
                 }
 
-                .bg-polygon-top {
+                .cover-header {
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-bottom: 40px;
+                }
+
+                .cover-image-container {
+                    position: relative;
+                    flex: 1;
+                    background: #f3f4f6;
+                    background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1000');
+                    background-size: cover;
+                    background-position: center;
+                    filter: grayscale(100%) contrast(1.2);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .cover-image-container::after {
+                    content: '';
                     position: absolute;
-                    top: 0;
-                    right: 0;
-                    width: 70%;
-                    height: 40%;
-                    background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
-                    clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 80%);
-                    z-index: 1;
+                    top: 0; left: 0; right: 0; bottom: 0;
+                    background: rgba(0,0,0,0.1);
                 }
 
-                .bg-polygon-accent {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 35%;
-                    height: 45%;
-                    background: #0f172a;
-                    clip-path: polygon(0% 0%, 100% 0%, 80% 60%, 0% 100%);
-                    z-index: 2;
-                }
-
-                .bg-polygon-bottom {
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
-                    width: 100%;
-                    height: 30%;
-                    background: linear-gradient(225deg, #0ea5e9 0%, #0284c7 100%);
-                    clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 30% 70%);
-                    z-index: 1;
-                }
-
-                .cover-content {
+                .cover-title-box {
                     position: relative;
                     z-index: 10;
-                    margin-top: 15%;
-                }
-
-                .cover-logo {
+                    background: rgba(0, 0, 0, 0.85);
                     color: #fff;
-                    margin-bottom: 2rem;
+                    padding: 60px;
+                    width: 80%;
+                    max-width: 500px;
+                    text-align: center;
+                    backdrop-filter: blur(5px);
                 }
 
-                .cover-title-group h2 {
-                    font-size: 14px;
-                    letter-spacing: 0.4em;
-                    color: #0ea5e9;
-                    font-weight: 800;
-                    text-transform: uppercase;
-                    margin-bottom: 0.5rem;
-                }
-
-                .cover-title-group h1 {
-                    font-size: 64px;
+                .cover-title-box h1 {
+                    font-size: 52px;
                     font-weight: 900;
-                    line-height: 1;
-                    color: #0f172a;
+                    line-height: 0.9;
+                    margin: 0;
+                    letter-spacing: -2px;
                     text-transform: uppercase;
-                    margin-bottom: 1rem;
                 }
 
-                .expand-tagline {
-                    color: #0ea5e9;
-                    font-weight: 700;
-                    font-size: 14px;
-                    text-transform: uppercase;
+                .cover-title-box p {
+                    font-size: 11px;
+                    margin-top: 20px;
                     letter-spacing: 2px;
-                    margin-bottom: 3rem;
+                    opacity: 0.7;
+                    text-transform: uppercase;
+                    border-top: 1px solid rgba(255,255,255,0.2);
+                    padding-top: 20px;
                 }
 
-                .company-name-label {
-                    font-size: 12px;
+                .cover-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    padding-top: 40px;
+                    font-size: 10px;
                     font-weight: 800;
-                    color: #64748b;
                     text-transform: uppercase;
-                    margin-bottom: 0.25rem;
+                    letter-spacing: 1px;
                 }
 
-                .prepared-for {
-                    margin-top: auto;
-                    padding-bottom: 40px;
+                /* TABLE OF CONTENTS PAGE */
+                .toc-page {
+                    height: 297mm;
+                    padding: 20mm;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 0;
                 }
 
-                .prepared-for p {
+                .toc-left {
+                    background: #000;
+                    color: #fff;
+                    padding: 40px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                .toc-right {
+                    background: #fff;
+                    padding: 40px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+
+                .toc-title {
+                    font-size: 32px;
+                    font-weight: 900;
+                    margin-bottom: 40px;
+                    border-bottom: 4px solid #000;
+                    padding-bottom: 10px;
+                    width: fit-content;
+                }
+
+                .toc-item {
+                    display: flex;
+                    justify-content: space-between;
+                    border-bottom: 1px solid #e5e7eb;
+                    padding: 12px 0;
                     font-size: 12px;
                     font-weight: 700;
-                    color: #94a3b8;
-                    text-transform: uppercase;
                 }
 
-                .prepared-for h3 {
-                    font-size: 24px;
-                    font-weight: 900;
-                    color: #0f172a;
-                    text-transform: uppercase;
-                }
-
-                /* INTERNAL PAGE STYLING */
-                .internal-page {
+                /* CONTENT PAGE STYLING */
+                .content-page {
+                    height: 297mm;
+                    padding: 30mm 20mm;
                     position: relative;
-                    min-height: 297mm;
-                    padding: 40mm 20mm 25mm 20mm;
-                    background: white;
                 }
 
-                .page-header {
+                .page-number-side {
                     position: absolute;
-                    top: 20mm;
-                    left: 20mm;
-                    right: 20mm;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid #e2e8f0;
-                    padding-bottom: 5px;
-                }
-
-                .page-footer {
-                    position: absolute;
-                    bottom: 15mm;
-                    left: 20mm;
-                    right: 20mm;
-                    display: flex;
-                    justify-content: space-between;
+                    left: 10mm;
+                    top: 50%;
+                    transform: rotate(-90deg) translateY(-50%);
                     font-size: 9px;
-                    color: #94a3b8;
-                    font-weight: 700;
-                    text-transform: uppercase;
+                    font-weight: 900;
+                    letter-spacing: 5px;
+                    color: #d1d5db;
                 }
 
-                .section-number {
-                    font-size: 80px;
-                    font-weight: 900;
-                    color: #f1f5f9;
-                    position: absolute;
-                    top: 35mm;
-                    left: 15mm;
-                    z-index: 0;
+                .section-header {
+                    margin-bottom: 40px;
                 }
 
-                .section-title {
-                    font-size: 24px;
+                .section-header h2 {
+                    font-size: 32px;
                     font-weight: 900;
-                    color: #0f172a;
                     text-transform: uppercase;
-                    margin-bottom: 2rem;
-                    position: relative;
-                    z-index: 1;
-                    border-left: 6px solid #0ea5e9;
-                    padding-left: 15px;
+                    margin: 0;
+                    letter-spacing: -1px;
+                }
+
+                .section-header .line {
+                    width: 60px;
+                    height: 6px;
+                    background: #000;
+                    margin-top: 10px;
                 }
 
                 .markdown-content {
-                    position: relative;
-                    z-index: 1;
-                    font-size: 11pt;
-                    line-height: 1.7;
-                    color: #334155;
-                }
-
-                .markdown-content h4 {
-                    font-weight: 800;
-                    color: #0f172a;
-                    margin-top: 1.5rem;
-                    margin-bottom: 0.5rem;
-                    text-transform: uppercase;
-                }
-
-                .markdown-content p {
-                    margin-bottom: 1rem;
+                    column-count: 2;
+                    column-gap: 30px;
+                    font-size: 10pt;
+                    line-height: 1.6;
                     text-align: justify;
                 }
 
-                .markdown-content ul {
-                    list-style-type: none;
-                    margin-bottom: 1.5rem;
+                .markdown-content h4 {
+                    font-weight: 900;
+                    text-transform: uppercase;
+                    margin-top: 0;
+                    column-span: all;
+                    font-size: 14px;
+                    border-bottom: 2px solid #000;
+                    display: inline-block;
+                    margin-bottom: 15px;
                 }
 
-                .markdown-content li {
-                    position: relative;
-                    padding-left: 1.5rem;
-                    margin-bottom: 0.5rem;
+                .markdown-content p {
+                    margin-bottom: 15px;
                 }
 
-                .markdown-content li:before {
-                    content: "•";
+                .internal-footer {
                     position: absolute;
-                    left: 0;
-                    color: #0ea5e9;
-                    font-weight: bold;
+                    bottom: 20mm;
+                    left: 20mm;
+                    right: 20mm;
+                    border-top: 1px solid #000;
+                    padding-top: 10px;
+                    display: flex;
+                    justify-content: space-between;
+                    font-size: 8px;
+                    font-weight: 900;
+                    text-transform: uppercase;
                 }
+
+                /* DARK PAGE VARIANT */
+                .dark-page {
+                    background: #000;
+                    color: #fff;
+                }
+                .dark-page .internal-footer { border-top-color: #fff; color: #fff; }
+                .dark-page .section-header .line { background: #fff; }
                 `}
             </style>
 
             {/* COVER PAGE */}
             <div className="cover-page page-break">
-                <div className="bg-polygon-top" />
-                <div className="bg-polygon-accent" />
-                <div className="bg-polygon-bottom" />
-
-                <div className="cover-logo">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center font-black text-[#0f172a] text-xl">D</div>
-                        <div className="text-left font-black text-white leading-tight">
-                            <div className="text-sm tracking-tighter">{agencyName.toUpperCase()}</div>
-                            <div className="text-[8px] tracking-[3px] opacity-60">AGENCY PLATFORM</div>
+                <div className="cover-header">
+                    <div className="logo-container">
+                        <div className="text-right">
+                            <div className="logo-text">{agencyName}</div>
+                            <div className="text-[8px] tracking-[2px] opacity-60 font-bold">WWW.THEDARKANDBRIGHT.COM</div>
                         </div>
+                        <div className="logo-box">B</div>
                     </div>
                 </div>
 
-                <div className="cover-content">
-                    <div className="cover-title-group">
-                        <h2>PROJECT</h2>
-                        <h1>PROPOSAL</h1>
-                    </div>
-                    <div className="expand-tagline">Expand Your Business With Us Now</div>
-
-                    <div className="company-name-label">COMPANY NAME</div>
-                    <div className="font-bold text-slate-700 text-lg mb-8">{agencyName.toUpperCase()}</div>
-
-                    <div className="grid grid-cols-2 gap-8 text-[11px] font-bold text-slate-500">
-                        <div>
-                            <div className="text-slate-400 mb-1">Proposal Issued :</div>
-                            <div className="text-slate-800">{today}</div>
-                        </div>
-                        <div>
-                            <div className="text-slate-400 mb-1">Proposal Valid :</div>
-                            <div className="text-slate-800">{validStr}</div>
-                        </div>
+                <div className="cover-image-container">
+                    <div className="cover-title-box">
+                        <h1>Project<br />Proposal</h1>
+                        <p>{proposal.title || 'Transforming Business Through Strategic Design'}</p>
                     </div>
                 </div>
 
-                <div className="prepared-for">
-                    <p>Prepared for</p>
-                    <h3>{proposal.client_name}</h3>
+                <div className="cover-footer">
+                    <div>Client: {proposal.client_name}</div>
+                    <div>Date: {today}</div>
+                    <div>Proposal Issued - {today}</div>
                 </div>
             </div>
 
-            {/* INTERNAL PAGES */}
-            {[
-                { title: 'Executive Audit & Analysis', content: proposal.bab_1 },
-                { title: 'Transformatif Solutions & ROI', content: proposal.bab_2 },
-                { title: 'Roadmap & Investment', content: proposal.bab_3 },
-                { title: 'Conclusion & Action', content: proposal.bab_4 },
-            ].map((section, index) => (
-                <div key={index} className="internal-page page-break">
-                    <div className="page-header">
-                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{agencyName} Strategic Doc</div>
-                        <div className="text-[10px] font-black text-blue-500 uppercase">Page {index + 2}</div>
+            {/* TABLE OF CONTENTS PAGE */}
+            <div className="toc-page page-break">
+                <div className="toc-left">
+                    <h2 className="text-4xl font-black mb-6 uppercase leading-none">Welcome to<br />Company</h2>
+                    <p className="text-xs opacity-60 leading-relaxed italic">
+                        "Your vision, our execution. Dark And Bright Agency delivers strategic intelligence wrapped in premium digital aesthetics."
+                    </p>
+                </div>
+                <div className="toc-right">
+                    <h2 className="toc-title">Contents</h2>
+                    <div className="space-y-2">
+                        {[
+                            '01. Executive Audit',
+                            '02. Transformatif Solutions',
+                            '03. Pricing & ROI',
+                            '04. Roadmap & Investment',
+                            '05. Conclusion'
+                        ].map((item, i) => (
+                            <div key={i} className="toc-item">
+                                <span>{item}</span>
+                                <span>0{i + 3}</span>
+                            </div>
+                        ))}
                     </div>
+                </div>
+            </div>
 
-                    <div className="section-number">0{index + 1}</div>
-                    <h2 className="section-title">{section.title}</h2>
+            {/* CONTENT PAGES */}
+            {[
+                { title: 'Executive Audit', content: proposal.bab_1, dark: false },
+                { title: 'Transformatif Solutions', content: proposal.bab_2, dark: true },
+                { title: 'Roadmap & Investment', content: proposal.bab_3, dark: false },
+                { title: 'Conclusion', content: proposal.bab_4, dark: false },
+            ].map((section, index) => (
+                <div key={index} className={`content-page page-break ${section.dark ? 'dark-page' : ''}`}>
+                    <div className="page-number-side">PAGE 0{index + 3} / PROJECT PROPOSAL</div>
+
+                    <div className="section-header">
+                        <h2>{section.title}</h2>
+                        <div className="line"></div>
+                    </div>
 
                     <div className="markdown-content">
                         <ReactMarkdown>{section.content}</ReactMarkdown>
                     </div>
 
-                    <div className="page-footer">
-                        <div>{agencyName} - {proposal.client_name}</div>
-                        <div>Confidential & Strategic</div>
+                    <div className="internal-footer">
+                        <div>{agencyName} / {proposal.client_name}</div>
+                        <div>Official Strategic Document / 2026</div>
                     </div>
                 </div>
             ))}
