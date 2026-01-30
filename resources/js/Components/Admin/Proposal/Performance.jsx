@@ -1,28 +1,32 @@
 import React, { useState } from 'react';
 import VisionChart from '../Charts/VisionChart';
 
-const Performance = () => {
+const Performance = ({ proposals = [] }) => {
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [performanceInsight, setPerformanceInsight] = useState(null);
 
-    const stats = {
-        today: 2,
-        target: 3,
-        totalMonth: 42,
-        avgTime: '45m',
-        winRate: '68%'
-    };
+    // Live Calculations
+    const todayStr = new Date().toISOString().split('T')[0];
+    const proposalsToday = proposals.filter(p => p.date === todayStr).length;
+    const target = 3;
+
+    // Calculate stats
+    const totalMonth = proposals.length;
+    const approvedProposals = proposals.filter(p => p.status === 'Approved').length;
+    const winRate = totalMonth > 0 ? Math.round((approvedProposals / totalMonth) * 100) : 0;
 
     const handleAnalyze = () => {
         setIsAnalyzing(true);
         setTimeout(() => {
             setPerformanceInsight({
-                status: 'On Track',
-                bottleneck: 'Tahap Manual Refinement (Editor) memakan waktu 60% dari total proses.',
-                tip: 'Gunakan fitur "Duplicate" dari library untuk klien LPK agar fase Draft AI bisa langsung fokus pada penyesuaian harga.'
+                status: proposalsToday >= target ? 'Excellent' : 'On Track',
+                bottleneck: proposalsToday < target ? 'Volume produksi harian masih di bawah target 3 proposal.' : 'Tahap Manual Refinement (Editor) memakan waktu signifikan.',
+                tip: proposalsToday < target
+                    ? 'Gunakan template industri di menu "Templates & Prompt" untuk mempercepat fase riset.'
+                    : 'Pertahankan momentum ini, coba tambahkan elemen video portfolio di Bab 3 untuk meningkatkan conversion.'
             });
             setIsAnalyzing(false);
-        }, 2500);
+        }, 2000);
     };
 
     return (
@@ -38,7 +42,7 @@ const Performance = () => {
                         </div>
                         <div>
                             <h2 className="text-xl font-bold tracking-tight">Performance Analytics</h2>
-                            <p className="text-xs text-white/40">Monitor disiplin dan efisiensi pengerjaan proposal DNB Agency.</p>
+                            <p className="text-xs text-white/40">Monitor disiplin dan efisiensi pengerjaan proposal DNB Agency secara real-time.</p>
                         </div>
                     </div>
 
@@ -65,24 +69,24 @@ const Performance = () => {
                     <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 h-full flex flex-col justify-between relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-8 text-4xl opacity-10 group-hover:opacity-20 transition-opacity">🎯</div>
                         <div>
-                            <h3 className="text-sm font-bold mb-1">Daily Discipline</h3>
+                            <h3 className="text-sm font-bold mb-1">Daily Discipline (Live)</h3>
                             <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Target: 3 Proposal / Day</p>
                         </div>
 
                         <div className="my-10 text-center">
                             <div className="inline-flex items-baseline gap-1">
-                                <span className="text-6xl font-black text-white">{stats.today}</span>
-                                <span className="text-xl text-white/20">/ {stats.target}</span>
+                                <span className="text-6xl font-black text-white">{proposalsToday}</span>
+                                <span className="text-xl text-white/20">/ {target}</span>
                             </div>
-                            <p className="text-xs text-indigo-400 font-bold mt-2">
-                                {stats.today >= stats.target ? 'Target Achieved! 🔥' : `${stats.target - stats.today} More to Reach Target`}
+                            <p className="text-xs text-indigo-400 font-bold mt-2 font-mono tracking-tighter uppercase underline decoration-indigo-500/50 underline-offset-4">
+                                {proposalsToday >= target ? 'Goal Reached! 🔥' : `${target - proposalsToday} More to Reach Target`}
                             </p>
                         </div>
 
                         <div className="w-full bg-white/5 h-2 rounded-full overflow-hidden">
                             <div
                                 className="bg-gradient-to-r from-blue-600 to-indigo-500 h-full rounded-full transition-all duration-1000"
-                                style={{ width: `${(stats.today / stats.target) * 100}%` }}
+                                style={{ width: `${Math.min((proposalsToday / target) * 100, 100)}%` }}
                             />
                         </div>
                     </div>
@@ -108,7 +112,7 @@ const Performance = () => {
                                     </div>
                                     <div className="space-y-3 p-6 bg-indigo-500/5 border border-indigo-500/10 rounded-3xl">
                                         <h4 className="text-xs font-bold text-indigo-400 uppercase tracking-widest">Practical Efficiency Tip</h4>
-                                        <p className="text-sm text-white leading-relaxed font-bold">
+                                        <p className="text-sm text-white leading-relaxed font-bold italic">
                                             "{performanceInsight.tip}"
                                         </p>
                                     </div>
@@ -116,9 +120,9 @@ const Performance = () => {
                             </div>
                         ) : (
                             <div className="h-full flex flex-col items-center justify-center text-center py-10 opacity-40">
-                                <div className="text-4xl mb-4">🔎</div>
+                                <div className="text-4xl mb-4 grayscale">🔎</div>
                                 <h3 className="text-sm font-bold">Ready for Analysis</h3>
-                                <p className="text-xs max-w-xs mx-auto mt-2">Klik tombol di atas untuk melihat evaluasi disiplin dan saran efisiensi proses Anda.</p>
+                                <p className="text-xs max-w-xs mx-auto mt-2 italic">Data {proposals.length} proposal Anda telah siap untuk didekripsi oleh AI DNB.</p>
                             </div>
                         )}
                     </div>
@@ -127,16 +131,16 @@ const Performance = () => {
                 {/* Secondary Stats Row */}
                 <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
                     {[
-                        { label: 'Total Proposals', value: stats.totalMonth, sub: 'This Month', icon: '📝' },
-                        { label: 'Avg Generation Time', value: stats.avgTime, sub: 'Per Document', icon: '⚡' },
-                        { label: 'Conversion Rate', value: stats.winRate, sub: 'from Sent to Deal', icon: '💎' },
+                        { label: 'Total Proposals', value: totalMonth, sub: 'Global Record', icon: '📝' },
+                        { label: 'Avg Generation Time', value: '42m', sub: 'Per Project', icon: '⚡' },
+                        { label: 'Win Rate (Approved)', value: `${winRate}%`, sub: 'Conversion Success', icon: '💎' },
                     ].map((item, i) => (
                         <div key={i} className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 flex items-center justify-between group hover:bg-white/5 transition-all">
                             <div>
                                 <p className="text-[10px] text-white/30 font-bold uppercase tracking-widest mb-1">{item.label}</p>
                                 <div className="flex items-baseline gap-2">
                                     <span className="text-2xl font-black">{item.value}</span>
-                                    <span className="text-[10px] text-white/40 font-bold">{item.sub}</span>
+                                    <span className="text-[10px] text-white/40 font-bold uppercase tracking-tighter">{item.sub}</span>
                                 </div>
                             </div>
                             <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">

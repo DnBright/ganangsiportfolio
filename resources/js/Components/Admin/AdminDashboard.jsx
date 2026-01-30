@@ -24,6 +24,11 @@ const AdminDashboard = ({ stats = {} }) => {
         { id: 3, client: 'Solo Digital Service', industry: 'Service', date: '2026-01-29', status: 'Draft', value: '-' },
         { id: 4, client: 'LPK Global Pintar', industry: 'LPK', date: '2026-01-15', status: 'Rejected', value: 'Rp 15.000.000' },
     ]);
+    const [savedTemplates, setSavedTemplates] = useState([
+        { id: 1, name: 'Standard LPK Template', industry: 'LPK', date: '2026-01-10', quality: 'High' },
+        { id: 2, name: 'Creative Agency Pitch', industry: 'Startup', date: '2026-01-12', quality: 'Balanced' },
+        { id: 3, name: 'Corporate Profile v2', industry: 'Manufacturing', date: '2026-01-20', quality: 'Professional' },
+    ]);
 
     const handleAddProposal = (finalData) => {
         const newProposal = {
@@ -71,9 +76,14 @@ const AdminDashboard = ({ stats = {} }) => {
             case 'proposal_library':
                 return <ProposalLibrary proposals={proposals} />;
             case 'templates_prompt':
-                return <TemplatesPrompt />;
+                return (
+                    <TemplatesPrompt
+                        savedTemplates={savedTemplates}
+                        onSaveTemplate={(newT) => setSavedTemplates([newT, ...savedTemplates])}
+                    />
+                );
             case 'performance':
-                return <Performance />;
+                return <Performance proposals={proposals} />;
             case 'dashboard':
             default:
                 return (
