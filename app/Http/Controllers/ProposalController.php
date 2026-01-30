@@ -23,14 +23,18 @@ class ProposalController extends Controller
 
     public function generateDraft(Request $request)
     {
-        Log::info('Generate Draft Request Data:', $request->all());
+        Log::info('--- PROPOSAL GENERATION START ---');
+        Log::info('Full Request:', $request->all());
+        Log::info('Client Name:', [$request->input('client_name')]);
         
-        $data = $request->validate([
-            'client_name' => 'required|string|max:255',
-            'industry' => 'nullable|string|max:255',
-            'target_website' => 'nullable|string|max:255',
-            'problem_statement' => 'nullable|string',
-        ]);
+        $clientName = $request->input('client_name') ?: $request->input('clientName') ?: 'Klien';
+        
+        $data = [
+            'client_name' => $clientName,
+            'industry' => $request->input('industry', 'General'),
+            'target_website' => $request->input('target_website', ''),
+            'problem_statement' => $request->input('problem_statement', 'Standard business optimization'),
+        ];
 
         $draft = $this->gemini->generateProposal($data);
 

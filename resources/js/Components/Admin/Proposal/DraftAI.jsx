@@ -36,35 +36,41 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
         }, 800);
 
         const generateAIPost = async () => {
-            if (!analysisData?.client_name) {
-                console.warn('DraftAI: client_name is missing, skipping generation.', analysisData);
-                return;
-            }
+            const clientName = analysisData?.client_name || analysisData?.clientName || 'Klien';
 
-            console.log('DraftAI: Sending generation request with:', {
-                client_name: analysisData.client_name,
-                industry: analysisData.industry || 'General',
-                problem_statement: analysisData.client_problem || analysisData.problem_statement || ''
-            });
+            console.log('DraftAI: Requesting generation for:', clientName);
 
             try {
                 const api = window.axios || axios;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
                 const response = await api.post('/proposals/generate-draft', {
-                    client_name: analysisData.client_name,
-                    industry: analysisData.industry || 'General',
-                    target_website: analysisData.target_website || '',
-                    problem_statement: analysisData.client_problem || analysisData.problem_statement || ''
+                    client_name: clientName,
+                    industry: analysisData?.industry || 'General',
+                    target_website: analysisData?.target_website || '',
+                    problem_statement: analysisData?.client_problem || analysisData?.problem_statement || ''
+                }, {
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
                 });
 
-                setDraftContent(response.data.draft);
+                console.log('DraftAI: Response received:', response.data);
+
+                // Ensure the draft is an object and not a string/null
+                const draft = response.data.draft || {};
+                setDraftContent(draft);
                 setIsGenerating(false);
                 clearInterval(interval);
             } catch (error) {
                 console.error('Gemini Generation Error:', error);
-                const errorText = `Maaf, terjadi kesalahan saat menghubungi AI: ${error.response?.data?.message || error.message}. \n\nPastikan GEMINI_API_KEY sudah terpasang di file .env server Anda.`;
+                const rawError = error.response?.data?.message || error.message;
+                const errorText = typeof rawError === 'object' ? JSON.stringify(rawError) : String(rawError);
+
                 setDraftContent({
                     title: 'Error Generation',
-                    bab_1: errorText,
+                    bab_1: `Maaf, terjadi kesalahan: ${errorText}. Pastikan GEMINI_API_KEY terpasang di .env server.`,
                     bab_2: '',
                     bab_3: '',
                     bab_4: ''
