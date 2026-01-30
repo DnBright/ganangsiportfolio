@@ -1,8 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { useLanguage } from '../Contexts/LanguageContext';
+import { t } from '../translations';
 
 const Hero = () => {
     const heroRef = useRef(null);
+    const { language } = useLanguage();
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -40,7 +43,7 @@ const Hero = () => {
             {/* Dark & Bright Identity Badge */}
             <div className="absolute top-12 left-1/2 -translate-x-1/2 z-50 gsap-stagger">
                 <span className="text-white mix-blend-difference font-black text-[10px] md:text-xs tracking-[0.6em] uppercase opacity-40">
-                    Dark & Bright Agency // Precision & Focus
+                    {t('hero.tagline', language)}
                 </span>
             </div>
 
@@ -51,7 +54,7 @@ const Hero = () => {
                         DARK
                     </h2>
                     <p className="text-white/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
-                        Absolute Integrity
+                        {t('hero.dark', language)}
                     </p>
                 </div>
             </div>
@@ -63,7 +66,7 @@ const Hero = () => {
                         BRIGHT
                     </h2>
                     <p className="text-black/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
-                        Digital Clarity
+                        {t('hero.bright', language)}
                     </p>
                 </div>
             </div>

@@ -11,6 +11,7 @@ import SloganServices from './Components/SloganServices';
 import PortfolioShowcase from './Components/PortfolioShowcase';
 import Solutions from './Components/Solutions';
 import ContactFooter from './Components/ContactFooter';
+import { LanguageProvider } from './Contexts/LanguageContext';
 
 window.Alpine = Alpine;
 Alpine.start();
@@ -20,23 +21,18 @@ const navbarRoot = document.getElementById('navbar-root');
 if (navbarRoot) {
     const root = createRoot(navbarRoot);
     const navItems = [
-        { label: 'Home', href: '/' },
-        { label: 'Layanan', href: '/services' },
-        { label: 'Solusi', href: '/solutions' },
-        { label: 'Portfolio', href: '/portfolio' },
-        { label: 'Tentang', href: '/about' },
-        { label: 'Kontak', href: '/contact' }
+        { label: 'nav.home', href: '/' },
+        { label: 'nav.services', href: '/services' },
+        { label: 'nav.solutions', href: '/solutions' },
+        { label: 'nav.portfolio', href: '/portfolio' },
+        { label: 'nav.about', href: '/about' },
+        { label: 'nav.contact', href: '/contact' }
     ];
 
     root.render(
-        <PillNav
-            items={navItems}
-            activeHref={window.location.pathname}
-            baseColor="#000000"
-            pillColor="#000000"
-            hoveredPillTextColor="#ffffff"
-            pillTextColor="#000000"
-        />
+        <LanguageProvider>
+            <PillNav items={navItems} />
+        </LanguageProvider>
     );
 }
 
@@ -44,7 +40,11 @@ if (navbarRoot) {
 const heroRoot = document.getElementById('hero-root');
 if (heroRoot) {
     const root = createRoot(heroRoot);
-    root.render(<Hero />);
+    root.render(
+        <LanguageProvider>
+            <Hero />
+        </LanguageProvider>
+    );
 }
 
 // Mount AdminDashboard if the container exists
@@ -53,34 +53,54 @@ if (adminDashboardRoot) {
     const root = createRoot(adminDashboardRoot);
     // Parse data from data attributes if needed
     const data = adminDashboardRoot.dataset.stats ? JSON.parse(adminDashboardRoot.dataset.stats) : {};
-    root.render(<AdminDashboard stats={data} />);
+    root.render(
+        <LanguageProvider>
+            <AdminDashboard stats={data} />
+        </LanguageProvider>
+    );
 }
 
 // Mount SloganServices if the container exists
 const sloganServicesRoot = document.getElementById('slogan-services-root');
 if (sloganServicesRoot) {
     const root = createRoot(sloganServicesRoot);
-    root.render(<SloganServices />);
+    root.render(
+        <LanguageProvider>
+            <SloganServices />
+        </LanguageProvider>
+    );
 }
 
 // Mount Solutions if the container exists
 const solutionsRoot = document.getElementById('solutions-root');
 if (solutionsRoot) {
     const root = createRoot(solutionsRoot);
-    root.render(<Solutions />);
+    root.render(
+        <LanguageProvider>
+            <Solutions />
+        </LanguageProvider>
+    );
 }
 
 // Mount PortfolioShowcase if the container exists
 const portfolioRoot = document.getElementById('portfolio-root');
 if (portfolioRoot) {
     const root = createRoot(portfolioRoot);
-    const portfolios = portfolioRoot.dataset.portfolios ? JSON.parse(portfolioRoot.dataset.portfolios) : [];
-    root.render(<PortfolioShowcase portfolios={portfolios} />);
+    const portfolios = JSON.parse(portfolioRoot.dataset.portfolios || '[]');
+    root.render(
+        <LanguageProvider>
+            <PortfolioShowcase portfolios={portfolios} />
+        </LanguageProvider>
+    );
 }
 
 // Mount ContactFooter if the container exists
 const contactFooterRoot = document.getElementById('contact-footer-root');
 if (contactFooterRoot) {
     const root = createRoot(contactFooterRoot);
-    root.render(<ContactFooter />);
+    root.render(
+        <LanguageProvider>
+            <ContactFooter />
+        </LanguageProvider>
+    );
 }

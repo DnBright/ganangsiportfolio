@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { useLanguage } from '../Contexts/LanguageContext';
+import { t } from '../translations';
 
 const PillNav = ({
     logo,
@@ -27,6 +29,7 @@ const PillNav = ({
     const mobileMenuRef = useRef(null);
     const navItemsRef = useRef(null);
     const logoRef = useRef(null);
+    const { language, toggleLanguage } = useLanguage();
 
     useEffect(() => {
         const layout = () => {
@@ -275,7 +278,7 @@ const PillNav = ({
                                                     color: isActive ? 'var(--hover-text)' : 'inherit'
                                                 }}
                                             >
-                                                {item.label}
+                                                {t(item.label, language)}
                                             </span>
                                             <span
                                                 className="pill-label-hover absolute left-0 top-0 z-[3] inline-block text-[13px] md:text-[14px] font-bold"
@@ -285,7 +288,7 @@ const PillNav = ({
                                                 }}
                                                 aria-hidden="true"
                                             >
-                                                {item.label}
+                                                {t(item.label, language)}
                                             </span>
                                         </span>
                                     </>
@@ -313,6 +316,14 @@ const PillNav = ({
                         </ul>
                     </div>
                 </nav>
+
+                {/* Language Switcher */}
+                <button
+                    onClick={toggleLanguage}
+                    className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border-2 border-black hover:bg-black hover:text-white transition-all duration-300 font-semibold text-sm"
+                >
+                    <span>{language === 'id' ? '🇮🇩 ID' : '🇬🇧 EN'}</span>
+                </button>
 
                 {/* Language Switcher Pill */}
                 <div
