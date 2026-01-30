@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import ElectricBorderCard from './ElectricBorderCard';
+import MagicBentoCard from './MagicBentoCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,15 +78,15 @@ const Solutions = () => {
 
                 <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                     {solutions.map((item, index) => (
-                        <ElectricBorderCard key={index} className="h-full">
-                            <div className="h-full p-8 flex flex-col items-start justify-start hover:bg-gray-50 transition-colors duration-300">
+                        <MagicBentoCard key={index} className="h-full group">
+                            <div className="h-full p-8 flex flex-col items-start justify-start hover:bg-gray-50/50 transition-colors duration-300">
                                 <div className="text-4xl mb-6">{item.icon}</div>
-                                <h4 className="text-2xl font-bold mb-4 translate-x-0 group-hover/card:translate-x-2 transition-transform duration-300">{item.title}</h4>
+                                <h4 className="text-2xl font-bold mb-4 translate-x-0 group-hover:translate-x-2 transition-transform duration-300">{item.title}</h4>
                                 <p className="text-gray-600 leading-relaxed">
                                     {item.description}
                                 </p>
                             </div>
-                        </ElectricBorderCard>
+                        </MagicBentoCard>
                     ))}
                 </div>
             </div>
