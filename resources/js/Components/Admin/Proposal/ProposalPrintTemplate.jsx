@@ -15,6 +15,19 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
         year: 'numeric'
     });
 
+    const sections = [
+        { title: 'Ringkasan Eksekutif', content: proposal.executive_summary },
+        { title: 'Latar Belakang & Masalah Klien', content: proposal.problem_analysis },
+        { title: 'Tujuan Proyek', content: proposal.project_objectives },
+        { title: 'Solusi yang Ditawarkan', content: proposal.solutions },
+        { title: 'Ruang Lingkup Pekerjaan (Deliverables)', content: proposal.scope_of_work },
+        { title: 'Alur Sistem & Cara Kerja', content: proposal.system_walkthrough },
+        { title: 'Timeline Implementasi', content: proposal.timeline },
+        { title: 'Estimasi Dampak & ROI', content: proposal.roi_impact },
+        { title: 'Nilai Tambah Dark and Bright', content: proposal.value_add },
+        { title: 'Penutup & Ajakan Kerja Sama', content: proposal.closing_cta },
+    ];
+
     return (
         <div className="proposal-print-wrapper bg-white text-[#1a1c2e] font-sans">
             {/* CSS for Exact Cover Page Replication */}
@@ -96,7 +109,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     letter-spacing: 0.5px;
                 }
 
-                /* Technology Illustration Place-holder (futuristic schematic) */
+                /* Technology Illustration */
                 .tech-illustration {
                     position: relative;
                     width: 100%;
@@ -119,17 +132,12 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     margin-bottom: 40px;
                 }
                 .heading-main {
-                    font-size: 48px;
+                    font-size: 40px;
                     font-weight: 900;
                     line-height: 1.1;
-                    color: #fff; /* Part of it is on dark background */
+                    color: #fff;
                     text-transform: uppercase;
                     letter-spacing: -1px;
-                }
-                /* Mix blend mode for text overlap color inversion effect if needed, 
-                   but usually simpler to handle via layout in print */
-                .heading-white-area {
-                    color: #111827;
                 }
 
                 .client-info-area {
@@ -198,12 +206,12 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     text-transform: uppercase;
                 }
                 .section-title-wrap {
-                    margin-bottom: 40px;
+                    margin-bottom: 30px;
                     border-left: 8px solid #111827;
                     padding-left: 20px;
                 }
                 .section-title-wrap h2 {
-                    font-size: 28px;
+                    font-size: 24px;
                     font-weight: 900;
                     color: #111827;
                     text-transform: uppercase;
@@ -211,11 +219,14 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 }
                 .markdown-content {
                     font-size: 11pt;
-                    line-height: 1.8;
+                    line-height: 1.7;
                     color: #374151;
                     text-align: justify;
                 }
                 .markdown-content strong { color: #000; font-weight: 800; }
+                .markdown-content ul { list-style-type: disc; padding-left: 20px; margin-bottom: 15px; }
+                .markdown-content li { margin-bottom: 8px; }
+                
                 .internal-footer {
                     position: absolute;
                     bottom: 15mm;
@@ -256,8 +267,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     {/* Heading Group */}
                     <div className="heading-area">
                         <div className="heading-main">
-                            PROPOSAL PENGEMBANGAN<br />
-                            WEBSITE & SISTEM DIGITAL
+                            {proposal.title || "PROPOSAL PENGEMBANGAN WEBSITE & SISTEM DIGITAL"}
                         </div>
                     </div>
 
@@ -267,7 +277,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                             {proposal.client_name}
                         </div>
                         <div className="problem-statement-display">
-                            {proposal.problem_statement || "Digitalisasi Informasi, Penerimaan Siswa, dan Manajemen Konten"}
+                            {proposal.problem_statement || "Digitalisasi Strategis & Otomasi Bisnis"}
                         </div>
                     </div>
 
@@ -281,16 +291,11 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
             </div>
 
             {/* INTERNAL PAGES */}
-            {[
-                { title: 'Executive Audit & Analysis', content: proposal.bab_1 },
-                { title: 'Transformatif Solutions & ROI', content: proposal.bab_2 },
-                { title: 'Roadmap & Investment', content: proposal.bab_3 },
-                { title: 'Conclusion & Action', content: proposal.bab_4 },
-            ].map((section, index) => (
+            {sections.map((section, index) => (
                 <div key={index} className="internal-page page-break">
                     <div className="internal-header">
                         <div>{agencyName} STRATEGIC DOCUMENT</div>
-                        <div>PAGE 0{index + 2}</div>
+                        <div>PAGE {String(index + 2).padStart(2, '0')}</div>
                     </div>
 
                     <div className="section-title-wrap">
@@ -298,7 +303,11 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     </div>
 
                     <div className="markdown-content">
-                        <ReactMarkdown>{section.content}</ReactMarkdown>
+                        {section.content ? (
+                            <ReactMarkdown>{section.content}</ReactMarkdown>
+                        ) : (
+                            <p className="text-gray-300 italic text-sm">Bagian ini belum diisi.</p>
+                        )}
                     </div>
 
                     <div className="internal-footer">

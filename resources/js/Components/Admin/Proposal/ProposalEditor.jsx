@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 
 const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     const [title, setTitle] = useState(draftContent?.title || '');
-    const [bab1, setBab1] = useState(draftContent?.bab_1 || '');
-    const [bab2, setBab2] = useState(draftContent?.bab_2 || '');
-    const [bab3, setBab3] = useState(draftContent?.bab_3 || '');
-    const [bab4, setBab4] = useState(draftContent?.bab_4 || '');
-    const [pricing, setPricing] = useState('');
+    const [executiveSummary, setExecutiveSummary] = useState(draftContent?.executive_summary || '');
+    const [problemAnalysis, setProblemAnalysis] = useState(draftContent?.problem_analysis || '');
+    const [projectObjectives, setProjectObjectives] = useState(draftContent?.project_objectives || '');
+    const [solutions, setSolutions] = useState(draftContent?.solutions || '');
+    const [scopeOfWork, setScopeOfWork] = useState(draftContent?.scope_of_work || '');
+    const [systemWalkthrough, setSystemWalkthrough] = useState(draftContent?.system_walkthrough || '');
+    const [timeline, setTimeline] = useState(draftContent?.timeline || '');
+    const [roiImpact, setRoiImpact] = useState(draftContent?.roi_impact || '');
+    const [valueAdd, setValueAdd] = useState(draftContent?.value_add || '');
+    const [closingCta, setClosingCta] = useState(draftContent?.closing_cta || '');
+
+    const [pricing, setPricing] = useState(draftContent?.pricing || '');
     const [bonus, setBonus] = useState('');
     const [isPolishing, setIsPolishing] = useState(false);
 
@@ -18,10 +25,16 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                 .replace(/hanya/g, 'semata-mata')
                 .replace(/sangat/g, 'signifikan');
 
-            setBab1(polish(bab1));
-            setBab2(polish(bab2));
-            setBab3(polish(bab3));
-            setBab4(polish(bab4));
+            setExecutiveSummary(polish(executiveSummary));
+            setProblemAnalysis(polish(problemAnalysis));
+            setProjectObjectives(polish(projectObjectives));
+            setSolutions(polish(solutions));
+            setScopeOfWork(polish(scopeOfWork));
+            setSystemWalkthrough(polish(systemWalkthrough));
+            setTimeline(polish(timeline));
+            setRoiImpact(polish(roiImpact));
+            setValueAdd(polish(valueAdd));
+            setClosingCta(polish(closingCta));
 
             setIsPolishing(false);
         }, 2000);
@@ -30,6 +43,19 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     const handlePrintPreview = () => {
         window.print();
     };
+
+    const sections = [
+        { id: 'executive_summary', label: '1. Ringkasan Eksekutif', value: executiveSummary, setter: setExecutiveSummary },
+        { id: 'problem_analysis', label: '2. Latar Belakang & Masalah', value: problemAnalysis, setter: setProblemAnalysis },
+        { id: 'project_objectives', label: '3. Tujuan Proyek', value: projectObjectives, setter: setProjectObjectives },
+        { id: 'solutions', label: '4. Solusi yang Ditawarkan', value: solutions, setter: setSolutions },
+        { id: 'scope_of_work', label: '5. Ruang Lingkup Pekerjaan', value: scopeOfWork, setter: setScopeOfWork },
+        { id: 'system_walkthrough', label: '6. Alur Sistem & Cara Kerja', value: systemWalkthrough, setter: setSystemWalkthrough },
+        { id: 'timeline', label: '7. Timeline Implementasi', value: timeline, setter: setTimeline },
+        { id: 'roi_impact', label: '8. Estimasi Dampak & ROI', value: roiImpact, setter: setRoiImpact },
+        { id: 'value_add', label: '9. Nilai Tambah Dark and Bright', value: valueAdd, setter: setValueAdd },
+        { id: 'closing_cta', label: '10. Penutup & Ajakan Kerja Sama', value: closingCta, setter: setClosingCta },
+    ];
 
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
@@ -88,24 +114,19 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                         />
                     </div>
 
-                    {/* Chapters Section */}
+                    {/* Sections Group */}
                     <div className="space-y-8">
-                        {[
-                            { id: 'bab1', label: 'Bab 1: Executive Summary', value: bab1, setter: setBab1 },
-                            { id: 'bab2', label: 'Bab 2: Problems & Solutions', value: bab2, setter: setBab2 },
-                            { id: 'bab3', label: 'Bab 3: Roadmap & Strategy', value: bab3, setter: setBab3 },
-                            { id: 'bab4', label: 'Bab 4: Final Conclusion', value: bab4, setter: setBab4 },
-                        ].map((chapter) => (
-                            <div key={chapter.id} className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 shadow-2xl group transition-all duration-500 hover:border-cyan-500/20">
+                        {sections.map((section) => (
+                            <div key={section.id} className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 shadow-2xl group transition-all duration-500 hover:border-cyan-500/20">
                                 <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-                                    <label className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">{chapter.label}</label>
-                                    <span className="text-[10px] text-white/10 font-bold uppercase">{(chapter.value || '').split(' ').length} WORDS</span>
+                                    <label className="text-[10px] text-white/30 font-bold uppercase tracking-[4px]">{section.label}</label>
+                                    <span className="text-[10px] text-white/10 font-bold uppercase">{(section.value || '').split(' ').length} WORDS</span>
                                 </div>
                                 <textarea
-                                    value={chapter.value}
-                                    onChange={(e) => chapter.setter(e.target.value)}
-                                    className="w-full bg-transparent border-none outline-none text-base leading-relaxed text-white/70 min-h-[300px] resize-none font-sans no-scrollbar"
-                                    placeholder={`Isi ${chapter.label} di sini...`}
+                                    value={section.value}
+                                    onChange={(e) => section.setter(e.target.value)}
+                                    className="w-full bg-transparent border-none outline-none text-base leading-relaxed text-white/70 min-h-[250px] resize-none font-sans no-scrollbar"
+                                    placeholder={`Isi ${section.label} di sini...`}
                                 ></textarea>
                             </div>
                         ))}
@@ -115,10 +136,12 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     <div className="hidden print:block bg-white text-black p-10 space-y-12">
                         <h1 className="text-4xl font-black uppercase border-b-4 border-black pb-4">{title}</h1>
                         <div className="space-y-10">
-                            <div><h2 className="text-xl font-bold mb-4">Bab 1: Executive Summary</h2><p className="whitespace-pre-wrap">{bab1}</p></div>
-                            <div><h2 className="text-xl font-bold mb-4">Bab 2: Problems & Solutions</h2><p className="whitespace-pre-wrap">{bab2}</p></div>
-                            <div><h2 className="text-xl font-bold mb-4">Bab 3: Roadmap & Strategy</h2><p className="whitespace-pre-wrap">{bab3}</p></div>
-                            <div><h2 className="text-xl font-bold mb-4">Bab 4: Final Conclusion</h2><p className="whitespace-pre-wrap">{bab4}</p></div>
+                            {sections.map(s => (
+                                <div key={s.id}>
+                                    <h2 className="text-xl font-bold mb-4">{s.label}</h2>
+                                    <p className="whitespace-pre-wrap">{s.value}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
@@ -164,7 +187,21 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
                             <div className="pt-8 border-t border-white/5 space-y-4">
                                 <button
-                                    onClick={() => onSave({ title, bab_1: bab1, bab_2: bab2, bab_3: bab3, bab_4: bab4, pricing, bonus })}
+                                    onClick={() => onSave({
+                                        title,
+                                        executive_summary: executiveSummary,
+                                        problem_analysis: problemAnalysis,
+                                        project_objectives: projectObjectives,
+                                        solutions,
+                                        scope_of_work: scopeOfWork,
+                                        system_walkthrough: systemWalkthrough,
+                                        timeline,
+                                        roi_impact: roiImpact,
+                                        value_add: valueAdd,
+                                        closing_cta: closingCta,
+                                        pricing,
+                                        bonus
+                                    })}
                                     className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-[24px] font-black text-sm tracking-[2px] shadow-2xl shadow-blue-500/30 active:scale-95 transition-all uppercase"
                                 >
                                     Finish & Save Proposal
@@ -186,7 +223,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                                 <div>
                                     <h4 className="text-xs font-bold text-purple-400 mb-2 uppercase tracking-widest font-mono">DNB Quality Tip</h4>
                                     <p className="text-[11px] text-white/40 leading-relaxed">
-                                        Ingat, klien tidak membeli "fitur", mereka membeli **solusi atas masalah mereka**. Pastikan Bab 2 (Pemahaman Kebutuhan) sudah Anda edit agar terasa sangat personal bagi {pricing ? 'klien Anda' : 'target bisnis'}.
+                                        Ingat, klien tidak membeli "fitur", mereka membeli **solusi atas masalah mereka**. Pastikan proposal Anda terasa sangat personal dan menjawab masalah nyata bisnis mereka.
                                     </p>
                                 </div>
                             </div>

@@ -69,10 +69,16 @@ class GeminiService
 
                     return [
                         'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
-                        'bab_1' => (string)$text, // Fallback if not valid JSON
-                        'bab_2' => '',
-                        'bab_3' => '',
-                        'bab_4' => ''
+                        'executive_summary' => (string)$text,
+                        'problem_analysis' => '',
+                        'project_objectives' => '',
+                        'solutions' => '',
+                        'scope_of_work' => '',
+                        'system_walkthrough' => '',
+                        'timeline' => '',
+                        'roi_impact' => '',
+                        'value_add' => '',
+                        'closing_cta' => ''
                     ];
                 }
 
@@ -87,10 +93,16 @@ class GeminiService
 
         return [
             'title' => 'Error Generation',
-            'bab_1' => "Gemini API Error (Confirmed models failed): " . $lastError,
-            'bab_2' => '',
-            'bab_3' => '',
-            'bab_4' => ''
+            'executive_summary' => "Gemini API Error (Confirmed models failed): " . $lastError,
+            'problem_analysis' => '',
+            'project_objectives' => '',
+            'solutions' => '',
+            'scope_of_work' => '',
+            'system_walkthrough' => '',
+            'timeline' => '',
+            'roi_impact' => '',
+            'value_add' => '',
+            'closing_cta' => ''
         ];
     }
 
@@ -101,26 +113,32 @@ class GeminiService
         $website = $data['target_website'] ?? 'Tidak disebutkan';
         $problem = $data['problem_statement'] ?? 'Tidak disebutkan';
 
-        return 'Anda adalah Senior Proposal Writer di DNB Agency (Dark and Bright), agensi pemasaran digital elit. 
-        Tugas Anda adalah menulis proposal bisnis yang sangat persuasif, profesional, dan komprehensif dalam Bahasa Indonesia.
-        
+        return 'Anda adalah sistem AI Proposal Generator milik agency "Dark and Bright".
+        Tugas Anda adalah menghasilkan ISI PROPOSAL PROFESIONAL yang fokus pada kebutuhan klien, menggunakan bahasa bisnis yang jelas, mudah dipahami, dan tidak terlalu teknis.
+
         Klien: ' . $client . '
         Industri: ' . $industry . '
         Website Target: ' . $website . '
         Masalah Utama: ' . $problem . '
-        
+
         Persyaratan Proposal:
         1. Anda WAJIB mengembalikan hasil dalam format JSON murni tanpa teks lainnya.
-        2. Format JSON harus memiliki key: "title", "bab_1", "bab_2", "bab_3", "bab_4".
-        3. Setiap Bab harus berisi teks yang sangat mendalam dan persuasif (minimal 400-500 kata per bab).
-        4. Gunakan nada bicara yang berwibawa, solutif, dan "mahal".
-        5. Struktur Konten:
-           - title: Judul Proposal yang menarik (contoh: "Transformasi Digital Visioner untuk [Nama Klien]").
-           - bab_1: Eksekutif Summary & Analisis Audit (Audit website/bisnis mereka secara spesifik).
-           - bab_2: Strategi Dark & Bright (Solusi digital marketing transformatif) & Estimasi ROI (Berikan proyeksi matematis atau nilai tambah bisnis yang akan mereka dapatkan).
-           - bab_3: Roadmap, Otoritas DNB, & Struktur Investasi (Berikan transparansi biaya atau paket investasi yang disarankan secara profesional).
-           - bab_4: Kesimpulan & Call to Action yang kuat.
-        
-        Jangan sertakan kata-kata pembuka atau penutup di luar JSON. Kembalikan hanya objek JSON tersebut.';
+        2. Format JSON harus memiliki key berikut:
+           "title", "executive_summary", "problem_analysis", "project_objectives", "solutions", "scope_of_work", "system_walkthrough", "timeline", "roi_impact", "value_add", "closing_cta"
+        3. Gunakan Bahasa Indonesia formal-profesional.
+        4. Struktur Konten WAJIB mengikuti urutan ini:
+           - title: Judul Proposal yang menarik dan profesional.
+           - executive_summary: Ringkasan eksekutif (masalah, solusi inti, dampak bisnis).
+           - problem_analysis: Latar belakang & masalah klien (fokus pada inefisiensi, sistem, data).
+           - project_objectives: Tujuan proyek (poin-poin terukur).
+           - solutions: Solusi yang ditawarkan (dalam bentuk modul, jelaskan apa yang dikerjakan & manfaatnya).
+           - scope_of_work: Ruang lingkup pekerjaan (daftar pekerjaan konkret/deliverables).
+           - system_walkthrough: Alur sistem & cara kerja (narasi sederhana & logis).
+           - timeline: Timeline implementasi (fase perencanaan, pengembangan, pengujian, peluncuran).
+           - roi_impact: Estimasi dampak & ROI (ilustrasi potensi efisiensi/peningkatan).
+           - value_add: Nilai tambah Dark and Bright (mengapa kami partner yang tepat).
+           - closing_cta: Penutup & ajakan kerja sama profesional.
+
+        Kembalikan hanya objek JSON tersebut tanpa markdown code blocks.';
     }
 }

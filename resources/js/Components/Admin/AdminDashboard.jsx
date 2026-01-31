@@ -20,10 +20,16 @@ const AdminDashboard = ({ stats = {} }) => {
     const [currentProposal, setCurrentProposal] = useState(null);
     const [draftResult, setDraftResult] = useState({
         title: '',
-        bab_1: '',
-        bab_2: '',
-        bab_3: '',
-        bab_4: ''
+        executive_summary: '',
+        problem_analysis: '',
+        project_objectives: '',
+        solutions: '',
+        scope_of_work: '',
+        system_walkthrough: '',
+        timeline: '',
+        roi_impact: '',
+        value_add: '',
+        closing_cta: ''
     });
     const [proposals, setProposals] = useState([]); // Changed to empty array
     const [savedTemplates, setSavedTemplates] = useState([
@@ -60,10 +66,16 @@ const AdminDashboard = ({ stats = {} }) => {
                 target_website: currentProposal?.target_website || '',
                 problem_statement: currentProposal?.problem_statement || currentProposal?.client_problem || '',
                 title: finalData.title || draftResult.title,
-                bab_1: finalData.bab_1 || draftResult.bab_1,
-                bab_2: finalData.bab_2 || draftResult.bab_2,
-                bab_3: finalData.bab_3 || draftResult.bab_3,
-                bab_4: finalData.bab_4 || draftResult.bab_4,
+                executive_summary: finalData.executive_summary || draftResult.executive_summary,
+                problem_analysis: finalData.problem_analysis || draftResult.problem_analysis,
+                project_objectives: finalData.project_objectives || draftResult.project_objectives,
+                solutions: finalData.solutions || draftResult.solutions,
+                scope_of_work: finalData.scope_of_work || draftResult.scope_of_work,
+                system_walkthrough: finalData.system_walkthrough || draftResult.system_walkthrough,
+                timeline: finalData.timeline || draftResult.timeline,
+                roi_impact: finalData.roi_impact || draftResult.roi_impact,
+                value_add: finalData.value_add || draftResult.value_add,
+                closing_cta: finalData.closing_cta || draftResult.closing_cta,
                 pricing: finalData.pricing || '-',
                 status: 'Approved'
             };
@@ -106,10 +118,17 @@ const AdminDashboard = ({ stats = {} }) => {
         setCurrentProposal(proposal);
         setDraftResult({
             title: proposal.title,
-            bab_1: proposal.bab_1,
-            bab_2: proposal.bab_2,
-            bab_3: proposal.bab_3,
-            bab_4: proposal.bab_4
+            executive_summary: proposal.executive_summary,
+            problem_analysis: proposal.problem_analysis,
+            project_objectives: proposal.project_objectives,
+            solutions: proposal.solutions,
+            scope_of_work: proposal.scope_of_work,
+            system_walkthrough: proposal.system_walkthrough,
+            timeline: proposal.timeline,
+            roi_impact: proposal.roi_impact,
+            value_add: proposal.value_add,
+            closing_cta: proposal.closing_cta,
+            pricing: proposal.pricing
         });
         setActiveTab('editor_proposal');
     };
@@ -127,10 +146,17 @@ const AdminDashboard = ({ stats = {} }) => {
         setCurrentProposal(duplicateData);
         setDraftResult({
             title: proposal.title,
-            bab_1: proposal.bab_1,
-            bab_2: proposal.bab_2,
-            bab_3: proposal.bab_3,
-            bab_4: proposal.bab_4
+            executive_summary: proposal.executive_summary,
+            problem_analysis: proposal.problem_analysis,
+            project_objectives: proposal.project_objectives,
+            solutions: proposal.solutions,
+            scope_of_work: proposal.scope_of_work,
+            system_walkthrough: proposal.system_walkthrough,
+            timeline: proposal.timeline,
+            roi_impact: proposal.roi_impact,
+            value_add: proposal.value_add,
+            closing_cta: proposal.closing_cta,
+            pricing: proposal.pricing
         });
         setActiveTab('editor_proposal');
     };
@@ -157,10 +183,16 @@ const AdminDashboard = ({ stats = {} }) => {
                             console.log('AI Draft Result Received:', draft);
                             setDraftResult(draft || {
                                 title: 'Untitled',
-                                bab_1: '',
-                                bab_2: '',
-                                bab_3: '',
-                                bab_4: ''
+                                executive_summary: '',
+                                problem_analysis: '',
+                                project_objectives: '',
+                                solutions: '',
+                                scope_of_work: '',
+                                system_walkthrough: '',
+                                timeline: '',
+                                roi_impact: '',
+                                value_add: '',
+                                closing_cta: ''
                             });
                             setActiveTab('editor_proposal');
                         }}
