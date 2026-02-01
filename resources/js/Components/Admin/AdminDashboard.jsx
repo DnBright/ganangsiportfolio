@@ -7,7 +7,7 @@ import WelcomeCard from './WelcomeCard';
 import SatisfactionGauge from './SatisfactionGauge';
 import ReferralTracking from './ReferralTracking';
 import ActiveUsersChart from './ActiveUsersChart';
-import CreateProposal from './Proposal/CreateProposal';
+import ProposalCreator from './Proposal/ProposalCreator';
 import DraftAI from './Proposal/DraftAI';
 import ProposalEditorComponent from './Proposal/ProposalEditor';
 import ProposalLibrary from './Proposal/ProposalLibrary';
@@ -165,7 +165,7 @@ const AdminDashboard = ({ stats = {} }) => {
         switch (activeTab) {
             case 'create_proposal':
                 return (
-                    <CreateProposal
+                    <ProposalCreator
                         onSubmit={(data) => {
                             console.log('Proposal Form Data:', data);
                             setCurrentProposal(data);

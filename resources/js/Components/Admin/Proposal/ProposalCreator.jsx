@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const CreateProposal = ({ onSubmit }) => {
+const ProposalCreator = ({ onSubmit }) => {
     const [formData, setFormData] = useState({
         client_name: '',
         industry: '',
@@ -264,4 +264,4 @@ const CreateProposal = ({ onSubmit }) => {
     );
 };
 
-export default CreateProposal;
+export default ProposalCreator;
