@@ -76,6 +76,7 @@ class GeminiService
                         'scope_of_work' => '',
                         'system_walkthrough' => '',
                         'timeline' => '',
+                        'investment' => '',
                         'roi_impact' => '',
                         'value_add' => '',
                         'closing_cta' => '',
@@ -101,6 +102,7 @@ class GeminiService
             'scope_of_work' => '',
             'system_walkthrough' => '',
             'timeline' => '',
+            'investment' => '',
             'roi_impact' => '',
             'value_add' => '',
             'closing_cta' => '',
@@ -117,70 +119,93 @@ class GeminiService
         $type = $data['project_type'] ?? 'Website Bisnis';
         $total = $data['total_value'] ?? 0;
         $duration = $data['contract_duration'] ?? 6;
+        $deadline = $data['deadline'] ?? '14 Hari';
+
+        // Hitung rincian biaya untuk instruksi prompt
+        $setupPct = ($type == 'Landing Page' ? 0.4 : ($type == 'Website Bisnis' ? 0.3 : ($type == 'Dashboard / Sistem' ? 0.2 : 0.15)));
+        $maintPct = 1 - $setupPct;
+        
+        $setupCost = number_format($total * $setupPct, 0, ',', '.');
+        $maintMonthly = number_format(($total * $maintPct) / $duration, 0, ',', '.');
+        $totalFmt = number_format($total, 0, ',', '.');
 
         return 'Anda adalah sistem AI Proposal Generator milik agency "Dark and Bright".
-        Tugas Anda adalah menghasilkan ISI PROPOSAL PROFESIONAL dengan standar "High-Ticket Consultancy".
-        
+        Tugas Anda adalah menghasilkan ISI PROPOSAL BISNIS PROFESIONAL yang:
+        - Berfokus pada kebutuhan dan masalah klien
+        - Menggunakan bahasa Indonesia formal dan profesional
+        - Mudah dipahami oleh pemilik usaha dan manajemen
+        - Tidak berlebihan, tidak overclaim, dan tidak terlalu teknis
+        - Melindungi kepentingan bisnis Dark and Bright secara wajar
+
+        DATA PROYEK:
         Klien: ' . $client . '
         Industri: ' . $industry . '
         Masalah: ' . $problem . '
         Tipe: ' . $type . '
-        Nilai: IDR ' . number_format($total, 0, ',', '.') . '
+        Nilai: IDR ' . $totalFmt . '
         Durasi: ' . $duration . ' Bulan
-        
-        PRINSIP DASAR PERHITUNGAN BIAYA (Dark and Bright):
-        - Total nilai proyek dianggap sebagai 100% nilai kontrak.
-        - Persentase Setup & Maintenance berdasarkan Tipe Proyek:
-          * Landing Page: Setup 40%, Maintenance 60%
-          * Website Bisnis: Setup 30%, Maintenance 70%
-          * Dashboard / Sistem: Setup 20%, Maintenance 80%
-          * Sistem Kompleks: Setup 15%, Maintenance 85%
-        - Nilai Setup = Persentase Setup × Nilai Total
-        - Nilai Maintenance Total = Persentase Maintenance × Nilai Total
-        - Maintenance Bulanan = Nilai Maintenance Total ÷ ' . $duration . ' bulan
+        Timeline: ' . $deadline . '
 
-        INSTRUKSI KHUSUS PER BAGIAN (STRATEGIC WRITING):
+        IKUTI STRUKTUR WAJIB BERIKUT (11 BAB):
 
-        1. RINGKASAN EKSEKUTIF:
-           - Jangan tonjolkan "Waktu Pengerjaan" sebagai headline utama. Jadikan itu detail pendukung.
-           - FOKUS UTAMA: Kontrol manajemen, visibilitas bisnis, dan solusi masalah.
-           - Tone: "Kami membereskan masalah Anda agar Anda bisa fokus membesarkan bisnis."
+        1. Ringkasan Eksekutif (Key: executive_summary)
+        - Masalah utama klien
+        - Solusi inti Dark and Bright
+        - Dampak bisnis (focus: control, efisiensi). Jangan tonjolkan durasi ' . $deadline . ' sebagai value utama.
 
-        2. LATAR BELAKANG & MASALAH:
-           - Wajib tambahkan "IMPLIKASI BISNIS" jika masalah tidak diselesaikan.
-           - Contoh: "Risiko kehilangan potensi margin..." atau "Keputusan berbasis asumsi yang berisiko..."
-           - Buat klien merasa urgensi tanpa merasa dihakimi.
+        2. Latar Belakang & Masalah Klien (Key: problem_analysis)
+        - Inefisiensi operasional / Ketergantungan manual
+        - IMPLIKASI BISNIS: Risiko/kerugian jika tidak selesai.
 
-        3. TUJUAN PROYEK:
-           - GUNAKAN KATA AMAN: "Estimasi", "Potensi Peningkatan", "Target".
-           - JANGAN pakai kata pasti seperti "Akan menjamin peningkatan 60%". Hindari risiko hukum.
+        3. Tujuan Proyek (Key: project_objectives)
+        - Poin terukur. Gunakan kata "Estimasi", "Potensi", "Diharapkan". JANGAN JANJI PASTI.
 
-        4. SOLUSI:
-           - Tutup bagian ini dengan disclaimer skalabilitas: "Solusi disesuaikan dengan kebutuhan inti operasional saat ini dan dapat dikembangkan bertahap sesuai kebutuhan bisnis."
+        4. Solusi yang Ditawarkan (Key: solutions)
+        - Modul jelas.
+        - Tutup dengan: "Solusi dapat dikembangkan bertahap sesuai kebutuhan."
 
-        5. RUANG LINGKUP (SCOPE):
-           - TAMBAHKAN PEMBATAS TEGAS: "Ruang lingkup pekerjaan dibatasi pada fitur dan modul yang disepakati dalam proposal ini. Permintaan di luar ruang lingkup akan dibahas secara terpisah." (PENTING UNTUK MENCEGAH SCOPE CREEP).
+        5. Ruang Lingkup Pekerjaan (Key: scope_of_work)
+        - Daftar output konkret.
+        - WAJIB TULIS: "Ruang lingkup pekerjaan dibatasi pada fitur dan modul yang disepakati dalam proposal ini. Permintaan di luar ruang lingkup akan dibahas dan disepakati secara terpisah."
 
-        6. ALUR SISTEM:
-           - Jelaskan dengan bahasa awam, fokus pada kemudahan user.
+        6. Alur Sistem & Cara Kerja (Key: system_walkthrough)
+        - Naratif sisi user & admin. Bahasa sederhana.
 
-        7. TIMELINE & INVESTASI (BAB 7) - WAJIB ADA RINCIAN BIAYA:
-           - Bagian A: Timeline Implementasi (Logis & Bertahap).
-           - Bagian B: Estimasi Investasi & Pembiayaan.
-             * Tampilkan breakdown: Setup Awal (IDR ' . number_format($total * ($type == 'Landing Page' ? 0.4 : ($type == 'Website Bisnis' ? 0.3 : ($type == 'Dashboard / Sistem' ? 0.2 : 0.15))), 0, ',', '.') . ') & Maintenance Bulanan (IDR ' . number_format(($total * ($type == 'Landing Page' ? 0.6 : ($type == 'Website Bisnis' ? 0.7 : ($type == 'Dashboard / Sistem' ? 0.8 : 0.85)))) / $duration, 0, ',', '.') . '/bulan).
-           - Tutup dengan: "Estimasi ini dapat disesuaikan berdasarkan hasil diskusi lanjutan dan penyesuaian ruang lingkup."
+        7. Timeline Implementasi (Key: timeline)
+        - Tahapan: Analisis, Desain, Dev, Uji, Launch.
+        - Durasi estimatif ' . $deadline . '. Tambahkan catatan fleksibilitas.
 
-        8. ESTIMASI DAMPAK & ROI:
-           - Tambahkan disclaimer: "Estimasi dampak bersifat ilustratif dan bergantung pada implementasi serta operasional internal klien."
+        8. Estimasi Investasi Proyek (Key: investment)
+        - Sajikan rincian berikut dalam narasi profesional:
+          * Setup Awal (Development): IDR ' . $setupCost . ' (Sekali bayar).
+          * Maintenance & Support: IDR ' . $maintMonthly . ' / bulan selama ' . $duration . ' bulan.
+          * Total Nilai Kontrak: IDR ' . $totalFmt . '.
+        - WAJIB TULIS: "Estimasi investasi ini bersifat indikatif dan dapat disesuaikan berdasarkan kebutuhan final serta hasil diskusi lanjutan."
 
-        9. NILAI TAMBAH DARK AND BRIGHT:
-           - Fokus pada "Pendekatan Berbasis Sistem & Data", bukan hanya "Desain Bagus".
+        9. Estimasi Dampak & ROI (Key: roi_impact)
+        - Ilustratif. Jangan janji finansial pasti.
 
-        10. PENUTUP:
-            - Berikan Call to Action jelas: "Langkah selanjutnya: Diskusi Teknis / Demo Sistem."
+        10. Nilai Tambah Dark and Bright (Key: value_add)
+        - Fokus pendekatan sistem & cara berpikir.
 
-        OUTPUT JSON MURNI (Tanpa Markdown):
-        Keys: "title", "executive_summary", "problem_analysis", "project_objectives", "solutions", "scope_of_work", "system_walkthrough", "timeline", "roi_impact", "value_add", "closing_cta", "pricing"
-        Key "pricing" isi dengan string nominal total saja.';
+        11. Penutup & Ajakan (Key: closing_cta)
+        - Next step: Meeting/Demo.
+
+        OUTPUT JSON MURNI:
+        {
+          "title": "Proposal Proyek...",
+          "executive_summary": "...",
+          "problem_analysis": "...",
+          "project_objectives": "...",
+          "solutions": "...",
+          "scope_of_work": "...",
+          "system_walkthrough": "...",
+          "timeline": "...",
+          "investment": "...",
+          "roi_impact": "...",
+          "value_add": "...",
+          "closing_cta": "...",
+          "pricing": "' . $totalFmt . '"
+        }';
     }
 }

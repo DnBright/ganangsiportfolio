@@ -12,6 +12,7 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
         scope_of_work: '',
         system_walkthrough: '',
         timeline: '',
+        investment: '',
         roi_impact: '',
         value_add: '',
         closing_cta: ''
@@ -26,6 +27,7 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
         "Menentukan ruang lingkup detail...",
         "Merancang alur kerja sistem...",
         "Memformulasikan timeline & fase proyek...",
+        "Menghitung estimasi investasi & biaya...",
         "Menghitung estimasi ROI & dampak bisnis...",
         "Menyusun nilai tambah Dark and Bright...",
         "Melakukan polishing bahasa profesional..."
@@ -107,9 +109,10 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
         { title: '5. Ruang Lingkup', content: draftContent?.scope_of_work },
         { title: '6. Alur Sistem', content: draftContent?.system_walkthrough },
         { title: '7. Timeline', content: draftContent?.timeline },
-        { title: '8. Estimasi ROI', content: draftContent?.roi_impact },
-        { title: '9. Nilai Tambah', content: draftContent?.value_add },
-        { title: '10. Penutup', content: draftContent?.closing_cta },
+        { title: '8. Estimasi Investasi', content: draftContent?.investment },
+        { title: '9. Estimasi ROI', content: draftContent?.roi_impact },
+        { title: '10. Nilai Tambah', content: draftContent?.value_add },
+        { title: '11. Penutup', content: draftContent?.closing_cta },
     ];
 
     return (

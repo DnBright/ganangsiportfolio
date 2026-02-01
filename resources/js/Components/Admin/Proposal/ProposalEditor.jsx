@@ -9,6 +9,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     const [scopeOfWork, setScopeOfWork] = useState(draftContent?.scope_of_work || '');
     const [systemWalkthrough, setSystemWalkthrough] = useState(draftContent?.system_walkthrough || '');
     const [timeline, setTimeline] = useState(draftContent?.timeline || '');
+    const [investment, setInvestment] = useState(draftContent?.investment || '');
     const [roiImpact, setRoiImpact] = useState(draftContent?.roi_impact || '');
     const [valueAdd, setValueAdd] = useState(draftContent?.value_add || '');
     const [closingCta, setClosingCta] = useState(draftContent?.closing_cta || '');
@@ -32,6 +33,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
             setScopeOfWork(polish(scopeOfWork));
             setSystemWalkthrough(polish(systemWalkthrough));
             setTimeline(polish(timeline));
+            setInvestment(polish(investment));
             setRoiImpact(polish(roiImpact));
             setValueAdd(polish(valueAdd));
             setClosingCta(polish(closingCta));
@@ -51,9 +53,11 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         { id: 'solutions', label: '4. Solusi yang Ditawarkan', value: solutions, setter: setSolutions },
         { id: 'scope_of_work', label: '5. Ruang Lingkup Pekerjaan', value: scopeOfWork, setter: setScopeOfWork },
         { id: 'system_walkthrough', label: '6. Alur Sistem & Cara Kerja', value: systemWalkthrough, setter: setSystemWalkthrough },
-        { id: 'roi_impact', label: '8. Estimasi Dampak & ROI', value: roiImpact, setter: setRoiImpact },
-        { id: 'value_add', label: '9. Nilai Tambah Dark and Bright', value: valueAdd, setter: setValueAdd },
-        { id: 'closing_cta', label: '10. Penutup & Ajakan Kerja Sama', value: closingCta, setter: setClosingCta },
+        { id: 'timeline', label: '7. Timeline Implementasi', value: timeline, setter: setTimeline },
+        { id: 'investment', label: '8. Estimasi Investasi Proyek', value: investment, setter: setInvestment },
+        { id: 'roi_impact', label: '9. Estimasi Dampak & ROI', value: roiImpact, setter: setRoiImpact },
+        { id: 'value_add', label: '10. Nilai Tambah Dark and Bright', value: valueAdd, setter: setValueAdd },
+        { id: 'closing_cta', label: '11. Penutup & Ajakan Kerja Sama', value: closingCta, setter: setClosingCta },
     ];
 
     return (
@@ -173,6 +177,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                                 scope_of_work: scopeOfWork,
                                 system_walkthrough: systemWalkthrough,
                                 timeline,
+                                investment,
                                 roi_impact: roiImpact,
                                 value_add: valueAdd,
                                 closing_cta: closingCta,

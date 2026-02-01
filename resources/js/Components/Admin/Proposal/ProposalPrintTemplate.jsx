@@ -16,16 +16,17 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
     });
 
     const sections = [
-        { title: 'Ringkasan Eksekutif', content: proposal.executive_summary },
-        { title: 'Latar Belakang & Masalah Klien', content: proposal.problem_analysis },
-        { title: 'Tujuan Proyek', content: proposal.project_objectives },
-        { title: 'Solusi yang Ditawarkan', content: proposal.solutions },
-        { title: 'Ruang Lingkup Pekerjaan (Deliverables)', content: proposal.scope_of_work },
-        { title: 'Alur Sistem & Cara Kerja', content: proposal.system_walkthrough },
-        { title: 'Timeline & Estimasi Investasi', content: proposal.timeline },
-        { title: 'Estimasi Dampak & ROI', content: proposal.roi_impact },
-        { title: 'Nilai Tambah Dark and Bright', content: proposal.value_add },
-        { title: 'Penutup & Ajakan Kerja Sama', content: proposal.closing_cta },
+        { title: '1. Ringkasan Eksekutif', content: proposal.executive_summary },
+        { title: '2. Latar Belakang & Masalah Klien', content: proposal.problem_analysis },
+        { title: '3. Tujuan Proyek', content: proposal.project_objectives },
+        { title: '4. Solusi yang Ditawarkan', content: proposal.solutions },
+        { title: '5. Ruang Lingkup Pekerjaan (Deliverables)', content: proposal.scope_of_work },
+        { title: '6. Alur Sistem & Cara Kerja', content: proposal.system_walkthrough },
+        { title: '7. Timeline Implementasi', content: proposal.timeline },
+        { title: '8. Estimasi Investasi Proyek', content: proposal.investment },
+        { title: '9. Estimasi Dampak & ROI', content: proposal.roi_impact },
+        { title: '10. Nilai Tambah Dark and Bright', content: proposal.value_add },
+        { title: '11. Penutup & Ajakan Kerja Sama', content: proposal.closing_cta },
     ];
 
     return (
