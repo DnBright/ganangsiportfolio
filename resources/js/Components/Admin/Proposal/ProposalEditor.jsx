@@ -51,7 +51,6 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         { id: 'solutions', label: '4. Solusi yang Ditawarkan', value: solutions, setter: setSolutions },
         { id: 'scope_of_work', label: '5. Ruang Lingkup Pekerjaan', value: scopeOfWork, setter: setScopeOfWork },
         { id: 'system_walkthrough', label: '6. Alur Sistem & Cara Kerja', value: systemWalkthrough, setter: setSystemWalkthrough },
-        { id: 'timeline', label: '7. Timeline & Estimasi Investasi', value: timeline, setter: setTimeline },
         { id: 'roi_impact', label: '8. Estimasi Dampak & ROI', value: roiImpact, setter: setRoiImpact },
         { id: 'value_add', label: '9. Nilai Tambah Dark and Bright', value: valueAdd, setter: setValueAdd },
         { id: 'closing_cta', label: '10. Penutup & Ajakan Kerja Sama', value: closingCta, setter: setClosingCta },
@@ -149,84 +148,60 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                 {/* Human Strategy Panel */}
                 <div className="lg:col-span-4 space-y-6 no-print">
                     <div className="sticky top-6 space-y-6">
-                        <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 space-y-10 shadow-xl">
-                            <div>
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-10 h-10 bg-green-500/20 text-green-500 rounded-2xl flex items-center justify-center text-sm shadow-inner">💰</div>
-                                    <div>
-                                        <h3 className="text-sm font-bold">Pricing Strategy</h3>
-                                        <p className="text-[10px] text-white/20 uppercase tracking-tighter">Human input required</p>
-                                    </div>
-                                </div>
-                                <div className="space-y-6">
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Total Investment Value (IDR)</label>
-                                        <div className="relative">
-                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 text-xs font-bold font-mono">IDR</span>
-                                            <input
-                                                type="text"
-                                                value={pricing}
-                                                onChange={(e) => setPricing(e.target.value)}
-                                                placeholder="e.g. 25.000.000"
-                                                className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-sm outline-none focus:border-green-500/50 transition-all font-mono tracking-tighter"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">High-Value Bonus / Service</label>
-                                        <textarea
-                                            value={bonus}
-                                            onChange={(e) => setBonus(e.target.value)}
-                                            placeholder="e.g. Free 6-Month Premium Support"
-                                            rows="4"
-                                            className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-4 text-sm outline-none focus:border-green-500/50 transition-all resize-none leading-relaxed"
-                                        ></textarea>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="pt-8 border-t border-white/5 space-y-4">
-                                <button
-                                    onClick={() => onSave({
-                                        title,
-                                        executive_summary: executiveSummary,
-                                        problem_analysis: problemAnalysis,
-                                        project_objectives: projectObjectives,
-                                        solutions,
-                                        scope_of_work: scopeOfWork,
-                                        system_walkthrough: systemWalkthrough,
-                                        timeline,
-                                        roi_impact: roiImpact,
-                                        value_add: valueAdd,
-                                        closing_cta: closingCta,
-                                        pricing,
-                                        bonus
-                                    })}
-                                    className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-[24px] font-black text-sm tracking-[2px] shadow-2xl shadow-blue-500/30 active:scale-95 transition-all uppercase"
-                                >
-                                    Finish & Save Proposal
-                                </button>
-                                <button
-                                    onClick={onBack}
-                                    className="w-full py-4 bg-white/5 border border-white/10 text-white/60 hover:text-white rounded-[24px] text-[10px] font-bold uppercase tracking-widest transition-all"
-                                >
-                                    ← Kembali Perbaiki Draft
-                                </button>
+                        <div className="space-y-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">High-Value Bonus / Service (Notes)</label>
+                                <textarea
+                                    value={bonus}
+                                    onChange={(e) => setBonus(e.target.value)}
+                                    placeholder="e.g. Free 6-Month Premium Support"
+                                    rows="6"
+                                    className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-4 text-sm outline-none focus:border-blue-500/50 transition-all resize-none leading-relaxed"
+                                ></textarea>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Pro Tip Card */}
-                        <div className="p-8 bg-gradient-to-br from-purple-600/10 to-transparent border border-purple-500/20 rounded-[30px] relative overflow-hidden group print:hidden">
-                            <div className="absolute -bottom-4 -right-4 text-6xl opacity-5 group-hover:scale-110 transition-transform">💎</div>
-                            <div className="flex gap-4 relative z-10">
-                                <div className="text-2xl">💡</div>
-                                <div>
-                                    <h4 className="text-xs font-bold text-purple-400 mb-2 uppercase tracking-widest font-mono">DNB Quality Tip</h4>
-                                    <p className="text-[11px] text-white/40 leading-relaxed">
-                                        Ingat, klien tidak membeli "fitur", mereka membeli **solusi atas masalah mereka**. Pastikan proposal Anda terasa sangat personal dan menjawab masalah nyata bisnis mereka.
-                                    </p>
-                                </div>
-                            </div>
+                    <div className="pt-8 border-t border-white/5 space-y-4">
+                        <button
+                            onClick={() => onSave({
+                                title,
+                                executive_summary: executiveSummary,
+                                problem_analysis: problemAnalysis,
+                                project_objectives: projectObjectives,
+                                solutions,
+                                scope_of_work: scopeOfWork,
+                                system_walkthrough: systemWalkthrough,
+                                timeline,
+                                roi_impact: roiImpact,
+                                value_add: valueAdd,
+                                closing_cta: closingCta,
+                                pricing,
+                                bonus
+                            })}
+                            className="w-full py-5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-[24px] font-black text-sm tracking-[2px] shadow-2xl shadow-blue-500/30 active:scale-95 transition-all uppercase"
+                        >
+                            Finish & Save Proposal
+                        </button>
+                        <button
+                            onClick={onBack}
+                            className="w-full py-4 bg-white/5 border border-white/10 text-white/60 hover:text-white rounded-[24px] text-[10px] font-bold uppercase tracking-widest transition-all"
+                        >
+                            ← Kembali Perbaiki Draft
+                        </button>
+                    </div>
+                </div>
+
+                {/* Pro Tip Card */}
+                <div className="p-8 bg-gradient-to-br from-purple-600/10 to-transparent border border-purple-500/20 rounded-[30px] relative overflow-hidden group print:hidden">
+                    <div className="absolute -bottom-4 -right-4 text-6xl opacity-5 group-hover:scale-110 transition-transform">💎</div>
+                    <div className="flex gap-4 relative z-10">
+                        <div className="text-2xl">💡</div>
+                        <div>
+                            <h4 className="text-xs font-bold text-purple-400 mb-2 uppercase tracking-widest font-mono">DNB Quality Tip</h4>
+                            <p className="text-[11px] text-white/40 leading-relaxed">
+                                Ingat, klien tidak membeli "fitur", mereka membeli **solusi atas masalah mereka**. Pastikan proposal Anda terasa sangat personal dan menjawab masalah nyata bisnis mereka.
+                            </p>
                         </div>
                     </div>
                 </div>
