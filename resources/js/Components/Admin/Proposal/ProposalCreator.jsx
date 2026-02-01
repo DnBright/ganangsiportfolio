@@ -40,7 +40,7 @@ const ProposalCreator = ({ onSubmit }) => {
                             📝
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold tracking-tight">Create New Proposal <span className="text-blue-400 font-black px-2 py-0.5 bg-blue-500/10 rounded-lg text-xs ml-2 border border-blue-500/20">v2.2 - Logic Sync</span></h2>
+                            <h2 className="text-xl font-bold tracking-tight">Create New Proposal</h2>
                             <p className="text-xs text-white/40">Mulai langkah pertama dengan memahami kebutuhan klien secara mendalam.</p>
                         </div>
                     </div>
