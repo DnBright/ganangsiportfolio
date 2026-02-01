@@ -22,7 +22,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
         { title: 'Solusi yang Ditawarkan', content: proposal.solutions },
         { title: 'Ruang Lingkup Pekerjaan (Deliverables)', content: proposal.scope_of_work },
         { title: 'Alur Sistem & Cara Kerja', content: proposal.system_walkthrough },
-        { title: 'Timeline Implementasi', content: proposal.timeline },
+        { title: 'Timeline & Estimasi Investasi', content: proposal.timeline },
         { title: 'Estimasi Dampak & ROI', content: proposal.roi_impact },
         { title: 'Nilai Tambah Dark and Bright', content: proposal.value_add },
         { title: 'Penutup & Ajakan Kerja Sama', content: proposal.closing_cta },

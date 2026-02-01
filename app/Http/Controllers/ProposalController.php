@@ -33,7 +33,12 @@ class ProposalController extends Controller
             'client_name' => $clientName,
             'industry' => $request->input('industry', 'General'),
             'target_website' => $request->input('target_website', ''),
-            'problem_statement' => $request->input('problem_statement', 'Standard business optimization'),
+            'problem_statement' => $request->input('client_problem', $request->input('problem_statement', 'Standard business optimization')),
+            'project_type' => $request->input('project_type', 'Website Bisnis'),
+            'total_value' => $request->input('total_value', 0),
+            'contract_duration' => $request->input('contract_duration', 6),
+            'project_scale' => $request->input('project_scale', 'medium'),
+            'deadline' => $request->input('deadline', '14 Hari'),
         ];
 
         $draft = $this->gemini->generateProposal($data);

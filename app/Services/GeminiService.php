@@ -78,7 +78,8 @@ class GeminiService
                         'timeline' => '',
                         'roi_impact' => '',
                         'value_add' => '',
-                        'closing_cta' => ''
+                        'closing_cta' => '',
+                        'pricing' => isset($data['total_value']) ? number_format($data['total_value'], 0, ',', '.') : ''
                     ];
                 }
 
@@ -102,7 +103,8 @@ class GeminiService
             'timeline' => '',
             'roi_impact' => '',
             'value_add' => '',
-            'closing_cta' => ''
+            'closing_cta' => '',
+            'pricing' => ''
         ];
     }
 
@@ -112,6 +114,10 @@ class GeminiService
         $industry = $data['industry'] ?? 'Industri Umum';
         $website = $data['target_website'] ?? 'Tidak disebutkan';
         $problem = $data['problem_statement'] ?? 'Tidak disebutkan';
+        $type = $data['project_type'] ?? 'Website Bisnis';
+        $total = $data['total_value'] ?? 0;
+        $duration = $data['contract_duration'] ?? 6;
+        $deadline = $data['deadline'] ?? '14 Hari';
 
         return 'Anda adalah sistem AI Proposal Generator milik agency "Dark and Bright".
         Tugas Anda adalah menghasilkan ISI PROPOSAL PROFESIONAL yang fokus pada kebutuhan klien, menggunakan bahasa bisnis yang jelas, mudah dipahami, dan tidak terlalu teknis.
@@ -120,25 +126,40 @@ class GeminiService
         Industri: ' . $industry . '
         Website Target: ' . $website . '
         Masalah Utama: ' . $problem . '
+        Tipe Proyek: ' . $type . '
+        Nilai Total Proyek: IDR ' . number_format($total, 0, ',', '.') . '
+        Durasi Kontrak: ' . $duration . ' Bulan
+        Waktu Pengerjaan: ' . $deadline . '
+
+        PRINSIP DASAR PERHITUNGAN BIAYA (Dark and Bright):
+        - Total nilai proyek dianggap sebagai 100% nilai kontrak.
+        - Persentase Setup & Maintenance berdasarkan Tipe Proyek:
+          * Landing Page: Setup 40%, Maintenance 60%
+          * Website Bisnis: Setup 30%, Maintenance 70%
+          * Dashboard / Sistem: Setup 20%, Maintenance 80%
+          * Sistem Kompleks: Setup 15%, Maintenance 85%
+        - Nilai Setup = Persentase Setup × Nilai Total
+        - Nilai Maintenance Total = Persentase Maintenance × Nilai Total
+        - Maintenance Bulanan = Nilai Maintenance Total ÷ ' . $duration . ' bulan
+
+        ATURAN OUTPUT KHUSUS UNTUK KEY "timeline" (BAB 7):
+        Setelah menjelaskan fase timeline pengerjaan, tambahkan sub-bagian "Investasi & Pembiayaan" dengan narasi:
+        "Model kerja Dark and Bright menggunakan pembagian nilai proyek antara fase pengembangan dan fase operasional, untuk memastikan sistem tidak hanya selesai dibuat, tetapi juga berjalan stabil dan berkelanjutan."
+        Sertakan rincian:
+        1. Ringkasan Estimasi Biaya (Tabel atau List rapi)
+        2. Biaya Setup Awal (Nominal Setup sesuai rumus)
+        3. Biaya Maintenance Bulanan (Nominal per bulan selama durasi kontrak)
+        4. Catatan Fleksibilitas Harga (Estimasi bersifat fleksibel)
 
         Persyaratan Proposal:
         1. Anda WAJIB mengembalikan hasil dalam format JSON murni tanpa teks lainnya.
         2. Format JSON harus memiliki key berikut:
-           "title", "executive_summary", "problem_analysis", "project_objectives", "solutions", "scope_of_work", "system_walkthrough", "timeline", "roi_impact", "value_add", "closing_cta"
+           "title", "executive_summary", "problem_analysis", "project_objectives", "solutions", "scope_of_work", "system_walkthrough", "timeline", "roi_impact", "value_add", "closing_cta", "pricing"
         3. Gunakan Bahasa Indonesia formal-profesional.
-        4. Struktur Konten WAJIB mengikuti urutan ini:
-           - title: Judul Proposal yang menarik dan profesional.
-           - executive_summary: Ringkasan eksekutif (masalah, solusi inti, dampak bisnis).
-           - problem_analysis: Latar belakang & masalah klien (fokus pada inefisiensi, sistem, data).
-           - project_objectives: Tujuan proyek (poin-poin terukur).
-           - solutions: Solusi yang ditawarkan (dalam bentuk modul, jelaskan apa yang dikerjakan & manfaatnya).
-           - scope_of_work: Ruang lingkup pekerjaan (daftar pekerjaan konkret/deliverables).
-           - system_walkthrough: Alur sistem & cara kerja (narasi sederhana & logis).
-           - timeline: Timeline implementasi (fase perencanaan, pengembangan, pengujian, peluncuran).
-           - roi_impact: Estimasi dampak & ROI (ilustrasi potensi efisiensi/peningkatan).
-           - value_add: Nilai tambah Dark and Bright (mengapa kami partner yang tepat).
-           - closing_cta: Penutup & ajakan kerja sama profesional.
-
+        4. Jangan menggunakan istilah teknis berlebihan.
+        5. Jangan menjanjikan hasil finansial pasti.
+        6. Key "pricing" hanya diisi dengan nominal total nilai proyek dalam format string (Contoh: "10.000.000").
+        
         Kembalikan hanya objek JSON tersebut tanpa markdown code blocks.';
     }
 }

@@ -51,7 +51,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         { id: 'solutions', label: '4. Solusi yang Ditawarkan', value: solutions, setter: setSolutions },
         { id: 'scope_of_work', label: '5. Ruang Lingkup Pekerjaan', value: scopeOfWork, setter: setScopeOfWork },
         { id: 'system_walkthrough', label: '6. Alur Sistem & Cara Kerja', value: systemWalkthrough, setter: setSystemWalkthrough },
-        { id: 'timeline', label: '7. Timeline Implementasi', value: timeline, setter: setTimeline },
+        { id: 'timeline', label: '7. Timeline & Estimasi Investasi', value: timeline, setter: setTimeline },
         { id: 'roi_impact', label: '8. Estimasi Dampak & ROI', value: roiImpact, setter: setRoiImpact },
         { id: 'value_add', label: '9. Nilai Tambah Dark and Bright', value: valueAdd, setter: setValueAdd },
         { id: 'closing_cta', label: '10. Penutup & Ajakan Kerja Sama', value: closingCta, setter: setClosingCta },
