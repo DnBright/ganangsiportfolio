@@ -40,7 +40,7 @@ const CreateProposal = ({ onSubmit }) => {
                             📝
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold tracking-tight">Create New Proposal (v2.1)</h2>
+                            <h2 className="text-xl font-bold tracking-tight">Create New Proposal <span className="text-blue-400 font-black px-2 py-0.5 bg-blue-500/10 rounded-lg text-xs ml-2 border border-blue-500/20">v2.2 - Logic Sync</span></h2>
                             <p className="text-xs text-white/40">Mulai langkah pertama dengan memahami kebutuhan klien secara mendalam.</p>
                         </div>
                     </div>
@@ -50,9 +50,13 @@ const CreateProposal = ({ onSubmit }) => {
             {/* Main Form Section */}
             <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 md:p-10 relative overflow-hidden">
                 <form onSubmit={handleSubmit} className="space-y-8">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                         {/* Column 1: Client & Type */}
                         <div className="space-y-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="text-blue-500">🏢</span>
+                                <h3 className="text-[10px] font-black uppercase tracking-[3px] text-white/60">Profil Klien & Dasar Proyek</h3>
+                            </div>
                             <div className="space-y-2">
                                 <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Nama Klien / Perusahaan</label>
                                 <input
@@ -67,12 +71,12 @@ const CreateProposal = ({ onSubmit }) => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Tipe Proyek</label>
+                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Tipe Proyek (Sangat Penting)</label>
                                 <select
                                     name="project_type"
                                     value={formData.project_type}
                                     onChange={handleChange}
-                                    className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all appearance-none cursor-pointer"
+                                    className="w-full bg-blue-500/5 border border-blue-500/20 text-blue-100 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer font-bold"
                                     required
                                 >
                                     <option value="Landing Page">Landing Page</option>
@@ -114,28 +118,32 @@ const CreateProposal = ({ onSubmit }) => {
 
                         {/* Column 2: Investment & Strategy */}
                         <div className="space-y-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="text-blue-500">💰</span>
+                                <h3 className="text-[10px] font-black uppercase tracking-[3px] text-white/60">Investasi & Durasi (WAJIB)</h3>
+                            </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Nilai Proyek (IDR)</label>
+                                    <label className="text-[10px] text-blue-400 font-bold uppercase tracking-widest ml-1">Total Investasi (IDR)</label>
                                     <input
                                         type="number"
                                         name="total_value"
                                         value={formData.total_value}
                                         onChange={handleChange}
                                         placeholder="Contoh: 10000000"
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all font-mono"
+                                        className="w-full bg-blue-500/5 border border-blue-500/30 text-blue-400 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-400 transition-all font-mono font-bold"
                                         required
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Durasi Kontrak (Bln)</label>
+                                    <label className="text-[10px] text-blue-400 font-bold uppercase tracking-widest ml-1">Durasi Kontrak (Bln)</label>
                                     <input
                                         type="number"
                                         name="contract_duration"
                                         value={formData.contract_duration}
                                         onChange={handleChange}
                                         placeholder="6"
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all"
+                                        className="w-full bg-blue-500/5 border border-blue-500/30 text-blue-400 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-400 transition-all font-bold"
                                         required
                                     />
                                 </div>
@@ -157,7 +165,7 @@ const CreateProposal = ({ onSubmit }) => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Timeline Pengerjaan (Hari)</label>
+                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Deadline / Estimasi (Hari)</label>
                                 <input
                                     type="text"
                                     name="deadline"

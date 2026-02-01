@@ -143,14 +143,12 @@ class GeminiService
         - Maintenance Bulanan = Nilai Maintenance Total ÷ ' . $duration . ' bulan
 
         ATURAN OUTPUT KHUSUS UNTUK KEY "timeline" (BAB 7):
-        Setelah menjelaskan fase timeline pengerjaan, tambahkan sub-bagian "Investasi & Pembiayaan" dengan narasi:
-        "Model kerja Dark and Bright menggunakan pembagian nilai proyek antara fase pengembangan dan fase operasional, untuk memastikan sistem tidak hanya selesai dibuat, tetapi juga berjalan stabil dan berkelanjutan."
-        Sertakan rincian:
-        1. Ringkasan Estimasi Biaya (Tabel atau List rapi)
-        2. Biaya Setup Awal (Nominal Setup sesuai rumus)
-        3. Biaya Maintenance Bulanan (Nominal per bulan selama durasi kontrak)
-        4. Catatan Fleksibilitas Harga (Estimasi bersifat fleksibel)
-
+        Setelah menjelaskan fase timeline pengerjaan, tambahkan bagian "Estimasi Investasi & Pembiayaan" dengan rincian:
+        1. Model Kerjasama: Sebutkan pembagian Setup & Maintenance.
+        2. Setup Awal: IDR ' . number_format($total * ($type == 'Landing Page' ? 0.4 : ($type == 'Website Bisnis' ? 0.3 : ($type == 'Dashboard / Sistem' ? 0.2 : 0.15))), 0, ',', '.') . ' (Sekali bayar).
+        3. Maintenance Bulanan: IDR ' . number_format(($total * ($type == 'Landing Page' ? 0.6 : ($type == 'Website Bisnis' ? 0.7 : ($type == 'Dashboard / Sistem' ? 0.8 : 0.85)))) / $duration, 0, ',', '.') . ' per bulan (selama ' . $duration . ' bulan).
+        4. Total Kontrak: IDR ' . number_format($total, 0, ',', '.') . '.
+        
         Persyaratan Proposal:
         1. Anda WAJIB mengembalikan hasil dalam format JSON murni tanpa teks lainnya.
         2. Format JSON harus memiliki key berikut:

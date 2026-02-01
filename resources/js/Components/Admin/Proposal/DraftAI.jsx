@@ -58,7 +58,12 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
                     client_name: clientName,
                     industry: analysisData?.industry || 'General',
                     target_website: analysisData?.target_website || '',
-                    problem_statement: analysisData?.client_problem || analysisData?.problem_statement || ''
+                    problem_statement: analysisData?.client_problem || analysisData?.problem_statement || '',
+                    project_type: analysisData?.project_type || 'Website Bisnis',
+                    total_value: analysisData?.total_value || 0,
+                    contract_duration: analysisData?.contract_duration || 6,
+                    project_scale: analysisData?.project_scale || 'medium',
+                    deadline: analysisData?.deadline || '14 Hari'
                 }, {
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
