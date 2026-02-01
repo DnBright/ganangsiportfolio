@@ -35,7 +35,7 @@ const VisionSidebar = ({ activeTab, onNavigate }) => {
             <div className="flex items-center gap-3 px-4 mb-10">
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg flex items-center justify-center font-bold text-lg shadow-[0_0_15px_rgba(45,92,254,0.4)] text-white">D</div>
                 <div className="flex flex-col">
-                    <span className="font-bold text-xs tracking-widest uppercase text-white">DNB Admin</span>
+                    <span className="font-bold text-xs tracking-widest uppercase text-white">DNB Admin v2.2</span>
                     <span className="text-[8px] text-white/30 tracking-tighter uppercase font-bold">Proposal Command</span>
                 </div>
             </div>
