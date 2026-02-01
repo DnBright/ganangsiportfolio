@@ -40,7 +40,7 @@ const CreateProposal = ({ onSubmit }) => {
                             📝
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold tracking-tight">Create New Proposal</h2>
+                            <h2 className="text-xl font-bold tracking-tight">Create New Proposal (v2.1)</h2>
                             <p className="text-xs text-white/40">Mulai langkah pertama dengan memahami kebutuhan klien secara mendalam.</p>
                         </div>
                     </div>
