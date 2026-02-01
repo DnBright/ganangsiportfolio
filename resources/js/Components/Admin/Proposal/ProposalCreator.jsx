@@ -164,18 +164,7 @@ const ProposalCreator = ({ onSubmit }) => {
                                 </div>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Deadline / Estimasi (Hari)</label>
-                                <input
-                                    type="text"
-                                    name="deadline"
-                                    value={formData.deadline}
-                                    onChange={handleChange}
-                                    placeholder="Contoh: 14 Hari"
-                                    className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all"
-                                    required
-                                />
-                            </div>
+
 
                             <div className="space-y-2">
                                 <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Tone / Gaya Bahasa</label>
