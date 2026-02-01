@@ -51,7 +51,7 @@ const CreateProposal = ({ onSubmit }) => {
             <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 md:p-10 relative overflow-hidden">
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* Client Basic Info */}
+                        {/* Column 1: Client & Type */}
                         <div className="space-y-6">
                             <div className="space-y-2">
                                 <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Nama Klien / Perusahaan</label>
@@ -66,65 +66,37 @@ const CreateProposal = ({ onSubmit }) => {
                                 />
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Jenis Bisnis</label>
-                                    <select
-                                        name="industry"
-                                        value={formData.industry}
-                                        onChange={handleChange}
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all appearance-none cursor-pointer"
-                                        required
-                                    >
-                                        <option value="" disabled>Pilih Kategori</option>
-                                        <option value="LPK">LPK / Lembaga Pendidikan</option>
-                                        <option value="Company">Company Profile / Perusahaan</option>
-                                        <option value="Service">Service / Jasa Digital</option>
-                                        <option value="Other">Lainnya</option>
-                                    </select>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Tipe Proyek</label>
-                                    <select
-                                        name="project_type"
-                                        value={formData.project_type}
-                                        onChange={handleChange}
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all appearance-none cursor-pointer"
-                                        required
-                                    >
-                                        <option value="Landing Page">Landing Page</option>
-                                        <option value="Website Bisnis">Website Bisnis</option>
-                                        <option value="Dashboard / Sistem">Dashboard / Sistem</option>
-                                        <option value="Sistem Kompleks">Sistem Kompleks</option>
-                                    </select>
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Tipe Proyek</label>
+                                <select
+                                    name="project_type"
+                                    value={formData.project_type}
+                                    onChange={handleChange}
+                                    className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all appearance-none cursor-pointer"
+                                    required
+                                >
+                                    <option value="Landing Page">Landing Page</option>
+                                    <option value="Website Bisnis">Website Bisnis</option>
+                                    <option value="Dashboard / Sistem">Dashboard / Sistem</option>
+                                    <option value="Sistem Kompleks">Sistem Kompleks</option>
+                                </select>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Nilai Proyek / Investasi (IDR)</label>
-                                    <input
-                                        type="number"
-                                        name="total_value"
-                                        value={formData.total_value}
-                                        onChange={handleChange}
-                                        placeholder="Contoh: 10000000"
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all font-mono"
-                                        required
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Durasi Kontrak (Bulan)</label>
-                                    <input
-                                        type="number"
-                                        name="contract_duration"
-                                        value={formData.contract_duration}
-                                        onChange={handleChange}
-                                        placeholder="Contoh: 6"
-                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all"
-                                        required
-                                    />
-                                </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Jenis Bisnis / Kategori</label>
+                                <select
+                                    name="industry"
+                                    value={formData.industry}
+                                    onChange={handleChange}
+                                    className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all appearance-none cursor-pointer"
+                                    required
+                                >
+                                    <option value="" disabled>Pilih Kategori</option>
+                                    <option value="LPK">LPK / Lembaga Pendidikan</option>
+                                    <option value="Company">Company Profile / Perusahaan</option>
+                                    <option value="Service">Service / Jasa Digital</option>
+                                    <option value="Other">Lainnya</option>
+                                </select>
                             </div>
 
                             <div className="space-y-2">
@@ -140,8 +112,35 @@ const CreateProposal = ({ onSubmit }) => {
                             </div>
                         </div>
 
-                        {/* Project Details */}
+                        {/* Column 2: Investment & Strategy */}
                         <div className="space-y-6">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Nilai Proyek (IDR)</label>
+                                    <input
+                                        type="number"
+                                        name="total_value"
+                                        value={formData.total_value}
+                                        onChange={handleChange}
+                                        placeholder="Contoh: 10000000"
+                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all font-mono"
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Durasi Kontrak (Bln)</label>
+                                    <input
+                                        type="number"
+                                        name="contract_duration"
+                                        value={formData.contract_duration}
+                                        onChange={handleChange}
+                                        placeholder="6"
+                                        className="w-full bg-[#060b26]/50 border border-white/10 rounded-2xl px-4 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
                             <div className="space-y-2">
                                 <label className="text-[10px] text-white/40 font-bold uppercase tracking-widest ml-1">Skala Proyek</label>
                                 <div className="grid grid-cols-3 gap-3">
