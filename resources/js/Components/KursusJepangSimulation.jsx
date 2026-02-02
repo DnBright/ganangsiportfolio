@@ -481,15 +481,208 @@ const KursusJepangSimulation = ({ onClose }) => {
                             {activePage === 'live-class' && <LiveClassView />}
                             {activePage === 'materi' && <MateriView />}
                             {activePage === 'quiz' && <QuizView />}
-                            {(activePage === 'siswa' || activePage === 'jadwal') && (
-                                <div className="text-center py-20">
-                                    <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                        <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                                        </svg>
+                            {activePage === 'siswa' && (
+                                <div className="space-y-6">
+                                    <div className="bg-white rounded-2xl p-6 border border-slate-200 flex items-center justify-between">
+                                        <div>
+                                            <h2 className="text-xl font-bold text-slate-800 mb-1">Siswa</h2>
+                                            <p className="text-xs text-slate-400">Pantau dan kelola siswa dari seluruh kelas yang Anda ajar.</p>
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <input type="text" placeholder="Cari nama siswa..." className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                            <select className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                                                <option>Semua Kelas</option>
+                                            </select>
+                                            <select className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                                                <option>Semua Level</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <h3 className="text-xl font-bold text-slate-800 mb-2">Fitur Dalam Pengembangan</h3>
-                                    <p className="text-slate-500">Halaman ini sedang dalam tahap pengembangan.</p>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                        {[
+                                            { label: 'Siswa Aktif', value: '45', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                                            { label: 'Siswa Baru', value: '+5', icon: 'M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z' },
+                                            { label: 'Perlu Evaluasi', value: '8', icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                                            { label: 'Progress Rata²', value: '68%', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' }
+                                        ].map((stat, i) => (
+                                            <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-slate-600">
+                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={stat.icon} />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">{stat.label}</p>
+                                                <h3 className="text-2xl font-black text-slate-800">{stat.value}</h3>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full">
+                                                <thead>
+                                                    <tr className="border-b border-slate-200">
+                                                        <th className="text-left py-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Siswa</th>
+                                                        <th className="text-left py-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Kelas & Level</th>
+                                                        <th className="text-left py-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Progress Materi</th>
+                                                        <th className="text-center py-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Rata-rata Nilai</th>
+                                                        <th className="text-center py-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Status</th>
+                                                        <th className="text-center py-4 px-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {[
+                                                        { name: 'Budi Santoso', date: 'Bergabung 1 Jan 2024', level: 'N5 Intensive A', badge: 'N5', progress: 85, score: 92, status: 'Aktif', statusColor: 'green' },
+                                                        { name: 'Siti Aminah', date: 'Bergabung 10 Des 2023', level: 'N4 Regular B', badge: 'N4', progress: 60, score: 78, status: 'Aktif', statusColor: 'green' },
+                                                        { name: 'Rizky Pratama', date: 'Bergabung 8 Nov 2023', level: 'TG Food Service', badge: 'TG', progress: 25, score: 65, status: 'Tidak Aktif', statusColor: 'gray' },
+                                                        { name: 'Dewi Lestari', date: 'Bergabung 2 Jan 2024', level: 'N5 Intensive A', badge: 'N5', progress: 95, score: 98, status: 'Aktif', statusColor: 'green' },
+                                                        { name: 'Ahmad Fauzi', date: 'Bergabung 10 Des 2023', level: 'N4 Regular B', badge: 'N4', progress: 40, score: 70, status: 'Perlu Perhatian', statusColor: 'orange' }
+                                                    ].map((student, i) => (
+                                                        <tr key={i} className="border-b border-slate-100 hover:bg-slate-50">
+                                                            <td className="py-4 px-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-600 font-bold text-sm">
+                                                                        {student.name.split(' ').map(n => n[0]).join('')}
+                                                                    </div>
+                                                                    <div>
+                                                                        <h4 className="font-bold text-slate-800 text-sm">{student.name}</h4>
+                                                                        <p className="text-xs text-slate-400">{student.date}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-4 px-4">
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className={`px-2 py-1 text-xs font-bold rounded ${student.badge === 'N5' ? 'bg-green-100 text-green-700' : student.badge === 'N4' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'}`}>{student.badge}</span>
+                                                                    <span className="text-sm text-slate-600">{student.level}</span>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-4 px-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex-1 bg-slate-100 rounded-full h-2 overflow-hidden">
+                                                                        <div className={`h-full rounded-full ${student.progress >= 80 ? 'bg-green-500' : student.progress >= 50 ? 'bg-blue-500' : 'bg-orange-500'}`} style={{ width: `${student.progress}%` }}></div>
+                                                                    </div>
+                                                                    <span className="text-sm font-bold text-slate-600 w-12">{student.progress}%</span>
+                                                                </div>
+                                                            </td>
+                                                            <td className="py-4 px-4 text-center">
+                                                                <span className={`text-lg font-black ${student.score >= 90 ? 'text-green-600' : student.score >= 75 ? 'text-blue-600' : 'text-red-600'}`}>{student.score}</span>
+                                                            </td>
+                                                            <td className="py-4 px-4 text-center">
+                                                                <span className={`px-3 py-1 text-xs font-bold rounded ${student.statusColor === 'green' ? 'bg-green-100 text-green-700' : student.statusColor === 'orange' ? 'bg-orange-100 text-orange-700' : 'bg-slate-100 text-slate-500'}`}>{student.status}</span>
+                                                            </td>
+                                                            <td className="py-4 px-4 text-center">
+                                                                <button className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-xl hover:bg-slate-900">Detail</button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div className="mt-6 pt-4 border-t border-slate-200 text-center">
+                                            <button className="text-sm text-slate-400 hover:text-slate-600 font-bold">Menampilkan 5 dari 45 siswa</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            {activePage === 'jadwal' && (
+                                <div className="space-y-6">
+                                    <div className="bg-white rounded-2xl p-6 border border-slate-200 flex items-center justify-between">
+                                        <div>
+                                            <h2 className="text-xl font-bold text-slate-800 mb-1">Jadwal Mengajar</h2>
+                                            <p className="text-xs text-slate-400">Kelola dan pantau agenda kelas Anda secara terstruktur.</p>
+                                        </div>
+                                        <button className="px-6 py-3 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">+ Tambah Jadwal</button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                        <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                                            <div className="flex items-center justify-between mb-6">
+                                                <h3 className="font-bold text-slate-800">Agenda Hari Ini</h3>
+                                                <span className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm font-black">3</span>
+                                            </div>
+                                            <div className="space-y-4">
+                                                {[
+                                                    { time: '10:00 - 11:30', title: 'Live Class: Tata Bahasa N5', type: 'Intensive A - Online', color: 'red' },
+                                                    { time: '14:00 - 14:30', title: 'Sesi Konsultasi Siswa', type: 'Siti Aminah - Offline Meet', color: 'blue' }
+                                                ].map((agenda, i) => (
+                                                    <div key={i} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                                        <div className="flex items-start gap-3">
+                                                            <div className={`w-1 h-full ${agenda.color === 'red' ? 'bg-red-500' : 'bg-blue-500'} rounded-full`}></div>
+                                                            <div className="flex-1">
+                                                                <p className="text-xs text-slate-400 font-bold mb-1">{agenda.time}</p>
+                                                                <h4 className="font-bold text-slate-800 text-sm mb-1">{agenda.title}</h4>
+                                                                <p className="text-xs text-slate-500">{agenda.type}</p>
+                                                                <button className={`mt-3 w-full py-2 ${agenda.color === 'red' ? 'bg-red-600' : 'bg-blue-600'} text-white text-xs font-bold rounded-lg hover:opacity-90`}>
+                                                                    {agenda.color === 'red' ? 'Mulai Kelas Sekarang' : 'Masuk Room Konsultasi'}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200">
+                                            <div className="flex items-center justify-between mb-6">
+                                                <div className="flex items-center gap-4">
+                                                    <button className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200">
+                                                        <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                                                        </svg>
+                                                    </button>
+                                                    <h3 className="text-lg font-bold text-slate-800">Januari 2024</h3>
+                                                    <button className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200">
+                                                        <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <button className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-lg">Mingguan</button>
+                                                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg">Bulanan</button>
+                                                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg">List View</button>
+                                                </div>
+                                            </div>
+
+                                            <div className="grid grid-cols-7 gap-4">
+                                                {['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'].map((day, i) => (
+                                                    <div key={i} className="text-center text-xs font-bold text-slate-400 uppercase pb-2">{day}</div>
+                                                ))}
+                                                {[
+                                                    { day: '', events: [] },
+                                                    { day: '', events: [] },
+                                                    { day: '', events: [] },
+                                                    { day: '', events: [] },
+                                                    { day: '', events: [] },
+                                                    { day: '', events: [] },
+                                                    { day: '', events: [] },
+                                                    { day: '1', events: [{ title: 'N5 Intensive A', time: '19:00 - 11:30', color: 'red', badge: 'N5' }] },
+                                                    { day: '2', events: [{ title: 'TG Food Servi...', time: '19:00 - 21:00', color: 'orange', badge: 'TG' }] },
+                                                    { day: '3', events: [{ title: 'Konsultasi: Budi', time: '14:00 - 14:30', color: 'blue', badge: 'N5' }] },
+                                                    { day: '4', events: [{ title: 'N4 Regular B', time: '16:00 - 17:00', color: 'blue', badge: 'N4' }] },
+                                                    { day: '5', events: [{ title: 'Evaluasi Ming...', time: '09:00 - 10:00', color: 'purple', badge: 'ALL' }] },
+                                                    { day: '6', events: [] },
+                                                    { day: '7', events: [] }
+                                                ].map((cell, i) => (
+                                                    <div key={i} className={`min-h-24 p-2 rounded-lg border ${cell.day ? 'bg-white border-slate-200' : 'bg-slate-50 border-slate-100'}`}>
+                                                        {cell.day && <div className="text-xs font-bold text-slate-600 mb-2">{cell.day}</div>}
+                                                        <div className="space-y-1">
+                                                            {cell.events.map((event, j) => (
+                                                                <div key={j} className={`p-2 rounded text-xs ${event.color === 'red' ? 'bg-red-50 border border-red-200' : event.color === 'blue' ? 'bg-blue-50 border border-blue-200' : event.color === 'orange' ? 'bg-orange-50 border border-orange-200' : 'bg-purple-50 border border-purple-200'}`}>
+                                                                    <div className={`text-[10px] font-bold mb-1 ${event.color === 'red' ? 'text-red-700' : event.color === 'blue' ? 'text-blue-700' : event.color === 'orange' ? 'text-orange-700' : 'text-purple-700'}`}>{event.badge}</div>
+                                                                    <div className="font-bold text-slate-800 leading-tight mb-1">{event.title}</div>
+                                                                    <div className="text-[10px] text-slate-500">{event.time}</div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </div>
