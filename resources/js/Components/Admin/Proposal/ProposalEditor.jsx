@@ -82,48 +82,50 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     <style>
                         {`
                         @media print {
-                            /* Step 1: Neutralize Global Body/Html */
+                            /* Step 1: Complete Isolation */
                             html, body {
                                 height: auto !important;
                                 overflow: visible !important;
+                                margin: 0 !important;
+                                padding: 0 !important;
                                 visibility: hidden !important;
                             }
 
-                            /* Step 2: Extract Modal to Root Flow */
+                            /* Step 2: Flatten the Modal Container */
                             #premium-proposal-preview {
                                 visibility: visible !important;
-                                position: absolute !important;
-                                top: 0 !important;
-                                left: 0 !important;
+                                position: static !important;
+                                display: block !important;
                                 width: 210mm !important;
                                 height: auto !important;
                                 overflow: visible !important;
-                                display: block !important;
                                 background: white !important;
                             }
 
-                            /* Step 3: Dissolve centering wrappers that cause flex-truncation */
+                            /* Step 3: Remove UI clutter immediately */
+                            .no-print { display: none !important; visibility: hidden !important; height: 0 !important; margin: 0 !important; padding: 0 !important; }
+
+                            /* Step 4: Dismantle centering wrappers */
                             #premium-proposal-preview > div {
                                 display: block !important;
                                 width: 100% !important;
                                 height: auto !important;
-                                overflow: visible !important;
                                 padding: 0 !important;
                                 margin: 0 !important;
+                                overflow: visible !important;
                             }
 
-                            /* Step 4: Fix Document Area */
+                            /* Step 5: Pure Document Flow */
                             .printable-document-area {
+                                display: block !important;
                                 width: 210mm !important;
                                 height: auto !important;
-                                overflow: visible !important;
-                                display: block !important;
                                 margin: 0 !important;
                                 padding: 0 !important;
                                 box-shadow: none !important;
+                                transform: none !important;
+                                border-radius: 0 !important;
                             }
-
-                            .no-print { display: none !important; visibility: hidden !important; }
                         }
                         `}
                     </style>

@@ -36,14 +36,21 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Outfit:wght@400;600;700;900&display=swap');
 
                 @media print {
-                    @page { size: A4; margin: 0; }
+                    @page { 
+                        size: A4; 
+                        margin: 0mm !important; 
+                    }
                     body { 
                         -webkit-print-color-adjust: exact !important; 
                         print-color-adjust: exact !important;
-                        margin: 0; 
+                        margin: 0 !important; 
+                        padding: 0 !important;
                         background: #fff; 
                     }
-                    .page-break { page-break-before: always; }
+                    .page-break { 
+                        page-break-before: always !important; 
+                        break-before: page !important;
+                    }
                 }
 
                 .proposal-print-wrapper {
@@ -245,8 +252,8 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 `}
             </style>
 
-            {/* PAGE: COVER */}
-            <div className="cover-page page-break">
+            {/* PAGE: COVER - No page break at the start */}
+            <div className="cover-page">
                 <div className="cover-grid" />
                 <div className="cover-accent" />
                 <div className="cover-content">
