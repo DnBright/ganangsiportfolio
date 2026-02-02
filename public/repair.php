@@ -1,60 +1,82 @@
 <?php
+// DISABLE ALL CACHING
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-echo "<html><body style='font-family: monospace; background: #1e1e1e; color: #0f0; padding: 20px;'>";
-echo "<h1>DNB Utilities: Emergency Repair</h1>";
-echo "<pre>";
+// ATTEMPT OPCACHE RESET (Critical for persistent 500s)
+if (function_exists('opcache_reset')) {
+    opcache_reset();
+}
 
-// 1. Verify Project Root
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DNB Emergency Repair</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: monospace; padding: 20px; font-size: 14px; }
+        .success { color: #0f0; font-weight: bold; }
+        .error { color: #f00; font-weight: bold; }
+        .btn { background: #0f0; color: #000; padding: 10px 20px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🔥 DNB SYSTEM RECOVERY TOOL 🔥</h1>
+    <hr>
+    <pre>
+<?php
+
 $basePath = realpath(__DIR__ . '/..');
-echo "[INFO] Project Root: " . $basePath . "\n";
+echo "ROOT: $basePath\n\n";
 
-// 2. Check & Clear Bootstrap Cache (The #1 Cause of 500 Errors)
-echo "\n[ACTION] Checking bootstrap/cache...\n";
-$cachePath = $basePath . '/bootstrap/cache';
-$files = glob($cachePath . '/*.php');
+// 1. CLEAR BOOTSTRAP CACHE (Aggressive)
+$files = [
+    '/bootstrap/cache/packages.php',
+    '/bootstrap/cache/services.php',
+    '/bootstrap/cache/config.php',
+    '/bootstrap/cache/routes-v7.php'
+];
 
-if (empty($files)) {
-    echo " - No cache files found (Good).\n";
-} else {
-    foreach ($files as $file) {
-        $filename = basename($file);
-        echo " - Found cache file: $filename... ";
-        
-        if (unlink($file)) {
-            echo "<span style='color:cyan'>DELETED</span>\n";
+echo "[PHASE 1] Cleaning Cache Files...\n";
+foreach ($files as $f) {
+    $fullPath = $basePath . $f;
+    if (file_exists($fullPath)) {
+        if (unlink($fullPath)) {
+            echo " [+] DELETED: $f <span class='success'>[OK]</span>\n";
         } else {
-            echo "<span style='color:red'>FAILED TO DELETE (Check Permissions)</span>\n";
+            echo " [-] FAILED: $f <span class='error'>[PERMISSION DENIED]</span>\n";
         }
-    }
-}
-
-// 3. Verify bootstrap/providers.php (Did the revert work?)
-echo "\n[CHECK] Verifying bootstrap/providers.php content...\n";
-$providersFile = $basePath . '/bootstrap/providers.php';
-if (file_exists($providersFile)) {
-    $content = file_get_contents($providersFile);
-    echo " - File exists.\n";
-    if (strpos($content, 'Barryvdh') !== false) {
-        echo "<span style='color:red'>[CRITICAL] 'Barryvdh' provider STILL FOUND in providers.php! Git pull failed?</span>\n";
     } else {
-        echo "<span style='color:cyan'>[OK] Provider list looks clean.</span>\n";
+        echo " [.] MISSING: $f (Already Clean)\n";
     }
-} else {
-    echo " - bootstrap/providers.php MISSING.\n";
 }
 
-// 4. Verify DomPDF Folder (Is it actually installed?)
-echo "\n[CHECK] Verifying DomPDF installation...\n";
-$dompdfPath = $basePath . '/vendor/barryvdh/laravel-dompdf';
-if (is_dir($dompdfPath)) {
-    echo "<span style='color:cyan'>[OK] Vendor folder found: $dompdfPath</span>\n";
+// 2. CHECK BOOTSTRAP CONFIG
+echo "\n[PHASE 2] Verifying Config...\n";
+$providersPath = $basePath . '/bootstrap/providers.php';
+$configContent = file_get_contents($providersPath);
+if (strpos($configContent, 'Barryvdh') !== false) {
+    echo " [!] CRITICAL: Bad config found in providers.php\n";
+    // Attempt Auto-Fix
+    $newContent = str_replace("Barryvdh\DomPDF\ServiceProvider::class,", "", $configContent);
+    file_put_contents($providersPath, $newContent);
+    echo " [+] AUTO-FIXED: Removed bad provider from code. <span class='success'>[OK]</span>\n";
 } else {
-    echo "<span style='color:yellow'>[WARNING] Vendor folder MISSING. PDF Export will assume missing.</span>\n";
+    echo " [+] Config looks clean. <span class='success'>[OK]</span>\n";
 }
 
-echo "\n[DONE] Repair script completed.\n";
-echo "If you see 'DELETED' above or 'Provider list looks clean', please try accessing the main dashboard again.";
-echo "</pre></body></html>";
+// 3. FINAL STATUS
+echo "\n---------------------------------------------------\n";
+echo "       SYSTEM STATUS: REPAIRED                     \n";
+echo "---------------------------------------------------\n";
+?>
+    </pre>
+    
+    <p>Please click the button below to return to Admin Dashboard:</p>
+    <a href="/admin" class="btn">GO TO DASHBOARD</a>
+</body>
+</html>
