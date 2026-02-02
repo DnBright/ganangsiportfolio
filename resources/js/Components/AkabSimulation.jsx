@@ -252,6 +252,33 @@ const AkabSimulation = ({ onClose }) => {
                     </div>
                 </section>
 
+                {/* Target & Klien */}
+                <section className="py-20 px-6 bg-slate-50 border-t border-slate-200">
+                    <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl font-black text-slate-900 mb-4">Jangkauan & Klien Strategis</h2>
+                            <p className="text-slate-600 max-w-2xl mx-auto">
+                                Kami bangga menjadi bagian dari pertumbuhan agribisnis di berbagai wilayah Indonesia melalui penyediaan bibit tersertifikasi.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                            {[
+                                { title: 'Petani Skala Besar', wilayah: 'Jawa Timur & Tengah', desc: 'Suplai bibit padi & jagung rutin untuk lahan > 100 Ha.' },
+                                { title: 'Kelompok Tani', wilayah: 'Sumatera Utara', desc: 'Pendampingan & penyediaan bibit hortikultura berkualitas.' },
+                                { title: 'Proyek Daerah', wilayah: 'Kalimantan & Sulawesi', desc: 'Pengadaan bibit perkebunan untuk program revitalisasi lahan.' },
+                                { title: 'Distributor Agrikultur', wilayah: 'Seluruh Indonesia', desc: 'Kemitraan distribusi bibit unggul untuk jangkauan luas.' }
+                            ].map((klien, i) => (
+                                <div key={i} className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                                    <h3 className="text-lg font-bold text-slate-900 mb-1">{klien.title}</h3>
+                                    <p className="text-sm font-bold text-green-700 mb-4">{klien.wilayah}</p>
+                                    <p className="text-sm text-slate-500 leading-relaxed">{klien.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
                 {/* Order Form Section */}
                 <section id="order" className="py-24 px-6 bg-green-900">
                     <div className="max-w-4xl mx-auto bg-white rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
