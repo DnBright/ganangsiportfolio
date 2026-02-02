@@ -42,6 +42,10 @@ class ProposalController extends Controller
         ];
 
         $draft = $this->gemini->generateProposal($data);
+        Log::info('Draft generated keys:', is_array($draft) ? array_keys($draft) : ['not an array']);
+        if (isset($draft['executive_summary'])) {
+             Log::info('Executive Summary Preview:', [substr($draft['executive_summary'], 0, 100)]);
+        }
 
         return response()->json([
             'draft' => $draft
