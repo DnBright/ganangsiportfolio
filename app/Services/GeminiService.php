@@ -55,8 +55,10 @@ class GeminiService
                     $result = $response->json();
                     $text = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
                     
-                    // Clean up markdown code blocks if the AI includes them
-                    $text = preg_replace('/```json\s?|\s?```/', '', $text);
+                    // More robust JSON extraction
+                    if (preg_match('/\{[\s\S]*\}/', $text, $matches)) {
+                        $text = $matches[0];
+                    }
                     
                     $decoded = json_decode($text, true);
                     
@@ -141,7 +143,7 @@ class GeminiService
             'title' => $decoded['cover']['title'] ?? ('Proposal ' . ($data['client_name'] ?? 'Klien')),
             'executive_summary' => $decoded['executive_summary']['content'] ?? '',
             'problem_analysis' => $toList($decoded['background_problem']['points'] ?? []),
-            'project_goals' => $toList($decoded['project_goals']['goals'] ?? []),
+            'project_objectives' => $toList($decoded['project_goals']['goals'] ?? []),
             'solutions' => $toSolutions($decoded['solutions'] ?? []),
             'scope_of_work' => $toList($decoded['scope_of_work']['deliverables'] ?? []),
             'system_walkthrough' => $decoded['system_flow']['description'] ?? '',
