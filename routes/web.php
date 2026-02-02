@@ -208,7 +208,7 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     // Validasi PDF Library Route
     Route::get('/debug-pdf', function() {
         $checks = [
-            'class_exists' => class_exists(\Barryvdh\DomPDF\ServiceProvider::class),
+            'class_exists' => class_exists('Barryvdh\\DomPDF\\ServiceProvider'),
             'service_bound' => app()->bound('dompdf.wrapper'),
             'vendor_folder' => is_dir(base_path('vendor/barryvdh')),
             'dompdf_folder' => is_dir(base_path('vendor/barryvdh/laravel-dompdf')),
