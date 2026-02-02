@@ -78,8 +78,9 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
             {/* Premium Preview Modal */}
             {isPreviewOpen && (
-                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col no-print overflow-hidden">
-                    <div className="flex items-center justify-between p-6 border-b border-white/10 bg-[#0f1535]">
+                <div className="fixed inset-0 z-[100] bg-[#0f111a] no-print overflow-y-auto custom-scrollbar-hide">
+                    {/* Header: Sticky to remain visible during scroll */}
+                    <div className="sticky top-0 z-[110] flex items-center justify-between p-6 border-b border-white/10 bg-[#0f111a]/80 backdrop-blur-xl">
                         <div className="flex items-center gap-4">
                             <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-blue-500/20">
                                 👁️
@@ -104,18 +105,18 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             </button>
                         </div>
                     </div>
-                    <div className="flex-1 overflow-y-auto bg-[#1a1c2e]">
-                        {/* SOLID SCROLLER: Decoupled centering from scrolling logic */}
-                        <div className="min-h-full py-20 flex flex-col items-center w-full">
-                            <div className="shadow-[0_0_100px_rgba(0,0,0,0.5)] bg-white shrink-0 mb-40"
-                                style={{
-                                    width: '210mm',
-                                    minHeight: '297mm',
-                                    display: 'block',
-                                    position: 'relative'
-                                }}>
-                                <ProposalPrintTemplate proposal={currentProposalData} />
-                            </div>
+
+                    {/* Content Section: Simple block flow for maximum scroll stability */}
+                    <div className="w-full flex flex-col items-center py-20 px-4">
+                        <div className="shadow-[0_0_100px_rgba(0,0,0,0.8)] bg-white shrink-0 mb-40"
+                            style={{
+                                width: '210mm',
+                                minHeight: '297mm',
+                                display: 'block',
+                                position: 'relative',
+                                borderRadius: '4px'
+                            }}>
+                            <ProposalPrintTemplate proposal={currentProposalData} />
                         </div>
                     </div>
                 </div>
