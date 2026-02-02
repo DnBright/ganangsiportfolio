@@ -16,21 +16,21 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
     });
 
     const sections = [
-        { id: 1, title: '1. Ringkasan Eksekutif', content: proposal.executive_summary, layout: 'sidebar' },
-        { id: 2, title: '2. Latar Belakang & Masalah', content: proposal.problem_analysis, layout: 'problem' },
-        { id: 3, title: '3. Tujuan Proyek', content: proposal.project_objectives, layout: 'objectives' },
-        { id: 4, title: '4. Solusi Utama', content: proposal.solutions, layout: 'grid' },
-        { id: 5, title: '5. Ruang Lingkup (Deliverables)', content: proposal.scope_of_work, layout: 'list' },
-        { id: 6, title: '6. Alur Sistem & Cara Kerja', content: proposal.system_walkthrough, layout: 'flow' },
-        { id: 7, title: '7. Timeline Implementasi', content: proposal.timeline, layout: 'milestone' },
-        { id: 8, title: '8. Estimasi Investasi Proyek', content: proposal.investment, layout: 'pricing' },
-        { id: 9, title: '9. Estimasi Dampak & ROI', content: proposal.roi_impact, layout: 'impact' },
-        { id: 10, title: '10. Nilai Tambah Agensi', content: proposal.value_add, layout: 'cards' },
-        { id: 11, title: '11. Penutup & Kerja Sama', content: proposal.closing_cta, layout: 'closing' },
+        { id: 1, title: '1. Ringkasan Eksekutif', content: String(proposal.executive_summary || ''), layout: 'sidebar' },
+        { id: 2, title: '2. Latar Belakang & Masalah', content: String(proposal.problem_analysis || ''), layout: 'problem' },
+        { id: 3, title: '3. Tujuan Proyek', content: String(proposal.project_objectives || ''), layout: 'objectives' },
+        { id: 4, title: '4. Solusi Utama', content: String(proposal.solutions || ''), layout: 'grid' },
+        { id: 5, title: '5. Ruang Lingkup (Deliverables)', content: String(proposal.scope_of_work || ''), layout: 'list' },
+        { id: 6, title: '6. Alur Sistem & Cara Kerja', content: String(proposal.system_walkthrough || ''), layout: 'flow' },
+        { id: 7, title: '7. Timeline Implementasi', content: String(proposal.timeline || ''), layout: 'milestone' },
+        { id: 8, title: '8. Estimasi Investasi Proyek', content: String(proposal.investment || ''), layout: 'pricing' },
+        { id: 9, title: '9. Estimasi Dampak & ROI', content: String(proposal.roi_impact || ''), layout: 'impact' },
+        { id: 10, title: '10. Nilai Tambah Agensi', content: String(proposal.value_add || ''), layout: 'cards' },
+        { id: 11, title: '11. Penutup & Kerja Sama', content: String(proposal.closing_cta || ''), layout: 'closing' },
     ];
 
     return (
-        <div className="proposal-print-wrapper bg-white text-[#0f172a] font-sans flex flex-col">
+        <div className="proposal-print-wrapper bg-white text-[#0f172a] font-sans flex flex-col items-stretch">
             <style>
                 {`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Outfit:wght@400;600;900&display=swap');
@@ -47,6 +47,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     color: #1e293b;
                     background: #fff;
                     font-family: 'Inter', sans-serif;
+                    display: block;
                 }
 
                 /* SHARED ELEMENTS */
@@ -55,7 +56,9 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     min-height: 297mm;
                     padding: 30mm 20mm;
                     background: #fff;
-                    overflow: hidden;
+                    overflow: visible;
+                    display: block;
+                    width: 100%;
                 }
 
                 .internal-header {
