@@ -40,53 +40,59 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 @media print {
                     @page { 
                         size: A4; 
-                        margin: 0 !important; 
-                    }
-                    * {
-                        -webkit-print-color-adjust: exact !important; 
-                        print-color-adjust: exact !important;
+                        margin: 0mm !important; 
                     }
                     
-                    /* THE ANCESTOR NEUTRALIZER: Strip layout barriers, PRESERVE visuals */
-                    html, body, #app, [class*="Inertia"], [class*="modal"], 
-                    [class*="content"], #premium-proposal-preview,
-                    #premium-proposal-preview > div {
-                        display: block !important;
-                        position: static !important;
-                        visibility: visible !important;
+                    /* NUCLEAR ROOT OVERRIDE */
+                    html, body {
+                        background-color: #0f172a !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        width: auto !important;
-                        height: auto !important;
-                        min-height: auto !important;
                         overflow: visible !important;
-                        transform: none !important;
-                        box-shadow: none !important;
-                        /* background: none !important; <-- REMOVED: This was killing the dark theme */
+                        height: auto !important;
                     }
 
-                    /* NUCLEAR HIDE: Anything that isn't the proposal or a critical ancestor */
-                    nav, aside, footer, .no-print, button, .sticky {
+                    /* THE SURGICAL HIDE: Hide everything, then show ONLY the wrapper */
+                    body > *:not(.proposal-print-wrapper):not(#app) {
+                        display: none !important;
+                    }
+                    
+                    /* If inside Inertia/React app, neutralize all parent containers */
+                    #app, [class*="Inertia"], [class*="modal"], [class*="layout"], [class*="content"] {
+                        display: block !important;
+                        background: transparent !important;
+                        position: static !important;
+                        overflow: visible !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        transform: none !important;
+                        box-shadow: none !important;
+                        border: none !important;
+                    }
+
+                    /* Hide ALL other elements that are NOT our print structure */
+                    nav, aside, footer, .no-print, button, .sticky, header {
                         display: none !important;
                         visibility: hidden !important;
                     }
 
-                    /* THE WRAPPER: The only thing allowed to have A4 width */
+                    /* THE PRINT WRAPPER: Forced to the top and spanning the page */
                     .proposal-print-wrapper {
                         display: block !important;
                         position: absolute !important;
                         top: 0 !important;
                         left: 0 !important;
                         width: 210mm !important;
-                        background: #0f172a !important; /* Force the dark theme baseline */
+                        background-color: #0f172a !important;
+                        z-index: 99999999 !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        z-index: 9999999 !important;
-                        -webkit-print-color-adjust: exact !important;
-                        print-color-adjust: exact !important;
+                        min-height: 100% !important;
                     }
 
-                    /* THE PAGES: The physical A4 blocks */
+                    /* THE PAGES: Strategic Page Breaking */
                     .internal-page, .cover-page, .closing-hero {
                         display: block !important;
                         position: relative !important;
@@ -108,13 +114,13 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         height: auto !important;
                         overflow: visible !important;
                         padding: 30mm 20mm !important;
-                        background: #fff !important; /* Internal pages remain light */
+                        background-color: #ffffff !important; /* Internal content remains readable on white */
                     }
 
                     .cover-page, .closing-hero {
                         height: 297mm !important;
                         overflow: hidden !important;
-                        background: #0f172a !important; /* FORCE DARK BACKGROUND */
+                        background-color: #0f172a !important; /* Force the premium dark theme */
                     }
                 }
 
@@ -126,6 +132,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     font-family: 'Inter', sans-serif;
                     display: block;
                     box-sizing: border-box;
+                    box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Shadow only for preview, print hides it */
                 }
 
                 /* SHARED ELEMENTS */
