@@ -96,7 +96,7 @@ const Solutions = () => {
                             href="#portfolio"
                             onClick={(e) => {
                                 e.preventDefault();
-                                const el = document.getElementById('portfolio');
+                                const el = document.getElementById('portfolio-root');
                                 if (el) el.scrollIntoView({ behavior: 'smooth' });
                             }}
                             className="bg-white text-black px-8 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4)] whitespace-nowrap"
