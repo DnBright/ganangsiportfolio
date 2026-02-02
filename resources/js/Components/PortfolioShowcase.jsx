@@ -22,7 +22,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const displayPortfolios = [
         { id: 'saitama', title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" },
         { id: 'kursus', title: "Kursus Jepang", category: "Education Platform", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" },
-        { id: 'ayaka', title: "Ayaka", category: "Beauty & Wellness", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
+        { id: 'ayaka', title: "Ayaka Josei Center", category: "Beauty & Wellness", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
         { id: 'akab', title: "AKAB", category: "Technology Systems", image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=1200&q=80" }
     ];
 
@@ -110,7 +110,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     </span>
 
                                     {/* Prominent Play Badge for Simulations */}
-                                    {(item.id === 'saitama' || item.id === 'kursus') && (
+                                    {(item.id === 'saitama' || item.id === 'kursus' || item.id === 'ayaka') && (
                                         <div className="absolute top-8 right-8 md:top-12 md:right-12 animate-pulse">
                                             <div className="bg-[#E60012] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg shadow-red-600/40 group-hover:scale-110 transition-transform">
                                                 <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
