@@ -169,7 +169,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
 
                                     {/* Always visible action area */}
                                     <div className="flex items-center gap-4 mt-6">
-                                        {item.id === 'saitama' || item.id === 'kursus' ? (
+                                        {item.id === 'saitama' || item.id === 'kursus' || item.id === 'ayaka' ? (
                                             <button className="bg-white text-black px-8 py-4 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
                                                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                                                 Coba Simulation Live
