@@ -15,13 +15,6 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
         }, 3000);
     };
 
-    const handlePrint = (proposal) => {
-        setPrintingProposal(proposal);
-        // Wait for React to render the template into the hidden div before printing
-        setTimeout(() => {
-            window.print();
-        }, 500);
-    };
 
     const getStatusStyle = (status) => {
         switch (status) {
@@ -35,10 +28,6 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
 
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500">
-            {/* Hidden Printable Area */}
-            <div className="hidden print:block">
-                {printingProposal && <ProposalPrintTemplate proposal={printingProposal} />}
-            </div>
 
             {/* Header Content */}
             <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 overflow-hidden relative group">
@@ -116,7 +105,15 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
                                             </td>
                                             <td className="px-6 py-5 text-right">
                                                 <div className="flex justify-end gap-2 no-print">
-                                                    <button onClick={() => handlePrint(p)} className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs" title="Print/Download">🖨️</button>
+                                                    <a
+                                                        href={`/proposals/${p.id}/export`}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs"
+                                                        title="Download PDF"
+                                                    >
+                                                        🖨️
+                                                    </a>
                                                     <button
                                                         onClick={() => onEdit && onEdit(p)}
                                                         className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs text-blue-400"
