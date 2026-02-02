@@ -73,6 +73,43 @@ const Solutions = () => {
     return (
         <section ref={sectionRef} className="w-full bg-white text-black py-24 px-6 md:px-12 lg:px-24">
             <div className="max-w-7xl mx-auto">
+                {/* Prototype Trigger Section */}
+                <div className="mb-24 w-full bg-[#0a0a0a] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden group border border-white/10 shadow-2xl">
+                    <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                    <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-gradient-to-tr from-red-600/10 to-orange-600/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+                    <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+                        <div>
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                <span className="text-xs font-mono text-white/60 uppercase tracking-widest">Interactive Experience</span>
+                            </div>
+                            <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4 max-w-xl leading-[0.9]">
+                                Experience Real-Time <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Prototypes</span>
+                            </h2>
+                            <p className="text-white/60 max-w-lg leading-relaxed text-sm md:text-base">
+                                Jangan hanya membayangkan. Coba langsung teknologi interaktif yang kami bangun untuk klien global kami.
+                            </p>
+                        </div>
+
+                        <a
+                            href="#portfolio"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const el = document.getElementById('portfolio');
+                                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="bg-white text-black px-8 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4)] whitespace-nowrap"
+                        >
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            Coba Fitur Prototype
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
                 <div ref={headerRef} className="mb-20">
                     <h2 className="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4">{t('solutions.headline', language)}</h2>
                     <h3 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
