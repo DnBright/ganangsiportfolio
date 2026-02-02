@@ -150,7 +150,7 @@
         .internal-page-wrapper {
             /* No fixed height to allow scrolling/flow across pages */
             width: 100%; /* Relative to body */
-            padding: 25mm 35mm 25mm 25mm; /* Top, Right(Increased), Bottom, Left */
+            padding: 25mm 50mm 25mm 25mm; /* Top, Right(HUGE SAFETY), Bottom, Left */
             position: relative;
             background: #ffffff;
         }
