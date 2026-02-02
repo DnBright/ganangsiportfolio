@@ -126,7 +126,7 @@ class ProposalController extends Controller
 
     public function exportPdf(Proposal $proposal)
     {
-        $pdf = Pdf::loadView('proposals.print', compact('proposal'));
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('proposals.print', compact('proposal'));
         
         // Ensure high fidelity by enabling some DomPDF options if needed
         $pdf->setPaper('a4', 'portrait');
