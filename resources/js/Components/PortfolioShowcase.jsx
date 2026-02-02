@@ -6,6 +6,7 @@ import { t } from '../translations';
 import SaitamaSimulation from './SaitamaSimulation';
 import KursusJepangSimulation from './KursusJepangSimulation';
 import AyakaSimulation from './AyakaSimulation';
+import AkabSimulation from './AkabSimulation';
 import { AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,6 +18,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const [isSaitamaOpen, setIsSaitamaOpen] = useState(false);
     const [isKursusOpen, setIsKursusOpen] = useState(false);
     const [isAyakaOpen, setIsAyakaOpen] = useState(false);
+    const [isAkabOpen, setIsAkabOpen] = useState(false);
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
@@ -126,6 +128,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                 if (item.id === 'saitama') setIsSaitamaOpen(true);
                                 if (item.id === 'kursus') setIsKursusOpen(true);
                                 if (item.id === 'ayaka') setIsAyakaOpen(true);
+                                if (item.id === 'akab') setIsAkabOpen(true);
                             }}
                         >
                             {/* Image with Parallax Hover */}
@@ -169,7 +172,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
 
                                     {/* Always visible action area */}
                                     <div className="flex items-center gap-4 mt-6">
-                                        {item.id === 'saitama' || item.id === 'kursus' || item.id === 'ayaka' ? (
+                                        {item.id === 'saitama' || item.id === 'kursus' || item.id === 'ayaka' || item.id === 'akab' ? (
                                             <button className="bg-white text-black px-8 py-4 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
                                                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
                                                 Coba Simulation Live
@@ -213,6 +216,9 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                 )}
                 {isAyakaOpen && (
                     <AyakaSimulation onClose={() => setIsAyakaOpen(false)} />
+                )}
+                {isAkabOpen && (
+                    <AkabSimulation onClose={() => setIsAkabOpen(false)} />
                 )}
             </AnimatePresence>
         </section>
