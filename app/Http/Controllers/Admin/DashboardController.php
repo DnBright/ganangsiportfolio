@@ -27,6 +27,9 @@ class DashboardController extends Controller
         $totalPages = Page::count();
         $publishedPages = Page::published()->count();
 
+        $userName = auth()->user()->name;
+        $isLoggedIn = auth()->check();
+
         return view('admin.dashboard', compact(
             'totalLeads',
             'generalLeads',
@@ -36,7 +39,8 @@ class DashboardController extends Controller
             'totalPortfolios',
             'featuredPortfolios',
             'totalPages',
-            'publishedPages'
+            'publishedPages',
+            'userName'
         ));
     }
 }

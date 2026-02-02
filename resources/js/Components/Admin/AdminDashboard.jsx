@@ -230,16 +230,16 @@ const AdminDashboard = ({ stats = {} }) => {
                     <>
                         {/* Stats Row (4 columns) */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <StatCard title="Today's Money" value="$53,000" growth="+55%" icon="money" />
-                            <StatCard title="Today's Users" value="2,300" growth="+5%" icon="users" />
-                            <StatCard title="New Clients" value="+3,052" growth="-14%" icon="clients" />
-                            <StatCard title="Total Sales" value="$173,000" growth="+8%" icon="sales" />
+                            <StatCard title="Total Leads" value={stats.totalLeads || 0} growth={stats.newLeads > 0 ? `+${stats.newLeads}` : "0"} icon="money" />
+                            <StatCard title="New Leads" value={stats.newLeads || 0} growth="+100%" icon="users" />
+                            <StatCard title="Total Portfolios" value={stats.totalPortfolios || 0} growth="" icon="clients" />
+                            <StatCard title="Featured Portfolios" value={stats.featuredPortfolios || 0} growth="" icon="sales" />
                         </div>
 
                         {/* Middle Row (Welcome, Satisfaction, Referral) - 3 columns */}
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
                             <div className="lg:col-span-5">
-                                <WelcomeCard name="Mark Johnson" />
+                                <WelcomeCard name={stats.userName || "Admin"} />
                             </div>
                             <div className="lg:col-span-3">
                                 <SatisfactionGauge percentage={95} />

@@ -6,6 +6,7 @@
     'newLeads' => $newLeads,
     'totalPortfolios' => $totalPortfolios,
     'featuredPortfolios' => $featuredPortfolios,
-    'recentLeads' => $recentLeads
+    'recentLeads' => $recentLeads,
+    'userName' => $userName
 ]) }}"></div>
 @endsection
