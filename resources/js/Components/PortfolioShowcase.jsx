@@ -105,23 +105,41 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     <span className="text-[10px] md:text-xs font-mono border border-white/20 px-3 py-1 rounded-full backdrop-blur-md bg-white/5 uppercase tracking-widest">
                                         {item.category || 'Development'}
                                     </span>
-                                    <span className="text-4xl md:text-6xl font-black opacity-10 font-mono tracking-tighter">0{index + 1}</span>
+
+                                    {/* Prominent Play Badge for Simulations */}
+                                    {(item.id === 'saitama' || item.id === 'kursus') && (
+                                        <div className="absolute top-8 right-8 md:top-12 md:right-12 animate-pulse">
+                                            <div className="bg-[#E60012] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg shadow-red-600/40 group-hover:scale-110 transition-transform">
+                                                <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M8 5v14l11-7z" />
+                                                </svg>
+                                            </div>
+                                            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] font-black uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                                                Try Demo
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    <span className="text-4xl md:text-6xl font-black opacity-10 font-mono tracking-tighter self-start">0{index + 1}</span>
                                 </div>
 
                                 <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                                     <h3 className="text-4xl md:text-7xl font-black uppercase leading-none mb-6 mix-blend-difference tracking-tighter">
                                         {item.title}
                                     </h3>
-                                    <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 items-center">
+
+                                    {/* Always visible action area */}
+                                    <div className="flex items-center gap-4 mt-6">
                                         {item.id === 'saitama' || item.id === 'kursus' ? (
-                                            <button className="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-2">
-                                                Coba Simulation
-                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                            <button className="bg-white text-black px-8 py-4 rounded-full text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+                                                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                                Coba Simulation Live
+                                                <svg className="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                                                     <path d="M5 12h14M12 5l7 7-7 7" />
                                                 </svg>
                                             </button>
                                         ) : (
-                                            <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest hover:underline underline-offset-4 font-black">
+                                            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-widest hover:underline underline-offset-4 font-black text-white/80 group-hover:text-white transition-colors">
                                                 {t('portfolio.viewCase', language)}
                                                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                     <path d="M5 12h14M12 5l7 7-7 7" />
