@@ -37,7 +37,12 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
                 @media print {
                     @page { size: A4; margin: 0; }
-                    body { -webkit-print-color-adjust: exact; margin: 0; background: #fff; }
+                    body { 
+                        -webkit-print-color-adjust: exact !important; 
+                        print-color-adjust: exact !important;
+                        margin: 0; 
+                        background: #fff; 
+                    }
                     .page-break { page-break-before: always; }
                 }
 
@@ -48,6 +53,8 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     background: #fff;
                     font-family: 'Inter', sans-serif;
                     display: block;
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
                 }
 
                 /* SHARED ELEMENTS */

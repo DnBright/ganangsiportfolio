@@ -67,30 +67,14 @@ html {
     position: static !important;
   }
 
-  /* Document Typography */
+  /* Typography is handled by components */
   h1,
   h2,
   h3,
-  h4 {
-    color: #000 !important;
-    page-break-after: avoid;
-    margin-top: 0.5in !important;
-  }
-
-  h2 {
-    border-bottom: 2px solid #333;
-    padding-bottom: 15px;
-    font-size: 24pt !important;
-    margin-bottom: 20px;
-  }
-
+  h4,
   p,
-  li,
-  .whitespace-pre-wrap {
-    font-size: 12pt !important;
-    line-height: 1.8 !important;
-    color: #1a1a1a !important;
-    margin-bottom: 15px;
+  li {
+    page-break-after: avoid;
   }
 
   /* Joni Fix: Removed aggressive blanket hiding of shadow/fixed components during print */
