@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../Contexts/LanguageContext';
 import { t } from '../translations';
+import SaitamaSimulation from './SaitamaSimulation';
+import { AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,13 +12,14 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const sectionRef = useRef(null);
     const containerRef = useRef(null);
     const { language } = useLanguage();
+    const [isSaitamaOpen, setIsSaitamaOpen] = useState(false);
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
-        { title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" },
-        { title: "Kursus Jepang", category: "Education Platform", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" },
-        { title: "Ayaka", category: "Beauty & Wellness", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
-        { title: "AKAB", category: "Technology Systems", image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=1200&q=80" }
+        { id: 'saitama', title: "PT Saitama Juara Mendunia", category: "Corporate Global", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" },
+        { id: 'kursus', title: "Kursus Jepang", category: "Education Platform", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" },
+        { id: 'ayaka', title: "Ayaka", category: "Beauty & Wellness", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
+        { id: 'akab', title: "AKAB", category: "Technology Systems", image: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?auto=format&fit=crop&w=1200&q=80" }
     ];
 
     useEffect(() => {
@@ -78,7 +81,10 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                     {displayPortfolios.map((item, index) => (
                         <div
                             key={index}
-                            className="group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden"
+                            className={`group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden cursor-pointer rounded-2xl md:rounded-3xl border border-white/5`}
+                            onClick={() => {
+                                if (item.id === 'saitama') setIsSaitamaOpen(true);
+                            }}
                         >
                             {/* Image with Parallax Hover */}
                             <div className="absolute inset-0 overflow-hidden">
@@ -87,29 +93,38 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     alt={item.title}
                                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-60 group-hover:opacity-100"
                                 />
-                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors duration-500"></div>
                             </div>
 
                             {/* Content Overlay */}
                             <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-between z-10">
                                 <div className="flex justify-between items-start">
-                                    <span className="text-xs font-mono border border-white/20 px-3 py-1 rounded-full backdrop-blur-md">
+                                    <span className="text-[10px] md:text-xs font-mono border border-white/20 px-3 py-1 rounded-full backdrop-blur-md bg-white/5 uppercase tracking-widest">
                                         {item.category || 'Development'}
                                     </span>
-                                    <span className="text-4xl font-black opacity-20">0{index + 1}</span>
+                                    <span className="text-4xl md:text-6xl font-black opacity-10 font-mono tracking-tighter">0{index + 1}</span>
                                 </div>
 
                                 <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                                    <h3 className="text-4xl md:text-6xl font-black uppercase leading-none mb-4 mix-blend-difference">
+                                    <h3 className="text-4xl md:text-7xl font-black uppercase leading-none mb-6 mix-blend-difference tracking-tighter">
                                         {item.title}
                                     </h3>
-                                    <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                        <a href="#" className="inline-flex items-center gap-2 text-sm uppercase tracking-widest hover:underline underline-offset-4">
-                                            {t('portfolio.viewCase', language)}
-                                            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M5 12h14M12 5l7 7-7 7" />
-                                            </svg>
-                                        </a>
+                                    <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 items-center">
+                                        {item.id === 'saitama' ? (
+                                            <button className="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-2">
+                                                Coba Simulation
+                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                        ) : (
+                                            <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest hover:underline underline-offset-4 font-black">
+                                                {t('portfolio.viewCase', language)}
+                                                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                                </svg>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -128,6 +143,12 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                     </div>
                 </div>
             </div>
+
+            <AnimatePresence>
+                {isSaitamaOpen && (
+                    <SaitamaSimulation onClose={() => setIsSaitamaOpen(false)} />
+                )}
+            </AnimatePresence>
         </section>
     );
 };
