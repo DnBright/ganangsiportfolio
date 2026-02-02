@@ -1,186 +1,500 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
 import SimulationWrapper from './SimulationWrapper';
 
-const HIRAGANA_DATA = [
-    { char: 'あ', romaji: 'a' }, { char: 'い', romaji: 'i' }, { char: 'う', romaji: 'u' },
-    { char: 'え', romaji: 'e' }, { char: 'お', romaji: 'o' }, { char: 'か', romaji: 'ka' },
-    { char: 'き', romaji: 'ki' }, { char: 'く', romaji: 'ku' }, { char: 'け', romaji: 'ke' },
-    { char: 'こ', romaji: 'ko' }, { char: 'さ', romaji: 'sa' }, { char: 'し', romaji: 'shi' },
-    { char: 'す', romaji: 'su' }, { char: 'せ', romaji: 'se' }, { char: 'そ', romaji: 'so' },
-    { char: 'た', romaji: 'ta' }, { char: 'ち', romaji: 'chi' }, { char: 'つ', romaji: 'tsu' },
-    { char: 'て', romaji: 'te' }, { char: 'と', romaji: 'to' }
-];
-
 const KursusJepangSimulation = ({ onClose }) => {
-    const [step, setStep] = useState('intro'); // intro, quiz, result
-    const [questions, setQuestions] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [score, setScore] = useState(0);
-    const [selectedOption, setSelectedOption] = useState(null);
-    const [isCorrect, setIsCorrect] = useState(null);
+    const [activePage, setActivePage] = useState('dashboard');
 
-    const startQuiz = () => {
-        // Shuffle and pick 5 random characters
-        const shuffled = [...HIRAGANA_DATA].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 5).map(q => {
-            // Generate 3 wrong options
-            const distractorPool = HIRAGANA_DATA.filter(h => h.romaji !== q.romaji);
-            const distractors = distractorPool.sort(() => 0.5 - Math.random()).slice(0, 3);
-            const options = [...distractors, q].sort(() => 0.5 - Math.random());
-            return { ...q, options };
-        });
-        setQuestions(selected);
-        setCurrentIndex(0);
-        setScore(0);
-        setStep('quiz');
-    };
+    const DashboardView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                <h2 className="text-xl font-bold text-slate-800 mb-1">Ringkasan Hari Ini</h2>
+                <p className="text-xs text-slate-400 mb-6">Pantau aktivitas kelas dan siswa Anda.</p>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {[
+                        { label: 'Kelas Aktif', value: '5', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+                        { label: 'Total Siswa', value: '128', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                        { label: 'Jadwal Hari Ini', value: '2', sub: 'Kelas', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+                        { label: 'Perlu Dinilai', value: '8', sub: 'Tugas', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' }
+                    ].map((stat, i) => (
+                        <div key={i} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-600">
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={stat.icon} />
+                                    </svg>
+                                </div>
+                            </div>
+                            <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">{stat.label}</p>
+                            <div className="flex items-baseline gap-2">
+                                <h3 className="text-2xl font-black text-slate-800">{stat.value}</h3>
+                                {stat.sub && <span className="text-xs text-slate-400">{stat.sub}</span>}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
-    const handleAnswer = (option) => {
-        if (selectedOption !== null) return; // Prevent double click
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                    <div className="flex items-center justify-between mb-6">
+                        <h3 className="font-bold text-slate-800">Kelas Terdekat</h3>
+                        <span className="px-3 py-1 bg-red-50 text-red-600 text-xs font-bold rounded-full">Hari Ini</span>
+                    </div>
+                    <div className="bg-red-50 p-5 rounded-xl border border-red-100">
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <span className="px-2 py-1 bg-blue-600 text-white text-[10px] font-bold rounded">INTENSIVE N4</span>
+                                <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded">LIVE ZOOM</span>
+                            </div>
+                        </div>
+                        <h4 className="font-bold text-slate-800 mb-2">Bunpou Practice: Conditional Forms</h4>
+                        <p className="text-sm text-slate-500 mb-4">Materi fokus pada penggunaan Tara, Ba, dan Nara dalam percakapan sehari-hari</p>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="text-center">
+                                    <p className="text-xs text-slate-400 uppercase font-bold">Hari Ini</p>
+                                    <p className="text-2xl font-black text-red-600">19:00</p>
+                                    <p className="text-xs text-slate-400">WIB</p>
+                                </div>
+                            </div>
+                            <button className="px-6 py-2.5 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">Mulai Kelas</button>
+                        </div>
+                    </div>
+                </div>
 
-        setSelectedOption(option.romaji);
-        const correct = option.romaji === questions[currentIndex].romaji;
-        setIsCorrect(correct);
-        if (correct) setScore(s => s + 1);
+                <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                    <h3 className="font-bold text-slate-800 mb-6">Aktivitas Terakhir</h3>
+                    <div className="space-y-4">
+                        {[
+                            { name: 'Ahmad Rizki', action: 'mengumpulkan tugas Sakubun (Writing) N4', time: '10 Menit yang lalu', badge: 'Review' },
+                            { name: 'Siti Aminah', action: 'menyelesaikan modul Kanji N5 Bab 3', time: '36 Menit yang lalu' },
+                            { name: 'Budi Santoso', action: 'bertanya di diskusi Partikel Wa & Ga', time: '1 Jam yang lalu', badge: 'Balas' }
+                        ].map((activity, i) => (
+                            <div key={i} className="flex items-start gap-3 pb-4 border-b border-slate-100 last:border-0">
+                                <div className="w-8 h-8 bg-slate-200 rounded-full flex-shrink-0"></div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm text-slate-700"><span className="font-bold">{activity.name}</span> {activity.action}</p>
+                                    <p className="text-xs text-slate-400 mt-1">{activity.time}</p>
+                                </div>
+                                {activity.badge && <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg">{activity.badge}</span>}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 
-        setTimeout(() => {
-            if (currentIndex < questions.length - 1) {
-                setCurrentIndex(currentIndex + 1);
-                setSelectedOption(null);
-                setIsCorrect(null);
-            } else {
-                setStep('result');
-            }
-        }, 1200);
-    };
+    const KelasSayaView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <h2 className="text-xl font-bold text-slate-800 mb-1">Kelas Saya</h2>
+                    <p className="text-xs text-slate-400">Kelola semua kelas yang Anda ajar.</p>
+                </div>
+                <div className="flex gap-3">
+                    <input type="text" placeholder="Cari nama kelas atau level..." className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <button className="px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-xl">Semua</button>
+                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl">Aktif</button>
+                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl">Selesai</button>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { title: 'Intensive N4: Bunpou & Dokkai', level: 'N4', students: 12, schedule: 'Senin & Rabu', time: '19.00 - 21.00 WIB', platform: 'Zoom', status: 'Hari Ini', statusColor: 'red' },
+                    { title: 'Basic Conversation: Daily Life', level: 'N5', students: 8, schedule: 'Selasa & Kamis', time: '15.00 - 17.00 WIB', platform: 'Zoom', status: 'Aktif', statusColor: 'green' },
+                    { title: 'Kanji Mastery N3', level: 'N3', students: 20, schedule: 'Sabtu', time: '09.00 - 12.00 WIB', platform: 'LMS', status: 'Selesai', statusColor: 'gray' },
+                    { title: 'Persiapan Tokutei Ginou', level: 'TG', students: 15, schedule: 'Jumat', time: '13.00 - 15.30 WIB', platform: 'Zoom', status: 'Aktif', statusColor: 'green' }
+                ].map((kelas, i) => (
+                    <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-shadow">
+                        <div className="flex items-start justify-between mb-4">
+                            <span className={`px-3 py-1 text-xs font-bold rounded ${kelas.level === 'N4' ? 'bg-blue-100 text-blue-700' : kelas.level === 'N5' ? 'bg-green-100 text-green-700' : kelas.level === 'N3' ? 'bg-purple-100 text-purple-700' : 'bg-orange-100 text-orange-700'}`}>{kelas.level}</span>
+                            <span className={`px-3 py-1 text-xs font-bold rounded ${kelas.statusColor === 'red' ? 'bg-red-100 text-red-600' : kelas.statusColor === 'green' ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-500'}`}>• {kelas.status}</span>
+                        </div>
+                        <h3 className="font-bold text-slate-800 mb-4">{kelas.title}</h3>
+                        <div className="space-y-2 mb-4">
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                                <span>{kelas.students} Siswa</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                <span>{kelas.schedule}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>{kelas.time}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-slate-600">
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                                <span>{kelas.platform}</span>
+                            </div>
+                        </div>
+                        <button className="w-full py-2 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900">Detail</button>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+
+    const LiveClassView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <h2 className="text-xl font-bold text-slate-800 mb-1">Live Class</h2>
+                    <p className="text-xs text-slate-400">Dashboard &gt; Live Class</p>
+                </div>
+                <button className="px-6 py-3 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">+ Jadwalkan Live Class</button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { label: 'Total Bulan Ini', value: '12', sub: 'Sesi', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+                    { label: 'Hari Ini', value: '1', sub: 'Sesi', icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' },
+                    { label: 'Sedang Berlangsung', value: '1', sub: 'Sesi', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' }
+                ].map((stat, i) => (
+                    <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-slate-600">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={stat.icon} />
+                                </svg>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">{stat.label}</p>
+                        <div className="flex items-baseline gap-2">
+                            <h3 className="text-2xl font-black text-slate-800">{stat.value}</h3>
+                            <span className="text-xs text-slate-400">{stat.sub}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                <div className="flex gap-4 mb-6 border-b border-slate-200">
+                    <button className="pb-3 px-4 text-sm font-bold text-slate-800 border-b-2 border-slate-800">Akan Datang</button>
+                    <button className="pb-3 px-4 text-sm font-bold text-slate-400">Sedang Berlangsung</button>
+                    <button className="pb-3 px-4 text-sm font-bold text-slate-400">Selesai</button>
+                </div>
+
+                <div className="space-y-4">
+                    {[
+                        { title: 'Bunpou Practice: Conditional Forms', level: 'N4', date: 'Hari Ini', time: '19:00 - 21:00 WIB', students: 15, status: 'live', platform: 'Zoom' },
+                        { title: 'Basic Conversation: Daily Life', level: 'N5', date: 'Besok, 7 Jan', time: '15:00 - 17:00 WIB', students: 8, platform: 'Zoom' },
+                        { title: 'Kanji Mastery N3: Week 1', level: 'N3', date: 'Kemarin, 5 Jan', time: '09:00 - 12:00 WIB', students: 20, status: 'done', platform: 'Zoom' },
+                        { title: 'Persiapan Tokutei Ginou: Food Service', level: 'TG', date: 'Jumat, 9 Jan', time: '13:00 - 15:30 WIB', students: 15, platform: 'Zoom' }
+                    ].map((session, i) => (
+                        <div key={i} className="p-5 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="text-center">
+                                    <p className="text-xs text-slate-400 uppercase font-bold">{session.date}</p>
+                                    <p className="text-xl font-black text-slate-800">{session.time.split(' - ')[0]}</p>
+                                    <p className="text-xs text-slate-400">WIB</p>
+                                </div>
+                                <div className="h-12 w-px bg-slate-200"></div>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className={`px-2 py-1 text-xs font-bold rounded ${session.level === 'N4' ? 'bg-blue-100 text-blue-700' : session.level === 'N5' ? 'bg-green-100 text-green-700' : session.level === 'N3' ? 'bg-purple-100 text-purple-700' : 'bg-orange-100 text-orange-700'}`}>{session.level}</span>
+                                        <span className="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded flex items-center gap-1">
+                                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                                            {session.platform}
+                                        </span>
+                                        {session.status === 'live' && <span className="px-2 py-1 bg-red-500 text-white text-xs font-bold rounded animate-pulse">• LIVE</span>}
+                                    </div>
+                                    <h4 className="font-bold text-slate-800">{session.title}</h4>
+                                    <p className="text-xs text-slate-500 mt-1">{session.time} • {session.students} Terdaftar</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-3">
+                                {session.status === 'live' ? (
+                                    <button className="px-6 py-2.5 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">Join Session</button>
+                                ) : session.status === 'done' ? (
+                                    <button className="px-6 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700">Lihat Rekaman</button>
+                                ) : (
+                                    <>
+                                        <button className="px-4 py-2.5 bg-blue-50 text-blue-600 text-sm font-bold rounded-xl hover:bg-blue-100">Akan Datang</button>
+                                        <button className="px-4 py-2.5 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl hover:bg-slate-200">Edit Jadwal</button>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+
+    const MateriView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <h2 className="text-xl font-bold text-slate-800 mb-1">Materi & Modul</h2>
+                    <p className="text-xs text-slate-400">Kelola konten pembelajaran untuk kelas Anda ajar.</p>
+                </div>
+                <div className="flex gap-3">
+                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl">Kelola Modul</button>
+                    <button className="px-6 py-3 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">+ Buat Materi Baru</button>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {[
+                    { label: 'Materi Aktif', value: '45', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+                    { label: 'Total Modul', value: '12', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+                    { label: 'Terpopuler', value: 'Video: Partikel...', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
+                    { label: 'Draft', value: '3', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' }
+                ].map((stat, i) => (
+                    <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-slate-600">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={stat.icon} />
+                                </svg>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">{stat.label}</p>
+                        <h3 className="text-xl font-black text-slate-800 truncate">{stat.value}</h3>
+                    </div>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200">
+                    <div className="flex items-center justify-between mb-6">
+                        <input type="text" placeholder="Cari materi..." className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64" />
+                        <select className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                            <option>Semua Level</option>
+                        </select>
+                    </div>
+
+                    <div className="space-y-3">
+                        {[
+                            { title: 'Dasar Tata Bahasa N5', level: 'N5', modules: 8, status: 'Published' },
+                            { title: 'Percakapan Sehari-hari (Kaiwa)', level: 'N4', modules: 5, status: 'Published' },
+                            { title: 'Persiapan Tokutei Ginou: Food Service', level: 'TG', modules: 0, status: 'Draft' }
+                        ].map((materi, i) => (
+                            <div key={i} className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between hover:bg-slate-100 transition-colors">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border border-slate-200">
+                                        <svg className="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className={`px-2 py-1 text-xs font-bold rounded ${materi.level === 'N5' ? 'bg-green-100 text-green-700' : materi.level === 'N4' ? 'bg-blue-100 text-blue-700' : 'bg-orange-100 text-orange-700'}`}>{materi.level}</span>
+                                            <span className={`px-2 py-1 text-xs font-bold rounded ${materi.status === 'Published' ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600'}`}>• {materi.status}</span>
+                                        </div>
+                                        <h4 className="font-bold text-slate-800">{materi.title}</h4>
+                                        <p className="text-xs text-slate-500 mt-1">{materi.modules} Materi • Published</p>
+                                    </div>
+                                </div>
+                                <button className="px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900">Detail</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                    <h3 className="font-bold text-slate-800 mb-6">Aksi Cepat</h3>
+                    <div className="space-y-3">
+                        {[
+                            { label: 'Upload Video', sub: 'Unggah file video (max 500mb)', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z', color: 'red' },
+                            { label: 'Upload PDF', sub: 'Kirim file bacaan di slide', icon: 'M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z', color: 'blue' },
+                            { label: 'Buat Materi Teks', sub: 'Artikel & Penjelasan', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z', color: 'purple' }
+                        ].map((action, i) => (
+                            <button key={i} className={`w-full p-4 bg-${action.color}-50 rounded-xl border border-${action.color}-100 text-left hover:bg-${action.color}-100 transition-colors`}>
+                                <div className="flex items-center gap-3">
+                                    <div className={`w-10 h-10 bg-${action.color}-100 rounded-lg flex items-center justify-center text-${action.color}-600`}>
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={action.icon} />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 className={`font-bold text-${action.color}-800 text-sm`}>{action.label}</h4>
+                                        <p className="text-xs text-slate-500">{action.sub}</p>
+                                    </div>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+    const QuizView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 flex items-center justify-between">
+                <div>
+                    <h2 className="text-xl font-bold text-slate-800 mb-1">Quiz & Penilaian</h2>
+                    <p className="text-xs text-slate-400">Kelola evaluasi pembelajaran dan pantau hasil siswa.</p>
+                </div>
+                <div className="flex gap-3">
+                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-sm font-bold rounded-xl">Buat Tugas / Essay</button>
+                    <button className="px-6 py-3 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">+ Buat Quiz Baru</button>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {[
+                    { label: 'Quiz Aktif', value: '8', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+                    { label: 'Tugas Essay', value: '4', icon: 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z' },
+                    { label: 'Perlu Dinilai', value: '25', sub: 'Siswa', icon: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+                    { label: 'Rata-rata Nilai', value: '86', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' }
+                ].map((stat, i) => (
+                    <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200">
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 bg-slate-50 rounded-lg flex items-center justify-center text-slate-600">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={stat.icon} />
+                                </svg>
+                            </div>
+                        </div>
+                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">{stat.label}</p>
+                        <div className="flex items-baseline gap-2">
+                            <h3 className="text-2xl font-black text-slate-800">{stat.value}</h3>
+                            {stat.sub && <span className="text-xs text-slate-400">{stat.sub}</span>}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="bg-white rounded-2xl p-6 border border-slate-200">
+                <div className="flex gap-4 mb-6 border-b border-slate-200">
+                    <button className="pb-3 px-4 text-sm font-bold text-slate-800 border-b-2 border-slate-800">Daftar Quiz</button>
+                    <button className="pb-3 px-4 text-sm font-bold text-slate-400">Tugas & Essay</button>
+                    <button className="pb-3 px-4 text-sm font-bold text-slate-400">Hasil Penilaian</button>
+                </div>
+
+                <div className="flex items-center justify-between mb-6">
+                    <input type="text" placeholder="Cari quiz atau tugas..." className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-64" />
+                    <div className="flex gap-3">
+                        <select className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                            <option>Semua Level</option>
+                        </select>
+                        <select className="px-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none">
+                            <option>Semua Status</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className="space-y-3">
+                    {[
+                        { title: 'Evaluasi Bab 1-5 (Tata Bahasa N5)', level: 'N5', questions: 50, type: 'Pilihan Ganda', deadline: '10 Jan 2024', status: 'Aktif' },
+                        { title: 'Latihan Kanji Mingguan', level: 'N4', questions: 20, type: 'Pilihan Ganda', deadline: 'Hari Ini', status: 'Aktif' },
+                        { title: 'Ujian Akhir Semester Ganjil', level: 'N3', questions: 100, type: 'Campuran', deadline: '-', status: 'Draft' }
+                    ].map((quiz, i) => (
+                        <div key={i} className="p-5 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between hover:bg-slate-100 transition-colors">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center border border-slate-200">
+                                    <svg className="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <span className={`px-2 py-1 text-xs font-bold rounded ${quiz.level === 'N5' ? 'bg-green-100 text-green-700' : quiz.level === 'N4' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'}`}>{quiz.level}</span>
+                                        <span className={`px-2 py-1 text-xs font-bold rounded ${quiz.status === 'Aktif' ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-600'}`}>• {quiz.status}</span>
+                                    </div>
+                                    <h4 className="font-bold text-slate-800">{quiz.title}</h4>
+                                    <p className="text-xs text-slate-500 mt-1">{quiz.questions} Soal • {quiz.type} • Deadline: {quiz.deadline}</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-3">
+                                <button className="px-4 py-2 bg-white border border-slate-200 text-slate-600 text-sm font-bold rounded-xl hover:bg-slate-50">Preview</button>
+                                <button className="px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-xl hover:bg-slate-900">Edit Quiz</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 
     return (
-        <SimulationWrapper title="Kursus Jepang Demo" onClose={onClose}>
-            <div className="w-full flex-1 flex flex-col items-center justify-center min-h-[500px] p-8 md:p-12 relative overflow-hidden bg-[#fcfcfc]">
+        <SimulationWrapper title="Kursus Jepang - Sensei Portal" onClose={onClose}>
+            <div className="flex h-full overflow-hidden bg-slate-50">
+                {/* Sidebar */}
+                <div className="w-64 bg-slate-900 text-white flex flex-col p-6 hidden md:flex">
+                    <div className="flex items-center gap-3 mb-10">
+                        <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">K</div>
+                        <div>
+                            <h1 className="text-sm font-bold leading-tight">KursusJepang</h1>
+                            <p className="text-[10px] text-slate-400 uppercase tracking-tight">Sensei Portal</p>
+                        </div>
+                    </div>
 
-                {/* Decorative Background */}
-                <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-                <div className="absolute top-0 left-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-                <div className="absolute bottom-0 right-0 w-64 h-64 bg-red-500/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
-
-
-                <AnimatePresence mode="wait">
-                    {step === 'intro' && (
-                        <motion.div
-                            key="intro"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            className="text-center relative z-10"
-                        >
-                            <div className="w-24 h-24 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-red-100">
-                                <span className="text-4xl">🇯🇵</span>
-                            </div>
-                            <h3 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter">HIRAGANA QUIZ</h3>
-                            <p className="text-slate-500 mb-10 max-w-sm mx-auto font-medium">Tes kemampuan dasar bahasa Jepangmu dalam hitungan detik. Coba fitur interaktif platform kami.</p>
-                            <button
-                                onClick={startQuiz}
-                                className="bg-[#E60012] text-white px-10 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 shadow-xl shadow-red-500/20"
+                    <nav className="space-y-1 flex-1">
+                        {[
+                            { id: 'dashboard', label: 'Dashboard', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+                            { id: 'kelas-saya', label: 'Kelas Saya', icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253' },
+                            { id: 'live-class', label: 'Live Class', icon: 'M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' },
+                            { id: 'materi', label: 'Materi & Modul', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+                            { id: 'quiz', label: 'Quiz & Penilaian', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+                            { id: 'siswa', label: 'Siswa', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                            { id: 'jadwal', label: 'Jadwal Mengajar', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' }
+                        ].map((item, i) => (
+                            <div
+                                key={i}
+                                onClick={() => setActivePage(item.id)}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-colors ${activePage === item.id ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'}`}
                             >
-                                Mulai Simulasi
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
+                                </svg>
+                                <span className="text-sm font-medium">{item.label}</span>
+                            </div>
+                        ))}
+                    </nav>
+
+                    <div className="pt-6 border-t border-slate-800">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-white font-bold">G</div>
+                            <div>
+                                <h3 className="text-sm font-bold">Ganang</h3>
+                                <p className="text-xs text-slate-400">Sensei / Pengajar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Main Content */}
+                <div className="flex-1 flex flex-col h-full overflow-hidden">
+                    <header className="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between shrink-0">
+                        <h2 className="text-lg font-bold text-slate-800">Dashboard</h2>
+                        <div className="flex items-center gap-4">
+                            <button className="w-10 h-10 bg-slate-50 rounded-full flex items-center justify-center text-slate-600 hover:bg-slate-100">
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                </svg>
                             </button>
-                        </motion.div>
-                    )}
+                            <div className="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-white font-bold cursor-pointer">G</div>
+                        </div>
+                    </header>
 
-                    {step === 'quiz' && (
-                        <motion.div
-                            key="quiz"
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -50 }}
-                            className="w-full text-center relative z-10"
-                        >
-                            <div className="flex justify-between items-center mb-8 w-full max-w-xs mx-auto">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-300">Question {currentIndex + 1}/5</span>
-                                <div className="flex gap-1">
-                                    {[...Array(5)].map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={`h-1.5 w-8 rounded-full transition-colors ${i <= currentIndex ? 'bg-red-500' : 'bg-slate-100'}`}
-                                        />
-                                    ))}
+                    <main className="flex-1 overflow-y-auto p-8">
+                        <div className="max-w-7xl mx-auto">
+                            {activePage === 'dashboard' && <DashboardView />}
+                            {activePage === 'kelas-saya' && <KelasSayaView />}
+                            {activePage === 'live-class' && <LiveClassView />}
+                            {activePage === 'materi' && <MateriView />}
+                            {activePage === 'quiz' && <QuizView />}
+                            {(activePage === 'siswa' || activePage === 'jadwal') && (
+                                <div className="text-center py-20">
+                                    <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                                        </svg>
+                                    </div>
+                                    <h3 className="text-xl font-bold text-slate-800 mb-2">Fitur Dalam Pengembangan</h3>
+                                    <p className="text-slate-500">Halaman ini sedang dalam tahap pengembangan.</p>
                                 </div>
-                            </div>
-
-                            <div className="mb-12">
-                                <motion.div
-                                    key={currentIndex}
-                                    initial={{ scale: 0.5, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 1 }}
-                                    className="text-8xl md:text-9xl font-black text-slate-900"
-                                >
-                                    {questions[currentIndex].char}
-                                </motion.div>
-                                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-4">Apa Romaji dari karakter ini?</p>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4 w-full max-w-md mx-auto">
-                                {questions[currentIndex].options.map((option, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => handleAnswer(option)}
-                                        className={`
-                                            py-5 rounded-2xl text-xl font-black transition-all duration-300 transform
-                                            ${selectedOption === option.romaji
-                                                ? (isCorrect ? 'bg-green-500 text-white shadow-lg shadow-green-500/20' : 'bg-red-500 text-white shadow-lg shadow-red-500/20')
-                                                : 'bg-white border-2 border-slate-100 text-slate-700 hover:border-red-200 hover:bg-red-50/30'
-                                            }
-                                            ${selectedOption !== null && option.romaji === questions[currentIndex].romaji && !isCorrect ? 'border-green-500 bg-green-50 text-green-600' : ''}
-                                        `}
-                                    >
-                                        {option.romaji}
-                                    </button>
-                                ))}
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {step === 'result' && (
-                        <motion.div
-                            key="result"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="text-center relative z-10"
-                        >
-                            <div className="mb-8">
-                                <h4 className="text-sm font-black text-slate-400 uppercase tracking-widest mb-2">Simulasi Selesai</h4>
-                                <div className="text-7xl font-black text-slate-900 leading-none">
-                                    {score}/5
-                                </div>
-                            </div>
-
-                            <div className="bg-slate-50 p-6 rounded-3xl mb-10 text-left border border-slate-100 max-w-sm mx-auto">
-                                <h5 className="font-black text-slate-800 text-sm mb-2 uppercase italic tracking-tighter">Analisa Sensei:</h5>
-                                <p className="text-sm text-slate-500 leading-relaxed">
-                                    {score === 5 ? "Luar biasa! Kamu memiliki dasar yang kuat. Kamu siap untuk lanjut ke tahap Grammar (Bunpou)!" :
-                                        score >= 3 ? "Bagus! Kamu sudah mengenal beberapa karakter dasar. Sedikit latihan lagi kamu akan mahir." :
-                                            "Jangan menyerah! Belajar Hiragana adalah langkah pertama menuju Jepang. Kami siap membantumu."}
-                                </p>
-                            </div>
-
-                            <div className="flex flex-col gap-3">
-                                <button
-                                    onClick={onClose}
-                                    className="bg-[#E60012] text-white px-10 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 shadow-xl shadow-red-500/20"
-                                >
-                                    Daftar Kursus Sekarang
-                                </button>
-                                <button
-                                    onClick={startQuiz}
-                                    className="text-slate-400 text-xs font-black uppercase tracking-widest hover:text-red-500 transition-colors py-4 px-10"
-                                >
-                                    Ulangi Simulasi
-                                </button>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                            )}
+                        </div>
+                    </main>
+                </div>
             </div>
         </SimulationWrapper>
     );
