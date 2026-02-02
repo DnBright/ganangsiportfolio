@@ -274,6 +274,110 @@ const AyakaSimulation = ({ onClose }) => {
         </div>
     );
 
+    // Form Management View
+    const FormManagerView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border-2 border-slate-200">
+                <div className="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-800 mb-1">Form Management</h2>
+                        <p className="text-xs text-slate-400">Atur field formulir pendaftaran dan validasi</p>
+                    </div>
+                    <button className="px-6 py-3 bg-pink-600 text-white font-bold rounded-xl hover:bg-pink-700">
+                        Preview Form
+                    </button>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Field Editor */}
+                    <div className="space-y-4">
+                        <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                            <span className="w-6 h-6 bg-pink-100 text-pink-600 rounded flex items-center justify-center text-xs">1</span>
+                            Registration Fields
+                        </h3>
+                        <div className="space-y-3">
+                            {[
+                                { label: 'Nama Lengkap', type: 'Text', required: true },
+                                { label: 'Nomor WhatsApp', type: 'Phone', required: true },
+                                { label: 'Usia', type: 'Number', required: true },
+                                { label: 'Domisili', type: 'Dropdown', required: true },
+                                { label: 'Status Pernikahan', type: 'Radio', required: false },
+                                { label: 'Pilihan Program', type: 'Dropdown', required: true }
+                            ].map((field, i) => (
+                                <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border-2 border-slate-200 group hover:border-pink-300 transition-colors cursor-move">
+                                    <div className="flex items-center gap-3">
+                                        <svg className="w-4 h-4 text-slate-400 cursor-grab" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                                        </svg>
+                                        <div>
+                                            <h4 className="font-bold text-slate-800 text-sm">{field.label}</h4>
+                                            <span className="text-xs text-slate-400">{field.type} • {field.required ? 'Wajib' : 'Opsional'}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button className="p-1 text-slate-500 hover:text-blue-600">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                        </button>
+                                        <button className="p-1 text-slate-500 hover:text-red-600">
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                            <button className="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-slate-400 hover:border-pink-400 hover:text-pink-600 font-bold transition-colors">
+                                + Tambah Field Baru
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Settings & Auto-reply */}
+                    <div className="space-y-6">
+                        <div className="space-y-4">
+                            <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                                <span className="w-6 h-6 bg-pink-100 text-pink-600 rounded flex items-center justify-center text-xs">2</span>
+                                Konfigurasi Validasi
+                            </h3>
+                            <div className="space-y-3">
+                                <div>
+                                    <label className="text-xs font-bold text-slate-600 mb-1 block">Batas Usia Min</label>
+                                    <input type="number" defaultValue="18" className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-pink-500 focus:outline-none" />
+                                </div>
+                                <div>
+                                    <label className="text-xs font-bold text-slate-600 mb-1 block">Batas Usia Max</label>
+                                    <input type="number" defaultValue="30" className="w-full px-4 py-2 border-2 border-slate-200 rounded-xl focus:border-pink-500 focus:outline-none" />
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <input type="checkbox" defaultChecked className="w-4 h-4 text-pink-600 rounded border-gray-300 focus:ring-pink-500" />
+                                    <label className="text-sm text-slate-700 font-bold">Hanya Wanita (Auto-reject Pria)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4 pt-6 border-t border-slate-200">
+                            <h3 className="font-bold text-slate-800 flex items-center gap-2">
+                                <span className="w-6 h-6 bg-green-100 text-green-600 rounded flex items-center justify-center text-xs">3</span>
+                                WhatsApp Auto-reply
+                            </h3>
+                            <div>
+                                <label className="text-xs font-bold text-slate-600 mb-2 block">Template Pesan (Setelah Submit)</label>
+                                <textarea className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-pink-500 focus:outline-none text-sm" rows="4" defaultValue="Halo {nama}, terima kasih telah mendaftar di Ayaka Josei Center! 🌸
+
+Data kamu sudah kami terima. Admin kami akan segera menghubungi kamu untuk jadwal interview.
+
+Mohon siapkan CV terbaru ya!"></textarea>
+                                <p className="text-xs text-slate-400 mt-1">Gunakan tag {'{nama}'} untuk nama pendaftar.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
     // Media Manager View
     const MediaManagerView = () => (
         <div className="space-y-6">
@@ -324,9 +428,9 @@ const AyakaSimulation = ({ onClose }) => {
                                 <div className="flex items-center justify-between">
                                     <span className="text-[10px] text-slate-400">{media.size}</span>
                                     <span className={`px-2 py-0.5 text-[9px] font-bold rounded-full ${media.color === 'blue' ? 'bg-blue-100 text-blue-700' :
-                                            media.color === 'pink' ? 'bg-pink-100 text-pink-700' :
-                                                media.color === 'green' ? 'bg-green-100 text-green-700' :
-                                                    'bg-purple-100 text-purple-700'
+                                        media.color === 'pink' ? 'bg-pink-100 text-pink-700' :
+                                            media.color === 'green' ? 'bg-green-100 text-green-700' :
+                                                'bg-purple-100 text-purple-700'
                                         }`}>{media.folder}</span>
                                 </div>
                             </div>
@@ -480,9 +584,9 @@ const AyakaSimulation = ({ onClose }) => {
                                     <td className="py-4 px-4 text-sm text-slate-600">{user.email}</td>
                                     <td className="py-4 px-4">
                                         <span className={`px-3 py-1 text-xs font-bold rounded-full ${user.color === 'pink' ? 'bg-pink-100 text-pink-700' :
-                                                user.color === 'blue' ? 'bg-blue-100 text-blue-700' :
-                                                    user.color === 'green' ? 'bg-green-100 text-green-700' :
-                                                        'bg-slate-100 text-slate-700'
+                                            user.color === 'blue' ? 'bg-blue-100 text-blue-700' :
+                                                user.color === 'green' ? 'bg-green-100 text-green-700' :
+                                                    'bg-slate-100 text-slate-700'
                                             }`}>{user.role}</span>
                                     </td>
                                     <td className="py-4 px-4 text-center">
@@ -510,8 +614,8 @@ const AyakaSimulation = ({ onClose }) => {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-bold text-slate-800">{roleCard.role}</h3>
                             <div className={`w-3 h-3 rounded-full ${roleCard.color === 'pink' ? 'bg-pink-500' :
-                                    roleCard.color === 'blue' ? 'bg-blue-500' :
-                                        'bg-green-500'
+                                roleCard.color === 'blue' ? 'bg-blue-500' :
+                                    'bg-green-500'
                                 }`}></div>
                         </div>
                         <div className="space-y-2">
@@ -623,6 +727,7 @@ const AyakaSimulation = ({ onClose }) => {
                             {activePage === 'dashboard' && 'Dashboard Overview'}
                             {activePage === 'landing' && 'Landing Page Builder'}
                             {activePage === 'leads' && 'Leads Management'}
+                            {activePage === 'form' && 'Form Management'}
                             {activePage === 'media' && 'Media Manager'}
                             {activePage === 'seo' && 'SEO & Metadata'}
                             {activePage === 'users' && 'User & Role Management'}
@@ -643,11 +748,12 @@ const AyakaSimulation = ({ onClose }) => {
                             {activePage === 'dashboard' && <DashboardView />}
                             {activePage === 'landing' && <LandingBuilderView />}
                             {activePage === 'leads' && <LeadsView />}
+                            {activePage === 'form' && <FormManagerView />}
                             {activePage === 'media' && <MediaManagerView />}
                             {activePage === 'seo' && <SEOView />}
                             {activePage === 'users' && <UsersView />}
                             {activePage === 'settings' && <SettingsView />}
-                            {!['dashboard', 'landing', 'leads', 'media', 'seo', 'users', 'settings'].includes(activePage) && (
+                            {!['dashboard', 'landing', 'leads', 'form', 'media', 'seo', 'users', 'settings'].includes(activePage) && (
                                 <div className="text-center py-20">
                                     <div className="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <svg className="w-10 h-10 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

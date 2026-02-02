@@ -162,7 +162,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     <span className="text-4xl md:text-6xl font-black opacity-10 font-mono tracking-tighter self-start">0{index + 1}</span>
                                 </div>
 
-                                <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                                <div className="transform md:translate-y-8 md:group-hover:translate-y-0 transition-transform duration-500">
                                     <h3 className="text-4xl md:text-7xl font-black uppercase leading-none mb-6 mix-blend-difference tracking-tighter">
                                         {item.title}
                                     </h3>
