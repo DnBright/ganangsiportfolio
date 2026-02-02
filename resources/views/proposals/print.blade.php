@@ -148,11 +148,14 @@
            2. INTERNAL PAGES (FLOW LAYOUT)
            ------------------------------------------------------------- */
         .internal-page-wrapper {
-            /* No fixed height to allow scrolling/flow across pages */
-            width: 100%; /* Relative to body */
-            padding: 25mm 50mm 25mm 25mm; /* Top, Right(HUGE SAFETY), Bottom, Left */
+            /* FIXED WIDTH STRATEGY: 210mm Page - 25mm Left - 35mm Right = ~150mm Width */
+            width: 155mm; 
+            margin-left: 20mm;
+            padding-top: 25mm;
+            padding-bottom: 25mm;
             position: relative;
             background: #ffffff;
+            overflow: hidden; /* Safety clip */
         }
         
         .header {
