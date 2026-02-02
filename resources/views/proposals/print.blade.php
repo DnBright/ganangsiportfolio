@@ -90,12 +90,16 @@
         .layout-magazine-header {
             position: absolute; top: 0; left: 0; width: 100%; height: 25mm;
             border-bottom: 1px solid #e2e8f0;
-            padding: 0 20mm; display: table;
+            /* Removed display: table to fix "Frame not found in cellmap" error */
         }
         .layout-magazine-title {
-            display: table-cell; vertical-align: middle;
+            position: absolute; top: 8mm; left: 20mm;
             font-size: 12pt; font-weight: bold; color: #0B1120; text-transform: uppercase;
-            border-bottom: 3px solid #2563eb; /* Underline Style */
+            border-bottom: 3px solid #2563eb; 
+        }
+        .layout-magazine-meta {
+            position: absolute; top: 9mm; right: 20mm;
+            text-align: right; color: #cbd5e1; font-size: 9pt;
         }
         
         .layout-magazine-content {
@@ -236,10 +240,8 @@
             @if($section['type'] == 'magazine')
                 <!-- LAYOUT 1: MAGAZINE -->
                 <div class="layout-magazine-header">
-                    <div style="display: table-cell; vertical-align: middle; width: 50%;">
-                        <span class="layout-magazine-title">{{ $section['title'] }}</span>
-                    </div>
-                     <div style="display: table-cell; vertical-align: middle; width: 50%; text-align: right; color: #cbd5e1; font-size: 9pt;">
+                    <div class="layout-magazine-title">{{ $section['title'] }}</div>
+                     <div class="layout-magazine-meta">
                         SECTION {{ sprintf('%02d', $section['id']) }}
                     </div>
                 </div>
