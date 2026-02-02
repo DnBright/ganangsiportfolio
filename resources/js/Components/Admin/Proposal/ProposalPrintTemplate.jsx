@@ -46,10 +46,31 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         -webkit-print-color-adjust: exact !important; 
                         print-color-adjust: exact !important;
                     }
-                    body { 
-                        margin: 0 !important; 
+                    /* HIDE EVERYTHING EXCEPT THE PROPOSAL */
+                    html, body {
+                        margin: 0 !important;
                         padding: 0 !important;
-                        background: #fff; 
+                        height: auto !important;
+                        overflow: visible !important;
+                        background: #fff !important;
+                    }
+                    /* Target all potential UI wrappers to hide them */
+                    nav, aside, footer, header:not(.internal-header), .no-print, button, [id*="sidebar"], [class*="navbar"] {
+                        display: none !important;
+                    }
+                    /* Reset the wrapper so it has no scrolling or positioning interference */
+                    .proposal-print-wrapper {
+                        position: absolute !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        width: 210mm !important;
+                        display: block !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        z-index: 9999 !important;
+                    }
+                    body > *:not(#premium-proposal-preview):not(.proposal-print-wrapper) {
+                        display: none !important;
                     }
                 }
 
@@ -60,6 +81,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     background: #fff;
                     font-family: 'Inter', sans-serif;
                     display: block;
+                    box-sizing: border-box;
                 }
 
                 /* SHARED ELEMENTS */
@@ -75,6 +97,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     box-sizing: border-box !important;
                     page-break-after: always !important;
                     break-after: page !important;
+                    position: relative;
                 }
 
                 .bg-number {

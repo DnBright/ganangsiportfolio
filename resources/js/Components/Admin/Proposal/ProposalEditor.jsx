@@ -107,18 +107,9 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                         </div>
                     </div>
 
-                    {/* Content Section: Simple block flow for maximum scroll stability */}
+                    {/* Content Section: Simplified to allow full document flow */}
                     <div className="w-full flex flex-col items-center py-20 px-4">
-                        <div className="printable-document-area shadow-[0_0_100px_rgba(0,0,0,0.8)] bg-white shrink-0 mb-40"
-                            style={{
-                                width: '210mm',
-                                minHeight: '297mm',
-                                display: 'block',
-                                position: 'relative',
-                                borderRadius: '4px'
-                            }}>
-                            <ProposalPrintTemplate proposal={currentProposalData} />
-                        </div>
+                        <ProposalPrintTemplate proposal={currentProposalData} />
                     </div>
                 </div>
             )}
