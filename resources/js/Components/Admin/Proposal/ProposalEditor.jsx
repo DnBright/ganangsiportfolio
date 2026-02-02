@@ -108,7 +108,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     </div>
 
                     {/* Content Section: Simplified to allow full document flow */}
-                    <div className="w-full flex flex-col items-center py-20 px-4">
+                    <div className="w-full flex flex-col items-center py-20 px-4 print:p-0">
                         <ProposalPrintTemplate proposal={currentProposalData} />
                     </div>
                 </div>

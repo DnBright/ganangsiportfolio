@@ -70,7 +70,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         display: none !important;
                     }
                     
-                    /* THE WRAPPER: Must be static/block for breaks to work */
+                     /* THE WRAPPER: Must be static/block for breaks to work */
                     .proposal-print-wrapper {
                         display: block !important;
                         position: static !important;
@@ -81,12 +81,19 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         visibility: visible !important;
                     }
 
-                    /* THE PAGES: Force physical A4 blocks */
+                    /* Wahyu's Neutralization Logic: Force ALL containers inside preview to have 0 padding */
+                    #premium-proposal-preview, 
+                    #premium-proposal-preview > div {
+                        padding: 0 !important;
+                        margin: 0 !important;
+                    }
+
+                     /* THE PAGES: Force physical A4 blocks */
                     .internal-page, .cover-page, .closing-hero {
                         display: block !important;
                         position: relative !important;
                         width: 210mm !important;
-                        height: 297mm !important;
+                        height: 296.5mm !important; /* Surgical height to prevent sub-pixel overflow */
                         margin: 0 !important;
                         padding: 0 !important;
                         overflow: hidden !important;
