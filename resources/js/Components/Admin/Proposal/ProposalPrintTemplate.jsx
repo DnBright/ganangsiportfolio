@@ -68,12 +68,19 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 .internal-page {
                     position: relative;
                     min-height: 297mm;
+                    max-height: 297mm;
                     padding: 35mm 25mm;
                     background: #fff;
                     overflow: hidden;
                     display: block;
                     width: 100%;
                 }
+@media print {
+    .internal-page {
+        height: 297mm !important;
+        overflow: hidden !important;
+    }
+}
 
                 .bg-number {
                     position: absolute;
@@ -107,7 +114,14 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
                 /* COVER PAGE */
                 .cover-page {
-                    position: relative; height: 297mm; background: #0f172a; overflow: hidden;
+                    position: relative; 
+                    height: 297mm; 
+                    min-height: 297mm;
+                    max-height: 297mm;
+                    background: #0f172a; 
+                    overflow: hidden;
+                    page-break-after: always !important;
+                    break-after: page !important;
                 }
                 .cover-accent {
                     position: absolute; top: 0; right: 0; width: 65%; height: 100%;
@@ -471,7 +485,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 </div>
             ))}
 
-            <div style={{ height: '100px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#cbd5e1', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '4px', borderTop: '1px solid #e2e8f0' }}>
+            <div className="no-print" style={{ height: '100px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#cbd5e1', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '4px', borderTop: '1px solid #e2e8f0' }}>
                 End of Strategic Document / Powered by DNB Agency
             </div>
         </div>
