@@ -89,22 +89,29 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         display: block !important;
                         position: relative !important;
                         width: 210mm !important;
-                        height: 296mm !important; /* Slightly more safe height */
                         margin: 0 !important;
                         padding: 0 !important;
-                        overflow: hidden !important;
                         page-break-after: always !important;
                         break-after: page !important;
                         page-break-inside: avoid !important;
                         break-inside: avoid !important;
                         box-sizing: border-box !important;
                         border: none !important;
+                        background-color: white !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                     }
-                    
-                    /* Internal padding only inside the boxes */
+
                     .internal-page {
+                        min-height: 297mm !important;
+                        height: auto !important;
+                        overflow: visible !important;
                         padding: 30mm 20mm !important;
-                        background: #fff !important;
+                    }
+
+                    .cover-page, .closing-hero {
+                        height: 297mm !important;
+                        overflow: hidden !important;
                     }
                 }
 
@@ -122,10 +129,10 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 .internal-page {
                     position: relative;
                     width: 210mm;
-                    height: 297mm;
+                    min-height: 297mm;
                     padding: 30mm 20mm;
                     background: #fff;
-                    overflow: hidden;
+                    overflow: visible;
                     display: flex;
                     flex-direction: column;
                     box-sizing: border-box !important;
