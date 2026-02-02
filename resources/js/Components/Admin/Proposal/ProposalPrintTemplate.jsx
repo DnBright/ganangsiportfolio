@@ -47,59 +47,60 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         print-color-adjust: exact !important;
                     }
                     
-                    /* PIXEL-PERFECT OVERWRITE */
-                    /* Force 0 margin/padding on ALL ancestors */
+                    /* PHYSICAL BLOCK STRATEGY */
+                    /* Neutralize ALL ancestors to allow multi-page flow */
                     html, body, #app, #app > div, 
                     #premium-proposal-preview,
                     #premium-proposal-preview > div,
                     .no-print {
+                        display: block !important;
+                        position: static !important;
+                        width: auto !important;
+                        height: auto !important;
+                        min-height: auto !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        border: none !important;
-                        height: auto !important;
                         overflow: visible !important;
+                        background: none !important;
                     }
 
-                    /* HIDE ALL UI - Aggressive */
-                    .no-print, button, nav, aside, footer, 
+                    /* HIDE ALL DASHBOARD UI */
+                    nav, aside, footer, header:not(.internal-header), .no-print, button, 
                     [class*="navbar"], [class*="sidebar"], .sticky {
                         display: none !important;
                     }
                     
-                    /* ANCHOR THE PROPOSAL AT 0,0 FIXED */
+                    /* THE WRAPPER: Must be static/block for breaks to work */
                     .proposal-print-wrapper {
-                        position: fixed !important;
-                        top: 0 !important;
-                        left: 0 !important;
-                        width: 210mm !important;
-                        height: auto !important;
                         display: block !important;
+                        position: static !important;
+                        width: 210mm !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        z-index: 999999 !important;
                         background: #fff !important;
                         visibility: visible !important;
                     }
 
-                    /* Page Block Stabilization */
+                    /* THE PAGES: Force physical A4 blocks */
                     .internal-page, .cover-page, .closing-hero {
                         display: block !important;
+                        position: relative !important;
                         width: 210mm !important;
-                        height: 296mm !important; /* Safe height for A4 to prevent overflow */
+                        height: 297mm !important;
                         margin: 0 !important;
                         padding: 0 !important;
+                        overflow: hidden !important;
                         page-break-after: always !important;
                         break-after: page !important;
-                        border: none !important;
-                        overflow: hidden !important;
+                        page-break-inside: avoid !important;
+                        break-inside: avoid !important;
                         box-sizing: border-box !important;
-                        position: relative !important;
+                        border: none !important;
                     }
                     
-                    /* Ensure content starts at the top */
-                    .cover-page, .closing-hero {
-                        top: 0 !important;
-                        left: 0 !important;
+                    /* Fix internal nesting within page boxes */
+                    .internal-page {
+                        padding: 30mm 20mm !important;
                     }
                 }
 
