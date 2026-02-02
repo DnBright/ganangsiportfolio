@@ -29,17 +29,17 @@ const SloganServices = () => {
             });
 
             // Services Grid Reveal
-            gsap.from(gridRef.current.children, {
-                scrollTrigger: {
-                    trigger: gridRef.current,
-                    start: "top 85%",
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out"
-            });
+            // gsap.from(gridRef.current.children, {
+            //     scrollTrigger: {
+            //         trigger: gridRef.current,
+            //         start: "top 85%",
+            //     },
+            //     y: 50,
+            //     opacity: 0,
+            //     duration: 1,
+            //     stagger: 0.2,
+            //     ease: "power3.out"
+            // });
 
         }, sectionRef);
 
