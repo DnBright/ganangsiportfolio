@@ -597,59 +597,57 @@ const KursusJepangSimulation = ({ onClose }) => {
                                         <button className="px-6 py-3 bg-red-600 text-white text-sm font-bold rounded-xl hover:bg-red-700">+ Tambah Jadwal</button>
                                     </div>
 
-                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                                         <div className="bg-white rounded-2xl p-6 border border-slate-200">
                                             <div className="flex items-center justify-between mb-6">
                                                 <h3 className="font-bold text-slate-800">Agenda Hari Ini</h3>
-                                                <span className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm font-black">3</span>
+                                                <span className="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-sm font-black">2</span>
                                             </div>
-                                            <div className="space-y-4">
+                                            <div className="space-y-3">
                                                 {[
-                                                    { time: '10:00 - 11:30', title: 'Live Class: Tata Bahasa N5', type: 'Intensive A - Online', color: 'red' },
-                                                    { time: '14:00 - 14:30', title: 'Sesi Konsultasi Siswa', type: 'Siti Aminah - Offline Meet', color: 'blue' }
+                                                    { time: '10:00 - 11:30', title: 'Live Class: Tata Bahasa N5', type: 'Intensive A - Online', color: 'red', badge: 'N5' },
+                                                    { time: '14:00 - 14:30', title: 'Sesi Konsultasi Siswa', type: 'Siti Aminah - Offline Meet', color: 'blue', badge: 'N5' }
                                                 ].map((agenda, i) => (
-                                                    <div key={i} className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                                        <div className="flex items-start gap-3">
-                                                            <div className={`w-1 h-full ${agenda.color === 'red' ? 'bg-red-500' : 'bg-blue-500'} rounded-full`}></div>
-                                                            <div className="flex-1">
-                                                                <p className="text-xs text-slate-400 font-bold mb-1">{agenda.time}</p>
-                                                                <h4 className="font-bold text-slate-800 text-sm mb-1">{agenda.title}</h4>
-                                                                <p className="text-xs text-slate-500">{agenda.type}</p>
-                                                                <button className={`mt-3 w-full py-2 ${agenda.color === 'red' ? 'bg-red-600' : 'bg-blue-600'} text-white text-xs font-bold rounded-lg hover:opacity-90`}>
-                                                                    {agenda.color === 'red' ? 'Mulai Kelas Sekarang' : 'Masuk Room Konsultasi'}
-                                                                </button>
-                                                            </div>
+                                                    <div key={i} className={`p-4 rounded-xl border-2 ${agenda.color === 'red' ? 'bg-red-50 border-red-200' : 'bg-blue-50 border-blue-200'}`}>
+                                                        <div className="flex items-center gap-2 mb-2">
+                                                            <span className={`px-2 py-0.5 text-[10px] font-bold rounded ${agenda.color === 'red' ? 'bg-red-600 text-white' : 'bg-blue-600 text-white'}`}>{agenda.badge}</span>
+                                                            <span className="text-xs text-slate-400 font-bold">{agenda.time}</span>
                                                         </div>
+                                                        <h4 className="font-bold text-slate-800 text-sm mb-1 leading-tight">{agenda.title}</h4>
+                                                        <p className="text-xs text-slate-500 mb-3">{agenda.type}</p>
+                                                        <button className={`w-full py-2.5 ${agenda.color === 'red' ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'} text-white text-xs font-bold rounded-lg transition-colors`}>
+                                                            {agenda.color === 'red' ? 'Mulai Kelas Sekarang' : 'Masuk Room Konsultasi'}
+                                                        </button>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
 
-                                        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-200">
+                                        <div className="lg:col-span-3 bg-white rounded-2xl p-6 border border-slate-200">
                                             <div className="flex items-center justify-between mb-6">
                                                 <div className="flex items-center gap-4">
-                                                    <button className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200">
+                                                    <button className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200 transition-colors">
                                                         <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
                                                         </svg>
                                                     </button>
                                                     <h3 className="text-lg font-bold text-slate-800">Januari 2024</h3>
-                                                    <button className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200">
+                                                    <button className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center hover:bg-slate-200 transition-colors">
                                                         <svg className="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                                                         </svg>
                                                     </button>
                                                 </div>
                                                 <div className="flex gap-2">
-                                                    <button className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-lg">Mingguan</button>
-                                                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg">Bulanan</button>
-                                                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg">List View</button>
+                                                    <button className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-slate-900 transition-colors">Mingguan</button>
+                                                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg hover:bg-slate-200 transition-colors">Bulanan</button>
+                                                    <button className="px-4 py-2 bg-slate-100 text-slate-600 text-xs font-bold rounded-lg hover:bg-slate-200 transition-colors">List View</button>
                                                 </div>
                                             </div>
 
-                                            <div className="grid grid-cols-7 gap-4">
+                                            <div className="grid grid-cols-7 gap-3">
                                                 {['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'].map((day, i) => (
-                                                    <div key={i} className="text-center text-xs font-bold text-slate-400 uppercase pb-2">{day}</div>
+                                                    <div key={i} className="text-center text-[10px] font-bold text-slate-400 uppercase tracking-wider pb-3">{day}</div>
                                                 ))}
                                                 {[
                                                     { day: '', events: [] },
@@ -659,21 +657,29 @@ const KursusJepangSimulation = ({ onClose }) => {
                                                     { day: '', events: [] },
                                                     { day: '', events: [] },
                                                     { day: '', events: [] },
-                                                    { day: '1', events: [{ title: 'N5 Intensive A', time: '19:00 - 11:30', color: 'red', badge: 'N5' }] },
-                                                    { day: '2', events: [{ title: 'TG Food Servi...', time: '19:00 - 21:00', color: 'orange', badge: 'TG' }] },
-                                                    { day: '3', events: [{ title: 'Konsultasi: Budi', time: '14:00 - 14:30', color: 'blue', badge: 'N5' }] },
-                                                    { day: '4', events: [{ title: 'N4 Regular B', time: '16:00 - 17:00', color: 'blue', badge: 'N4' }] },
-                                                    { day: '5', events: [{ title: 'Evaluasi Ming...', time: '09:00 - 10:00', color: 'purple', badge: 'ALL' }] },
+                                                    { day: '1', events: [{ title: 'N5 Intensive A', time: '10:00', color: 'red', badge: 'N5' }] },
+                                                    { day: '2', events: [{ title: 'TG Food Service', time: '19:00', color: 'orange', badge: 'TG' }] },
+                                                    { day: '3', events: [{ title: 'Konsultasi: Budi', time: '14:00', color: 'blue', badge: 'N5' }] },
+                                                    { day: '4', events: [{ title: 'N4 Regular B', time: '16:00', color: 'blue', badge: 'N4' }] },
+                                                    { day: '5', events: [{ title: 'Evaluasi Mingguan', time: '09:00', color: 'purple', badge: 'ALL' }] },
                                                     { day: '6', events: [] },
                                                     { day: '7', events: [] }
                                                 ].map((cell, i) => (
-                                                    <div key={i} className={`min-h-24 p-2 rounded-lg border ${cell.day ? 'bg-white border-slate-200' : 'bg-slate-50 border-slate-100'}`}>
-                                                        {cell.day && <div className="text-xs font-bold text-slate-600 mb-2">{cell.day}</div>}
-                                                        <div className="space-y-1">
+                                                    <div key={i} className={`min-h-28 p-2 rounded-xl border-2 ${cell.day ? 'bg-white border-slate-200 hover:border-slate-300' : 'bg-slate-50 border-slate-100'} transition-colors`}>
+                                                        {cell.day && <div className="text-sm font-bold text-slate-700 mb-2">{cell.day}</div>}
+                                                        <div className="space-y-1.5">
                                                             {cell.events.map((event, j) => (
-                                                                <div key={j} className={`p-2 rounded text-xs ${event.color === 'red' ? 'bg-red-50 border border-red-200' : event.color === 'blue' ? 'bg-blue-50 border border-blue-200' : event.color === 'orange' ? 'bg-orange-50 border border-orange-200' : 'bg-purple-50 border border-purple-200'}`}>
-                                                                    <div className={`text-[10px] font-bold mb-1 ${event.color === 'red' ? 'text-red-700' : event.color === 'blue' ? 'text-blue-700' : event.color === 'orange' ? 'text-orange-700' : 'text-purple-700'}`}>{event.badge}</div>
-                                                                    <div className="font-bold text-slate-800 leading-tight mb-1">{event.title}</div>
+                                                                <div key={j} className={`p-2 rounded-lg border ${event.color === 'red' ? 'bg-red-50 border-red-200' :
+                                                                        event.color === 'blue' ? 'bg-blue-50 border-blue-200' :
+                                                                            event.color === 'orange' ? 'bg-orange-50 border-orange-200' :
+                                                                                'bg-purple-50 border-purple-200'
+                                                                    } cursor-pointer hover:shadow-sm transition-shadow`}>
+                                                                    <div className={`text-[9px] font-bold mb-1 ${event.color === 'red' ? 'text-red-700' :
+                                                                            event.color === 'blue' ? 'text-blue-700' :
+                                                                                event.color === 'orange' ? 'text-orange-700' :
+                                                                                    'text-purple-700'
+                                                                        }`}>{event.badge}</div>
+                                                                    <div className="font-bold text-slate-800 text-[11px] leading-tight mb-1">{event.title}</div>
                                                                     <div className="text-[10px] text-slate-500">{event.time}</div>
                                                                 </div>
                                                             ))}
