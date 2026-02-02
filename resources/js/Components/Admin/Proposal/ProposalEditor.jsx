@@ -92,15 +92,25 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            {draftContent?.id && (
+                            {draftContent?.id ? (
                                 <a
                                     href={`/proposals/${draftContent.id}/export`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2"
                                 >
-                                    🖨️ Export to PDF (Server-Side)
+                                    🖨️ Export to PDF
                                 </a>
+                            ) : (
+                                <button
+                                    onClick={() => {
+                                        alert("Harap simpan proposal terlebih dahulu sebelum melakukan ekspor PDF.");
+                                        setIsPreviewOpen(false);
+                                    }}
+                                    className="px-6 py-2.5 bg-blue-600/50 cursor-not-allowed text-white/50 rounded-xl text-xs font-bold flex items-center gap-2"
+                                >
+                                    🖨️ Save required to Export
+                                </button>
                             )}
                             <button
                                 onClick={() => setIsPreviewOpen(false)}

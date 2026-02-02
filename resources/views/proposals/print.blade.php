@@ -49,12 +49,14 @@
         }
         .bg-number {
             position: absolute;
-            top: 10mm;
+            top: 25mm;
             right: 15mm;
-            font-size: 150pt;
+            font-size: 120pt;
             color: #f1f5f9;
             font-weight: bold;
             z-index: -1;
+            opacity: 0.6;
+            line-height: 1;
         }
         .section-title {
             font-size: 28pt;

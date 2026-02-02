@@ -152,16 +152,16 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
                 .bg-number {
                     position: absolute;
-                    top: -15mm;
-                    right: -10mm;
-                    font-size: 200pt;
+                    top: 10mm;
+                    right: 10mm;
+                    font-size: 150pt;
                     font-family: 'Outfit', sans-serif;
                     font-weight: 900;
                     color: #f1f5f9;
                     z-index: 0;
                     line-height: 1;
                     user-select: none;
-                    opacity: 1;
+                    opacity: 0.8;
                 }
 
                 .internal-header {
