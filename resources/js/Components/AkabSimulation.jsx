@@ -1,12 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import SimulationWrapper from './SimulationWrapper';
 
 const AkabSimulation = ({ onClose }) => {
     const [scrolled, setScrolled] = useState(false);
 
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        container: containerRef
+    });
+
+    const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 200]);
+    const capacityY = useTransform(scrollYProgress, [0.4, 0.7], [-50, 50]);
+    const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 50);
-        const mainElement = document.getElementById('akab-main-scroll');
+        const handleScroll = () => setScrolled(containerRef.current.scrollTop > 50);
+        const mainElement = containerRef.current;
         if (mainElement) {
             mainElement.addEventListener('scroll', handleScroll);
             return () => mainElement.removeEventListener('scroll', handleScroll);
@@ -19,7 +29,11 @@ const AkabSimulation = ({ onClose }) => {
 
     return (
         <SimulationWrapper onClose={onClose} title="AKAB AGRO - Corporate Landing Page">
-            <div id="akab-main-scroll" className="h-full overflow-y-auto bg-slate-50 font-sans text-slate-800">
+            <div
+                ref={containerRef}
+                id="akab-main-scroll"
+                className="h-full overflow-y-auto bg-slate-50 font-sans text-slate-800 scroll-smooth"
+            >
 
                 {/* Navigation */}
                 <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
@@ -36,18 +50,26 @@ const AkabSimulation = ({ onClose }) => {
                     </div>
                 </nav>
 
-                {/* Hero Section */}
-                <header className="relative pt-12 pb-24 px-6 overflow-hidden">
-                    <div className="absolute inset-0 z-0">
+                <header className="relative pt-12 pb-24 px-6 overflow-hidden min-h-[80vh] flex flex-col justify-center">
+                    <motion.div
+                        style={{ y: heroY }}
+                        className="absolute inset-0 z-0"
+                    >
                         <img
                             src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80"
                             alt="Lahan Pertanian Luas"
-                            className="w-full h-full object-cover opacity-20"
+                            className="w-full h-[120%] object-cover opacity-20"
                         />
                         <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-slate-50/80 to-slate-50"></div>
-                    </div>
+                    </motion.div>
 
-                    <div className="max-w-7xl mx-auto relative z-10 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="max-w-7xl mx-auto relative z-10 text-center"
+                    >
                         <span className="inline-block px-4 py-2 bg-green-100 text-green-800 text-xs font-bold tracking-widest uppercase rounded-full mb-6">
                             B2B Agriculture Solution
                         </span>
@@ -81,13 +103,19 @@ const AkabSimulation = ({ onClose }) => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
                 </header>
 
                 {/* About Us */}
-                <section id="about" className="py-20 px-6 bg-white">
+                <section id="about" className="py-20 px-6 bg-white overflow-hidden">
                     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                        <div className="relative">
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.8 }}
+                            className="relative"
+                        >
                             <div className="absolute -top-4 -left-4 w-24 h-24 bg-green-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
                             <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-yellow-100 rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
                             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
@@ -97,8 +125,13 @@ const AkabSimulation = ({ onClose }) => {
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                        </div>
-                        <div>
+                        </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                        >
                             <h2 className="text-3xl font-black text-slate-900 mb-6">Mitra Terpercaya Agribisnis Indonesia</h2>
                             <p className="text-slate-600 mb-6 leading-relaxed">
                                 AKAB AGRO adalah perusahaan agrikultur yang berfokus pada produksi dan distribusi bibit unggul. Kami bukan sekadar penjual, tapi mitra strategis bagi pertanian skala besar.
@@ -123,19 +156,24 @@ const AkabSimulation = ({ onClose }) => {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </section>
 
                 {/* Product Section */}
                 <section id="products" className="py-20 px-6 bg-slate-50">
                     <div className="max-w-7xl mx-auto">
-                        <div className="text-center mb-16">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-center mb-16"
+                        >
                             <h2 className="text-3xl font-black text-slate-900 mb-4">Katalog Bibit Unggul</h2>
                             <p className="text-slate-600 max-w-2xl mx-auto">
                                 Kami menyediakan berbagai varietas bibit berkualitas tinggi untuk memaksimalkan hasil panen Anda.
                             </p>
-                        </div>
+                        </motion.div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
@@ -144,7 +182,14 @@ const AkabSimulation = ({ onClose }) => {
                                 { title: 'Hortikultura', img: 'https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=600&q=80', min: '1000 pcs', items: ['Cabai Rawit', 'Tomat Servo', 'Terong'] },
                                 { title: 'Perkebunan', img: 'https://images.unsplash.com/photo-1596706037748-bd03a744275f?auto=format&fit=crop&w=600&q=80', min: '500 btg', items: ['Sawit', 'Kopi', 'Kakao'] }
                             ].map((prod, i) => (
-                                <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-slate-100 group">
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-slate-100 group"
+                                >
                                     <div className="h-48 overflow-hidden relative">
                                         <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
                                         <img src={prod.img} alt={prod.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -166,18 +211,19 @@ const AkabSimulation = ({ onClose }) => {
                                             Cek Spesifikasi
                                         </button>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </section>
 
                 {/* Capacity & Scale */}
-                <section id="capacity" className="py-20 px-6 bg-slate-900 text-white relative overflow-hidden">
-                    <img
+                <section id="capacity" className="py-20 px-6 bg-slate-900 text-white relative overflow-hidden min-h-[60vh] flex items-center">
+                    <motion.img
+                        style={{ y: capacityY, scale: 1.1 }}
                         src="https://images.unsplash.com/photo-1628352081506-83c43123ed6d?auto=format&fit=crop&w=1920&q=80"
                         alt="Background"
-                        className="absolute inset-0 w-full h-full object-cover opacity-10"
+                        className="absolute inset-0 w-full h-[120%] object-cover opacity-10"
                     />
                     <div className="max-w-7xl mx-auto relative z-10">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -239,14 +285,21 @@ const AkabSimulation = ({ onClose }) => {
                                 { title: 'Produksi', icon: 'M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z' },
                                 { title: 'Pengiriman', icon: 'M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4' }
                             ].map((step, i) => (
-                                <div key={i} className="flex flex-col items-center gap-4 bg-white">
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                                    className="flex flex-col items-center gap-4 bg-white"
+                                >
                                     <div className="w-16 h-16 rounded-2xl bg-white border-2 border-slate-200 flex items-center justify-center text-slate-400 shadow-sm z-10 transition-colors hover:border-green-500 hover:text-green-600">
                                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={step.icon} />
                                         </svg>
                                     </div>
                                     <div className="font-bold text-slate-800">{step.title}</div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
