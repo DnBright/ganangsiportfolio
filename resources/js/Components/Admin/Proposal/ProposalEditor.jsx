@@ -196,20 +196,6 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                         </button>
                     </div>
                 </div>
-
-                {/* Pro Tip Card */}
-                <div className="p-8 bg-gradient-to-br from-purple-600/10 to-transparent border border-purple-500/20 rounded-[30px] relative overflow-hidden group print:hidden">
-                    <div className="absolute -bottom-4 -right-4 text-6xl opacity-5 group-hover:scale-110 transition-transform">💎</div>
-                    <div className="flex gap-4 relative z-10">
-                        <div className="text-2xl">💡</div>
-                        <div>
-                            <h4 className="text-xs font-bold text-purple-400 mb-2 uppercase tracking-widest font-mono">DNB Quality Tip</h4>
-                            <p className="text-[11px] text-white/40 leading-relaxed">
-                                Ingat, klien tidak membeli "fitur", mereka membeli **solusi atas masalah mereka**. Pastikan proposal Anda terasa sangat personal dan menjawab masalah nyata bisnis mereka.
-                            </p>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
