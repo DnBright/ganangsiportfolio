@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '../Contexts/LanguageContext';
 import { t } from '../translations';
 import SaitamaSimulation from './SaitamaSimulation';
+import KursusJepangSimulation from './KursusJepangSimulation';
 import { AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +14,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const containerRef = useRef(null);
     const { language } = useLanguage();
     const [isSaitamaOpen, setIsSaitamaOpen] = useState(false);
+    const [isKursusOpen, setIsKursusOpen] = useState(false);
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
@@ -84,6 +86,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                             className={`group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden cursor-pointer rounded-2xl md:rounded-3xl border border-white/5`}
                             onClick={() => {
                                 if (item.id === 'saitama') setIsSaitamaOpen(true);
+                                if (item.id === 'kursus') setIsKursusOpen(true);
                             }}
                         >
                             {/* Image with Parallax Hover */}
@@ -110,7 +113,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                         {item.title}
                                     </h3>
                                     <div className="flex gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 items-center">
-                                        {item.id === 'saitama' ? (
+                                        {item.id === 'saitama' || item.id === 'kursus' ? (
                                             <button className="bg-white text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-2">
                                                 Coba Simulation
                                                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -148,8 +151,12 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                 {isSaitamaOpen && (
                     <SaitamaSimulation onClose={() => setIsSaitamaOpen(false)} />
                 )}
+                {isKursusOpen && (
+                    <KursusJepangSimulation onClose={() => setIsKursusOpen(false)} />
+                )}
             </AnimatePresence>
         </section>
+
     );
 };
 
