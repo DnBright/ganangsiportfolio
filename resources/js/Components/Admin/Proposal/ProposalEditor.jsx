@@ -92,12 +92,16 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => window.print()}
-                                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2"
-                            >
-                                🖨️ Export to PDF
-                            </button>
+                            {draftContent?.id && (
+                                <a
+                                    href={`/proposals/${draftContent.id}/export`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2"
+                                >
+                                    🖨️ Export to PDF (Server-Side)
+                                </a>
+                            )}
                             <button
                                 onClick={() => setIsPreviewOpen(false)}
                                 className="px-6 py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold transition-all"
