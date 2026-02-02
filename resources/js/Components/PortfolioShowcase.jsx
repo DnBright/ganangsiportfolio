@@ -149,7 +149,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     </span>
 
                                     {/* Prominent Play Badge for Simulations */}
-                                    {(item.id === 'saitama' || item.id === 'kursus' || item.id === 'ayaka') && (
+                                    {(item.id === 'saitama' || item.id === 'kursus' || item.id === 'ayaka' || item.id === 'akab') && (
                                         <div className="absolute top-8 right-8 md:top-12 md:right-12 animate-pulse">
                                             <div className="bg-[#E60012] text-white w-16 h-16 rounded-full flex items-center justify-center shadow-lg shadow-red-600/40 group-hover:scale-110 transition-transform">
                                                 <svg className="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
