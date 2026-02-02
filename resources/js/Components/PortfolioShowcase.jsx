@@ -5,6 +5,7 @@ import { useLanguage } from '../Contexts/LanguageContext';
 import { t } from '../translations';
 import SaitamaSimulation from './SaitamaSimulation';
 import KursusJepangSimulation from './KursusJepangSimulation';
+import AyakaSimulation from './AyakaSimulation';
 import { AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +16,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const { language } = useLanguage();
     const [isSaitamaOpen, setIsSaitamaOpen] = useState(false);
     const [isKursusOpen, setIsKursusOpen] = useState(false);
+    const [isAyakaOpen, setIsAyakaOpen] = useState(false);
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
@@ -87,6 +89,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                             onClick={() => {
                                 if (item.id === 'saitama') setIsSaitamaOpen(true);
                                 if (item.id === 'kursus') setIsKursusOpen(true);
+                                if (item.id === 'ayaka') setIsAyakaOpen(true);
                             }}
                         >
                             {/* Image with Parallax Hover */}
@@ -171,6 +174,9 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                 )}
                 {isKursusOpen && (
                     <KursusJepangSimulation onClose={() => setIsKursusOpen(false)} />
+                )}
+                {isAyakaOpen && (
+                    <AyakaSimulation onClose={() => setIsAyakaOpen(false)} />
                 )}
             </AnimatePresence>
         </section>
