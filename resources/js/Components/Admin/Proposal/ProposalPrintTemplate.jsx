@@ -47,53 +47,53 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         print-color-adjust: exact !important;
                     }
                     
-                    /* PHYSICAL BLOCK STRATEGY */
-                    /* Neutralize ALL ancestors to allow multi-page flow */
-                    html, body, #app, #app > div, 
-                    #premium-proposal-preview,
-                    #premium-proposal-preview > div,
-                    .no-print {
-                        display: block !important;
-                        position: static !important;
-                        width: auto !important;
-                        height: auto !important;
-                        min-height: auto !important;
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        overflow: visible !important;
-                        background: none !important;
+                    /* NUCLEAR ISOLATION: Hide everything by default */
+                    body {
+                        visibility: hidden !important;
+                        background: #fff !important;
                     }
 
-                    /* HIDE ALL DASHBOARD UI */
-                    nav, aside, footer, header:not(.internal-header), .no-print, button, 
-                    [class*="navbar"], [class*="sidebar"], .sticky {
+                    /* Only show the proposal preview and its children */
+                    #premium-proposal-preview,
+                    #premium-proposal-preview * {
+                        visibility: visible !important;
+                    }
+
+                    /* Position the preview at the absolute origin 0,0 */
+                    #premium-proposal-preview {
+                        position: absolute !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        width: 210mm !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        display: block !important;
+                        overflow: visible !important;
+                        background: #fff !important;
+                    }
+
+                    /* HIDE UI ELEMENTS EVEN IF VISIBLE */
+                    .no-print, button, nav, aside {
                         display: none !important;
+                        visibility: hidden !important;
                     }
                     
-                     /* THE WRAPPER: Must be static/block for breaks to work */
+                    /* THE WRAPPER: Must be static for breaks to work */
                     .proposal-print-wrapper {
                         display: block !important;
-                        position: static !important;
+                        position: relative !important;
                         width: 210mm !important;
                         margin: 0 !important;
                         padding: 0 !important;
                         background: #fff !important;
-                        visibility: visible !important;
                     }
 
-                    /* Wahyu's Neutralization Logic: Force ALL containers inside preview to have 0 padding */
-                    #premium-proposal-preview, 
-                    #premium-proposal-preview > div {
-                        padding: 0 !important;
-                        margin: 0 !important;
-                    }
-
-                     /* THE PAGES: Force physical A4 blocks */
+                    /* THE PAGES: Force physical A4 blocks */
                     .internal-page, .cover-page, .closing-hero {
                         display: block !important;
                         position: relative !important;
                         width: 210mm !important;
-                        height: 296.5mm !important; /* Surgical height to prevent sub-pixel overflow */
+                        height: 296.5mm !important;
                         margin: 0 !important;
                         padding: 0 !important;
                         overflow: hidden !important;
