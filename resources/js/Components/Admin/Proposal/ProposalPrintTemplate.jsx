@@ -35,21 +35,21 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 {`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Outfit:wght@400;600;700;900&display=swap');
 
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Outfit:wght@400;600;700;900&display=swap');
+
                 @media print {
                     @page { 
                         size: A4; 
-                        margin: 0mm !important; 
+                        margin: 0 !important; 
                     }
-                    body { 
+                    * {
                         -webkit-print-color-adjust: exact !important; 
                         print-color-adjust: exact !important;
+                    }
+                    body { 
                         margin: 0 !important; 
                         padding: 0 !important;
                         background: #fff; 
-                    }
-                    .page-break { 
-                        page-break-before: always !important; 
-                        break-before: page !important;
                     }
                 }
 
@@ -60,238 +60,234 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     background: #fff;
                     font-family: 'Inter', sans-serif;
                     display: block;
-                    -webkit-print-color-adjust: exact !important;
-                    print-color-adjust: exact !important;
                 }
 
                 /* SHARED ELEMENTS */
                 .internal-page {
                     position: relative;
-                    min-height: 297mm;
-                    max-height: 297mm;
-                    padding: 35mm 25mm;
+                    width: 210mm;
+                    height: 297mm;
+                    padding: 30mm 20mm;
                     background: #fff;
                     overflow: hidden;
-                    display: block;
-                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
                     box-sizing: border-box !important;
+                    page-break-after: always !important;
+                    break-after: page !important;
                 }
-@media print {
-    .internal-page {
-        height: 297mm !important;
-        overflow: hidden !important;
-        page-break-before: always !important;
-        break-before: page !important;
-    }
-}
 
                 .bg-number {
                     position: absolute;
-                    top: -20px;
-                    right: -20px;
-                    font-size: 280px;
+                    top: -15mm;
+                    right: -10mm;
+                    font-size: 200pt;
                     font-family: 'Outfit', sans-serif;
                     font-weight: 900;
                     color: #f1f5f9;
                     z-index: 0;
                     line-height: 1;
                     user-select: none;
+                    opacity: 1;
                 }
 
                 .internal-header {
-                    position: absolute; top: 15mm; left: 25mm; right: 25mm;
+                    position: absolute; top: 12mm; left: 20mm; right: 20mm;
                     display: flex; justify-content: space-between;
-                    font-size: 9px; font-weight: 900; color: #cbd5e1;
-                    border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;
-                    text-transform: uppercase; letter-spacing: 3px;
+                    font-size: 8pt; font-weight: 900; color: #cbd5e1;
+                    border-bottom: 2pt solid #f1f5f9; padding-bottom: 5mm;
+                    text-transform: uppercase; letter-spacing: 2pt;
                     z-index: 10;
                 }
 
                 .internal-footer {
-                    position: absolute; bottom: 15mm; left: 25mm; right: 25mm;
+                    position: absolute; bottom: 12mm; left: 20mm; right: 20mm;
                     display: flex; justify-content: space-between;
-                    font-size: 9px; font-weight: 900; color: #e2e8f0;
-                    text-transform: uppercase; letter-spacing: 2px;
+                    font-size: 8pt; font-weight: 900; color: #e2e8f0;
+                    text-transform: uppercase; letter-spacing: 2pt;
                     z-index: 10;
                 }
 
                 /* COVER PAGE */
                 .cover-page {
                     position: relative; 
+                    width: 210mm;
                     height: 297mm; 
-                    min-height: 297mm;
-                    max-height: 297mm;
                     background: #0f172a; 
                     overflow: hidden;
                     box-sizing: border-box !important;
+                    page-break-after: always !important;
+                    break-after: page !important;
+                    display: flex;
+                    flex-direction: column;
                 }
-@media print {
-    .cover-page {
-        page-break-after: always !important;
-        break-after: page !important;
-    }
-}
+                
                 .cover-accent {
                     position: absolute; top: 0; right: 0; width: 65%; height: 100%;
                     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
                     clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+                    z-index: 1;
                 }
                 .cover-grid {
                     position: absolute; inset: 0;
-                    background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-                    background-size: 40px 40px;
+                    background-image: radial-gradient(circle at 1mm 1mm, rgba(255,255,255,0.05) 0.5mm, transparent 0);
+                    background-size: 10mm 10mm;
+                    z-index: 2;
                 }
                 .cover-content {
-                    position: relative; z-index: 10; padding: 80px; height: 100%;
+                    position: relative; z-index: 10; padding: 25mm; height: 100%;
                     display: flex; flex-direction: column; justify-content: space-between;
+                    box-sizing: border-box;
                 }
                 .cover-title {
-                    font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 900;
-                    line-height: 0.9; color: #fff; text-transform: uppercase; letter-spacing: -3px;
-                    margin-top: 120px; max-width: 90%;
+                    font-family: 'Outfit', sans-serif; font-size: 54pt; font-weight: 900;
+                    line-height: 0.95; color: #fff; text-transform: uppercase; letter-spacing: -2pt;
+                    margin-top: 30mm; max-width: 90%;
                 }
                 .cover-subtitle {
-                    font-size: 28px; font-weight: 300; color: #3b82f6; margin-top: 30px;
-                    letter-spacing: -0.5px;
+                    font-size: 22pt; font-weight: 300; color: #3b82f6; margin-top: 10mm;
+                    letter-spacing: -0.5pt;
                 }
 
                 /* LAYOUT ENGINE WRAPPERS */
-                .layout-engine-wrapper { position: relative; z-index: 1; height: 100%; }
+                .layout-engine-wrapper { position: relative; z-index: 1; flex: 1; width: 100%; }
 
                 /* LAYOUT: SIDEBAR (Bab 1) */
-                .layout-sidebar { display: grid; grid-template-columns: 1.8fr 1fr; gap: 50px; }
+                .layout-sidebar { display: grid; grid-template-columns: 1.8fr 1fr; gap: 15mm; }
                 .sidebar-accent { 
-                    background: #f8fafc; padding: 35px; border-radius: 30px;
-                    border: 1px solid #e2e8f0; height: fit-content;
-                    position: relative; margin-top: 20px;
+                    background: #f8fafc; padding: 8mm; border-radius: 8mm;
+                    border: 1pt solid #e2e8f0; height: fit-content;
+                    position: relative; margin-top: 5mm;
                 }
                 .sidebar-accent::before {
-                    content: ''; position: absolute; top: -1px; left: 40px; width: 40px; height: 4px; background: #3b82f6;
+                    content: ''; position: absolute; top: -1px; left: 10mm; width: 10mm; height: 2pt; background: #3b82f6;
                 }
-                .sidebar-accent h4 { font-size: 11px; font-weight: 900; color: #0f172a; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+                .sidebar-accent h4 { font-size: 8pt; font-weight: 900; color: #0f172a; text-transform: uppercase; margin-bottom: 5mm; letter-spacing: 1pt; }
 
                 /* LAYOUT: PROBLEM (Bab 2) */
-                .layout-problem { position: relative; padding-top: 20px; }
+                .layout-problem { position: relative; padding-top: 5mm; }
                 .problem-bracket {
-                    font-family: 'Outfit', sans-serif; font-size: 120px; color: #eff6ff;
-                    position: absolute; top: -40px; left: -20px; opacity: 0.8; z-index: -1;
+                    font-family: 'Outfit', sans-serif; font-size: 100pt; color: #eff6ff;
+                    position: absolute; top: -10mm; left: -5mm; opacity: 0.8; z-index: -1;
                 }
                 .problem-quote {
-                    font-size: 32px; font-weight: 900; color: #0f172a; line-height: 1.1;
-                    margin-bottom: 50px; padding-left: 20px; border-left: 12px solid #3b82f6;
-                    letter-spacing: -1px;
+                    font-size: 24pt; font-weight: 900; color: #0f172a; line-height: 1.1;
+                    margin-bottom: 15mm; padding-left: 5mm; border-left: 8pt solid #3b82f6;
+                    letter-spacing: -1pt;
                 }
 
                 /* LAYOUT: OBJECTIVES (Bab 3) */
-                .layout-objectives-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+                .layout-objectives-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; }
                 .objective-card { 
-                    background: #fff; padding: 30px; border-radius: 25px; 
-                    border: 1px solid #f1f5f9; box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+                    background: #fff; padding: 8mm; border-radius: 6mm; 
+                    border: 1pt solid #f1f5f9; box-shadow: 0 5mm 15mm rgba(0,0,0,0.02);
                 }
-                .obj-icon { width: 40px; height: 40px; background: #eff6ff; border-radius: 12px; margin-bottom: 20px; display: flex; alignItems: center; justifyContent: center; color: #3b82f6; font-weight: 900; }
+                .obj-icon { width: 10mm; height: 10mm; background: #eff6ff; border-radius: 3mm; margin-bottom: 5mm; display: flex; align-items: center; justify-content: center; color: #3b82f6; font-weight: 900; font-size: 14pt; }
 
                 /* LAYOUT: GRID (Bab 4) */
-                .layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 40px; }
+                .layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 10mm; }
                 .grid-item { 
-                    padding: 30px; border-radius: 25px; transition: all 0.3s;
-                    background: #fff; border: 1px solid #f1f5f9;
+                    padding: 8mm; border-radius: 6mm; 
+                    background: #fff; border: 1pt solid #f1f5f9;
                 }
-                .grid-item h3 { font-size: 15px; font-weight: 900; color: #0f172a; margin-bottom: 12px; text-transform: uppercase; color: #3b82f6; }
+                .grid-item h3 { font-size: 11pt; font-weight: 900; color: #3b82f6; margin-bottom: 3mm; text-transform: uppercase; }
 
                 /* LAYOUT: LIST (Bab 5) */
-                .layout-deliverables-list { background: #0f172a; border-radius: 40px; padding: 50px; color: #fff; }
+                .layout-deliverables-list { background: #0f172a; border-radius: 10mm; padding: 15mm; color: #fff; flex: 1; }
                 .deliverable-item { 
-                    display: flex; align-items: flex-start; gap: 20px; margin-bottom: 20px; 
-                    border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; 
+                    display: flex; align-items: flex-start; gap: 5mm; margin-bottom: 5mm; 
+                    border-bottom: 1pt solid rgba(255,255,255,0.05); padding-bottom: 5mm; 
                 }
-                .deliverable-dot { width: 8px; height: 8px; background: #3b82f6; border-radius: 2px; margin-top: 10px; flex-shrink: 0; transform: rotate(45deg); }
+                .deliverable-dot { width: 2mm; height: 2mm; background: #3b82f6; border-radius: 0.5mm; margin-top: 2mm; flex-shrink: 0; transform: rotate(45deg); }
 
                 /* LAYOUT: FLOW (Bab 6) */
-                .flow-container { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; }
+                .flow-container { display: flex; flex-direction: column; gap: 4mm; margin-top: 8mm; }
                 .flow-step { 
-                    display: flex; align-items: center; gap: 30px; padding: 25px; 
-                    background: #f8fafc; border-radius: 20px; border: 1px solid #e2e8f0;
-                    position: relative;
+                    display: flex; align-items: center; gap: 8mm; padding: 6mm; 
+                    background: #f8fafc; border-radius: 5mm; border: 1pt solid #e2e8f0;
                 }
                 .flow-number { 
-                    font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 900; color: #3b82f6; opacity: 0.3;
+                    font-family: 'Outfit', sans-serif; font-size: 18pt; font-weight: 900; color: #3b82f6; opacity: 0.3;
                 }
 
                 /* LAYOUT: MILESTONE (Bab 7) */
                 .milestone-visual { 
-                    display: flex; justify-content: space-between; margin-top: 50px; position: relative;
-                    padding-bottom: 30px;
+                    display: flex; justify-content: space-between; margin-top: 15mm; position: relative;
+                    padding-bottom: 10mm;
                 }
                 .milestone-visual::after {
-                    content: ''; position: absolute; top: 15px; left: 0; right: 0; height: 2px;
+                    content: ''; position: absolute; top: 4mm; left: 0; right: 0; height: 1pt;
                     background: #e2e8f0; z-index: 0;
                 }
-                .ms-node { position: relative; z-index: 1; text-align: center; width: 20%; }
-                .ms-dot { width: 30px; height: 30px; background: #3b82f6; border-radius: 50%; border: 6px solid #fff; margin: 0 auto 15px; box-shadow: 0 0 0 2px #3b82f6; }
+                .ms-node { position: relative; z-index: 1; text-align: center; width: 25%; }
+                .ms-dot { width: 8mm; height: 8mm; background: #3b82f6; border-radius: 50%; border: 2pt solid #fff; margin: 0 auto 4mm; box-shadow: 0 0 0 1pt #3b82f6; }
 
                 /* LAYOUT: PRICING (Bab 8) */
                 .pricing-hero {
                     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
-                    color: #fff; padding: 60px; border-radius: 40px; text-align: center;
-                    margin-top: 60px; position: relative; overflow: hidden;
+                    color: #fff; padding: 15mm; border-radius: 10mm; text-align: center;
+                    margin-top: 15mm; position: relative; overflow: hidden;
                 }
                 .pricing-hero::before {
-                    content: 'ESTIMATE'; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-                    font-size: 120px; font-weight: 900; opacity: 0.03; font-family: 'Outfit';
+                    content: 'ESTIMATE'; position: absolute; top: 2mm; left: 50%; transform: translateX(-50%);
+                    font-size: 80pt; font-weight: 900; opacity: 0.03; font-family: 'Outfit';
                 }
-                .price-value { font-family: 'Outfit', sans-serif; font-size: 64px; font-weight: 900; color: #3b82f6; line-height: 1; margin: 20px 0; }
+                .price-value { font-family: 'Outfit', sans-serif; font-size: 48pt; font-weight: 900; color: #3b82f6; line-height: 1; margin: 5mm 0; }
 
                 /* LAYOUT: IMPACT (Bab 9) */
-                .impact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: center; }
+                .impact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10mm; align-items: center; }
                 .impact-visual {
-                    height: 200px; background: #f8fafc; border-radius: 30px; display: flex; align-items: center; justify-content: center;
-                    flex-direction: column; position: relative; border: 1px dashed #cbd5e1;
+                    height: 50mm; background: #f8fafc; border-radius: 8mm; display: flex; align-items: center; justify-content: center;
+                    flex-direction: column; position: relative; border: 1pt dashed #cbd5e1;
                 }
-                .impact-big-text { font-family: 'Outfit', sans-serif; font-size: 80px; font-weight: 900; color: #3b82f6; line-height: 1; }
+                .impact-big-text { font-family: 'Outfit', sans-serif; font-size: 60pt; font-weight: 900; color: #3b82f6; line-height: 1; }
 
                 /* LAYOUT: CARDS (Bab 10) */
-                .asymmetric-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 40px; }
+                .asymmetric-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; margin-top: 10mm; }
                 .value-card-premium {
-                    padding: 30px; background: #fff; border-radius: 25px; border-top: 6px solid #0f172a;
-                    box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+                    padding: 8mm; background: #fff; border-radius: 6mm; border-top: 4pt solid #0f172a;
+                    box-shadow: 0 4mm 10mm rgba(0,0,0,0.05);
                 }
-                .value-card-premium:nth-child(even) { transform: translateY(20px); border-top-color: #3b82f6; }
+                .value-card-premium:nth-child(even) { transform: translateY(5mm); border-top-color: #3b82f6; }
 
                 /* LAYOUT: CLOSING (Bab 11) */
                 .closing-hero {
-                    height: 297mm; 
+                    position: absolute;
+                    top: 0; left: 0;
                     width: 210mm;
+                    height: 297mm;
                     display: flex; flex-direction: column; align-items: center; justify-content: center;
                     text-align: center; background: #0f172a; color: #fff; 
-                    margin: -35mm -25mm; padding: 35mm 25mm;
+                    padding: 25mm;
                     box-sizing: border-box !important;
+                    z-index: 100;
                 }
-                .closing-ty { font-family: 'Outfit', sans-serif; font-size: 100px; font-weight: 900; letter-spacing: -5px; line-height: 0.8; margin-bottom: 40px; }
+                .closing-ty { font-family: 'Outfit', sans-serif; font-size: 72pt; font-weight: 900; letter-spacing: -3pt; line-height: 0.8; margin-bottom: 10mm; }
 
                 /* MARKDOWN CONTENT REFINEMENT */
-                .markdown-content { font-size: 12pt; line-height: 1.8; color: #334155; }
-                .markdown-content h3 { font-size: 18px; font-weight: 900; color: #0f172a; margin-top: 30px; text-transform: uppercase; letter-spacing: 1px; }
-                .markdown-content strong { color: #0f172a; font-weight: 800; }
+                .markdown-content { font-size: 11pt; line-height: 1.6; color: #334155; }
+                .markdown-content h3 { font-size: 14pt; font-weight: 900; color: #0f172a; margin-top: 8mm; text-transform: uppercase; letter-spacing: 1pt; }
+                .markdown-content strong { color: #0f172a; font-weight: 700; }
                 .markdown-content ul { list-style-type: none; padding-left: 0; }
-                .markdown-content li { position: relative; padding-left: 25px; margin-bottom: 12px; }
+                .markdown-content li { position: relative; padding-left: 6mm; margin-bottom: 3mm; }
                 .markdown-content li::before { content: '→'; position: absolute; left: 0; color: #3b82f6; font-weight: 900; }
                 `}
             </style>
 
-            {/* PAGE: COVER - No page break at the start */}
+            {/* PAGE: COVER */}
             <div className="cover-page">
                 <div className="cover-grid" />
                 <div className="cover-accent" />
                 <div className="cover-content">
                     <div>
-                        <img src="/assets/logo-dnb.png" style={{ width: '100px', filter: 'brightness(0) invert(1)', marginBottom: '40px' }} alt="Logo" />
+                        <img src="/assets/logo-dnb.png" style={{ width: '35mm', filter: 'brightness(0) invert(1)', marginBottom: '15mm' }} alt="Logo" />
                     </div>
                     <div>
-                        <div style={{ width: '80px', height: '4px', background: '#3b82f6', marginBottom: '40px' }} />
+                        <div style={{ width: '25mm', height: '1.5mm', background: '#3b82f6', marginBottom: '15mm' }} />
                         <h1 className="cover-title">{proposal.title || "Project Proposal"}</h1>
                         <p className="cover-subtitle">Prepared for {proposal.client_name}</p>
                     </div>
-                    <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px', fontWeight: '900', letterSpacing: '4px' }}>
+                    <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '8pt', fontWeight: '900', letterSpacing: '4pt' }}>
                         DNB STRATEGIC DOCUMENT / {today.toUpperCase()}
                     </div>
                 </div>
@@ -307,11 +303,11 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         <div>SECTION {String(section.id).padStart(2, '0')}</div>
                     </div>
 
-                    <div style={{ marginBottom: '60px', position: 'relative', zIndex: 10 }}>
-                        <h2 style={{ fontSize: '42px', fontFamily: 'Outfit', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '-2px', lineHeight: 1 }}>
+                    <div style={{ marginBottom: '15mm', position: 'relative', zIndex: 10 }}>
+                        <h2 style={{ fontSize: '32pt', fontFamily: 'Outfit', fontWeight: '900', color: '#0f172a', textTransform: 'uppercase', letterSpacing: '-1.5pt', lineHeight: 1 }}>
                             {section.title.split('. ')[1]}
                         </h2>
-                        <div style={{ width: '80px', height: '8px', background: '#3b82f6', marginTop: '20px' }} />
+                        <div style={{ width: '25mm', height: '2mm', background: '#3b82f6', marginTop: '5mm' }} />
                     </div>
 
                     {/* DYNAMIC LAYOUT ENGINE */}
@@ -497,7 +493,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 </div>
             ))}
 
-            <div className="no-print" style={{ height: '100px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', color: '#cbd5e1', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '4px', borderTop: '1px solid #e2e8f0' }}>
+            <div className="no-print" style={{ height: '30mm', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8pt', color: '#cbd5e1', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '4pt', borderTop: '1pt solid #e2e8f0' }}>
                 End of Strategic Document / Powered by DNB Agency
             </div>
         </div>
