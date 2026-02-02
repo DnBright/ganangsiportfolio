@@ -99,46 +99,59 @@ class GeminiService
             return $out . "Solusi dapat dikembangkan bertahap sesuai kebutuhan.";
         };
 
-        // helper for timeline
+        // helper for timeline (REFINED)
         $toTimeline = function($timeline) {
             if (!is_array($timeline)) return (string)$timeline;
             $out = "";
-            foreach ($timeline as $t) {
-                $out .= "- **" . ($t['phase'] ?? 'Fase') . "**: " . ($t['duration'] ?? '-') . "\n";
+            foreach ($timeline as $idx => $t) {
+                $faseNum = $idx + 1;
+                $out .= "### Fase $faseNum – " . ($t['phase'] ?? 'Tahap Pengembangan') . " (" . ($t['duration'] ?? '-') . ")\n";
+                $out .= ($t['objective'] ?? 'Tujuan fase ini adalah memastikan kelancaran implementasi.') . "\n\n";
+                if (isset($t['activities']) && is_array($t['activities'])) {
+                    $out .= "**Aktivitas Utama:**\n";
+                    foreach ($t['activities'] as $act) {
+                        $out .= "- " . $act . "\n";
+                    }
+                }
+                $out .= "\n";
             }
             return $out;
         };
 
-        // investment mapping (using existing logic for now since it's missing in new prompt)
-        $total = $data['total_value'] ?? 0;
-        $type = $data['project_type'] ?? 'Website Bisnis';
-        $duration = $data['contract_duration'] ?? 6;
-        $setupPct = ($type == 'Landing Page' ? 0.4 : ($type == 'Website Bisnis' ? 0.3 : ($type == 'Dashboard / Sistem' ? 0.2 : 0.15)));
-        $setupCost = number_format($total * $setupPct, 0, ',', '.');
-        $maintMonthly = number_format(($total * (1 - $setupPct)) / $duration, 0, ',', '.');
-        $totalFmt = number_format($total, 0, ',', '.');
+        // helper for investment (REFINED)
+        $toInvestment = function($inv) {
+            if (!is_array($inv)) return (string)$inv;
+            $out = ($inv['narrative'] ?? "Estimasi investasi proyek ini mencakup pengembangan sistem inti dan implementasi modul utama.") . "\n\n";
+            
+            if (isset($inv['covered_scope']) && is_array($inv['covered_scope'])) {
+                $out .= "**Rincian Investasi Proyek:**\n";
+                foreach ($inv['covered_scope'] as $item) {
+                    $out .= "- " . $item . "\n";
+                }
+                $out .= "\n";
+            }
 
-        $investment = "Sajikan rincian berikut dalam narasi profesional:\n";
-        $investment .= "* Setup Awal (Development): IDR $setupCost (Sekali bayar).\n";
-        $investment .= "* Maintenance & Support: IDR $maintMonthly / bulan selama $duration bulan.\n";
-        $investment .= "* Total Nilai Kontrak: IDR $totalFmt.\n\n";
-        $investment .= "Estimasi investasi ini bersifat indikatif dan dapat disesuaikan berdasarkan kebutuhan final serta hasil diskusi lanjutan.";
+            $out .= "**Total Estimasi Investasi Proyek:**\n";
+            $out .= "IDR " . ($inv['total_value'] ?? '0') . "\n\n";
+            $out .= "Nilai investasi ini merupakan biaya pengembangan awal sistem. Skema dukungan dan pengembangan lanjutan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
+            return $out;
+        };
 
         return [
             'title' => $decoded['cover']['title'] ?? ('Proposal ' . ($data['client_name'] ?? 'Klien')),
             'executive_summary' => $decoded['executive_summary']['content'] ?? '',
             'problem_analysis' => $toList($decoded['background_problem']['points'] ?? []),
-            'project_objectives' => $toList($decoded['project_goals']['goals'] ?? []),
+            'project_goals' => $toList($decoded['project_goals']['goals'] ?? []),
             'solutions' => $toSolutions($decoded['solutions'] ?? []),
             'scope_of_work' => $toList($decoded['scope_of_work']['deliverables'] ?? []),
             'system_walkthrough' => $decoded['system_flow']['description'] ?? '',
             'timeline' => $toTimeline($decoded['timeline'] ?? []),
-            'investment' => $investment,
+            'investment' => $toInvestment($decoded['investment'] ?? []),
             'roi_impact' => $toList($decoded['impact_roi']['impact_points'] ?? []),
             'value_add' => $toList($decoded['value_proposition']['points'] ?? []),
             'closing_cta' => $decoded['closing']['call_to_action'] ?? '',
-            'pricing' => $totalFmt,
-            'raw_json' => $decoded // Keep original for future use
+            'pricing' => $decoded['investment']['total_value'] ?? ($data['total_value'] ? number_format($data['total_value'], 0, ',', '.') : '0'),
+            'raw_json' => $decoded 
         ];
     }
 
@@ -187,7 +200,6 @@ class GeminiService
         $problem = $data['problem_statement'] ?? 'Tidak disebutkan';
         $type = $data['project_type'] ?? 'Website Bisnis';
         $total = $data['total_value'] ?? 0;
-        $duration = $data['contract_duration'] ?? 6;
         $deadline = $data['deadline'] ?? '14 Hari';
 
         return '🧠 SYSTEM PROMPT
@@ -238,9 +250,16 @@ Output HARUS mengikuti format JSON berikut:
   "timeline": [
     {
       "phase": "...",
+      "objective": "Tujuan fase ini...",
+      "activities": ["aktivitas 1", "aktivitas 2"],
       "duration": "..."
     }
   ],
+  "investment": {
+    "total_value": "' . number_format($total, 0, ',', '.') . '",
+    "covered_scope": ["scope 1", "scope 2"],
+    "narrative": "..."
+  },
   "impact_roi": {
     "impact_points": ["point 1", "point 2"]
   },
@@ -264,13 +283,25 @@ Output HARUS mengikuti format JSON berikut:
 - Bahasa Indonesia formal-profesional
 - Fokus ke klien, tidak menjual berlebihan, tidak teknis berlebihan.
 
-5️⃣ DATA MASUKAN:
+5️⃣ INSTRUKSI KHUSUS BAB 7 & 8:
+Bab 7 (Timeline Implementasi):
+- Bagi tahapan proyek secara naratif dan profesional.
+- Setiap fase harus menjelaskan: Tujuan fase, Aktivitas utama, Estimasi durasi.
+- Gunakan bahasa bisnis yang mudah dipahami manajemen non-teknis.
+
+Bab 8 (Estimasi Investasi Proyek):
+- Sebutkan total nilai investasi secara jelas (Gunakan ' . number_format($total, 0, ',', '.') . ').
+- Jelaskan ruang lingkup yang tercakup dalam investasi.
+- TIDAK menampilkan tabel harga teknis.
+- Menghindari bahasa jualan agresif. Gunakan gaya profesional dan transparan.
+
+6️⃣ DATA MASUKAN:
 Klien: ' . $client . '
 Industri: ' . $industry . '
 Masalah Utama: ' . $problem . '
 Tipe Proyek: ' . $type . '
 Target Selesai: ' . $deadline . '
-Nilai Investasi: IDR ' . number_format($total, 0, ',', '.') . '
+Nilai Investasi Estimasi: IDR ' . number_format($total, 0, ',', '.') . '
 
 Jika data klien tidak lengkap, gunakan asumsi logis bisnis umum.
 Jangan menambahkan disclaimer panjang. Jangan menulis "sebagai AI".';
