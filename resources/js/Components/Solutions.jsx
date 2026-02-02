@@ -82,13 +82,13 @@ const Solutions = () => {
                         <div>
                             <div className="flex items-center gap-3 mb-4">
                                 <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                                <span className="text-xs font-mono text-white/60 uppercase tracking-widest">Interactive Experience</span>
+                                <span className="text-xs font-mono text-white/60 uppercase tracking-widest">Simulasi Langsung</span>
                             </div>
                             <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4 max-w-xl leading-[0.9]">
-                                Experience Real-Time <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Prototypes</span>
+                                Coba Sendiri <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Sistem Kami</span>
                             </h2>
                             <p className="text-white/60 max-w-lg leading-relaxed text-sm md:text-base">
-                                Jangan hanya membayangkan. Coba langsung teknologi interaktif yang kami bangun untuk klien global kami.
+                                Tidak perlu menebak. Rasakan langsung performa dan kualitas sistem digital yang kami bangun.
                             </p>
                         </div>
 
@@ -102,7 +102,7 @@ const Solutions = () => {
                             className="bg-white text-black px-8 py-4 rounded-full font-black uppercase tracking-widest hover:scale-105 transition-transform active:scale-95 flex items-center gap-3 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_50px_rgba(255,255,255,0.4)] whitespace-nowrap"
                         >
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                            Coba Fitur Prototype
+                            Buka Simulasi
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                             </svg>
