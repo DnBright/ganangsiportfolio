@@ -149,8 +149,8 @@
            ------------------------------------------------------------- */
         .internal-page-wrapper {
             /* No fixed height to allow scrolling/flow across pages */
-            width: 210mm; /* Force A4 width */
-            padding: 25mm 25mm; /* Safer margins (Left/Right increased) */
+            width: 100%; /* Relative to body */
+            padding: 25mm 35mm 25mm 25mm; /* Top, Right(Increased), Bottom, Left */
             position: relative;
             background: #ffffff;
         }
@@ -201,6 +201,7 @@
             line-height: 1.6;
             color: #334155;
             text-align: justify;
+            word-wrap: break-word; /* Prevent long words from overflowing */
         }
         
         /* Typography Safety */
