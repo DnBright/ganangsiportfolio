@@ -78,9 +78,32 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
             {/* Premium Preview Modal */}
             {isPreviewOpen && (
-                <div className="fixed inset-0 z-[100] bg-[#0f111a] no-print overflow-y-auto custom-scrollbar-hide">
+                <div id="premium-proposal-preview" className="fixed inset-0 z-[100] bg-[#0f111a] overflow-y-auto custom-scrollbar-hide">
+                    <style>
+                        {`
+                        @media print {
+                            /* Force the preview modal to be the ONLY thing visible */
+                            #premium-proposal-preview { 
+                                display: block !important; 
+                                position: absolute !important;
+                                top: 0 !important;
+                                left: 0 !important;
+                                width: 100% !important;
+                                height: auto !important;
+                                background: white !important;
+                                padding: 0 !important;
+                                margin: 0 !important;
+                                z-index: 99999 !important;
+                                overflow: visible !important;
+                            }
+                            /* Hide all UI elements that use 'fixed' or 'shadow' from global app.css */
+                            .no-print, nav, aside, button, header { display: none !important; }
+                        }
+                        `}
+                    </style>
+
                     {/* Header: Sticky to remain visible during scroll */}
-                    <div className="sticky top-0 z-[110] flex items-center justify-between p-6 border-b border-white/10 bg-[#0f111a]/80 backdrop-blur-xl">
+                    <div className="sticky top-0 z-[110] flex items-center justify-between p-6 border-b border-white/10 bg-[#0f111a]/80 backdrop-blur-xl no-print">
                         <div className="flex items-center gap-4">
                             <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-blue-500/20">
                                 👁️
