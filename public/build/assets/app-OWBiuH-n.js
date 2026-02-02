@@ -43,46 +43,59 @@ Error generating stack: `+f.message+`
                         print-color-adjust: exact !important;
                     }
                     
-                    /* SURGICAL PARENT FLOW RECOVERY */
-                    /* Force visibility on the proposal path */
+                    /* PIXEL-PERFECT OVERWRITE */
+                    /* Force 0 margin/padding on ALL ancestors */
                     html, body, #app, #app > div, 
-                    [class*="fixed"], [class*="absolute"], 
-                    #premium-proposal-preview {
-                        overflow: visible !important;
-                        height: auto !important;
-                        min-height: auto !important;
-                        position: static !important;
-                        background: #fff !important;
+                    #premium-proposal-preview,
+                    #premium-proposal-preview > div,
+                    .no-print {
                         margin: 0 !important;
                         padding: 0 !important;
+                        border: none !important;
+                        height: auto !important;
+                        overflow: visible !important;
+                    }
+
+                    /* HIDE ALL UI - Aggressive */
+                    .no-print, button, nav, aside, footer, 
+                    [class*="navbar"], [class*="sidebar"], .sticky {
+                        display: none !important;
+                    }
+                    
+                    /* ANCHOR THE PROPOSAL AT 0,0 FIXED */
+                    .proposal-print-wrapper {
+                        position: fixed !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        width: 210mm !important;
+                        height: auto !important;
                         display: block !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        z-index: 999999 !important;
+                        background: #fff !important;
                         visibility: visible !important;
                     }
 
-                    /* HIDE COMMON UI ELEMENTS */
-                    nav, aside, footer, .no-print, button, 
-                    [class*="sidebar"], [class*="navbar"],
-                    .sticky, .fixed:not(#premium-proposal-preview) {
-                        display: none !important;
-                        visibility: hidden !important;
-                    }
-                    
-                    /* ANCHOR THE PROPOSAL */
-                    .proposal-print-wrapper {
+                    /* Page Block Stabilization */
+                    .internal-page, .cover-page, .closing-hero {
                         display: block !important;
-                        width: 210.1mm !important; /* Slight bleed to avoid edge gaps */
+                        width: 210mm !important;
+                        height: 296mm !important; /* Safe height for A4 to prevent overflow */
                         margin: 0 !important;
                         padding: 0 !important;
-                        position: relative !important;
-                    }
-
-                    .internal-page, .cover-page, .closing-hero {
                         page-break-after: always !important;
                         break-after: page !important;
-                        height: 296.8mm !important; /* Surgical height to prevent 1-to-2 page spill */
-                        width: 210mm !important;
-                        margin: 0 !important;
-                        box-shadow: none !important;
+                        border: none !important;
+                        overflow: hidden !important;
+                        box-sizing: border-box !important;
+                        position: relative !important;
+                    }
+                    
+                    /* Ensure content starts at the top */
+                    .cover-page, .closing-hero {
+                        top: 0 !important;
+                        left: 0 !important;
                     }
                 }
 
