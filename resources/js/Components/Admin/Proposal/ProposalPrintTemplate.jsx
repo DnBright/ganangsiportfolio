@@ -46,33 +46,51 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         -webkit-print-color-adjust: exact !important; 
                         print-color-adjust: exact !important;
                     }
-                    /* SURGICAL HIDING OF UI */
-                    nav, aside, footer, .no-print, button, [class*="navbar"], [class*="sidebar"] {
+                    
+                    /* GLOBAL HIDE: Hide everything in the body */
+                    body > * {
                         display: none !important;
                     }
-                    /* Ensure the body and html allow for natural flow */
-                    html, body {
+                    
+                    /* SELECTIVE SHOW: Show ONLY the preview container and its hierarchy */
+                    body > #premium-proposal-preview,
+                    #premium-proposal-preview,
+                    #premium-proposal-preview * {
+                        display: block !important;
+                        visibility: visible !important;
+                    }
+                    
+                    /* RESET HIERARCHY: Force parents to have zero impact on layout */
+                    #premium-proposal-preview {
+                        position: fixed !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        width: 210mm !important;
+                        height: 100% !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        height: auto !important;
-                        overflow: visible !important;
+                        background: #fff !important;
+                        z-index: 99999 !important;
+                    }
+
+                    /* Anchoring the template precisely at 0,0 */
+                    .proposal-print-wrapper {
+                        position: absolute !important;
+                        top: 0 !important;
+                        left: 0 !important;
+                        width: 210mm !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
                         background: #fff !important;
                     }
-                    /* Restore natural block flow for multi-page printing */
-                    .proposal-print-wrapper {
-                        display: block !important;
-                        position: relative !important;
-                        margin: 0 auto !important;
+
+                    /* Page Break Correction */
+                    .internal-page, .cover-page, .closing-hero {
+                        page-break-after: always !important;
+                        break-after: page !important;
+                        height: 296.5mm !important; /* Slightly shorter than A4 to prevent overflow */
                         width: 210mm !important;
-                        z-index: auto !important;
-                    }
-                    /* Fix for parents that might be hidden */
-                    #premium-proposal-preview, 
-                    #premium-proposal-preview > div {
-                        display: block !important;
-                        position: static !important;
-                        overflow: visible !important;
-                        background: none !important;
+                        margin: 0 !important;
                     }
                 }
 
