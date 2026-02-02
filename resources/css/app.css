@@ -21,72 +21,88 @@ html {
 
 @media print {
 
-  /* Global No-Print Utility */
-  .no-print,
-  .print\:hidden,
-  nav,
-  button,
-  .xl\:block,
-  header,
-  footer,
-  aside {
-    display: none !important;
+  /* Step 1: Nuclear Clean - Hide everything else */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box !important;
   }
 
-  /* Critical Reset for Multi-page support */
+  @page {
+    size: A4;
+    margin: 0 !important;
+  }
+
   html,
   body {
-    background: white !important;
-    color: black !important;
-    font-family: 'Inter', sans-serif !important;
     height: auto !important;
-    width: 100% !important;
     overflow: visible !important;
-    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+    background: white !important;
+  }
+
+  /* Extract Preview Modal to Root Flow */
+  #premium-proposal-preview {
+    visibility: visible !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 210mm !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+    background: white !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* Joni: Removed broad tag-level print overrides as they break modern Flex/Grid layouts */
-  #app,
-  #admin-dashboard-root {
-    overflow: visible !important;
-    height: auto !important;
-  }
-
-  /* Layout Container */
-  .proposal-print-container {
-    display: block !important;
+  #premium-proposal-preview * {
     visibility: visible !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 1in !important;
-    /* Standard document margin */
-    background: white !important;
-    position: static !important;
   }
 
-  /* Typography is handled by components */
-  h1,
-  h2,
-  h3,
-  h4,
-  p,
-  li {
-    page-break-after: avoid;
-  }
-
-  /* Joni Fix: Removed aggressive blanket hiding of shadow/fixed components during print */
-  /* as it was hiding the entire proposal document. Relying on .no-print instead. */
-  .no-print-essential {
-    display: none !important;
-  }
-
-  /* Ensure smooth breaks */
-  .whitespace-pre-wrap {
-    word-wrap: break-word !important;
-    page-break-inside: auto !important;
+  /* Dissolve layout containers */
+  #premium-proposal-preview div,
+  #premium-proposal-preview section,
+  #premium-proposal-preview main {
     display: block !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Avoid flexbox truncation */
+  #premium-proposal-preview div[class*="flex"] {
+    display: block !important;
+  }
+
+  /* Force the printable area to be the main flow */
+  .printable-document-area {
+    display: block !important;
+    width: 210mm !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Hide UI elements definitely */
+  .no-print,
+  .no-print *,
+  header,
+  footer,
+  nav,
+  button,
+  .xl\:block,
+  aside {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
   }
 }
