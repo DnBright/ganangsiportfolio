@@ -107,7 +107,6 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         background: #fff !important;
                     }
                 }
- Riverside styling for full bleed...
 
                 .proposal-print-wrapper {
                     width: 210mm;

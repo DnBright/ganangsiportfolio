@@ -103,7 +103,6 @@ Error generating stack: `+f.message+`
                         background: #fff !important;
                     }
                 }
- Riverside styling for full bleed...
 
                 .proposal-print-wrapper {
                     width: 210mm;
