@@ -140,18 +140,18 @@ class GeminiService
         };
 
         return [
-            'title' => $decoded['cover']['title'] ?? ('Proposal ' . ($data['client_name'] ?? 'Klien')),
-            'executive_summary' => $decoded['executive_summary']['content'] ?? '',
-            'problem_analysis' => $toList($decoded['background_problem']['points'] ?? []),
-            'project_objectives' => $toList($decoded['project_goals']['goals'] ?? []),
+            'title' => $decoded['cover']['title'] ?? $decoded['title'] ?? ('Proposal ' . ($data['client_name'] ?? 'Klien')),
+            'executive_summary' => $decoded['executive_summary']['content'] ?? $decoded['executive_summary'] ?? '',
+            'problem_analysis' => $toList($decoded['background_problem']['points'] ?? $decoded['problem_analysis'] ?? []),
+            'project_objectives' => $toList($decoded['project_goals']['goals'] ?? $decoded['project_objectives']['goals'] ?? $decoded['project_goals'] ?? $decoded['project_objectives'] ?? []),
             'solutions' => $toSolutions($decoded['solutions'] ?? []),
-            'scope_of_work' => $toList($decoded['scope_of_work']['deliverables'] ?? []),
-            'system_walkthrough' => $decoded['system_flow']['description'] ?? '',
+            'scope_of_work' => $toList($decoded['scope_of_work']['deliverables'] ?? $decoded['scope_of_work'] ?? []),
+            'system_walkthrough' => $decoded['system_flow']['description'] ?? $decoded['system_walkthrough'] ?? '',
             'timeline' => $toTimeline($decoded['timeline'] ?? []),
             'investment' => $toInvestment($decoded['investment'] ?? []),
-            'roi_impact' => $toList($decoded['impact_roi']['impact_points'] ?? []),
-            'value_add' => $toList($decoded['value_proposition']['points'] ?? []),
-            'closing_cta' => $decoded['closing']['call_to_action'] ?? '',
+            'roi_impact' => $toList($decoded['impact_roi']['impact_points'] ?? $decoded['roi_impact'] ?? []),
+            'value_add' => $toList($decoded['value_proposition']['points'] ?? $decoded['value_add'] ?? []),
+            'closing_cta' => $decoded['closing']['call_to_action'] ?? $decoded['closing_cta'] ?? '',
             'pricing' => $decoded['investment']['total_value'] ?? ($data['total_value'] ? number_format($data['total_value'], 0, ',', '.') : '0'),
             'raw_json' => $decoded 
         ];
