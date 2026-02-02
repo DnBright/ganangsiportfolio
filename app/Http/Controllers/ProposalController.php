@@ -127,7 +127,22 @@ class ProposalController extends Controller
     public function exportPdf(Proposal $proposal)
     {
         try {
-            // Using the service container directly as a failsafe
+            // 1. Diagnosis: Check if class exists
+            if (!class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
+                throw new \Exception('Class Barryvdh\DomPDF\ServiceProvider not found. Vendor dependency missing.');
+            }
+
+            // 2. Diagnosis: Check if service is bound
+            if (!app()->bound('dompdf.wrapper')) {
+                // Try manual binding if missing
+                if (class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
+                    app()->register(\Barryvdh\DomPDF\ServiceProvider::class);
+                } else {
+                    throw new \Exception('Service dompdf.wrapper not bound and provider missing.');
+                }
+            }
+            
+            // 3. Execution
             $pdf = app('dompdf.wrapper');
             $pdf->loadView('proposals.print', compact('proposal'));
             
@@ -139,13 +154,23 @@ class ProposalController extends Controller
             ]);
 
             return $pdf->stream($proposal->client_name . ' - Proposal.pdf');
-        } catch (\Exception $e) {
-            Log::error('PDF Export Error: ' . $e->getMessage());
+
+        } catch (\Throwable $e) {
+            Log::error('PDF Export Critical Error: ' . $e->getMessage());
+            Log::error($e->getTraceAsString());
+            
             return response()->json([
-                'status' => 'error',
-                'message' => 'Gagal membuat PDF. Pastikan library dompdf sudah terinstall di server.',
-                'debug' => $e->getMessage()
-            ], 500);
+                'status' => 'critical_error',
+                'message' => 'Gagal membuat PDF. Server Error.',
+                'debug_info' => [
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                    'provider_exists' => class_exists(\Barryvdh\DomPDF\ServiceProvider::class),
+                    'vendor_path' => base_path('vendor/barryvdh/laravel-dompdf'),
+                    'is_vendor_dir_exist' => is_dir(base_path('vendor/barryvdh/laravel-dompdf'))
+                ]
+            ], 200); // Return 200 to ensure user sees the JSON, not a browser 500 page
         }
     }
 

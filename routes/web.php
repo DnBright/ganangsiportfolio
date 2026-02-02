@@ -204,6 +204,26 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
             'actually_available_models' => $listModels
         ]);
     });
+
+    // Validasi PDF Library Route
+    Route::get('/debug-pdf', function() {
+        $checks = [
+            'class_exists' => class_exists(\Barryvdh\DomPDF\ServiceProvider::class),
+            'service_bound' => app()->bound('dompdf.wrapper'),
+            'vendor_folder' => is_dir(base_path('vendor/barryvdh')),
+            'dompdf_folder' => is_dir(base_path('vendor/barryvdh/laravel-dompdf')),
+            'config_exists' => file_exists(config_path('dompdf.php')),
+        ];
+
+        try {
+            $pdf = app('dompdf.wrapper');
+            $checks['instantiation'] = 'Success';
+        } catch (\Throwable $e) {
+            $checks['instantiation'] = 'Failed: ' . $e->getMessage();
+        }
+
+        return response()->json($checks);
+    });
 });
 
 // -----------------------------------------------------------------------------
