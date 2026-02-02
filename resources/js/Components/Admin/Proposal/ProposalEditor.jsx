@@ -104,16 +104,18 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             </button>
                         </div>
                     </div>
-                    <div className="flex-1 overflow-y-auto bg-[#1a1c2e] custom-scrollbar flex flex-col items-center py-10">
-                        {/* FAIL-SAFE SCROLLER: Standard 100% scale for maximum stability */}
-                        <div className="shadow-[0_0_100px_rgba(0,0,0,0.5)] bg-white shrink-0 mb-20"
-                            style={{
-                                width: '210mm',
-                                minHeight: '297mm',
-                                display: 'block',
-                                position: 'relative'
-                            }}>
-                            <ProposalPrintTemplate proposal={currentProposalData} />
+                    <div className="flex-1 overflow-y-auto bg-[#1a1c2e]">
+                        {/* SOLID SCROLLER: Decoupled centering from scrolling logic */}
+                        <div className="min-h-full py-20 flex flex-col items-center w-full">
+                            <div className="shadow-[0_0_100px_rgba(0,0,0,0.5)] bg-white shrink-0 mb-40"
+                                style={{
+                                    width: '210mm',
+                                    minHeight: '297mm',
+                                    display: 'block',
+                                    position: 'relative'
+                                }}>
+                                <ProposalPrintTemplate proposal={currentProposalData} />
+                            </div>
                         </div>
                     </div>
                 </div>

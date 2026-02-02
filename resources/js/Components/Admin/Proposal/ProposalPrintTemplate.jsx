@@ -30,7 +30,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
     ];
 
     return (
-        <div className="proposal-print-wrapper bg-white text-[#0f172a] font-sans flex flex-col items-stretch">
+        <div className="proposal-print-wrapper bg-white text-[#0f172a] font-sans flex flex-col h-fit">
             <style>
                 {`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Outfit:wght@400;600;900&display=swap');
@@ -340,6 +340,10 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     </div>
                 </div>
             ))}
+
+            <div style={{ height: '80px', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', color: '#cbd5e1', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '2px', borderTop: '1px solid #e2e8f0' }}>
+                End of Strategic Document / DNB Agency
+            </div>
         </div>
     );
 };
