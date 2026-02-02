@@ -308,7 +308,6 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     height: 297mm;
                     display: flex; flex-direction: column; align-items: center; justify-content: center;
                     text-align: center; background: #0f172a; color: #fff; 
-                    margin-left: -20mm; margin-top: -30mm;
                     padding: 25mm;
                     box-sizing: border-box !important;
                 }
@@ -324,7 +323,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 `}
             </style>
 
-            {/* PAGE: COVER */}
+            {/* PAGE: COVER (Page 1) */}
             <div className="cover-page">
                 <div className="cover-grid" />
                 <div className="cover-accent" />
@@ -343,7 +342,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 </div>
             </div>
 
-            {/* PAGE: CHAPTERS */}
+            {/* PAGES: CHAPTERS 1-11 (Page 2-12) */}
             {sections.map((section) => (
                 <div key={section.id} className="internal-page">
                     <div className="bg-number">{String(section.id).padStart(2, '0')}</div>
@@ -518,17 +517,6 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                                     </div>
                                 </div>
                             </div>
-                        ) : section.id === 11 ? (
-                            <div className="closing-hero">
-                                <div className="closing-ty">THANK YOU.</div>
-                                <div className="markdown-content" style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: '16pt', maxWidth: '80%' }}>
-                                    <ReactMarkdown>{section.content}</ReactMarkdown>
-                                </div>
-                                <div style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.1)', width: '300px' }}>
-                                    <p style={{ fontWeight: 900, fontSize: '14px', letterSpacing: '2px' }}>{agencyName.toUpperCase()}</p>
-                                    <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: 5 }}>Your Strategic Digital Partner</p>
-                                </div>
-                            </div>
                         ) : (
                             <div className="markdown-content">
                                 <ReactMarkdown>{section.content}</ReactMarkdown>
@@ -543,6 +531,17 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                 </div>
             ))}
 
+            {/* PAGE 13: STANDALONE CLOSING HERO */}
+            <div className="closing-hero">
+                <div className="closing-ty">THANK YOU.</div>
+                <div className="markdown-content" style={{ color: 'rgba(255,255,255,0.7)', textAlign: 'center', fontSize: '16pt', maxWidth: '80%' }}>
+                    Kami percaya kerjasama ini akan membawa dampak transformasi digital yang signifikan bagi bisnis anda.
+                </div>
+                <div style={{ marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.1)', width: '300px' }}>
+                    <p style={{ fontWeight: 900, fontSize: '14px', letterSpacing: '2px' }}>{agencyName.toUpperCase()}</p>
+                    <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)', marginTop: 5 }}>Your Strategic Digital Partner</p>
+                </div>
+            </div>
             <div className="no-print" style={{ height: '30mm', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '8pt', color: '#cbd5e1', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '4pt', borderTop: '1pt solid #e2e8f0' }}>
                 End of Strategic Document / Powered by DNB Agency
             </div>
