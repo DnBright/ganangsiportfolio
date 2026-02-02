@@ -74,11 +74,14 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     overflow: hidden;
                     display: block;
                     width: 100%;
+                    box-sizing: border-box !important;
                 }
 @media print {
     .internal-page {
         height: 297mm !important;
         overflow: hidden !important;
+        page-break-before: always !important;
+        break-before: page !important;
     }
 }
 
@@ -120,9 +123,14 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     max-height: 297mm;
                     background: #0f172a; 
                     overflow: hidden;
-                    page-break-after: always !important;
-                    break-after: page !important;
+                    box-sizing: border-box !important;
                 }
+@media print {
+    .cover-page {
+        page-break-after: always !important;
+        break-after: page !important;
+    }
+}
                 .cover-accent {
                     position: absolute; top: 0; right: 0; width: 65%; height: 100%;
                     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
@@ -251,8 +259,12 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
                 /* LAYOUT: CLOSING (Bab 11) */
                 .closing-hero {
-                    height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
-                    text-align: center; background: #0f172a; color: #fff; margin: -35mm -25mm; padding: 35mm 25mm;
+                    height: 297mm; 
+                    width: 210mm;
+                    display: flex; flex-direction: column; align-items: center; justify-content: center;
+                    text-align: center; background: #0f172a; color: #fff; 
+                    margin: -35mm -25mm; padding: 35mm 25mm;
+                    box-sizing: border-box !important;
                 }
                 .closing-ty { font-family: 'Outfit', sans-serif; font-size: 100px; font-weight: 900; letter-spacing: -5px; line-height: 0.8; margin-bottom: 40px; }
 
@@ -287,7 +299,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
             {/* PAGE: CHAPTERS */}
             {sections.map((section) => (
-                <div key={section.id} className="internal-page page-break">
+                <div key={section.id} className="internal-page">
                     <div className="bg-number">{String(section.id).padStart(2, '0')}</div>
 
                     <div className="internal-header">

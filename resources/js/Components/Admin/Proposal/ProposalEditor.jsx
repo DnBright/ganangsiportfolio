@@ -82,7 +82,11 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     <style>
                         {`
                         @media print {
-                            /* Step 1: Complete Isolation */
+                            /* Step 1: Nuclear Reset */
+                            *, *::before, *::after {
+                                box-sizing: border-box !important;
+                            }
+
                             html, body {
                                 height: auto !important;
                                 overflow: visible !important;
@@ -91,21 +95,20 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                                 visibility: hidden !important;
                             }
 
-                            /* Step 2: Flatten the Modal Container */
+                            /* Step 2: Extract Modal to Root */
                             #premium-proposal-preview {
                                 visibility: visible !important;
-                                position: static !important;
-                                display: block !important;
+                                position: absolute !important;
+                                top: 0 !important;
+                                left: 0 !important;
                                 width: 210mm !important;
                                 height: auto !important;
                                 overflow: visible !important;
+                                display: block !important;
                                 background: white !important;
                             }
 
-                            /* Step 3: Remove UI clutter immediately */
-                            .no-print { display: none !important; visibility: hidden !important; height: 0 !important; margin: 0 !important; padding: 0 !important; }
-
-                            /* Step 4: Dismantle centering wrappers */
+                            /* Step 3: Dissolve ALL non-essential containers */
                             #premium-proposal-preview > div {
                                 display: block !important;
                                 width: 100% !important;
@@ -115,17 +118,25 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                                 overflow: visible !important;
                             }
 
-                            /* Step 5: Pure Document Flow */
-                            .printable-document-area {
+                            /* Absolute Flow: Neutralize the centering flexbox parents */
+                            #premium-proposal-preview div[class*="flex"] {
+                                display: block !important;
+                            }
+
+                            #premium-proposal-preview .printable-document-area {
                                 display: block !important;
                                 width: 210mm !important;
                                 height: auto !important;
                                 margin: 0 !important;
                                 padding: 0 !important;
+                                border: none !important;
                                 box-shadow: none !important;
                                 transform: none !important;
                                 border-radius: 0 !important;
+                                overflow: visible !important;
                             }
+
+                            .no-print { display: none !important; height: 0 !important; visibility: hidden !important; }
                         }
                         `}
                     </style>
