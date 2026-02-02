@@ -122,8 +122,8 @@ const SaitamaSimulation = ({ onClose }) => {
                                                     <tr className="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-50">
                                                         <th className="pb-4 pl-4 w-12">No</th>
                                                         <th className="pb-4">Nama Siswa</th>
-                                                        <th className="pb-4 text-center">Eval 1</th>
-                                                        <th className="pb-4 text-center">Eval 2</th>
+                                                        <th className="pb-4 text-center">Evaluasi 1</th>
+                                                        <th className="pb-4 text-center">Evaluasi 2</th>
                                                         <th className="pb-4 pr-4 text-right">Tanggal</th>
                                                     </tr>
                                                 </thead>
@@ -135,7 +135,7 @@ const SaitamaSimulation = ({ onClose }) => {
                                                                 <input
                                                                     type="text"
                                                                     placeholder="Ketik nama siswa..."
-                                                                    className="w-full bg-transparent border-none text-sm font-bold placeholder:text-slate-300 focus:ring-0"
+                                                                    className="w-full bg-transparent border-none text-sm font-bold placeholder:text-slate-300 text-slate-700 focus:ring-0"
                                                                     value={student.name}
                                                                     onChange={(e) => handleUpdate(student.id, 'name', e.target.value)}
                                                                 />
@@ -143,7 +143,7 @@ const SaitamaSimulation = ({ onClose }) => {
                                                             <td className="py-2 text-center">
                                                                 <input
                                                                     type="number"
-                                                                    className={`w-12 bg-transparent border-none text-center text-sm font-black focus:ring-0 ${student.eval1 >= 75 ? 'text-green-500' : student.eval1 > 0 ? 'text-red-500' : 'text-slate-300'}`}
+                                                                    className={`w-12 bg-transparent border-none text-center text-sm font-black focus:ring-0 ${student.eval1 >= 75 ? 'text-green-500' : student.eval1 > 0 ? 'text-red-500' : 'text-slate-400'}`}
                                                                     value={student.eval1}
                                                                     onChange={(e) => handleUpdate(student.id, 'eval1', e.target.value)}
                                                                 />
@@ -151,7 +151,7 @@ const SaitamaSimulation = ({ onClose }) => {
                                                             <td className="py-2 text-center">
                                                                 <input
                                                                     type="number"
-                                                                    className={`w-12 bg-transparent border-none text-center text-sm font-black focus:ring-0 ${student.eval2 >= 75 ? 'text-green-500' : student.eval2 > 0 ? 'text-red-500' : 'text-slate-300'}`}
+                                                                    className={`w-12 bg-transparent border-none text-center text-sm font-black focus:ring-0 ${student.eval2 >= 75 ? 'text-green-500' : student.eval2 > 0 ? 'text-red-500' : 'text-slate-400'}`}
                                                                     value={student.eval2}
                                                                     onChange={(e) => handleUpdate(student.id, 'eval2', e.target.value)}
                                                                 />
