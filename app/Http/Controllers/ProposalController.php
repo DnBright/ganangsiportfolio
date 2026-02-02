@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Proposal;
 use App\Services\GeminiService;
-use Barryvdh\DomPDF\Facade\Pdf;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -128,15 +128,15 @@ class ProposalController extends Controller
     {
         try {
             // 1. Diagnosis: Check if class exists
-            if (!class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
+            if (!class_exists('Barryvdh\\DomPDF\\ServiceProvider')) {
                 throw new \Exception('Class Barryvdh\DomPDF\ServiceProvider not found. Vendor dependency missing.');
             }
 
             // 2. Diagnosis: Check if service is bound
             if (!app()->bound('dompdf.wrapper')) {
                 // Try manual binding if missing
-                if (class_exists(\Barryvdh\DomPDF\ServiceProvider::class)) {
-                    app()->register(\Barryvdh\DomPDF\ServiceProvider::class);
+                if (class_exists('Barryvdh\\DomPDF\\ServiceProvider')) {
+                    app()->register('Barryvdh\\DomPDF\\ServiceProvider');
                 } else {
                     throw new \Exception('Service dompdf.wrapper not bound and provider missing.');
                 }
@@ -166,7 +166,7 @@ class ProposalController extends Controller
                     'message' => $e->getMessage(),
                     'file' => $e->getFile(),
                     'line' => $e->getLine(),
-                    'provider_exists' => class_exists(\Barryvdh\DomPDF\ServiceProvider::class),
+                    'provider_exists' => class_exists('Barryvdh\\DomPDF\\ServiceProvider'),
                     'vendor_path' => base_path('vendor/barryvdh/laravel-dompdf'),
                     'is_vendor_dir_exist' => is_dir(base_path('vendor/barryvdh/laravel-dompdf'))
                 ]
