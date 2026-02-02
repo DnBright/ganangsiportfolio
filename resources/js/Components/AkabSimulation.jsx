@@ -10,9 +10,9 @@ const AkabSimulation = ({ onClose }) => {
         container: containerRef
     });
 
-    const heroY = useTransform(scrollYProgress, [0, 0.3], [0, 200]);
-    const capacityY = useTransform(scrollYProgress, [0.4, 0.7], [-50, 50]);
-    const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+    const heroY = useTransform(scrollYProgress, [0, 0.4], ["0%", "50%"]);
+    const capacityY = useTransform(scrollYProgress, [0.3, 0.8], ["-15%", "15%"]);
+    const opacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(containerRef.current.scrollTop > 50);
@@ -66,7 +66,7 @@ const AkabSimulation = ({ onClose }) => {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, root: containerRef }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="max-w-7xl mx-auto relative z-10 text-center"
                     >
@@ -112,7 +112,7 @@ const AkabSimulation = ({ onClose }) => {
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
+                            viewport={{ once: true, root: containerRef, margin: "-100px" }}
                             transition={{ duration: 0.8 }}
                             className="relative"
                         >
@@ -129,7 +129,7 @@ const AkabSimulation = ({ onClose }) => {
                         <motion.div
                             initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
+                            viewport={{ once: true, root: containerRef, margin: "-100px" }}
                             transition={{ duration: 0.8, delay: 0.2 }}
                         >
                             <h2 className="text-3xl font-black text-slate-900 mb-6">Mitra Terpercaya Agribisnis Indonesia</h2>
@@ -166,7 +166,7 @@ const AkabSimulation = ({ onClose }) => {
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, root: containerRef }}
                             className="text-center mb-16"
                         >
                             <h2 className="text-3xl font-black text-slate-900 mb-4">Katalog Bibit Unggul</h2>
@@ -186,7 +186,7 @@ const AkabSimulation = ({ onClose }) => {
                                     key={i}
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
+                                    viewport={{ once: true, root: containerRef }}
                                     transition={{ duration: 0.5, delay: i * 0.1 }}
                                     className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow border border-slate-100 group"
                                 >
@@ -289,7 +289,7 @@ const AkabSimulation = ({ onClose }) => {
                                     key={i}
                                     initial={{ opacity: 0, scale: 0.8 }}
                                     whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
+                                    viewport={{ once: true, root: containerRef }}
                                     transition={{ duration: 0.5, delay: i * 0.1 }}
                                     className="flex flex-col items-center gap-4 bg-white"
                                 >
