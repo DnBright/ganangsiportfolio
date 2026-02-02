@@ -82,37 +82,43 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     <style>
                         {`
                         @media print {
-                            /* ULTIMATE PRINT LOCK: Hide absolutely everything first */
-                            body * { visibility: hidden !important; display: none !important; }
-
-                            /* UNLOCK ONLY the Preview Modal and the Proposal Content */
-                            #premium-proposal-preview, 
-                            #premium-proposal-preview .printable-document-area,
-                            #premium-proposal-preview .printable-document-area * {
-                                visibility: visible !important;
-                                display: block !important;
+                            /* Step 1: Hide the entire website content from the print engine */
+                            body {
+                                visibility: hidden !important;
+                                background: white !important;
+                                height: auto !important;
                             }
 
+                            /* Step 2: Force only the Preview Modal to be visible */
+                            #premium-proposal-preview, 
+                            #premium-proposal-preview * {
+                                visibility: visible !important;
+                            }
+
+                            /* Step 3: Crucial - Change the modal from 'fixed' to 'absolute/static' so it can span multiple pages */
                             #premium-proposal-preview {
                                 position: absolute !important;
                                 top: 0 !important;
                                 left: 0 !important;
                                 width: 100% !important;
                                 height: auto !important;
+                                display: block !important;
                                 background: white !important;
-                                z-index: 1000 !important;
+                                overflow: visible !important;
+                                z-index: 9999 !important;
                             }
 
+                            /* Step 4: Ensure the specific document area is centered and correctly sized */
                             .printable-document-area {
                                 width: 210mm !important;
                                 margin: 0 auto !important;
                                 padding: 0 !important;
                                 box-shadow: none !important;
-                                transform: none !important;
+                                display: block !important;
                             }
 
-                            /* Hide the UI header from print */
-                            .no-print { display: none !important; }
+                            /* Hide UI clutter (Header/Buttons) */
+                            .no-print { display: none !important; visibility: hidden !important; }
                         }
                         `}
                     </style>

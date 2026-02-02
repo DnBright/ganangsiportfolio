@@ -47,19 +47,11 @@ html {
     padding: 0 !important;
   }
 
-  /* Force all parent containers to be invisible and allow flow */
-  div,
-  section,
-  main,
+  /* Joni: Removed broad tag-level print overrides as they break modern Flex/Grid layouts */
   #app,
   #admin-dashboard-root {
     overflow: visible !important;
     height: auto !important;
-    display: block !important;
-    position: static !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
   }
 
   /* Layout Container */
