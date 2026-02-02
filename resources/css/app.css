@@ -101,15 +101,10 @@ html {
     margin-bottom: 15px;
   }
 
-  /* Hidden UI/Chrome Elements explicitly */
-  [class*="backdrop-blur"],
-  [class*="bg-opacity"],
-  [class*="fixed"],
-  [class*="blur-"],
-  [class*="shadow-"] {
+  /* Joni Fix: Removed aggressive blanket hiding of shadow/fixed components during print */
+  /* as it was hiding the entire proposal document. Relying on .no-print instead. */
+  .no-print-essential {
     display: none !important;
-    background: none !important;
-    box-shadow: none !important;
   }
 
   /* Ensure smooth breaks */

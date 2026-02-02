@@ -82,22 +82,37 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     <style>
                         {`
                         @media print {
-                            /* Force the preview modal to be the ONLY thing visible */
-                            #premium-proposal-preview { 
-                                display: block !important; 
+                            /* ULTIMATE PRINT LOCK: Hide absolutely everything first */
+                            body * { visibility: hidden !important; display: none !important; }
+
+                            /* UNLOCK ONLY the Preview Modal and the Proposal Content */
+                            #premium-proposal-preview, 
+                            #premium-proposal-preview .printable-document-area,
+                            #premium-proposal-preview .printable-document-area * {
+                                visibility: visible !important;
+                                display: block !important;
+                            }
+
+                            #premium-proposal-preview {
                                 position: absolute !important;
                                 top: 0 !important;
                                 left: 0 !important;
                                 width: 100% !important;
                                 height: auto !important;
                                 background: white !important;
-                                padding: 0 !important;
-                                margin: 0 !important;
-                                z-index: 99999 !important;
-                                overflow: visible !important;
+                                z-index: 1000 !important;
                             }
-                            /* Hide all UI elements that use 'fixed' or 'shadow' from global app.css */
-                            .no-print, nav, aside, button, header { display: none !important; }
+
+                            .printable-document-area {
+                                width: 210mm !important;
+                                margin: 0 auto !important;
+                                padding: 0 !important;
+                                box-shadow: none !important;
+                                transform: none !important;
+                            }
+
+                            /* Hide the UI header from print */
+                            .no-print { display: none !important; }
                         }
                         `}
                     </style>
@@ -131,7 +146,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
                     {/* Content Section: Simple block flow for maximum scroll stability */}
                     <div className="w-full flex flex-col items-center py-20 px-4">
-                        <div className="shadow-[0_0_100px_rgba(0,0,0,0.8)] bg-white shrink-0 mb-40"
+                        <div className="printable-document-area shadow-[0_0_100px_rgba(0,0,0,0.8)] bg-white shrink-0 mb-40"
                             style={{
                                 width: '210mm',
                                 minHeight: '297mm',
