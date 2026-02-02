@@ -85,7 +85,7 @@ const Solutions = () => {
                                 <span className="text-xs font-mono text-white/60 uppercase tracking-widest">Simulasi Langsung</span>
                             </div>
                             <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-4 max-w-xl leading-[0.9]">
-                                Coba Sendiri <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Sistem Kami</span>
+                                Coba Sendiri <span className="text-white underline underline-offset-4 decoration-red-500 decoration-4">Sistem Kami</span>
                             </h2>
                             <p className="text-white/60 max-w-lg leading-relaxed text-sm md:text-base">
                                 Tidak perlu menebak. Rasakan langsung performa dan kualitas sistem digital yang kami bangun.
