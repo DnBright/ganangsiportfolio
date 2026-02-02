@@ -271,18 +271,14 @@
 </head>
 <body>
     @php
-        // IMAGE LOADING HELPER (Base64)
-        function getBase64Image($path) {
-            if (file_exists($path)) {
-                $type = pathinfo($path, PATHINFO_EXTENSION);
-                $data = file_get_contents($path);
-                return 'data:image/' . $type . ';base64,' . base64_encode($data);
-            }
-            return null;
-        }
-        
         $logoPathLocal = public_path('images/logo-dnb.png');
-        $logoBase64 = getBase64Image($logoPathLocal);
+        $logoBase64 = null;
+        
+        if (file_exists($logoPathLocal)) {
+            $type = pathinfo($logoPathLocal, PATHINFO_EXTENSION);
+            $data = file_get_contents($logoPathLocal);
+            $logoBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
     @endphp
 
     <!-- 1. COVER PAGE -->
