@@ -47,7 +47,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         print-color-adjust: exact !important;
                     }
                     
-                    /* THE ANCESTOR NEUTRALIZER: Strip EVERYTHING away */
+                    /* THE ANCESTOR NEUTRALIZER: Strip layout barriers, PRESERVE visuals */
                     html, body, #app, [class*="Inertia"], [class*="modal"], 
                     [class*="content"], #premium-proposal-preview,
                     #premium-proposal-preview > div {
@@ -61,8 +61,8 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         min-height: auto !important;
                         overflow: visible !important;
                         transform: none !important;
-                        background: none !important;
                         box-shadow: none !important;
+                        /* background: none !important; <-- REMOVED: This was killing the dark theme */
                     }
 
                     /* NUCLEAR HIDE: Anything that isn't the proposal or a critical ancestor */
@@ -78,10 +78,12 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         top: 0 !important;
                         left: 0 !important;
                         width: 210mm !important;
-                        background: #fff !important;
+                        background: #0f172a !important; /* Force the dark theme baseline */
                         margin: 0 !important;
                         padding: 0 !important;
                         z-index: 9999999 !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                     }
 
                     /* THE PAGES: The physical A4 blocks */
@@ -97,7 +99,6 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         break-inside: avoid !important;
                         box-sizing: border-box !important;
                         border: none !important;
-                        background-color: white !important;
                         -webkit-print-color-adjust: exact !important;
                         print-color-adjust: exact !important;
                     }
@@ -107,11 +108,13 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         height: auto !important;
                         overflow: visible !important;
                         padding: 30mm 20mm !important;
+                        background: #fff !important; /* Internal pages remain light */
                     }
 
                     .cover-page, .closing-hero {
                         height: 297mm !important;
                         overflow: hidden !important;
+                        background: #0f172a !important; /* FORCE DARK BACKGROUND */
                     }
                 }
 

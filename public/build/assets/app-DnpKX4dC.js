@@ -43,7 +43,7 @@ Error generating stack: `+f.message+`
                         print-color-adjust: exact !important;
                     }
                     
-                    /* THE ANCESTOR NEUTRALIZER: Strip EVERYTHING away */
+                    /* THE ANCESTOR NEUTRALIZER: Strip layout barriers, PRESERVE visuals */
                     html, body, #app, [class*="Inertia"], [class*="modal"], 
                     [class*="content"], #premium-proposal-preview,
                     #premium-proposal-preview > div {
@@ -57,8 +57,8 @@ Error generating stack: `+f.message+`
                         min-height: auto !important;
                         overflow: visible !important;
                         transform: none !important;
-                        background: none !important;
                         box-shadow: none !important;
+                        /* background: none !important; <-- REMOVED: This was killing the dark theme */
                     }
 
                     /* NUCLEAR HIDE: Anything that isn't the proposal or a critical ancestor */
@@ -74,10 +74,12 @@ Error generating stack: `+f.message+`
                         top: 0 !important;
                         left: 0 !important;
                         width: 210mm !important;
-                        background: #fff !important;
+                        background: #0f172a !important; /* Force the dark theme baseline */
                         margin: 0 !important;
                         padding: 0 !important;
                         z-index: 9999999 !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
                     }
 
                     /* THE PAGES: The physical A4 blocks */
@@ -93,7 +95,6 @@ Error generating stack: `+f.message+`
                         break-inside: avoid !important;
                         box-sizing: border-box !important;
                         border: none !important;
-                        background-color: white !important;
                         -webkit-print-color-adjust: exact !important;
                         print-color-adjust: exact !important;
                     }
@@ -103,11 +104,13 @@ Error generating stack: `+f.message+`
                         height: auto !important;
                         overflow: visible !important;
                         padding: 30mm 20mm !important;
+                        background: #fff !important; /* Internal pages remain light */
                     }
 
                     .cover-page, .closing-hero {
                         height: 297mm !important;
                         overflow: hidden !important;
+                        background: #0f172a !important; /* FORCE DARK BACKGROUND */
                     }
                 }
 
