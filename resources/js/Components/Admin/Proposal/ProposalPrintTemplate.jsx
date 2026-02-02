@@ -42,6 +42,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     body {
                         -webkit-print-color-adjust: exact;
                         margin: 0;
+                        background: #fff;
                     }
                     .page-break {
                         page-break-before: always;
@@ -53,6 +54,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     margin: 0 auto;
                     color: #1a202c;
                     background: #fff;
+                    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
                 }
 
                 /* REPLICATED COVER PAGE STYLING */
@@ -73,15 +75,15 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: #111827; /* Dark grayish-navy */
-                    clip-path: polygon(0 0, 100% 0, 25% 100%, 0% 100%);
+                    background: #0f172a; /* Slate 900 */
+                    clip-path: polygon(0 0, 100% 0, 30% 100%, 0% 100%);
                     z-index: 1;
                 }
 
                 .cover-content {
                     position: relative;
                     z-index: 10;
-                    padding: 40px 60px;
+                    padding: 50px 70px;
                     display: flex;
                     flex-direction: column;
                     height: 100%;
@@ -89,83 +91,87 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
                 /* Logo Section */
                 .logo-section {
-                    margin-bottom: 30px;
+                    margin-bottom: 40px;
                 }
                 .logo-icon {
-                    width: 50px;
-                    height: 50px;
-                    margin-bottom: 10px;
+                    width: 60px;
+                    height: 60px;
+                    margin-bottom: 12px;
                 }
                 .logo-text-large {
                     color: #fff;
-                    font-size: 24px;
-                    font-weight: 800;
+                    font-size: 28px;
+                    font-weight: 900;
                     line-height: 1;
-                    margin-bottom: 2px;
+                    margin-bottom: 4px;
+                    letter-spacing: -1px;
                 }
                 .logo-subtext {
-                    color: rgba(255,255,255,0.6);
-                    font-size: 10px;
-                    font-weight: 600;
-                    letter-spacing: 0.5px;
+                    color: rgba(255,255,255,0.5);
+                    font-size: 11px;
+                    font-weight: 700;
+                    letter-spacing: 1px;
                 }
 
                 /* Technology Illustration */
                 .tech-illustration {
                     position: relative;
                     width: 100%;
-                    height: 250px;
-                    margin-top: 20px;
-                    margin-bottom: 40px;
+                    height: 280px;
+                    margin-top: 30px;
+                    margin-bottom: 50px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                 }
                 .tech-image {
-                    width: 80%;
-                    max-width: 400px;
-                    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.4));
+                    width: 85%;
+                    max-width: 450px;
+                    filter: saturate(0) brightness(1.5);
+                    opacity: 0.2;
                 }
 
                 /* Main Heading Area */
                 .heading-area {
-                    margin-top: 20px;
+                    margin-top: auto;
                     margin-bottom: 40px;
+                    max-width: 80%;
                 }
                 .heading-main {
-                    font-size: 40px;
-                    font-weight: 900;
-                    line-height: 1.1;
+                    font-size: 48px;
+                    font-weight: 950;
+                    line-height: 1;
                     color: #fff;
                     text-transform: uppercase;
-                    letter-spacing: -1px;
+                    letter-spacing: -2px;
                 }
 
                 .client-info-area {
                     margin-bottom: 30px;
                 }
                 .client-name-display {
-                    font-size: 32px;
-                    font-weight: 800;
+                    font-size: 36px;
+                    font-weight: 900;
                     color: #fff;
                     text-transform: uppercase;
-                    margin-bottom: 15px;
+                    margin-bottom: 20px;
                     position: relative;
+                    letter-spacing: -1px;
                 }
                 .client-name-display::after {
                     content: '';
                     display: block;
-                    width: 100%;
-                    height: 1.5px;
-                    background: rgba(255,255,255,0.3);
-                    margin-top: 15px;
+                    width: 120px;
+                    height: 3px;
+                    background: #3b82f6; /* Bright Blue accent */
+                    margin-top: 20px;
                 }
 
                 .problem-statement-display {
-                    font-size: 16px;
+                    font-size: 18px;
                     font-weight: 700;
-                    color: #fff;
-                    opacity: 0.9;
+                    color: rgba(255,255,255,0.8);
+                    letter-spacing: 0.5px;
                 }
 
                 /* Metadata Footer */
@@ -175,70 +181,87 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     flex-direction: column;
                     align-items: flex-end;
                     text-align: right;
-                    color: #4b5563;
-                    font-size: 12px;
-                    font-weight: 600;
-                    line-height: 1.6;
+                    color: #64748b;
+                    font-size: 11px;
+                    font-weight: 700;
+                    line-height: 1.8;
+                    letter-spacing: 1px;
                 }
                 .meta-item span {
-                    font-weight: 800;
-                    color: #1f2937;
+                    font-weight: 900;
+                    color: #1e293b;
+                    margin-left: 5px;
                 }
 
                 /* INTERNAL PAGE STYLING */
                 .internal-page {
                     position: relative;
                     min-height: 297mm;
-                    padding: 30mm 20mm;
+                    padding: 35mm 25mm;
                     background: white;
                 }
                 .internal-header {
                     position: absolute;
                     top: 15mm;
-                    left: 20mm;
-                    right: 20mm;
+                    left: 25mm;
+                    right: 25mm;
                     display: flex;
                     justify-content: space-between;
-                    font-size: 9px;
-                    font-weight: 800;
-                    color: #94a3b8;
-                    border-bottom: 1.5px solid #f1f5f9;
-                    padding-bottom: 5px;
+                    font-size: 10px;
+                    font-weight: 900;
+                    color: #cbd5e1;
+                    border-bottom: 2px solid #f8fafc;
+                    padding-bottom: 8px;
                     text-transform: uppercase;
+                    letter-spacing: 1.5px;
                 }
                 .section-title-wrap {
-                    margin-bottom: 30px;
-                    border-left: 8px solid #111827;
-                    padding-left: 20px;
+                    margin-bottom: 40px;
+                    border-bottom: 4px solid #0f172a;
+                    padding-bottom: 15px;
+                    display: inline-block;
+                    min-width: 100px;
                 }
                 .section-title-wrap h2 {
-                    font-size: 24px;
-                    font-weight: 900;
-                    color: #111827;
+                    font-size: 28px;
+                    font-weight: 950;
+                    color: #0f172a;
                     text-transform: uppercase;
                     margin: 0;
+                    letter-spacing: -0.5px;
                 }
                 .markdown-content {
-                    font-size: 11pt;
-                    line-height: 1.7;
-                    color: #374151;
+                    font-size: 11.5pt;
+                    line-height: 1.8;
+                    color: #334155;
                     text-align: justify;
                 }
-                .markdown-content strong { color: #000; font-weight: 800; }
-                .markdown-content ul { list-style-type: disc; padding-left: 20px; margin-bottom: 15px; }
-                .markdown-content li { margin-bottom: 8px; }
+                .markdown-content strong { color: #0f172a; font-weight: 850; }
+                .markdown-content ul { list-style-type: square; padding-left: 25px; margin-bottom: 20px; }
+                .markdown-content li { margin-bottom: 10px; }
                 
+                .markdown-content h3 {
+                    font-size: 16pt;
+                    font-weight: 900;
+                    color: #0f172a;
+                    margin-top: 25px;
+                    margin-bottom: 15px;
+                    text-transform: uppercase;
+                    letter-spacing: -0.5px;
+                }
+
                 .internal-footer {
                     position: absolute;
                     bottom: 15mm;
-                    left: 20mm;
-                    right: 20mm;
+                    left: 25mm;
+                    right: 25mm;
                     display: flex;
                     justify-content: space-between;
-                    font-size: 9px;
-                    font-weight: 800;
-                    color: #cbd5e1;
+                    font-size: 10px;
+                    font-weight: 900;
+                    color: #e2e8f0;
                     text-transform: uppercase;
+                    letter-spacing: 1px;
                 }
                 `}
             </style>
