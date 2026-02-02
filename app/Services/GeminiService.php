@@ -61,27 +61,10 @@ class GeminiService
                     $decoded = json_decode($text, true);
                     
                     if (is_array($decoded)) {
-                        // Ensure all elements are strings to prevent React crash (Error #31)
-                        return array_map(function($val) {
-                            return is_array($val) ? json_encode($val) : (string)$val;
-                        }, $decoded);
+                        return $this->mapOutputToFrontend($decoded, $data);
                     }
 
-                    return [
-                        'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
-                        'executive_summary' => (string)$text,
-                        'problem_analysis' => '',
-                        'project_objectives' => '',
-                        'solutions' => '',
-                        'scope_of_work' => '',
-                        'system_walkthrough' => '',
-                        'timeline' => '',
-                        'investment' => '',
-                        'roi_impact' => '',
-                        'value_add' => '',
-                        'closing_cta' => '',
-                        'pricing' => isset($data['total_value']) ? number_format($data['total_value'], 0, ',', '.') : ''
-                    ];
+                    return $this->getEmptyProposal($data, $text);
                 }
 
                 $lastError = $response->json()['error']['message'] ?? 'Unknown error';
@@ -93,6 +76,93 @@ class GeminiService
             }
         }
 
+        return $this->getErrorProposal($lastError);
+    }
+
+    protected function mapOutputToFrontend($decoded, $data)
+    {
+        // helper to convert array to markdown list
+        $toList = function($arr) {
+            if (!is_array($arr)) return (string)$arr;
+            return implode("\n", array_map(fn($item) => "- " . $item, $arr));
+        };
+
+        // helper for solutions
+        $toSolutions = function($solutions) {
+            if (!is_array($solutions)) return (string)$solutions;
+            $out = "";
+            foreach ($solutions as $s) {
+                $out .= "### " . ($s['module_name'] ?? 'Modul') . "\n";
+                $out .= "**Masalah Teratasi:** " . ($s['problem_solved'] ?? '-') . "\n";
+                $out .= "**Manfaat Bisnis:** " . ($s['business_benefit'] ?? '-') . "\n\n";
+            }
+            return $out . "Solusi dapat dikembangkan bertahap sesuai kebutuhan.";
+        };
+
+        // helper for timeline
+        $toTimeline = function($timeline) {
+            if (!is_array($timeline)) return (string)$timeline;
+            $out = "";
+            foreach ($timeline as $t) {
+                $out .= "- **" . ($t['phase'] ?? 'Fase') . "**: " . ($t['duration'] ?? '-') . "\n";
+            }
+            return $out;
+        };
+
+        // investment mapping (using existing logic for now since it's missing in new prompt)
+        $total = $data['total_value'] ?? 0;
+        $type = $data['project_type'] ?? 'Website Bisnis';
+        $duration = $data['contract_duration'] ?? 6;
+        $setupPct = ($type == 'Landing Page' ? 0.4 : ($type == 'Website Bisnis' ? 0.3 : ($type == 'Dashboard / Sistem' ? 0.2 : 0.15)));
+        $setupCost = number_format($total * $setupPct, 0, ',', '.');
+        $maintMonthly = number_format(($total * (1 - $setupPct)) / $duration, 0, ',', '.');
+        $totalFmt = number_format($total, 0, ',', '.');
+
+        $investment = "Sajikan rincian berikut dalam narasi profesional:\n";
+        $investment .= "* Setup Awal (Development): IDR $setupCost (Sekali bayar).\n";
+        $investment .= "* Maintenance & Support: IDR $maintMonthly / bulan selama $duration bulan.\n";
+        $investment .= "* Total Nilai Kontrak: IDR $totalFmt.\n\n";
+        $investment .= "Estimasi investasi ini bersifat indikatif dan dapat disesuaikan berdasarkan kebutuhan final serta hasil diskusi lanjutan.";
+
+        return [
+            'title' => $decoded['cover']['title'] ?? ('Proposal ' . ($data['client_name'] ?? 'Klien')),
+            'executive_summary' => $decoded['executive_summary']['content'] ?? '',
+            'problem_analysis' => $toList($decoded['background_problem']['points'] ?? []),
+            'project_objectives' => $toList($decoded['project_goals']['goals'] ?? []),
+            'solutions' => $toSolutions($decoded['solutions'] ?? []),
+            'scope_of_work' => $toList($decoded['scope_of_work']['deliverables'] ?? []),
+            'system_walkthrough' => $decoded['system_flow']['description'] ?? '',
+            'timeline' => $toTimeline($decoded['timeline'] ?? []),
+            'investment' => $investment,
+            'roi_impact' => $toList($decoded['impact_roi']['impact_points'] ?? []),
+            'value_add' => $toList($decoded['value_proposition']['points'] ?? []),
+            'closing_cta' => $decoded['closing']['call_to_action'] ?? '',
+            'pricing' => $totalFmt,
+            'raw_json' => $decoded // Keep original for future use
+        ];
+    }
+
+    protected function getEmptyProposal($data, $text)
+    {
+        return [
+            'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
+            'executive_summary' => (string)$text,
+            'problem_analysis' => '',
+            'project_objectives' => '',
+            'solutions' => '',
+            'scope_of_work' => '',
+            'system_walkthrough' => '',
+            'timeline' => '',
+            'investment' => '',
+            'roi_impact' => '',
+            'value_add' => '',
+            'closing_cta' => '',
+            'pricing' => isset($data['total_value']) ? number_format($data['total_value'], 0, ',', '.') : ''
+        ];
+    }
+
+    protected function getErrorProposal($lastError)
+    {
         return [
             'title' => 'Error Generation',
             'executive_summary' => "Gemini API Error (Confirmed models failed): " . $lastError,
@@ -114,98 +184,95 @@ class GeminiService
     {
         $client = $data['client_name'] ?? 'Klien';
         $industry = $data['industry'] ?? 'Industri Umum';
-        $website = $data['target_website'] ?? 'Tidak disebutkan';
         $problem = $data['problem_statement'] ?? 'Tidak disebutkan';
         $type = $data['project_type'] ?? 'Website Bisnis';
         $total = $data['total_value'] ?? 0;
         $duration = $data['contract_duration'] ?? 6;
         $deadline = $data['deadline'] ?? '14 Hari';
 
-        // Hitung rincian biaya untuk instruksi prompt
-        $setupPct = ($type == 'Landing Page' ? 0.4 : ($type == 'Website Bisnis' ? 0.3 : ($type == 'Dashboard / Sistem' ? 0.2 : 0.15)));
-        $maintPct = 1 - $setupPct;
-        
-        $setupCost = number_format($total * $setupPct, 0, ',', '.');
-        $maintMonthly = number_format(($total * $maintPct) / $duration, 0, ',', '.');
-        $totalFmt = number_format($total, 0, ',', '.');
+        return '🧠 SYSTEM PROMPT
+AI Agent – Proposal Visual Generator
 
-        return 'Anda adalah sistem AI Proposal Generator milik agency "Dark and Bright".
-        Tugas Anda adalah menghasilkan ISI PROPOSAL BISNIS PROFESIONAL yang:
-        - Berfokus pada kebutuhan dan masalah klien
-        - Menggunakan bahasa Indonesia formal dan profesional
-        - Mudah dipahami oleh pemilik usaha dan manajemen
-        - Tidak berlebihan, tidak overclaim, dan tidak terlalu teknis
-        - Melindungi kepentingan bisnis Dark and Bright secara wajar
+Anda adalah AI Agent internal Dark and Bright yang bertugas menghasilkan PROPOSAL BISNIS DALAM BENTUK HALAMAN WEB SIAP EXPORT PDF.
+PERAN ANDA BUKAN DESAINER BEBAS, tetapi PENGISI KONTEN TERSTRUKTUR ke dalam TEMPLATE VISUAL YANG SUDAH DITENTUKAN.
 
-        DATA PROYEK:
-        Klien: ' . $client . '
-        Industri: ' . $industry . '
-        Masalah: ' . $problem . '
-        Tipe: ' . $type . '
-        Nilai: IDR ' . $totalFmt . '
-        Durasi: ' . $duration . ' Bulan
-        Timeline: ' . $deadline . '
+1️⃣ ATURAN UTAMA (WAJIB DIPATUHI)
+- Proposal HARUS berbentuk struktur halaman web (HTML logic / section-based)
+- SETIAP BAB = 1 SECTION TERPISAH
+- TIDAK BOLEH mengatur warna, font, atau layout kompleks
+- TIDAK BOLEH menulis deskripsi desain
+- Fokus pada ISI & STRUKTUR KONTEN
 
-        IKUTI STRUKTUR WAJIB BERIKUT (11 BAB):
+📌 AI tidak mendesain, AI mengisi.
 
-        1. Ringkasan Eksekutif (Key: executive_summary)
-        - Masalah utama klien
-        - Solusi inti Dark and Bright
-        - Dampak bisnis (focus: control, efisiensi). Jangan tonjolkan durasi ' . $deadline . ' sebagai value utama.
+2️⃣ STRUKTUR OUTPUT (INI WAJIB)
+Output HARUS mengikuti format JSON berikut:
+{
+  "cover": {
+    "title": "PROPOSAL PENGEMBANGAN ...",
+    "client_name": "' . $client . '",
+    "year": "' . date('Y') . '"
+  },
+  "executive_summary": {
+    "content": "..."
+  },
+  "background_problem": {
+    "points": ["point 1", "point 2"]
+  },
+  "project_goals": {
+    "goals": ["goal 1", "goal 2"]
+  },
+  "solutions": [
+    {
+      "module_name": "...",
+      "problem_solved": "...",
+      "business_benefit": "..."
+    }
+  ],
+  "scope_of_work": {
+    "deliverables": ["deliverable 1", "deliverable 2"]
+  },
+  "system_flow": {
+    "description": "..."
+  },
+  "timeline": [
+    {
+      "phase": "...",
+      "duration": "..."
+    }
+  ],
+  "impact_roi": {
+    "impact_points": ["point 1", "point 2"]
+  },
+  "value_proposition": {
+    "points": ["point 1", "point 2"]
+  },
+  "closing": {
+    "call_to_action": "..."
+  }
+}
 
-        2. Latar Belakang & Masalah Klien (Key: problem_analysis)
-        - Inefisiensi operasional / Ketergantungan manual
-        - IMPLIKASI BISNIS: Risiko/kerugian jika tidak selesai.
+📌 DILARANG keluar dari struktur ini.
 
-        3. Tujuan Proyek (Key: project_objectives)
-        - Poin terukur. Gunakan kata "Estimasi", "Potensi", "Diharapkan". JANGAN JANJI PASTI.
+3️⃣ LOGIKA VISUAL YANG HARUS DIPAHAMI AI
+- Setiap key di atas = 1 halaman / section visual
+- Panjang konten harus proporsional untuk 1 halaman proposal
+- Gunakan bahasa bisnis profesional Indonesia
+- Tidak terlalu panjang dan tidak terlalu abstrak
 
-        4. Solusi yang Ditawarkan (Key: solutions)
-        - Modul jelas.
-        - Tutup dengan: "Solusi dapat dikembangkan bertahap sesuai kebutuhan."
+4️⃣ GAYA BAHASA (WAJIB)
+- Bahasa Indonesia formal-profesional
+- Fokus ke klien, tidak menjual berlebihan, tidak teknis berlebihan.
 
-        5. Ruang Lingkup Pekerjaan (Key: scope_of_work)
-        - Daftar output konkret.
-        - WAJIB TULIS: "Ruang lingkup pekerjaan dibatasi pada fitur dan modul yang disepakati dalam proposal ini. Permintaan di luar ruang lingkup akan dibahas dan disepakati secara terpisah."
+5️⃣ DATA MASUKAN:
+Klien: ' . $client . '
+Industri: ' . $industry . '
+Masalah Utama: ' . $problem . '
+Tipe Proyek: ' . $type . '
+Target Selesai: ' . $deadline . '
+Nilai Investasi: IDR ' . number_format($total, 0, ',', '.') . '
 
-        6. Alur Sistem & Cara Kerja (Key: system_walkthrough)
-        - Naratif sisi user & admin. Bahasa sederhana.
-
-        7. Timeline Implementasi (Key: timeline)
-        - Tahapan: Analisis, Desain, Dev, Uji, Launch.
-        - Durasi estimatif ' . $deadline . '. Tambahkan catatan fleksibilitas.
-
-        8. Estimasi Investasi Proyek (Key: investment)
-        - Sajikan rincian berikut dalam narasi profesional:
-          * Setup Awal (Development): IDR ' . $setupCost . ' (Sekali bayar).
-          * Maintenance & Support: IDR ' . $maintMonthly . ' / bulan selama ' . $duration . ' bulan.
-          * Total Nilai Kontrak: IDR ' . $totalFmt . '.
-        - WAJIB TULIS: "Estimasi investasi ini bersifat indikatif dan dapat disesuaikan berdasarkan kebutuhan final serta hasil diskusi lanjutan."
-
-        9. Estimasi Dampak & ROI (Key: roi_impact)
-        - Ilustratif. Jangan janji finansial pasti.
-
-        10. Nilai Tambah Dark and Bright (Key: value_add)
-        - Fokus pendekatan sistem & cara berpikir.
-
-        11. Penutup & Ajakan (Key: closing_cta)
-        - Next step: Meeting/Demo.
-
-        OUTPUT JSON MURNI:
-        {
-          "title": "Proposal Proyek...",
-          "executive_summary": "...",
-          "problem_analysis": "...",
-          "project_objectives": "...",
-          "solutions": "...",
-          "scope_of_work": "...",
-          "system_walkthrough": "...",
-          "timeline": "...",
-          "investment": "...",
-          "roi_impact": "...",
-          "value_add": "...",
-          "closing_cta": "...",
-          "pricing": "' . $totalFmt . '"
-        }';
+Jika data klien tidak lengkap, gunakan asumsi logis bisnis umum.
+Jangan menambahkan disclaimer panjang. Jangan menulis "sebagai AI".';
     }
 }
