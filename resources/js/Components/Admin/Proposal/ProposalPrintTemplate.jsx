@@ -30,7 +30,7 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
     ];
 
     return (
-        <div className="proposal-print-wrapper bg-white text-[#0f172a] font-sans">
+        <div className="proposal-print-wrapper bg-white text-[#0f172a] font-sans pb-[100px] min-h-screen">
             <style>
                 {`
                 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Outfit:wght@400;600;900&display=swap');

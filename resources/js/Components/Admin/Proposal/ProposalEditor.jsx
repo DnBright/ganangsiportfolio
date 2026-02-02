@@ -104,8 +104,13 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                             </button>
                         </div>
                     </div>
-                    <div className="flex-1 overflow-y-auto bg-[#1a1c2e] p-10 flex justify-center custom-scrollbar">
-                        <div className="shadow-[0_0_100px_rgba(0,0,0,0.5)] transform scale-[0.8] origin-top">
+                    <div className="flex-1 overflow-y-auto bg-[#1a1c2e] p-10 custom-scrollbar">
+                        <div className="mx-auto shadow-[0_0_100px_rgba(0,0,0,0.5)] bg-white origin-top"
+                            style={{
+                                width: '210mm',
+                                transform: 'scale(0.8)',
+                                marginBottom: '-15%'
+                            }}>
                             <ProposalPrintTemplate proposal={currentProposalData} />
                         </div>
                     </div>
