@@ -60,24 +60,39 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                 </span>
             </div>
 
-            {/* Scroll Down Indicator */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-3 animate-bounce">
-                <div className="text-center">
-                    <p className="text-xs font-mono uppercase tracking-[0.3em] text-white/60 mb-1">
-                        Scroll Down
-                    </p>
-                    <p className="text-[10px] text-white/40">
-                        untuk melihat portfolio lainnya
-                    </p>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
-                </div>
-                {/* Mouse Scroll Icon */}
-                <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-                    <div className="w-1 h-2 bg-white/60 rounded-full animate-pulse"></div>
+            {/* Scroll Down Indicator - Enhanced */}
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-4">
+                {/* Pulsing Glow Background */}
+                <div className="absolute inset-0 bg-gradient-to-t from-red-500/30 to-transparent blur-2xl animate-pulse"></div>
+
+                {/* Main Content */}
+                <div className="relative flex flex-col items-center gap-3 animate-bounce">
+                    <div className="text-center bg-black/40 backdrop-blur-sm px-6 py-3 rounded-2xl border-2 border-red-500/50 shadow-lg shadow-red-500/20">
+                        <p className="text-sm font-black uppercase tracking-[0.3em] text-white mb-1 drop-shadow-lg">
+                            Scroll Down
+                        </p>
+                        <p className="text-xs text-red-400 font-bold animate-pulse">
+                            untuk melihat portfolio lainnya
+                        </p>
+                    </div>
+
+                    {/* Animated Arrows Stack */}
+                    <div className="flex flex-col -space-y-2">
+                        <svg className="w-8 h-8 text-red-500 animate-bounce" style={{ animationDelay: '0ms' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                        <svg className="w-8 h-8 text-red-400 animate-bounce" style={{ animationDelay: '150ms' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                        <svg className="w-8 h-8 text-red-300 animate-bounce" style={{ animationDelay: '300ms' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </div>
+
+                    {/* Enhanced Mouse Scroll Icon */}
+                    <div className="w-8 h-12 border-3 border-red-500 rounded-full flex justify-center pt-2 bg-black/60 shadow-lg shadow-red-500/30 animate-pulse">
+                        <div className="w-1.5 h-3 bg-red-500 rounded-full animate-bounce"></div>
+                    </div>
                 </div>
             </div>
 
