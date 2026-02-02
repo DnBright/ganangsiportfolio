@@ -143,17 +143,29 @@ const SaitamaSimulation = ({ onClose }) => {
                                                             <td className="py-2 text-center">
                                                                 <input
                                                                     type="number"
-                                                                    className={`w-12 bg-transparent border-none text-center text-sm font-black focus:ring-0 ${student.eval1 >= 75 ? 'text-green-500' : student.eval1 > 0 ? 'text-red-500' : 'text-slate-400'}`}
-                                                                    value={student.eval1}
-                                                                    onChange={(e) => handleUpdate(student.id, 'eval1', e.target.value)}
+                                                                    className={`w-20 bg-transparent border-none text-center text-sm font-black focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${student.eval1 >= 75 ? 'text-green-500' : student.eval1 > 0 ? 'text-red-500' : 'text-slate-400'}`}
+                                                                    value={student.eval1 === 0 && student.eval1 !== '' ? '' : student.eval1}
+                                                                    placeholder="0"
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        if (val === '' || (Number(val) >= 0 && Number(val) <= 100)) {
+                                                                            handleUpdate(student.id, 'eval1', val === '' ? 0 : Number(val));
+                                                                        }
+                                                                    }}
                                                                 />
                                                             </td>
                                                             <td className="py-2 text-center">
                                                                 <input
                                                                     type="number"
-                                                                    className={`w-12 bg-transparent border-none text-center text-sm font-black focus:ring-0 ${student.eval2 >= 75 ? 'text-green-500' : student.eval2 > 0 ? 'text-red-500' : 'text-slate-400'}`}
-                                                                    value={student.eval2}
-                                                                    onChange={(e) => handleUpdate(student.id, 'eval2', e.target.value)}
+                                                                    className={`w-20 bg-transparent border-none text-center text-sm font-black focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${student.eval2 >= 75 ? 'text-green-500' : student.eval2 > 0 ? 'text-red-500' : 'text-slate-400'}`}
+                                                                    value={student.eval2 === 0 && student.eval2 !== '' ? '' : student.eval2}
+                                                                    placeholder="0"
+                                                                    onChange={(e) => {
+                                                                        const val = e.target.value;
+                                                                        if (val === '' || (Number(val) >= 0 && Number(val) <= 100)) {
+                                                                            handleUpdate(student.id, 'eval2', val === '' ? 0 : Number(val));
+                                                                        }
+                                                                    }}
                                                                 />
                                                             </td>
                                                             <td className="py-2 pr-4 text-right">
