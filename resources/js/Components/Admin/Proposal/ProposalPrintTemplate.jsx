@@ -47,53 +47,49 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         print-color-adjust: exact !important;
                     }
                     
-                    /* NUCLEAR ISOLATION: Hide everything by default */
-                    body {
-                        visibility: hidden !important;
-                        background: #fff !important;
-                    }
-
-                    /* Only show the proposal preview and its children */
-                    #premium-proposal-preview,
-                    #premium-proposal-preview * {
+                    /* THE ANCESTOR NEUTRALIZER: Strip EVERYTHING away */
+                    html, body, #app, [class*="Inertia"], [class*="modal"], 
+                    [class*="content"], #premium-proposal-preview,
+                    #premium-proposal-preview > div {
+                        display: block !important;
+                        position: static !important;
                         visibility: visible !important;
-                    }
-
-                    /* Position the preview at the absolute origin 0,0 */
-                    #premium-proposal-preview {
-                        position: absolute !important;
-                        left: 0 !important;
-                        top: 0 !important;
-                        width: 210mm !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        display: block !important;
+                        width: auto !important;
+                        height: auto !important;
+                        min-height: auto !important;
                         overflow: visible !important;
-                        background: #fff !important;
+                        transform: none !important;
+                        background: none !important;
+                        box-shadow: none !important;
                     }
 
-                    /* HIDE UI ELEMENTS EVEN IF VISIBLE */
-                    .no-print, button, nav, aside {
+                    /* NUCLEAR HIDE: Anything that isn't the proposal or a critical ancestor */
+                    nav, aside, footer, .no-print, button, .sticky {
                         display: none !important;
                         visibility: hidden !important;
                     }
-                    
-                    /* THE WRAPPER: Must be static for breaks to work */
+
+                    /* THE WRAPPER: The only thing allowed to have A4 width */
                     .proposal-print-wrapper {
                         display: block !important;
-                        position: relative !important;
+                        position: absolute !important;
+                        top: 0 !important;
+                        left: 0 !important;
                         width: 210mm !important;
+                        background: #fff !important;
                         margin: 0 !important;
                         padding: 0 !important;
-                        background: #fff !important;
+                        z-index: 9999999 !important;
                     }
 
-                    /* THE PAGES: Force physical A4 blocks */
+                    /* THE PAGES: The physical A4 blocks */
                     .internal-page, .cover-page, .closing-hero {
                         display: block !important;
                         position: relative !important;
                         width: 210mm !important;
-                        height: 296.5mm !important;
+                        height: 296mm !important; /* Slightly more safe height */
                         margin: 0 !important;
                         padding: 0 !important;
                         overflow: hidden !important;
@@ -105,11 +101,13 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         border: none !important;
                     }
                     
-                    /* Fix internal nesting within page boxes */
+                    /* Internal padding only inside the boxes */
                     .internal-page {
                         padding: 30mm 20mm !important;
+                        background: #fff !important;
                     }
                 }
+ Riverside styling for full bleed...
 
                 .proposal-print-wrapper {
                     width: 210mm;
