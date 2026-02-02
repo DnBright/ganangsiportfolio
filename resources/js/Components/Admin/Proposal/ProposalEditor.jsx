@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProposalPrintTemplate from './ProposalPrintTemplate';
 
 const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     const [title, setTitle] = useState(draftContent?.title || '');
@@ -17,6 +18,7 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
     const [pricing, setPricing] = useState(draftContent?.pricing || '');
     const [bonus, setBonus] = useState('');
     const [isPolishing, setIsPolishing] = useState(false);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     const handleAIPolish = () => {
         setIsPolishing(true);
@@ -42,8 +44,20 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
         }, 2000);
     };
 
-    const handlePrintPreview = () => {
-        window.print();
+    const currentProposalData = {
+        title,
+        client_name: draftContent?.client_name || 'Valued Client',
+        executive_summary: executiveSummary,
+        problem_analysis: problemAnalysis,
+        project_objectives: projectObjectives,
+        solutions,
+        scope_of_work: scopeOfWork,
+        system_walkthrough: systemWalkthrough,
+        timeline,
+        investment,
+        roi_impact: roiImpact,
+        value_add: valueAdd,
+        closing_cta: closingCta,
     };
 
     const sections = [
@@ -62,6 +76,42 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
     return (
         <div className="space-y-6 animate-fade-up animate-duration-500 pb-10">
+            {/* Premium Preview Modal */}
+            {isPreviewOpen && (
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col no-print overflow-hidden">
+                    <div className="flex items-center justify-between p-6 border-b border-white/10 bg-[#0f1535]">
+                        <div className="flex items-center gap-4">
+                            <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-blue-500/20">
+                                👁️
+                            </div>
+                            <div>
+                                <h2 className="text-white font-bold">Premium Live Layout Preview</h2>
+                                <p className="text-[10px] text-white/40 uppercase tracking-widest">DNB Agency Visual Engine v2.0</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={() => window.print()}
+                                className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-2"
+                            >
+                                🖨️ Export to PDF
+                            </button>
+                            <button
+                                onClick={() => setIsPreviewOpen(false)}
+                                className="px-6 py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold transition-all"
+                            >
+                                Close Preview
+                            </button>
+                        </div>
+                    </div>
+                    <div className="flex-1 overflow-y-auto bg-[#1a1c2e] p-10 flex justify-center custom-scrollbar">
+                        <div className="shadow-[0_0_100px_rgba(0,0,0,0.5)] transform scale-[0.8] origin-top">
+                            <ProposalPrintTemplate proposal={currentProposalData} />
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Header Content */}
             <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 overflow-hidden relative group no-print">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-purple-500/10 blur-[80px] rounded-full group-hover:bg-purple-500/15 transition-all duration-700" />
@@ -79,10 +129,10 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
 
                     <div className="flex items-center gap-3">
                         <button
-                            onClick={handlePrintPreview}
-                            className="px-6 py-3 rounded-2xl border border-white/20 text-white/60 hover:text-white hover:bg-white/5 text-[10px] font-bold tracking-widest uppercase transition-all flex items-center gap-2"
+                            onClick={() => setIsPreviewOpen(true)}
+                            className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold tracking-widest uppercase transition-all shadow-lg shadow-blue-500/20 flex items-center gap-2"
                         >
-                            <span>🖨️</span> Print Preview
+                            <span>👁️</span> Live Premium Preview
                         </button>
                         <button
                             onClick={handleAIPolish}
@@ -135,18 +185,6 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                         ))}
                     </div>
 
-                    {/* Print Only Container */}
-                    <div className="hidden print:block bg-white text-black p-10 space-y-12">
-                        <h1 className="text-4xl font-black uppercase border-b-4 border-black pb-4">{title}</h1>
-                        <div className="space-y-10">
-                            {sections.map(s => (
-                                <div key={s.id}>
-                                    <h2 className="text-xl font-bold mb-4">{s.label}</h2>
-                                    <p className="whitespace-pre-wrap">{s.value}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
                 </div>
 
                 {/* Human Strategy Panel */}
