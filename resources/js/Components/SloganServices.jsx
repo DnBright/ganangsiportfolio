@@ -50,17 +50,20 @@ const SloganServices = () => {
         {
             titleKey: "slogan.webDev.title",
             descKey: "slogan.webDev.desc",
-            icon: "01"
+            icon: "01",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
         },
         {
             titleKey: "slogan.uiux.title",
             descKey: "slogan.uiux.desc",
-            icon: "02"
+            icon: "02",
+            image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=800&q=80"
         },
         {
             titleKey: "slogan.consulting.title",
             descKey: "slogan.consulting.desc",
-            icon: "03"
+            icon: "03",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
         }
     ];
 
@@ -84,17 +87,32 @@ const SloganServices = () => {
 
                 <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {services.map((service, index) => (
-                        <div key={index} className="group relative p-10 border border-gray-100 hover:border-black transition-colors duration-500 bg-gray-50 hover:bg-white rounded-3xl">
-                            <div className="text-5xl font-black text-gray-200 mb-8 group-hover:text-black transition-colors duration-500">
-                                {service.icon}
-                            </div>
-                            <h4 className="text-2xl font-bold mb-4 uppercase tracking-tight">{t(service.titleKey, language)}</h4>
-                            <p className="text-gray-500 leading-relaxed text-sm">{t(service.descKey, language)}</p>
+                        <div key={index} className="group relative p-10 border border-gray-100 hover:border-transparent transition-all duration-500 bg-gray-50 hover:shadow-2xl hover:-translate-y-2 rounded-3xl overflow-hidden h-[400px] flex flex-col justify-between">
 
-                            <div className="absolute top-10 right-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform translate-x-4 group-hover:translate-x-0">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M7 17L17 7M17 7H7M17 7V17" />
-                                </svg>
+                            {/* Background Image on Hover */}
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                                <img
+                                    src={service.image}
+                                    alt={t(service.titleKey, language)}
+                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
+                                />
+                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500"></div>
+                            </div>
+
+                            <div className="relative z-10">
+                                <div className="text-5xl font-black text-gray-200 mb-8 group-hover:text-white/20 transition-colors duration-500">
+                                    {service.icon}
+                                </div>
+                                <h4 className="text-2xl font-bold mb-4 uppercase tracking-tight group-hover:text-white transition-colors duration-300">{t(service.titleKey, language)}</h4>
+                                <p className="text-gray-500 leading-relaxed text-sm group-hover:text-white/80 transition-colors duration-300">{t(service.descKey, language)}</p>
+                            </div>
+
+                            <div className="relative z-10 self-end opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                                <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                    </svg>
+                                </div>
                             </div>
                         </div>
                     ))}
