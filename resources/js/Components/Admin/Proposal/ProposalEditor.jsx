@@ -82,42 +82,47 @@ const ProposalEditor = ({ draftContent, onBack, onSave }) => {
                     <style>
                         {`
                         @media print {
-                            /* Step 1: Hide the entire website content from the print engine */
-                            body {
-                                visibility: hidden !important;
-                                background: white !important;
+                            /* Step 1: Neutralize Global Body/Html */
+                            html, body {
                                 height: auto !important;
+                                overflow: visible !important;
+                                visibility: hidden !important;
                             }
 
-                            /* Step 2: Force only the Preview Modal to be visible */
-                            #premium-proposal-preview, 
-                            #premium-proposal-preview * {
-                                visibility: visible !important;
-                            }
-
-                            /* Step 3: Crucial - Change the modal from 'fixed' to 'absolute/static' so it can span multiple pages */
+                            /* Step 2: Extract Modal to Root Flow */
                             #premium-proposal-preview {
+                                visibility: visible !important;
                                 position: absolute !important;
                                 top: 0 !important;
                                 left: 0 !important;
-                                width: 100% !important;
+                                width: 210mm !important;
                                 height: auto !important;
+                                overflow: visible !important;
                                 display: block !important;
                                 background: white !important;
-                                overflow: visible !important;
-                                z-index: 9999 !important;
                             }
 
-                            /* Step 4: Ensure the specific document area is centered and correctly sized */
+                            /* Step 3: Dissolve centering wrappers that cause flex-truncation */
+                            #premium-proposal-preview > div {
+                                display: block !important;
+                                width: 100% !important;
+                                height: auto !important;
+                                overflow: visible !important;
+                                padding: 0 !important;
+                                margin: 0 !important;
+                            }
+
+                            /* Step 4: Fix Document Area */
                             .printable-document-area {
                                 width: 210mm !important;
-                                margin: 0 auto !important;
+                                height: auto !important;
+                                overflow: visible !important;
+                                display: block !important;
+                                margin: 0 !important;
                                 padding: 0 !important;
                                 box-shadow: none !important;
-                                display: block !important;
                             }
 
-                            /* Hide UI clutter (Header/Buttons) */
                             .no-print { display: none !important; visibility: hidden !important; }
                         }
                         `}
