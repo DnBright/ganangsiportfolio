@@ -258,8 +258,8 @@ const AyakaSimulation = ({ onClose }) => {
                                     <td className="py-4 px-4 text-sm text-slate-600">{lead.source}</td>
                                     <td className="py-4 px-4 text-center">
                                         <span className={`px-3 py-1 text-xs font-bold rounded-full ${lead.statusColor === 'green' ? 'bg-green-100 text-green-700' :
-                                                lead.statusColor === 'yellow' ? 'bg-yellow-100 text-yellow-700' :
-                                                    'bg-blue-100 text-blue-700'
+                                            lead.statusColor === 'yellow' ? 'bg-yellow-100 text-yellow-700' :
+                                                'bg-blue-100 text-blue-700'
                                             }`}>{lead.status}</span>
                                     </td>
                                     <td className="py-4 px-4 text-center">
@@ -270,6 +270,262 @@ const AyakaSimulation = ({ onClose }) => {
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    );
+
+    // Media Manager View
+    const MediaManagerView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border-2 border-slate-200">
+                <div className="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-800 mb-1">Media Manager</h2>
+                        <p className="text-xs text-slate-400">Kelola gambar dan aset untuk landing page</p>
+                    </div>
+                    <button className="px-6 py-3 bg-pink-600 text-white font-bold rounded-xl hover:bg-pink-700 flex items-center gap-2">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        Upload Media
+                    </button>
+                </div>
+
+                {/* Folder Tabs */}
+                <div className="flex gap-2 mb-6">
+                    {['All Media', 'Hero', 'Program', 'Alumni', 'Testimonial'].map((folder, i) => (
+                        <button key={i} className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${i === 0 ? 'bg-pink-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                            }`}>
+                            {folder}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Media Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[
+                        { name: 'hero-banner.jpg', size: '2.4 MB', folder: 'Hero', color: 'blue' },
+                        { name: 'kaigo-program.jpg', size: '1.8 MB', folder: 'Program', color: 'pink' },
+                        { name: 'alumni-siti.jpg', size: '890 KB', folder: 'Alumni', color: 'green' },
+                        { name: 'testimonial-1.jpg', size: '1.2 MB', folder: 'Testimonial', color: 'purple' },
+                        { name: 'tokutei-ginou.jpg', size: '2.1 MB', folder: 'Program', color: 'pink' },
+                        { name: 'hero-mobile.jpg', size: '1.5 MB', folder: 'Hero', color: 'blue' },
+                        { name: 'alumni-dewi.jpg', size: '950 KB', folder: 'Alumni', color: 'green' },
+                        { name: 'og-image.jpg', size: '780 KB', folder: 'Hero', color: 'blue' }
+                    ].map((media, i) => (
+                        <div key={i} className="group relative bg-slate-100 rounded-xl overflow-hidden border-2 border-slate-200 hover:border-pink-300 transition-all">
+                            <div className="aspect-square bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                <svg className="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <div className="p-3">
+                                <h4 className="font-bold text-xs text-slate-800 truncate mb-1">{media.name}</h4>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[10px] text-slate-400">{media.size}</span>
+                                    <span className={`px-2 py-0.5 text-[9px] font-bold rounded-full ${media.color === 'blue' ? 'bg-blue-100 text-blue-700' :
+                                            media.color === 'pink' ? 'bg-pink-100 text-pink-700' :
+                                                media.color === 'green' ? 'bg-green-100 text-green-700' :
+                                                    'bg-purple-100 text-purple-700'
+                                        }`}>{media.folder}</span>
+                                </div>
+                            </div>
+                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <button className="w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-pink-100">
+                                    <svg className="w-4 h-4 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                                <button className="w-8 h-8 bg-white rounded-lg flex items-center justify-center hover:bg-red-100">
+                                    <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+
+    // SEO & Metadata View
+    const SEOView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border-2 border-slate-200">
+                <h2 className="text-xl font-bold text-slate-800 mb-1">SEO & Metadata</h2>
+                <p className="text-xs text-slate-400 mb-6">Optimasi landing page untuk mesin pencari</p>
+
+                <div className="space-y-6">
+                    {/* Meta Tags */}
+                    <div>
+                        <label className="text-sm font-bold text-slate-700 mb-2 block">Meta Title</label>
+                        <input type="text" defaultValue="Ayaka Josei Center - Kerja di Jepang untuk Wanita Indonesia" className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-pink-500 focus:outline-none" />
+                        <p className="text-xs text-slate-400 mt-1">60 karakter (optimal untuk Google)</p>
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-bold text-slate-700 mb-2 block">Meta Description</label>
+                        <textarea defaultValue="Program kerja profesional di Jepang khusus wanita Indonesia. Kaigo, Tokutei Ginou, dan Hospitality dengan gaji kompetitif. Daftar sekarang!" className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-pink-500 focus:outline-none" rows="3"></textarea>
+                        <p className="text-xs text-slate-400 mt-1">155 karakter (optimal untuk snippet)</p>
+                    </div>
+
+                    {/* Keywords */}
+                    <div>
+                        <label className="text-sm font-bold text-slate-700 mb-2 block">Focus Keywords</label>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                            {['kerja jepang perempuan', 'kaigo jepang wanita', 'magang jepang hijab', 'tokutei ginou wanita'].map((keyword, i) => (
+                                <span key={i} className="px-3 py-1.5 bg-pink-100 text-pink-700 text-xs font-bold rounded-full flex items-center gap-2">
+                                    {keyword}
+                                    <button className="hover:text-pink-900">
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </span>
+                            ))}
+                        </div>
+                        <input type="text" placeholder="Tambah keyword baru..." className="w-full px-4 py-3 border-2 border-dashed border-slate-300 rounded-xl focus:border-pink-500 focus:outline-none" />
+                    </div>
+
+                    {/* OG Image */}
+                    <div>
+                        <label className="text-sm font-bold text-slate-700 mb-2 block">OG Image (WhatsApp Share)</label>
+                        <div className="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-pink-400 transition-colors cursor-pointer">
+                            <svg className="w-12 h-12 text-slate-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p className="text-sm font-bold text-slate-600 mb-1">Upload OG Image</p>
+                            <p className="text-xs text-slate-400">Rekomendasi: 1200x630px</p>
+                        </div>
+                    </div>
+
+                    <button className="w-full py-3 bg-pink-600 text-white font-bold rounded-xl hover:bg-pink-700 transition-colors">
+                        Simpan SEO Settings
+                    </button>
+                </div>
+            </div>
+
+            {/* SEO Score */}
+            <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-6 text-white">
+                <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-bold text-lg">SEO Score</h3>
+                    <div className="text-4xl font-black">85/100</div>
+                </div>
+                <div className="space-y-2">
+                    {[
+                        { label: 'Meta Title', status: 'good' },
+                        { label: 'Meta Description', status: 'good' },
+                        { label: 'Keywords Density', status: 'warning' },
+                        { label: 'Mobile Friendly', status: 'good' }
+                    ].map((item, i) => (
+                        <div key={i} className="flex items-center justify-between text-sm">
+                            <span>{item.label}</span>
+                            <span className={`px-2 py-1 rounded-full text-xs font-bold ${item.status === 'good' ? 'bg-white/20' : 'bg-yellow-400/30'
+                                }`}>
+                                {item.status === 'good' ? '✓ Good' : '⚠ Needs Work'}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+
+    // User & Roles View
+    const UsersView = () => (
+        <div className="space-y-6">
+            <div className="bg-white rounded-2xl p-6 border-2 border-slate-200">
+                <div className="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 className="text-xl font-bold text-slate-800 mb-1">User & Role Management</h2>
+                        <p className="text-xs text-slate-400">Kelola tim dan hak akses admin</p>
+                    </div>
+                    <button className="px-6 py-3 bg-pink-600 text-white font-bold rounded-xl hover:bg-pink-700">
+                        + Tambah User
+                    </button>
+                </div>
+
+                {/* Users Table */}
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead>
+                            <tr className="border-b-2 border-slate-200">
+                                <th className="text-left py-4 px-4 text-xs font-bold text-slate-400 uppercase">User</th>
+                                <th className="text-left py-4 px-4 text-xs font-bold text-slate-400 uppercase">Email</th>
+                                <th className="text-left py-4 px-4 text-xs font-bold text-slate-400 uppercase">Role</th>
+                                <th className="text-center py-4 px-4 text-xs font-bold text-slate-400 uppercase">Status</th>
+                                <th className="text-center py-4 px-4 text-xs font-bold text-slate-400 uppercase">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[
+                                { name: 'Admin Ayaka', email: 'admin@ayaka.co.id', role: 'Super Admin', status: 'Active', color: 'pink' },
+                                { name: 'Rina Kusuma', email: 'rina@ayaka.co.id', role: 'Content Admin', status: 'Active', color: 'blue' },
+                                { name: 'Sari Wijaya', email: 'sari@ayaka.co.id', role: 'CS / Follow Up', status: 'Active', color: 'green' },
+                                { name: 'Dian Pratiwi', email: 'dian@ayaka.co.id', role: 'CS / Follow Up', status: 'Inactive', color: 'gray' }
+                            ].map((user, i) => (
+                                <tr key={i} className="border-b border-slate-100 hover:bg-pink-50 transition-colors">
+                                    <td className="py-4 px-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-rose-600 rounded-full flex items-center justify-center text-white font-bold">
+                                                {user.name.split(' ').map(n => n[0]).join('')}
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-slate-800 text-sm">{user.name}</h4>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="py-4 px-4 text-sm text-slate-600">{user.email}</td>
+                                    <td className="py-4 px-4">
+                                        <span className={`px-3 py-1 text-xs font-bold rounded-full ${user.color === 'pink' ? 'bg-pink-100 text-pink-700' :
+                                                user.color === 'blue' ? 'bg-blue-100 text-blue-700' :
+                                                    user.color === 'green' ? 'bg-green-100 text-green-700' :
+                                                        'bg-slate-100 text-slate-700'
+                                            }`}>{user.role}</span>
+                                    </td>
+                                    <td className="py-4 px-4 text-center">
+                                        <span className={`px-3 py-1 text-xs font-bold rounded-full ${user.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
+                                            }`}>{user.status}</span>
+                                    </td>
+                                    <td className="py-4 px-4 text-center">
+                                        <button className="px-4 py-2 bg-slate-800 text-white text-xs font-bold rounded-xl hover:bg-slate-900">Edit</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {/* Role Permissions */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { role: 'Super Admin', color: 'pink', permissions: ['Full Access', 'Edit Landing', 'Manage Users', 'Delete Data', 'Export Data'] },
+                    { role: 'Content Admin', color: 'blue', permissions: ['Edit Landing', 'Manage Media', 'View Leads', 'Export Data'] },
+                    { role: 'CS / Follow Up', color: 'green', permissions: ['View Leads', 'Update Status', 'Add Notes'] }
+                ].map((roleCard, i) => (
+                    <div key={i} className="bg-white rounded-2xl p-6 border-2 border-slate-200">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-bold text-slate-800">{roleCard.role}</h3>
+                            <div className={`w-3 h-3 rounded-full ${roleCard.color === 'pink' ? 'bg-pink-500' :
+                                    roleCard.color === 'blue' ? 'bg-blue-500' :
+                                        'bg-green-500'
+                                }`}></div>
+                        </div>
+                        <div className="space-y-2">
+                            {roleCard.permissions.map((perm, j) => (
+                                <div key={j} className="flex items-center gap-2 text-sm text-slate-600">
+                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    {perm}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     );
@@ -337,8 +593,8 @@ const AyakaSimulation = ({ onClose }) => {
                                 key={i}
                                 onClick={() => setActivePage(item.id)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all ${activePage === item.id
-                                        ? 'bg-white/20 text-white shadow-lg'
-                                        : 'text-pink-100 hover:bg-white/10 hover:text-white'
+                                    ? 'bg-white/20 text-white shadow-lg'
+                                    : 'text-pink-100 hover:bg-white/10 hover:text-white'
                                     }`}
                             >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -367,6 +623,9 @@ const AyakaSimulation = ({ onClose }) => {
                             {activePage === 'dashboard' && 'Dashboard Overview'}
                             {activePage === 'landing' && 'Landing Page Builder'}
                             {activePage === 'leads' && 'Leads Management'}
+                            {activePage === 'media' && 'Media Manager'}
+                            {activePage === 'seo' && 'SEO & Metadata'}
+                            {activePage === 'users' && 'User & Role Management'}
                             {activePage === 'settings' && 'Settings'}
                         </h2>
                         <div className="flex items-center gap-4">
@@ -384,8 +643,11 @@ const AyakaSimulation = ({ onClose }) => {
                             {activePage === 'dashboard' && <DashboardView />}
                             {activePage === 'landing' && <LandingBuilderView />}
                             {activePage === 'leads' && <LeadsView />}
+                            {activePage === 'media' && <MediaManagerView />}
+                            {activePage === 'seo' && <SEOView />}
+                            {activePage === 'users' && <UsersView />}
                             {activePage === 'settings' && <SettingsView />}
-                            {!['dashboard', 'landing', 'leads', 'settings'].includes(activePage) && (
+                            {!['dashboard', 'landing', 'leads', 'media', 'seo', 'users', 'settings'].includes(activePage) && (
                                 <div className="text-center py-20">
                                     <div className="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <svg className="w-10 h-10 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
