@@ -46,7 +46,11 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         -webkit-print-color-adjust: exact !important; 
                         print-color-adjust: exact !important;
                     }
-                    /* HIDE EVERYTHING EXCEPT THE PROPOSAL */
+                    /* SURGICAL HIDING OF UI */
+                    nav, aside, footer, .no-print, button, [class*="navbar"], [class*="sidebar"] {
+                        display: none !important;
+                    }
+                    /* Ensure the body and html allow for natural flow */
                     html, body {
                         margin: 0 !important;
                         padding: 0 !important;
@@ -54,23 +58,21 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                         overflow: visible !important;
                         background: #fff !important;
                     }
-                    /* Target all potential UI wrappers to hide them */
-                    nav, aside, footer, header:not(.internal-header), .no-print, button, [id*="sidebar"], [class*="navbar"] {
-                        display: none !important;
-                    }
-                    /* Reset the wrapper so it has no scrolling or positioning interference */
+                    /* Restore natural block flow for multi-page printing */
                     .proposal-print-wrapper {
-                        position: absolute !important;
-                        top: 0 !important;
-                        left: 0 !important;
-                        width: 210mm !important;
                         display: block !important;
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        z-index: 9999 !important;
+                        position: relative !important;
+                        margin: 0 auto !important;
+                        width: 210mm !important;
+                        z-index: auto !important;
                     }
-                    body > *:not(#premium-proposal-preview):not(.proposal-print-wrapper) {
-                        display: none !important;
+                    /* Fix for parents that might be hidden */
+                    #premium-proposal-preview, 
+                    #premium-proposal-preview > div {
+                        display: block !important;
+                        position: static !important;
+                        overflow: visible !important;
+                        background: none !important;
                     }
                 }
 
@@ -97,7 +99,6 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
                     box-sizing: border-box !important;
                     page-break-after: always !important;
                     break-after: page !important;
-                    position: relative;
                 }
 
                 .bg-number {
@@ -275,15 +276,13 @@ const ProposalPrintTemplate = ({ proposal, agencyName = "Dark and Bright" }) => 
 
                 /* LAYOUT: CLOSING (Bab 11) */
                 .closing-hero {
-                    position: absolute;
-                    top: 0; left: 0;
                     width: 210mm;
                     height: 297mm;
                     display: flex; flex-direction: column; align-items: center; justify-content: center;
                     text-align: center; background: #0f172a; color: #fff; 
+                    margin-left: -20mm; margin-top: -30mm;
                     padding: 25mm;
                     box-sizing: border-box !important;
-                    z-index: 100;
                 }
                 .closing-ty { font-family: 'Outfit', sans-serif; font-size: 72pt; font-weight: 900; letter-spacing: -3pt; line-height: 0.8; margin-bottom: 10mm; }
 
