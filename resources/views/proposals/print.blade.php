@@ -5,295 +5,183 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{{ $proposal->title ?? 'Proposal' }}</title>
     <style>
-        /* CRITICAL: Ensure padding doesn't increase width */
-        * {
-            box-sizing: border-box;
-        }
+        /* CRITICAL: Box Model */
+        * { box-sizing: border-box; }
+        
         @page {
             margin: 0px;
-            size: A4 portrait; /* Explicitly A4 */
+            size: A4 portrait;
         }
+        
         body {
             font-family: 'Helvetica', 'Arial', sans-serif;
             margin: 0px;
             padding: 0px;
             background-color: #ffffff;
-            color: #333333;
-            width: 100%;
-            height: 100%;
+            color: #1e293b; /* Slate 800 */
         }
         
-        /* UTILITIES */
-        .page-break {
+        /* --- UTILS --- */
+        .page-container {
+            width: 210mm;
+            height: 297mm;
+            position: relative;
             page-break-after: always;
-            clear: both;
+            overflow: hidden;
+            background: #ffffff;
+        }
+        .page-container:last-child {
+            page-break-after: avoid;
         }
         .text-uppercase { text-transform: uppercase; }
         .text-bold { font-weight: bold; }
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
+        .font-light { font-weight: 300; }
         
-        /* -------------------------------------------------------------
-           1. COVER PAGE (FIXED DIMENSION)
-           ------------------------------------------------------------- */
+        /* --- COLORS (DNB BRANDING) --- */
+        .bg-dark { background-color: #0B1120; }
+        .bg-blue { background-color: #2563eb; }
+        .text-cyan { color: #38bdf8; }
+        .text-blue { color: #2563eb; }
+        .text-dark { color: #0B1120; }
+        .text-white { color: #ffffff; }
+        .text-muted { color: #64748b; }
+
+        /* --- COVER PAGE (PREMIUM REFINED) --- */
         .cover-page {
-            width: 210mm;
-            height: 297mm;
-            position: relative;
-            overflow: hidden;
-            background-color: #0B1120; /* Deepest Blue/Black */
-            color: #ffffff;
-        }
-        
-        /* Decorative Elements */
-        .cover-line-top {
-            position: absolute;
-            top: 0;
-            left: 20mm;
-            width: 1px;
-            height: 40mm;
-            background-color: #38bdf8;
-        }
-        .cover-line-bottom {
-            position: absolute;
-            bottom: 0;
-            right: 20mm;
-            width: 1px;
-            height: 40mm;
-            background-color: #38bdf8;
-        }
-        .cover-box {
-            position: absolute;
-            top: 40mm;
-            left: 20mm;
-            right: 20mm;
-            bottom: 40mm;
-            border: 1px solid #1e293b;
-        }
-        
-        /* Content Positioning */
-        .cover-content {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            width: 80%;
-        }
-
-        .cover-logo-img {
-            height: 25mm;
-            width: auto;
-            margin-bottom: 15mm;
-            display: inline-block;
-        }
-        
-        /* Fallback Text Logo */
-        .cover-logo-text {
-            font-size: 30pt; 
-            font-weight: bold; 
-            color: #fff; 
-            margin-bottom: 20mm;
-            display: inline-block;
-        }
-
-        .cover-meta {
-            font-size: 10pt;
-            letter-spacing: 4px;
-            color: #94a3b8;
-            margin-bottom: 5mm;
-            display: block;
-        }
-
-        .cover-title {
-            font-size: 28pt; /* Safer size */
-            line-height: 1.2;
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 10mm;
-            letter-spacing: 1px;
-            word-wrap: break-word; /* Prevent overflow */
-        }
-
-        .cover-client-label {
-            font-size: 9pt;
-            color: #64748b;
-            margin-bottom: 2mm;
-            letter-spacing: 2px;
-        }
-        .cover-client-name {
-            font-size: 16pt;
-            color: #38bdf8;
-            font-weight: normal;
-        }
-
-        .cover-footer-left {
-            position: absolute;
-            bottom: 15mm;
-            left: 20mm;
-            font-size: 8pt;
-            color: #475569;
-            letter-spacing: 1px;
-        }
-        .cover-footer-right {
-            position: absolute;
-            bottom: 15mm;
-            right: 20mm;
-            font-size: 8pt;
-            color: #475569;
-            letter-spacing: 1px;
-        }
-
-        /* -------------------------------------------------------------
-           2. INTERNAL PAGES (FLOW LAYOUT)
-           ------------------------------------------------------------- */
-        .internal-page-wrapper {
-            /* FIXED WIDTH STRATEGY: 210mm Page - 25mm Left - 35mm Right = ~150mm Width */
-            width: 155mm; 
-            margin-left: 20mm;
-            padding-top: 25mm;
-            padding-bottom: 25mm;
-            position: relative;
-            background: #ffffff;
-            overflow: hidden; /* Safety clip */
-        }
-        
-        .header {
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 5mm;
-            margin-bottom: 10mm;
-            height: 15mm;
-            width: 100%;
-        }
-        .header-table {
-            width: 100%;
-            border: none;
-        }
-        .header-logo-img {
-            height: 8mm; 
-            width: auto;
-            opacity: 0.6;
-        }
-        .header-meta {
-            text-align: right;
-            font-size: 8pt;
-            color: #94a3b8;
-            line-height: 1.4;
-        }
-
-        .section-label {
-            font-size: 9pt;
-            font-weight: bold;
-            color: #3b82f6;
-            letter-spacing: 2px;
-            margin-bottom: 2mm;
-            text-transform: uppercase;
-        }
-        .section-heading {
-            font-size: 22pt;
-            font-weight: bold;
-            color: #0f172a;
-            margin-bottom: 10mm;
-            line-height: 1.2;
-            border-left: 5px solid #0f172a;
-            padding-left: 15px;
-        }
-        
-        .content-body {
-            font-size: 11pt;
-            line-height: 1.6;
-            color: #334155;
-            text-align: justify;
-            word-wrap: break-word; /* Prevent long words from overflowing */
-        }
-        
-        /* Typography Safety */
-        .content-body h3 {
-            font-size: 13pt;
-            font-weight: bold;
-            color: #0f172a;
-            margin-top: 8mm;
-            margin-bottom: 3mm;
-            page-break-after: avoid; /* Keep title with text */
-        }
-        .content-body p { 
-            margin-bottom: 4mm; 
-            orphans: 3; 
-            widows: 3; 
-        }
-        .content-body ul { 
-            margin-bottom: 4mm; 
-            padding-left: 5mm; 
-        }
-        .content-body li { 
-            margin-bottom: 2mm; 
-            padding-left: 2mm;
-        }
-
-        /* Fix overlapping CSS issues from rich text editors */
-        .content-body img {
-            max-width: 100%;
-            height: auto;
-        }
-        .content-body table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 4mm;
-        }
-        .content-body td, .content-body th {
-            border: 1px solid #e2e8f0;
-            padding: 2mm;
-            text-align: left;
-        }
-
-        .footer {
-            margin-top: 15mm;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 4mm;
-            font-size: 8pt;
-            color: #cbd5e1;
-            text-align: center;
-            width: 100%;
-        }
-
-        /* -------------------------------------------------------------
-           3. CLOSING PAGE
-           ------------------------------------------------------------- */
-        .closing-page {
-            width: 210mm;
-            height: 297mm;
             background-color: #0B1120;
             color: #ffffff;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            display: table; /* Vertical align hack */
         }
-        .closing-content {
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-            padding: 0 20mm;
+        .cover-accent-splat {
+            position: absolute; top: -50mm; right: -50mm;
+            width: 150mm; height: 150mm;
+            background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, rgba(11,17,32,0) 70%);
+            z-index: 1;
         }
-        .closing-title {
-            font-size: 36pt;
-            font-weight: bold;
-            margin-bottom: 5mm;
-            letter-spacing: 2px;
+        .cover-border-left {
+            position: absolute; top: 20mm; bottom: 20mm; left: 20mm;
+            width: 1px; background-color: #1e293b;
         }
-        .closing-text {
-            font-size: 12pt;
-            color: #94a3b8;
-            line-height: 1.6;
+        .cover-border-right {
+            position: absolute; top: 20mm; bottom: 20mm; right: 20mm;
+            width: 1px; background-color: #1e293b;
+        }
+        .cover-top-bar {
+            position: absolute; top: 20mm; left: 20mm; right: 20mm; height: 1px; background: #38bdf8;
+        }
+        .cover-bottom-bar {
+            position: absolute; bottom: 20mm; left: 20mm; right: 20mm; height: 1px; background: #38bdf8;
+        }
+        
+        .cover-content {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 160mm; text-align: center;
+            z-index: 10;
+        }
+        .cover-logo-img { height: 25mm; margin-bottom: 20mm; }
+        .cover-category {
+            font-size: 9pt; letter-spacing: 5px; color: #94a3b8; text-transform: uppercase;
+            margin-bottom: 5mm; display: block;
+        }
+        .cover-title {
+            font-size: 32pt; font-weight: bold; line-height: 1.1; color: #ffffff;
+            margin-bottom: 10mm;
+        }
+        .cover-client-label {
+            font-size: 9pt; color: #64748b; letter-spacing: 2px; margin-bottom: 2mm;
+        }
+        .cover-client-name {
+            font-size: 18pt; color: #38bdf8; font-weight: normal;
         }
 
+        /* --- LAYOUT A: SIDEBAR (Odd Sections) --- */
+        .layout-a-sidebar {
+            position: absolute; top: 0; left: 0; bottom: 0;
+            width: 50mm; background-color: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+        }
+        .layout-a-sidebar-decor {
+            position: absolute; top: 0; left: 0; width: 100%; height: 50mm;
+            background-color: #0B1120;
+        }
+        /* Overlapping Number */
+        .layout-a-number {
+             position: absolute; top: 35mm; left: 10mm;
+             font-size: 45pt; font-weight: bold; color: #38bdf8; z-index: 10;
+             line-height: 1;
+        }
+        .layout-a-title {
+            position: absolute; top: 60mm; left: 5mm; right: 5mm;
+            text-align: right; font-size: 14pt; font-weight: bold; color: #0B1120;
+            text-transform: uppercase; line-height: 1.2;
+        }
+        /* Content Area A */
+        .layout-a-content {
+            position: absolute; top: 20mm; left: 65mm; right: 15mm; bottom: 20mm;
+            width: 130mm; /* Strict Width Safety */
+        }
+        /* Header in A Content */
+        .layout-a-header-meta {
+            border-bottom: 2px solid #0B1120; padding-bottom: 5mm; margin-bottom: 10mm;
+            display: flex; /* Careful with flex, formatting fallback */
+        }
+
+        /* --- LAYOUT B: HEADER BAR (Even Sections) --- */
+        .layout-b-header {
+            position: absolute; top: 0; left: 0; width: 100%; height: 35mm;
+            background-color: #0B1120;
+        }
+        .layout-b-number {
+             position: absolute; top: 5mm; left: 15mm;
+             font-size: 60pt; font-weight: bold; color: rgba(255,255,255,0.1);
+        }
+        .layout-b-title {
+            position: absolute; top: 12mm; left: 20mm;
+            font-size: 18pt; font-weight: bold; color: #ffffff;
+            text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid #38bdf8;
+            padding-left: 5mm;
+        }
+        /* Content Area B */
+        .layout-b-content {
+            position: absolute; top: 50mm; left: 20mm; right: 20mm; bottom: 20mm;
+            width: 170mm; /* Standard Width */
+            /* BUT WAIT, padding issue safety */
+            width: 155mm; /* FORCE SAFETY WIDTH */
+            margin-left: 10mm; /* Centering helper */
+        }
+
+        /* --- SHARED CONTENT STYLING --- */
+        .content-body {
+            font-size: 11pt; line-height: 1.6; color: #334155; text-align: justify;
+        }
+        .content-body h3 {
+            font-size: 13pt; font-weight: bold; color: #0B1120;
+            margin-top: 8mm; margin-bottom: 3mm;
+        }
+        .content-body p { margin-bottom: 4mm; }
+        .content-body ul { margin-bottom: 4mm; padding-left: 5mm; }
+        .content-body li { margin-bottom: 2mm; }
+
+        /* --- FOOTER --- */
+        .footer-a {
+            position: absolute; bottom: 10mm; right: 15mm;
+            font-size: 8pt; color: #94a3b8; text-align: right;
+        }
+        .footer-b {
+            position: absolute; bottom: 10mm; left: 0; width: 100%;
+            font-size: 8pt; color: #94a3b8; text-align: center; border-top: 1px solid #f1f5f9;
+            padding-top: 3mm;
+        }
+
+        /* --- CLOSING PAGE --- */
+        .closing-page { background-color: #0B1120; color: white; display: table; width: 100%; height: 100%; text-align: center; }
+        .closing-cell { display: table-cell; vertical-align: middle; }
     </style>
 </head>
 <body>
     @php
         $logoPathLocal = public_path('images/logo-dnb.png');
         $logoBase64 = null;
-        
         if (file_exists($logoPathLocal)) {
             $type = pathinfo($logoPathLocal, PATHINFO_EXTENSION);
             $data = file_get_contents($logoPathLocal);
@@ -302,35 +190,31 @@
     @endphp
 
     <!-- 1. COVER PAGE -->
-    <div class="cover-page">
-        <div class="cover-line-top"></div>
-        <div class="cover-line-bottom"></div>
-        <div class="cover-box"></div>
+    <div class="page-container cover-page">
+        <div class="cover-accent-splat"></div>
+        <div class="cover-border-left"></div>
+        <div class="cover-border-right"></div>
+        <div class="cover-top-bar"></div>
+        <div class="cover-bottom-bar"></div>
 
         <div class="cover-content">
             @if($logoBase64)
                 <img src="{{ $logoBase64 }}" class="cover-logo-img" alt="DNB">
             @else
-                <div class="cover-logo-text">DNB AGENCY</div>
+                <div style="font-size: 30pt; font-weight: bold; margin-bottom: 20mm;">DNB AGENCY</div>
             @endif
 
-            <span class="cover-meta">STRATEGIC PROPOSAL</span>
+            <span class="cover-category">STRATEGIC PROPOSAL</span>
+            <div class="cover-title">{{ $proposal->title ?? 'DIGITAL TRANSFORMATION PROPOSAL' }}</div>
             
-            <div class="cover-title">
-                {{ $proposal->title ?? 'Untitled Proposal' }}
-            </div>
-
             <div class="cover-client-label">PREPARED FOR</div>
             <div class="cover-client-name">{{ $proposal->client_name }}</div>
         </div>
-
-        <div class="cover-footer-left">STRICTLY CONFIDENTIAL</div>
-        <div class="cover-footer-right">{{ now()->format('d F Y') }}</div>
+        
+        <div style="position: absolute; bottom: 12mm; left: 20mm; font-size: 8pt; color: #475569; letter-spacing: 1px;">STRICTLY CONFIDENTIAL</div>
+        <div style="position: absolute; bottom: 12mm; right: 20mm; font-size: 8pt; color: #475569; letter-spacing: 1px;">{{ now()->format('d F Y') }}</div>
     </div>
-    
-    <div class="page-break"></div>
 
-    <!-- 2. INTERNAL PAGES -->
     @php
         $sections = [
             ['id' => 1, 'title' => 'Ringkasan Eksekutif', 'content' => $proposal->executive_summary],
@@ -348,56 +232,71 @@
     @endphp
 
     @foreach($sections as $section)
-    <div class="internal-page-wrapper">
-        <!-- Header using Table for stability -->
-        <div class="header">
-            <table class="header-table">
-                <tr>
-                    <td align="left" style="width: 50%;">
-                         @if($logoBase64)
-                            <img src="{{ $logoBase64 }}" class="header-logo-img" alt="Logo">
-                        @else
-                            <strong>DNB</strong>
-                        @endif
-                    </td>
-                    <td align="right" style="width: 50%;">
-                        <div class="header-meta">
-                            REF: {{ $proposal->id }}/{{ date('Y') }}<br>
-                            SEC {{ sprintf('%02d', $section['id']) }}
+        @if($loop->iteration % 2 != 0)
+            <!-- LAYOUT A (ODD - SIDEBAR) -->
+            <div class="page-container">
+                <div class="layout-a-sidebar">
+                    <div class="layout-a-sidebar-decor"></div>
+                    <div class="layout-a-number">{{ sprintf('%02d', $section['id']) }}</div>
+                    <div class="layout-a-title">{{ $section['title'] }}</div>
+                </div>
+
+                <div class="layout-a-content">
+                    <!-- Mini Header -->
+                    <div class="layout-a-header-meta">
+                        <div style="float: left; width: 50%;">
+                            @if($logoBase64) <img src="{{ $logoBase64 }}" style="height: 6mm; opacity: 0.8;"> @endif
                         </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                        <div style="float: right; width: 50%; text-align: right; color: #94a3b8; font-size: 8pt;">
+                            REF: {{ $proposal->id }}/{{ date('Y') }}
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
 
-        <!-- Title -->
-        <div class="section-label">SECTION {{ sprintf('%02d', $section['id']) }}</div>
-        <div class="section-heading">{{ $section['title'] }}</div>
+                    <!-- Content -->
+                    <div class="content-body">
+                         {!! $section['content'] !!}
+                    </div>
+                </div>
 
-        <!-- Content (UNESCAPED for RICH TEXT) -->
-        <div class="content-body">
-            {!! $section['content'] !!}
-        </div>
+                <div class="footer-a">
+                     Page {{ $loop->iteration + 1 }} &bull; DNB Agency
+                </div>
+            </div>
+        @else
+            <!-- LAYOUT B (EVEN - HEADER BAR) -->
+            <div class="page-container">
+                <div class="layout-b-header">
+                    <div class="layout-b-number">{{ sprintf('%02d', $section['id']) }}</div>
+                    <div class="layout-b-title">{{ $section['title'] }}</div>
+                </div>
 
-        <!-- Footer -->
-        <div class="footer">
-            Page {{ $loop->iteration + 1 }} &bull; Dark and Bright Agency &bull; Confidential
-        </div>
-    </div>
-    
-    <div class="page-break"></div>
+                <div class="layout-b-content">
+                    <div class="content-body">
+                         {!! $section['content'] !!}
+                    </div>
+                </div>
+
+                <div class="footer-b">
+                    Page {{ $loop->iteration + 1 }} &bull; Dark and Bright Agency &bull; Confidential
+                </div>
+            </div>
+        @endif
     @endforeach
 
     <!-- 3. CLOSING PAGE -->
-    <div class="closing-page">
-        <div class="closing-content">
+    <div class="page-container closing-page">
+        <div class="closing-cell">
              @if($logoBase64)
                 <img src="{{ $logoBase64 }}" style="height: 15mm; opacity: 0.5; margin-bottom: 10mm;" alt="Logo">
             @endif
-            <div class="closing-title">LET'S BUILD THIS.</div>
-            <div class="closing-text">
+            <div style="font-size: 36pt; font-weight: bold; margin-bottom: 5mm; letter-spacing: 2px;">LET'S BUILD THIS.</div>
+            <div style="font-size: 12pt; color: #94a3b8; line-height: 1.6;">
                 Kami siap menjadi mitra transformasi digital Anda.<br>
                 Hubungi kami untuk langkah selanjutnya.
+            </div>
+            <div style="margin-top: 20mm; font-size: 14pt; color: #38bdf8;">
+                admin.thedarkandbright.com
             </div>
         </div>
     </div>
