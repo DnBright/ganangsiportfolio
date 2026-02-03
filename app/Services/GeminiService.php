@@ -147,30 +147,27 @@ class GeminiService
             return $out;
         };
 
-        // helper for timeline (COMPACT GRID)
+        // helper for timeline (REFINED VERTICAL)
         $toTimeline = function($timeline) {
             if (!is_array($timeline)) return (string)$timeline;
-            $out = "<div class='timeline-grid'>";
+            $out = "";
             foreach ($timeline as $idx => $t) {
                 $faseNum = $idx + 1;
-                $phaseName = $t['phase'] ?? 'Tahap';
+                $phaseName = $t['phase'] ?? 'Tahap Pengembangan';
                 $phaseName = preg_replace('/^Fase\s*\d+:\s*/i', '', $phaseName);
                 
-                $out .= "<div class='timeline-card'>";
-                $out .= "<h3>Fase $faseNum: $phaseName</h3>";
-                $out .= "<p><strong>Durasi:</strong> " . ($t['duration'] ?? '-') . "</p>";
-                $out .= "<p>" . ($t['objective'] ?? '') . "</p>";
-                
-                if (isset($t['activities']) && is_array($t['activities'])) {
-                    $out .= "<ul>";
-                    foreach ($t['activities'] as $act) {
-                        $out .= "<li>" . trim($act) . "</li>";
-                    }
-                    $out .= "</ul>";
+                $out .= "<h3>Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")</h3>\n";
+                if (isset($t['objective'])) {
+                    $out .= "<p>" . $t['objective'] . "</p>\n";
                 }
-                $out .= "</div>";
+                if (isset($t['activities']) && is_array($t['activities'])) {
+                    $out .= "<p><strong>Aktivitas Utama:</strong></p>\n<ul>\n";
+                    foreach ($t['activities'] as $act) {
+                        $out .= "<li>" . trim($act) . "</li>\n";
+                    }
+                    $out .= "</ul>\n";
+                }
             }
-            $out .= "</div>";
             return $out;
         };
 
