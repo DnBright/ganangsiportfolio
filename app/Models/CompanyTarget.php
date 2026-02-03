@@ -11,6 +11,7 @@ class CompanyTarget extends Model
 
     protected $fillable = [
         'company_name',
+        'region',
         'industry',
         'contact_person',
         'email',

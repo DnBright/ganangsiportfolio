@@ -49,6 +49,7 @@ class CompanyTargetController extends Controller
     {
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
+            'region' => 'nullable|string|max:255',
             'industry' => 'nullable|string|max:255',
             'contact_person' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',

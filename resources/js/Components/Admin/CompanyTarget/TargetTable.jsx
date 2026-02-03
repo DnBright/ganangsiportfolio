@@ -1,13 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
 const TargetTable = () => {
     const [targets, setTargets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // Filters State
+    const [filters, setFilters] = useState({
+        region: '',
+        industry: ''
+    });
+
     const [formData, setFormData] = useState({
         id: null,
         company_name: '',
+        region: '',
         industry: '',
         contact_person: '',
         email: '',
@@ -26,12 +34,11 @@ const TargetTable = () => {
         try {
             setLoading(true);
             const response = await axios.get('/company-targets');
-            // Ensure response.data is an array
             const data = Array.isArray(response.data) ? response.data : [];
             setTargets(data);
         } catch (err) {
             console.error('Error fetching targets:', err);
-            setTargets([]); // Fallback to empty array
+            setTargets([]);
         } finally {
             setLoading(false);
         }
@@ -41,10 +48,28 @@ const TargetTable = () => {
         fetchTargets();
     }, []);
 
+    // Filter Logic
+    const filteredTargets = useMemo(() => {
+        return targets.filter(target => {
+            const matchRegion = filters.region === '' ||
+                (target.region && target.region.toLowerCase().includes(filters.region.toLowerCase()));
+            const matchIndustry = filters.industry === '' ||
+                (target.industry && target.industry.toLowerCase().includes(filters.industry.toLowerCase()));
+
+            return matchRegion && matchIndustry;
+        });
+    }, [targets, filters]);
+
+    // Unique values for filter dropdowns (optional, but good UX if not free text)
+    // For now using free text as requested, or maybe simple dropdowns if data is consistent?
+    // Let's use text input for flexibility or simple unique mapping if list is small.
+    // User asked for "filter daerah dan jenis company".
+
     const resetForm = () => {
         setFormData({
             id: null,
             company_name: '',
+            region: '',
             industry: '',
             contact_person: '',
             email: '',
@@ -63,7 +88,7 @@ const TargetTable = () => {
         if (target) {
             setFormData({
                 ...target,
-                proposal_final: null, // Reset file input
+                proposal_final: null,
                 proposal_final_url: target.proposal_final
             });
         } else {
@@ -82,6 +107,11 @@ const TargetTable = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters(prev => ({ ...prev, [name]: value }));
+    };
+
     const handleFileChange = (e) => {
         setFormData(prev => ({ ...prev, proposal_final: e.target.files[0] }));
     };
@@ -92,6 +122,7 @@ const TargetTable = () => {
 
         const data = new FormData();
         data.append('company_name', formData.company_name);
+        data.append('region', formData.region || '');
         data.append('industry', formData.industry || '');
         data.append('contact_person', formData.contact_person || '');
         data.append('email', formData.email || '');
@@ -107,13 +138,11 @@ const TargetTable = () => {
 
         try {
             if (formData.id) {
-                // Update (Method spoofing for FormData)
                 data.append('_method', 'PUT');
                 await axios.post(`/company-targets/${formData.id}`, data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
             } else {
-                // Create
                 await axios.post('/company-targets', data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
@@ -142,7 +171,6 @@ const TargetTable = () => {
         }
     };
 
-    // Helper for status colors
     const getStatusColor = (status) => {
         switch (status) {
             case 'Approved': return 'bg-green-500/20 text-green-400';
@@ -154,7 +182,7 @@ const TargetTable = () => {
 
     return (
         <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 min-h-[500px]">
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex justify-between items-center mb-6">
                 <div>
                     <h2 className="text-xl font-bold text-white mb-2">Company Targets</h2>
                     <p className="text-sm text-white/50">Manage your prospective clients and proposals.</p>
@@ -167,6 +195,40 @@ const TargetTable = () => {
                 </button>
             </div>
 
+            {/* Filters */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 bg-white/5 p-4 rounded-xl border border-white/5">
+                <div className="flex flex-col gap-1">
+                    <label className="text-xs text-white/40 uppercase font-bold tracking-wider">Filter Region (Daerah)</label>
+                    <input
+                        type="text"
+                        name="region"
+                        value={filters.region}
+                        onChange={handleFilterChange}
+                        className="bg-[#0f1535] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 outline-none"
+                        placeholder="All Regions..."
+                    />
+                </div>
+                <div className="flex flex-col gap-1">
+                    <label className="text-xs text-white/40 uppercase font-bold tracking-wider">Filter Industry (Jenis Company)</label>
+                    <input
+                        type="text"
+                        name="industry"
+                        value={filters.industry}
+                        onChange={handleFilterChange}
+                        className="bg-[#0f1535] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 outline-none"
+                        placeholder="All Industries..."
+                    />
+                </div>
+                <div className="flex items-end">
+                    <button
+                        onClick={() => setFilters({ region: '', industry: '' })}
+                        className="px-4 py-2 text-sm text-white/40 hover:text-white transition-colors"
+                    >
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+
             {loading ? (
                 <div className="flex justify-center py-20">
                     <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white"></div>
@@ -176,62 +238,59 @@ const TargetTable = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="border-b border-white/10">
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Company Name</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Company</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Region</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Industry</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Contact Person</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Contact</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Email/WA</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Project Type</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Type</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Last Update</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Proposal Final</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Update</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Final</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Admin</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
-                            {targets.length === 0 ? (
+                            {filteredTargets.length === 0 ? (
                                 <tr>
-                                    <td colSpan="10" className="p-8 text-center text-white/30 italic">
-                                        No targets found. Add one to get started.
+                                    <td colSpan="11" className="p-8 text-center text-white/30 italic">
+                                        No targets found matching your filters.
                                     </td>
                                 </tr>
                             ) : (
-                                targets.map((target) => (
+                                filteredTargets.map((target) => (
                                     <tr key={target.id} className="hover:bg-white/5 transition-colors group">
-                                        <td className="p-4 font-bold text-white">{target.company_name}</td>
-                                        <td className="p-4 text-white/70">{target.industry}</td>
-                                        <td className="p-4 text-white/70">{target.contact_person}</td>
+                                        <td className="p-4 font-bold text-white max-w-[150px] truncate" title={target.company_name}>{target.company_name}</td>
+                                        <td className="p-4 text-white/70 text-sm">{target.region || '-'}</td>
+                                        <td className="p-4 text-white/70 text-sm">{target.industry}</td>
+                                        <td className="p-4 text-white/70 text-sm">{target.contact_person}</td>
                                         <td className="p-4 text-white/70">
                                             <div className="flex flex-col gap-1 text-[10px]">
-                                                {target.email && <span className="text-white/60">📧 {target.email}</span>}
+                                                {target.email && <span className="text-white/60 truncate max-w-[120px]" title={target.email}>📧 {target.email}</span>}
                                                 {target.whatsapp_contact && <span className="text-green-400">📞 {target.whatsapp_contact}</span>}
                                             </div>
                                         </td>
-                                        <td className="p-4 text-white/70">{target.project_type}</td>
+                                        <td className="p-4 text-white/70 text-sm">{target.project_type}</td>
                                         <td className="p-4">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${getStatusColor(target.proposal_status)}`}>
                                                 {target.proposal_status}
                                             </span>
                                         </td>
-                                        <td className="p-4 text-white/60 text-sm">
+                                        <td className="p-4 text-white/60 text-[10px]">
                                             {new Date(target.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                                         </td>
                                         <td className="p-4 text-white/70">
                                             {target.proposal_final ? (
-                                                <a href={target.proposal_final} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 underline text-sm flex items-center gap-1">
-                                                    <span>📄 View PDF</span>
+                                                <a href={target.proposal_final} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 underline text-xs flex items-center gap-1">
+                                                    <span>📄 View</span>
                                                 </a>
                                             ) : (
                                                 <span className="text-white/20 text-sm">-</span>
                                             )}
                                         </td>
-                                        <td className="p-4 text-white/70">
-                                            <div className="flex items-center gap-2">
-                                                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-[10px] font-bold">
-                                                    {target.admin_in_charge ? target.admin_in_charge.charAt(0) : '?'}
-                                                </div>
-                                                {target.admin_in_charge}
-                                            </div>
+                                        <td className="p-4 text-white/70 text-xs">
+                                            {target.admin_in_charge}
                                         </td>
                                         <td className="p-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -281,6 +340,17 @@ const TargetTable = () => {
                                         placeholder="e.g. Acme Corp"
                                     />
                                     {errors.company_name && <p className="text-red-400 text-xs">{errors.company_name[0]}</p>}
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Region (Daerah)</label>
+                                    <input
+                                        type="text"
+                                        name="region"
+                                        value={formData.region}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="e.g. Surabaya"
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-sm text-white/60 font-medium">Industry</label>
