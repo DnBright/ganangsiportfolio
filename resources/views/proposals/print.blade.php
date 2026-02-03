@@ -307,7 +307,7 @@
                     </div>
                 </div>
                 <!-- Verification marker -->
-                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V12</div>
+                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V13</div>
                  <div style="position: absolute; bottom: 10mm; right: 20mm; color: #cbd5e1; font-size: 9pt; font-weight: bold;">
                     PAGE {{ $loop->iteration + 1 }}
                 </div>

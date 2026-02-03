@@ -221,17 +221,29 @@
             font-family: 'Outfit', sans-serif; font-size: 18pt; font-weight: 900; color: #3b82f6; opacity: 0.3;
         }
 
-        /* Milestone (Sec 7) */
+        /* Milestone (Sec 7) - COMPACT GRID */
+        .timeline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-top: 8mm; }
+        .timeline-card { 
+            background: #f8fafc; border: 1pt solid #e2e8f0; border-radius: 5mm; padding: 5mm;
+            page-break-inside: avoid;
+        }
+        .timeline-card h3 { font-size: 11pt; font-weight: 900; color: #0f172a; margin-bottom: 2mm; border-bottom: 1px solid #cbd5e1; padding-bottom: 1mm; text-transform: uppercase; }
+        .timeline-card p { font-size: 9pt; line-height: 1.4; color: #475569; margin-bottom: 2mm; }
+        .timeline-card ul { padding-left: 4mm !important; margin: 0 !important; }
+        .timeline-card li { font-size: 8.5pt !important; line-height: 1.3 !important; margin-bottom: 1mm !important; }
+        .timeline-card strong { color: #3b82f6; font-size: 8pt; text-transform: uppercase; }
+
          .milestone-visual { 
-            display: flex; justify-content: space-between; margin-top: 15mm; position: relative;
-            padding-bottom: 10mm;
+            display: flex; justify-content: space-between; margin-top: 10mm; position: relative;
+            padding-bottom: 5mm;
         }
         .milestone-visual::after {
             content: ''; position: absolute; top: 4mm; left: 0; right: 0; height: 1pt;
             background: #e2e8f0; z-index: 0;
         }
         .ms-node { position: relative; z-index: 1; text-align: center; width: 25%; }
-        .ms-dot { width: 8mm; height: 8mm; background: #3b82f6; border-radius: 50%; border: 2pt solid #fff; margin: 0 auto 4mm; box-shadow: 0 0 0 1pt #3b82f6; }
+        .ms-dot { width: 6mm; height: 6mm; background: #3b82f6; border-radius: 50%; border: 2pt solid #fff; margin: 0 auto 3mm; box-shadow: 0 0 0 1pt #3b82f6; }
+        .ms-label { font-size: 7pt !important; font-weight: 900; color: #3b82f6; }
 
         /* Pricing (Sec 8) */
         .pricing-hero {
@@ -429,14 +441,15 @@
                         </div>
 
                     @elseif($section['id'] == 7)
-                        <!-- 7. MILESTONE -->
-                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
+                        <!-- 7. TIMELINE COMPACT GRID -->
+                        <div class="timeline-grid">
+                            {!! $section['content'] !!}
+                        </div>
                         <div class="milestone-visual">
                             <div class="ms-node"><div class="ms-dot"></div><span style="font-size: 10px; font-weight: 900;">WEEK 01</span></div>
                             <div class="ms-node"><div class="ms-dot"></div><span style="font-size: 10px; font-weight: 900;">WEEK 03</span></div>
                             <div class="ms-node"><div class="ms-dot"></div><span style="font-size: 10px; font-weight: 900;">WEEK 06</span></div>
                             <div class="ms-node"><div class="ms-dot"></div><span style="font-size: 10px; font-weight: 900;">LAUNCH</span></div>
-                        </div>
 
                     @elseif($section['id'] == 8)
                         <!-- 8. PRICING -->
@@ -485,7 +498,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V12</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V13</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>

@@ -147,28 +147,30 @@ class GeminiService
             return $out;
         };
 
-        // helper for timeline (REFINED)
+        // helper for timeline (COMPACT GRID)
         $toTimeline = function($timeline) {
             if (!is_array($timeline)) return (string)$timeline;
-            $out = "";
+            $out = "<div class='timeline-grid'>";
             foreach ($timeline as $idx => $t) {
                 $faseNum = $idx + 1;
-                // Clean phase name (remove "Fase X:" prefix if AI includes it)
-                $phaseName = $t['phase'] ?? 'Tahap Pengembangan';
+                $phaseName = $t['phase'] ?? 'Tahap';
                 $phaseName = preg_replace('/^Fase\s*\d+:\s*/i', '', $phaseName);
                 
-                $out .= "<h3>Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")</h3>\n";
-                $out .= "<p>" . ($t['objective'] ?? 'Tujuan fase ini adalah memastikan kelancaran implementasi.') . "</p>\n";
+                $out .= "<div class='timeline-card'>";
+                $out .= "<h3>Fase $faseNum: $phaseName</h3>";
+                $out .= "<p><strong>Durasi:</strong> " . ($t['duration'] ?? '-') . "</p>";
+                $out .= "<p>" . ($t['objective'] ?? '') . "</p>";
+                
                 if (isset($t['activities']) && is_array($t['activities'])) {
-                    $out .= "<p><strong>Aktivitas Utama:</strong></p>\n";
-                    $out .= "<ul>\n";
+                    $out .= "<ul>";
                     foreach ($t['activities'] as $act) {
-                        $out .= "<li>" . $act . "</li>\n";
+                        $out .= "<li>" . trim($act) . "</li>";
                     }
-                    $out .= "</ul>\n";
+                    $out .= "</ul>";
                 }
-                $out .= "\n";
+                $out .= "</div>";
             }
+            $out .= "</div>";
             return $out;
         };
 
