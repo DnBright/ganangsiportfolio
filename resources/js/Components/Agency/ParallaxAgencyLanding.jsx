@@ -72,18 +72,18 @@ const ParallaxAgencyLanding = () => {
     const bgScale = useTransform(smoothProgress, [0, 1], [1, 1.2]);
     const bgRotate = useTransform(smoothProgress, [0, 1], [0, 15]);
 
-    const prototypes = [
+    const prototypes = React.useMemo(() => [
         { id: 'akab', name: 'AKAB AGRO', component: AkabSimulation, color: '#10b981' },
         { id: 'ayaka', name: 'AYAKA', component: AyakaSimulation, color: '#ec4899' },
         { id: 'saitama', name: 'SAITAMA', component: SaitamaSimulation, color: '#f59e0b' },
         { id: 'kursus', name: 'KURSUS JEPANG', component: KursusJepangSimulation, color: '#ef4444' }
-    ];
+    ], []);
 
-    const navItems = [
+    const navItems = React.useMemo(() => [
         { label: 'nav.home', href: '#beranda' },
         { label: 'Prototypes', href: '#prototype' },
         { label: 'Diskusi Strategis', href: '/contact' }
-    ];
+    ], []);
 
     return (
         <LanguageProvider>
