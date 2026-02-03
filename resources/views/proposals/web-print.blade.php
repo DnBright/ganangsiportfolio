@@ -103,30 +103,53 @@
     @endphp
 
     <!-- 1. COVER PAGE (Modern CSS3) -->
-    <div class="page-container page-break relative bg-white">
-        <!-- Background Graphics -->
-        <div class="absolute top-0 right-0 w-[70%] h-full bg-slate-900" style="clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);"></div>
-        <div class="absolute top-0 right-0 w-[40%] h-full bg-blue-600 opacity-90" style="clip-path: polygon(40% 0, 100% 0, 100% 100%, 0% 100%);"></div>
+    <div class="page-container page-break relative bg-slate-900 overflow-hidden">
+        <!-- Background Graphics (Creative & Dynamic) -->
+        <div class="absolute top-0 right-0 w-[80%] h-full bg-blue-600/20 transform skew-x-12 translate-x-32"></div>
+        <div class="absolute bottom-0 left-0 w-[60%] h-[70%] bg-indigo-900/40 rounded-full blur-[120px] -translate-x-32 translate-y-32"></div>
+        <div class="absolute top-20 right-20 w-64 h-64 bg-cyan-400/20 rounded-full blur-[80px]"></div>
         
+        <!-- Shape Accents -->
+        <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-600"></div>
+        <div class="absolute bottom-0 right-0 w-full h-2 bg-gradient-to-r from-indigo-600 via-cyan-400 to-blue-500"></div>
+
         <!-- Content -->
         <div class="relative z-10 h-full flex flex-col justify-center px-16">
-            <div class="glass-panel p-12 rounded-xl max-w-2xl">
-                <div class="text-blue-600 font-bold tracking-[0.2em] mb-4 text-sm uppercase">Strategic Proposal</div>
-                <h1 class="text-6xl font-heading text-slate-900 leading-tight mb-8">
+            <!-- White Logo Config -->
+            @if($logoBase64)
+                 <div class="mb-12">
+                     <img src="{{ $logoBase64 }}" style="height: 35mm; filter: brightness(0) invert(1);" alt="DNB Logo">
+                 </div>
+            @else
+                <div class="text-white text-4xl font-bold mb-12 tracking-tighter">DNB AGENCY</div>
+            @endif
+
+            <div class="glass-panel p-12 rounded-2xl max-w-3xl border-l-[6px] border-cyan-400 bg-white/10 backdrop-blur-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="h-[1px] w-12 bg-cyan-400"></div>
+                    <div class="text-cyan-400 font-bold tracking-[0.3em] text-sm uppercase">Strategic Proposal</div>
+                </div>
+                
+                <h1 class="text-7xl font-heading text-white leading-tight mb-8 drop-shadow-lg">
                     {{ $proposal->title ?? 'DIGITAL TRANSFORMATION' }}
                 </h1>
                 
-                <div class="border-l-4 border-blue-600 pl-6 py-2 mb-8">
-                    <p class="text-slate-500 text-sm uppercase tracking-wider mb-1">Prepared For</p>
-                    <p class="text-3xl font-bold text-slate-800">{{ $proposal->client_name }}</p>
+                <div class="mt-8">
+                    <p class="text-slate-400 text-sm uppercase tracking-wider mb-2">Prepared Exclusively For</p>
+                    <p class="text-4xl font-bold text-white tracking-wide border-b-2 border-white/20 pb-2 inline-block">
+                        {{ $proposal->client_name }}
+                    </p>
                 </div>
             </div>
             
-            <div class="absolute bottom-12 left-12 text-slate-400 text-xs tracking-widest uppercase">
-                Confidential Document &bull; {{ date('Y') }}
-            </div>
-            <div class="absolute bottom-12 right-12 text-white/50 text-right text-xs tracking-widest uppercase">
-                DNB Agency &bull; admin.thedarkandbright.com
+            <div class="absolute bottom-12 left-16 right-16 flex justify-between items-end border-t border-white/10 pt-6">
+                 <div class="text-slate-400 text-xs tracking-widest uppercase">
+                    Strictly Confidential &bull; {{ date('Y') }}
+                </div>
+                <div class="text-right">
+                    <div class="text-white font-bold tracking-widest">THE DARK AND BRIGHT</div>
+                    <div class="text-cyan-400 text-xs tracking-wider">admin.thedarkandbright.com</div>
+                </div>
             </div>
         </div>
     </div>

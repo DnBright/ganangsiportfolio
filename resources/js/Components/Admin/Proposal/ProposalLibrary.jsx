@@ -106,13 +106,13 @@ const ProposalLibrary = ({ proposals = [], onEdit, onDuplicate, onDelete }) => {
                                             <td className="px-6 py-5 text-right">
                                                 <div className="flex justify-end gap-2 no-print">
                                                     <a
-                                                        href={`/proposals/${p.id}/export`}
+                                                        href={`/proposals/${p.id}/print`}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-all text-xs"
-                                                        title="Download PDF"
+                                                        className="p-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-all text-xs border border-blue-500/30"
+                                                        title="Open Premium Print View"
                                                     >
-                                                        🖨️
+                                                        🖨️ Print
                                                     </a>
                                                     <button
                                                         onClick={() => onEdit && onEdit(p)}
