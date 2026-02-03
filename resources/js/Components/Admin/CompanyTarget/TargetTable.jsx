@@ -10,6 +10,9 @@ const TargetTable = () => {
         company_name: '',
         industry: '',
         contact_person: '',
+        email: '',
+        whatsapp_contact: '',
+        social_media: '',
         project_type: 'Website',
         proposal_status: 'Draft',
         proposal_final: null, // File object for upload
@@ -44,6 +47,9 @@ const TargetTable = () => {
             company_name: '',
             industry: '',
             contact_person: '',
+            email: '',
+            whatsapp_contact: '',
+            social_media: '',
             project_type: 'Website',
             proposal_status: 'Draft',
             proposal_final: null,
@@ -88,6 +94,9 @@ const TargetTable = () => {
         data.append('company_name', formData.company_name);
         data.append('industry', formData.industry || '');
         data.append('contact_person', formData.contact_person || '');
+        data.append('email', formData.email || '');
+        data.append('whatsapp_contact', formData.whatsapp_contact || '');
+        data.append('social_media', formData.social_media || '');
         data.append('project_type', formData.project_type || '');
         data.append('proposal_status', formData.proposal_status || 'Draft');
         data.append('admin_in_charge', formData.admin_in_charge || '');
@@ -170,6 +179,7 @@ const TargetTable = () => {
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Company Name</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Industry</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Contact Person</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Email/WA</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Project Type</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
                                 <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Last Update</th>
@@ -181,7 +191,7 @@ const TargetTable = () => {
                         <tbody className="divide-y divide-white/5">
                             {targets.length === 0 ? (
                                 <tr>
-                                    <td colSpan="8" className="p-8 text-center text-white/30 italic">
+                                    <td colSpan="10" className="p-8 text-center text-white/30 italic">
                                         No targets found. Add one to get started.
                                     </td>
                                 </tr>
@@ -191,6 +201,12 @@ const TargetTable = () => {
                                         <td className="p-4 font-bold text-white">{target.company_name}</td>
                                         <td className="p-4 text-white/70">{target.industry}</td>
                                         <td className="p-4 text-white/70">{target.contact_person}</td>
+                                        <td className="p-4 text-white/70">
+                                            <div className="flex flex-col gap-1 text-[10px]">
+                                                {target.email && <span className="text-white/60">📧 {target.email}</span>}
+                                                {target.whatsapp_contact && <span className="text-green-400">📞 {target.whatsapp_contact}</span>}
+                                            </div>
+                                        </td>
                                         <td className="p-4 text-white/70">{target.project_type}</td>
                                         <td className="p-4">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${getStatusColor(target.proposal_status)}`}>
@@ -274,6 +290,39 @@ const TargetTable = () => {
                                         onChange={handleInputChange}
                                         className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
                                         placeholder="e.g. John Doe"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Email (Optional)</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="client@example.com"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">WhatsApp (Optional)</label>
+                                    <input
+                                        type="text"
+                                        name="whatsapp_contact"
+                                        value={formData.whatsapp_contact}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="e.g. 0812..."
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Social Media (Optional)</label>
+                                    <input
+                                        type="text"
+                                        name="social_media"
+                                        value={formData.social_media}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="Link or Handle"
                                     />
                                 </div>
                                 <div className="space-y-2">
