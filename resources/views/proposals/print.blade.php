@@ -137,7 +137,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .layout-grid-content .content-body {
-            color: #e2e8f0;
+            color: #ffffff;
         }
         .layout-grid-content .content-body strong {
             color: #ffffff;

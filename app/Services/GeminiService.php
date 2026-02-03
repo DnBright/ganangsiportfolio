@@ -90,17 +90,17 @@ class GeminiService
                 // Convert markdown bold (**text**) to HTML <strong>
                 $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
                 
-                // If it looks like a manual hyphenated list, convert it
-                if (str_contains($text, "\n- ")) {
+                // If it looks like a list (multi-line), convert it
+                if (str_contains($text, "\n")) {
                     $lines = explode("\n", $text);
                     $out = "<ul>";
                     foreach ($lines as $line) {
                         $line = trim($line);
-                        if (str_starts_with($line, '- ')) {
-                            $out .= "<li>" . trim(substr($line, 2)) . "</li>";
-                        } else if (!empty($line)) {
-                            $out .= "<p>" . $line . "</p>";
-                        }
+                        if (empty($line)) continue;
+                        
+                        // Strip hyphens or bullets if present, then wrap in <li>
+                        $cleanedItem = preg_replace('/^[\-\*\•]\s*/', '', $line);
+                        $out .= "<li>" . $cleanedItem . "</li>";
                     }
                     return $out . "</ul>";
                 }
