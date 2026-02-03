@@ -136,8 +136,13 @@
             padding: 15mm 12mm;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .layout-grid-content .content-body {
-            color: #ffffff;
+        .layout-grid-content .content-body,
+        .layout-grid-content .content-body p,
+        .layout-grid-content .content-body li,
+        .layout-grid-content .content-body ul,
+        .layout-grid-content .content-body strong {
+            color: #ffffff !important;
+            opacity: 1 !important;
         }
         .layout-grid-content .content-body strong {
             color: #ffffff;
