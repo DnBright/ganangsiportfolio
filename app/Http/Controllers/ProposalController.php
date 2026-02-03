@@ -30,16 +30,9 @@ class ProposalController extends Controller
         
         $clientName = $request->input('client_name') ?: $request->input('clientName') ?: 'Klien';
         
-        // Use deadline if provided, otherwise use contract_duration
-        $deadline = $request->input('deadline');
+        // Use contract_duration for timeline (no separate deadline field in form)
         $contractDuration = $request->input('contract_duration', 6);
-        
-        // If deadline is empty but contract_duration exists, use it
-        if (empty($deadline) && $contractDuration) {
-            $deadline = $contractDuration . ' Bulan';
-        } elseif (empty($deadline)) {
-            $deadline = '14 Hari';
-        }
+        $deadline = $contractDuration . ' Bulan';
         
         $data = [
             'client_name' => $clientName,
