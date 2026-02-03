@@ -169,15 +169,15 @@ const ParallaxAgencyLanding = () => {
                         style={{ textAlign: 'center', maxWidth: '800px' }}
                     >
                         <h2 style={{
-                            fontSize: '1rem',
-                            color: '#080808',
+                            fontSize: '1.2rem',
+                            color: '#475569',
                             fontWeight: 900,
                             letterSpacing: '5px',
                             textTransform: 'uppercase',
-                            transition: 'color 0.8s ease'
+                            transition: 'color 0.4s ease'
                         }}
                             onMouseEnter={(e) => e.target.style.color = '#3b82f6'}
-                            onMouseLeave={(e) => e.target.style.color = '#080808'}
+                            onMouseLeave={(e) => e.target.style.color = '#475569'}
                         >
                             Kami melihat apa yang orang lain lewatkan. Strategi tersembunyi untuk hasil nyata.
                         </h2>
@@ -191,7 +191,7 @@ const ParallaxAgencyLanding = () => {
                             <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 900, fontFamily: "'Outfit', sans-serif" }}>
                                 Prototype <span style={{ color: '#3b82f6' }}>Lab.</span>
                             </h2>
-                            <p style={{ color: '#64748b', fontSize: '1.2rem' }}>Coba langsung hasil engineering dan kreativitas kami.</p>
+                            <p style={{ color: '#94a3b8', fontSize: '1.2rem' }}>Coba langsung hasil engineering dan kreativitas kami.</p>
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: '50px', background: 'rgba(255,255,255,0.02)', padding: '40px', borderRadius: '40px', border: '1px solid rgba(255,255,255,0.05)' }}>
@@ -219,7 +219,7 @@ const ParallaxAgencyLanding = () => {
                                     </motion.button>
                                 ))}
                                 <div style={{ marginTop: 'auto', padding: '20px' }}>
-                                    <p style={{ fontSize: '0.8rem', color: '#64748b' }}>* Klik untuk mencoba simulasi live.</p>
+                                    <p style={{ fontSize: '0.8rem', color: '#94a3b8' }}>* Klik untuk mencoba simulasi live.</p>
                                 </div>
                             </div>
 
@@ -244,7 +244,7 @@ const ParallaxAgencyLanding = () => {
                                             <div>
                                                 <div style={{ fontSize: '4rem', marginBottom: '20px' }}>🕹️</div>
                                                 <h3 style={{ fontSize: '1.8rem', fontWeight: 800 }}>Pilih Prototype untuk Mencoba</h3>
-                                                <p style={{ color: '#64748b' }}>Eksplorasi simulasi sistem yang sudah kami kembangkan.</p>
+                                                <p style={{ color: '#94a3b8' }}>Eksplorasi simulasi sistem yang sudah kami kembangkan.</p>
                                             </div>
                                         </div>
                                     )}
