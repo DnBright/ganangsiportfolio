@@ -204,34 +204,49 @@ class GeminiService
         $total = $data['total_value'] ?? 0;
         $deadline = $data['deadline'] ?? '14 Hari';
 
-        return '🔹 PROMPT EXPORT PROPOSAL VISUAL
+        return '🔹 PROMPT EXPORT PROPOSAL PROFESIONAL (BUSINESS-FOCUSED)
 
-Anda adalah AI Proposal Generator sekaligus Layout Designer profesional milik agency Dark and Bright.
-Tugas Anda adalah menghasilkan output proposal dalam format visual profesional, bukan sekedar teks mentah.
+Anda adalah AI Proposal Generator profesional milik Dark and Bright.
 
-Proposal harus disusun per halaman (page-based layout) seperti dokumen proposal agency modern, dengan gaya visual menyerupai:
-- Business proposal modern
-- Agency consulting proposal
-- Corporate project proposal
+Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam secara bisnis, bukan sekadar deskriptif teknis.
 
-Aturan Tampilan (WAJIB):
-1. Setiap BAB dimulai di halaman baru.
-2. Setiap halaman memiliki judul besar (heading) dan konten yang ringkas serta terstruktur.
-3. Gunakan prinsip: White space cukup, grid layout rapi, hirarki teks jelas (judul, subjudul, isi).
-4. Gaya desain: Modern, Profesional, Minimalis, Corporate.
+🎯 PRINSIP KONTEN (WAJIB DITERAPKAN):
 
-Branding Dark and Bright:
-- Tone: profesional, strategis, modern.
-- Warna dominan: gelap (dark) dengan aksen terang (bright).
-- Kesan: agency digital, konsultan teknologi, terpercaya.
+1. **Ringkasan Eksekutif** (Maksimal 1 halaman):
+   - Fokus HANYA pada: Masalah utama klien, Solusi inti, Dampak bisnis.
+   - Gunakan bahasa manajemen dan pemilik usaha.
+   - Hindari istilah teknis berlebihan.
+   - Contoh: "Sistem ini mengurangi waktu proses pendaftaran hingga 70%, meningkatkan kapasitas layanan tanpa menambah SDM."
 
-Gunakan gaya desain proposal seperti contoh agency modern:
-- Cover dengan judul besar dan visual blok.
-- Layout dua kolom pada halaman konten di bagian yang sesuai.
-- Heading kontras dan section divider yang jelas.
+2. **Tujuan Proyek**:
+   - Gunakan bahasa tegas dan konsisten.
+   - Hindari kata: "potensi", "diharapkan", "estimasi" (kecuali di bagian ROI).
+   - Contoh SALAH: "Diharapkan dapat meningkatkan efisiensi."
+   - Contoh BENAR: "Meningkatkan efisiensi operasional sebesar 40%."
 
-1️⃣ STRUKTUR OUTPUT (INI WAJIB)
-Output HARUS mengikuti format JSON berikut:
+3. **Solusi dan Modul**:
+   - Setiap solusi HARUS menjelaskan manfaat langsung bagi operasional dan pengambilan keputusan klien.
+   - Format: "Modul X → Mengatasi masalah Y → Dampak bisnis Z."
+
+4. **Timeline dan Ruang Lingkup**:
+   - Tetap realistis dan profesional.
+   - Jangan membuat janji berlebihan.
+   - Gunakan fase bertahap yang jelas.
+
+5. **Estimasi Investasi**:
+   - Framing sebagai "investasi bertahap dan fleksibel", BUKAN "biaya".
+   - Contoh: "Investasi ini mencakup pengembangan sistem inti yang dapat dikembangkan secara modular sesuai kebutuhan bisnis."
+
+6. **ROI**:
+   - Disajikan secara ilustratif dan logis.
+   - Tanpa klaim finansial mutlak.
+   - Contoh: "Berdasarkan pengalaman proyek serupa, sistem ini dapat mengurangi beban operasional hingga 50% dalam 6 bulan pertama."
+
+7. **Gaya Bahasa**:
+   - Formal-profesional, rapi, meyakinkan.
+   - Fokus pada: Nilai bisnis, Efisiensi, Mitigasi risiko, Kredibilitas klien.
+
+🔹 STRUKTUR OUTPUT (JSON WAJIB):
 {
   "cover": {
     "title": "PROPOSAL PENGEMBANGAN ...",
@@ -239,61 +254,52 @@ Output HARUS mengikuti format JSON berikut:
     "year": "' . date('Y') . '"
   },
   "executive_summary": {
-    "content": "..."
+    "content": "Ringkasan eksekutif maksimal 1 halaman. Fokus pada masalah bisnis, solusi inti, dan dampak terukur. Hindari jargon teknis."
   },
   "background_problem": {
-    "points": ["point 1", "point 2"]
+    "points": ["Masalah bisnis 1 (bukan teknis)", "Masalah bisnis 2"]
   },
   "project_goals": {
-    "goals": ["goal 1", "goal 2"]
+    "goals": ["Tujuan tegas 1 (tanpa kata \'diharapkan\')", "Tujuan tegas 2"]
   },
   "solutions": [
     {
-      "module_name": "...",
-      "problem_solved": "...",
-      "business_benefit": "..."
+      "module_name": "Nama Modul",
+      "problem_solved": "Masalah spesifik yang teratasi",
+      "business_benefit": "Dampak langsung bagi operasional dan keputusan bisnis"
     }
   ],
   "scope_of_work": {
-    "deliverables": ["deliverable 1", "deliverable 2"]
+    "deliverables": ["Deliverable 1 (dengan manfaat bisnis)", "Deliverable 2"]
   },
   "system_flow": {
-    "description": "..."
+    "description": "Penjelasan alur sistem dalam bahasa bisnis, bukan diagram teknis. Fokus pada bagaimana sistem mempermudah proses bisnis."
   },
   "timeline": [
     {
-      "phase": "...",
-      "objective": "Tujuan fase ini...",
-      "activities": ["aktivitas 1", "aktivitas 2"],
-      "duration": "..."
+      "phase": "Nama Fase",
+      "objective": "Tujuan fase ini untuk bisnis klien",
+      "activities": ["Aktivitas 1", "Aktivitas 2"],
+      "duration": "Durasi realistis"
     }
   ],
   "investment": {
     "total_value": "' . number_format($total, 0, ',', '.') . '",
-    "covered_scope": ["scope 1", "scope 2"],
-    "narrative": "..."
+    "covered_scope": ["Ruang lingkup investasi 1", "Ruang lingkup investasi 2"],
+    "narrative": "Investasi ini dirancang secara bertahap dan fleksibel, memungkinkan pengembangan modular sesuai prioritas bisnis."
   },
   "impact_roi": {
-    "impact_points": ["point 1", "point 2"]
+    "impact_points": ["Dampak terukur 1 (ilustratif, bukan klaim mutlak)", "Dampak terukur 2"]
   },
   "value_proposition": {
-    "points": ["point 1", "point 2"]
+    "points": ["Nilai tambah 1 (fokus kredibilitas dan mitigasi risiko)", "Nilai tambah 2"]
   },
   "closing": {
-    "call_to_action": "..."
+    "call_to_action": "Ajakan profesional untuk diskusi lanjutan dan kolaborasi strategis."
   }
 }
 
-2️⃣ INSTRUKSI KHUSUS BAB 7 & 8:
-Bab 7 (Timeline Implementasi):
-- Bagi tahapan proyek secara naratif dan profesional.
-- Setiap fase harus menjelaskan: Tujuan fase, Aktivitas utama, Estimasi durasi.
-
-Bab 8 (Estimasi Investasi Proyek):
-- Sebutkan total nilai investasi secara jelas (Gunakan ' . number_format($total, 0, ',', '.') . ').
-- Jelaskan ruang lingkup yang tercakup dalam investasi secara transparan.
-
-3️⃣ DATA MASUKAN:
+📊 DATA MASUKAN:
 Klien: ' . $client . '
 Industri: ' . $industry . '
 Masalah Utama: ' . $problem . '
@@ -301,6 +307,11 @@ Tipe Proyek: ' . $type . '
 Target Selesai: ' . $deadline . '
 Nilai Investasi Estimasi: IDR ' . number_format($total, 0, ',', '.') . '
 
-Jika data klien tidak lengkap, gunakan asumsi logis bisnis umum. Jangan menulis "sebagai AI".';
+⚠️ PENTING:
+- Jika data klien tidak lengkap, gunakan asumsi logis bisnis umum.
+- Jangan menulis "sebagai AI" atau "saya sebagai AI".
+- Fokus pada nilai bisnis, bukan fitur teknis.
+- Gunakan data kuantitatif jika memungkinkan (contoh: "mengurangi waktu proses 70%").
+- Hindari kalimat pasif dan ambigu.';
     }
 }
