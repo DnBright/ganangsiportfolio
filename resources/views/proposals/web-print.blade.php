@@ -125,12 +125,39 @@
         /* Sidebar (Sec 1) */
         .layout-sidebar { display: grid; grid-template-columns: 1.8fr 1fr; gap: 15mm; }
         .sidebar-accent { 
-            background: #f8fafc; padding: 8mm; border-radius: 8mm;
-            border: 1pt solid #e2e8f0; height: fit-content;
-            position: relative; margin-top: 5mm;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); 
+            padding: 10mm; 
+            border-radius: 10mm;
+            border: 1pt solid #e2e8f0; 
+            height: fit-content;
+            position: relative; 
+            margin-top: 5mm;
+            box-shadow: 0 2mm 8mm rgba(0,0,0,0.03);
         }
         .sidebar-accent::before {
-            content: ''; position: absolute; top: -1px; left: 10mm; width: 10mm; height: 2pt; background: #3b82f6;
+            content: ''; 
+            position: absolute; 
+            top: -1px; 
+            left: 12mm; 
+            width: 15mm; 
+            height: 3pt; 
+            background: #3b82f6;
+            border-radius: 2pt;
+        }
+        .sidebar-accent h4 {
+            font-size: 9pt; 
+            font-weight: 900; 
+            color: #0f172a; 
+            text-transform: uppercase; 
+            margin-bottom: 8mm; 
+            letter-spacing: 2pt;
+        }
+        .sidebar-accent p {
+            font-size: 12pt; 
+            color: #475569; 
+            font-style: italic; 
+            line-height: 1.7;
+            font-weight: 500;
         }
 
         /* Problem (Sec 2) */
@@ -325,10 +352,8 @@
                         <div class="layout-sidebar">
                             <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                             <div class="sidebar-accent">
-                                <h4 style="font-size: 8pt; font-weight: 900; color: #0f172a; text-transform: uppercase; margin-bottom: 5mm; letter-spacing: 1pt;">AGENCY INSIGHT</h4>
-                                <p style="font-size: 11px; color: #64748b; font-style: italic; line-height: 1.6;">
-                                    "Kami merancang solusi ini untuk memaksimalkan ROI anda melalui pendekatan teknologi yang terukur."
-                                </p>
+                                <h4>Agency Insight</h4>
+                                <p>"Kami merancang solusi ini untuk memaksimalkan ROI anda melalui pendekatan teknologi yang terukur."</p>
                             </div>
                         </div>
 
