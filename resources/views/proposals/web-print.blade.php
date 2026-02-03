@@ -323,7 +323,7 @@
                     @if($section['id'] == 1)
                         <!-- 1. SIDEBAR -->
                         <div class="layout-sidebar">
-                            <div>{!! $section['content'] !!}</div>
+                            <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                             <div class="sidebar-accent">
                                 <h4 style="font-size: 8pt; font-weight: 900; color: #0f172a; text-transform: uppercase; margin-bottom: 5mm; letter-spacing: 1pt;">AGENCY INSIGHT</h4>
                                 <p style="font-size: 11px; color: #64748b; font-style: italic; line-height: 1.6;">
@@ -339,7 +339,7 @@
                             <div class="problem-quote">
                                 Menganalisis tantangan anda dengan presisi untuk menciptakan keunggulan kompetitif.
                             </div>
-                            <div>{!! $section['content'] !!}</div>
+                            <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         </div>
 
                     @elseif($section['id'] == 3)
@@ -357,11 +357,11 @@
                                 <p class="text-xs text-slate-500">Mempersiapkan infrastruktur untuk pertumbuhan.</p>
                             </div>
                         </div>
-                        <div>{!! isset(explode("\n\n", $section['content'])[1]) ? implode("\n\n", array_slice(explode("\n\n", $section['content']), 1)) : '' !!}</div>
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', isset(explode("\n\n", $section['content'])[1]) ? implode("\n\n", array_slice(explode("\n\n", $section['content']), 1)) : '') !!}</div>
 
                     @elseif($section['id'] == 4)
                         <!-- 4. GRID -->
-                        <div>{!! explode("\n\n", $section['content'])[0] ?? '' !!}</div>
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', explode("\n\n", $section['content'])[0] ?? '') !!}</div>
                         <div class="layout-grid">
                             <div class="grid-item">
                                 <h3 style="color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt;">Strategy</h3>
@@ -384,12 +384,12 @@
                     @elseif($section['id'] == 5)
                         <!-- 5. LIST -->
                         <div class="layout-deliverables-list">
-                            {!! $section['content'] !!}
+                            {!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}
                         </div>
 
                     @elseif($section['id'] == 6)
                         <!-- 6. FLOW -->
-                        <div>{!! $section['content'] !!}</div>
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         <div style="margin-top: 8mm;">
                             <div class="flow-step">
                                 <div class="flow-number">STEP 01</div><div style="font-weight: 700;">ANALYSIS & RESEARCH</div>
@@ -404,7 +404,7 @@
 
                     @elseif($section['id'] == 7)
                         <!-- 7. MILESTONE -->
-                        <div>{!! $section['content'] !!}</div>
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         <div class="milestone-visual">
                             <div class="ms-node"><div class="ms-dot"></div><span style="font-size: 10px; font-weight: 900;">WEEK 01</span></div>
                             <div class="ms-node"><div class="ms-dot"></div><span style="font-size: 10px; font-weight: 900;">WEEK 03</span></div>
@@ -414,7 +414,7 @@
 
                     @elseif($section['id'] == 8)
                         <!-- 8. PRICING -->
-                        <div>{!! $section['content'] !!}</div>
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         <div class="pricing-hero">
                              <div style="color: #3b82f6; font-weight: 900; font-size: 14px; letter-spacing: 5px;">OFFICIAL QUOTATION</div>
                              <div class="price-value">STRATEGIC PARTNER</div>
@@ -428,12 +428,12 @@
                                 <div class="impact-big-text">100%</div>
                                 <p style="font-size: 10px; fontWeight: 900; color: #64748b;">PROJECTED SUCCESS</p>
                             </div>
-                            <div>{!! $section['content'] !!}</div>
+                            <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         </div>
 
                     @elseif($section['id'] == 10)
                         <!-- 10. CARDS -->
-                        <div>{!! $section['content'] !!}</div>
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         <div class="asymmetric-cards">
                              <div class="value-card-premium">
                                 <h4 style="font-weight: 900; font-size: 12px; margin-bottom: 10px;">DEDICATED TEAM</h4>
@@ -451,7 +451,7 @@
 
                     @else
                         <!-- DEFAULT -->
-                        {!! $section['content'] !!}
+                        {!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}
                     @endif
                 </div>
             </div>
