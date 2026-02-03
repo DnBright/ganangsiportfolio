@@ -106,11 +106,11 @@ class GeminiService
             }
             $out = "";
             foreach ($solutions as $s) {
-                $out .= "### " . ($s['module_name'] ?? 'Modul') . "\n\n";
+                $out .= "<h3>" . ($s['module_name'] ?? 'Modul') . "</h3>\n\n";
                 $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
                 $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
-                $out .= "**Masalah Teratasi:** " . $problem . "\n\n";
-                $out .= "**Manfaat Bisnis:** " . $benefit . "\n\n";
+                $out .= "<strong>Masalah Teratasi:</strong> " . $problem . "\n\n";
+                $out .= "<strong>Manfaat Bisnis:</strong> " . $benefit . "\n\n";
             }
             return $out . "Solusi dapat dikembangkan bertahap sesuai kebutuhan.";
         };
@@ -125,10 +125,10 @@ class GeminiService
                 $phaseName = $t['phase'] ?? 'Tahap Pengembangan';
                 $phaseName = preg_replace('/^Fase\s*\d+:\s*/i', '', $phaseName);
                 
-                $out .= "### Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")\n\n";
+                $out .= "<h3>Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")</h3>\n\n";
                 $out .= ($t['objective'] ?? 'Tujuan fase ini adalah memastikan kelancaran implementasi.') . "\n\n";
                 if (isset($t['activities']) && is_array($t['activities'])) {
-                    $out .= "**Aktivitas Utama:**\n\n";
+                    $out .= "<strong>Aktivitas Utama:</strong>\n\n";
                     foreach ($t['activities'] as $act) {
                         $out .= "- " . $act . "\n";
                     }
