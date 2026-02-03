@@ -220,6 +220,10 @@ class GeminiService
         $investmentText .= "IDR " . number_format($totalValue, 0, ',', '.') . "\n\n";
         $investmentText .= "Investasi ini merupakan paket lengkap yang mencakup pengembangan awal dan fase stabilisasi sistem. Dukungan lanjutan setelah periode 6 bulan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
         
+        // Generate basic timeline based on deadline
+        $deadline = $data['deadline'] ?? '30 Hari';
+        $timelineText = $this->generateBasicTimeline($deadline);
+        
         return [
             'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
             'executive_summary' => (string)$text,
@@ -228,13 +232,46 @@ class GeminiService
             'solutions' => '',
             'scope_of_work' => '',
             'system_walkthrough' => '',
-            'timeline' => '',
+            'timeline' => $timelineText,
             'investment' => $investmentText,
             'roi_impact' => '',
             'value_add' => '',
             'closing_cta' => '',
             'pricing' => isset($data['total_value']) ? number_format($data['total_value'], 0, ',', '.') : ''
         ];
+    }
+    
+    protected function generateBasicTimeline($deadline)
+    {
+        // Parse deadline to extract number and unit
+        preg_match('/(\d+)\s*(Hari|Minggu|Bulan)/i', $deadline, $matches);
+        $totalDuration = isset($matches[1]) ? (int)$matches[1] : 30;
+        $unit = isset($matches[2]) ? $matches[2] : 'Hari';
+        
+        // Divide into 3 phases proportionally
+        $phase1 = round($totalDuration * 0.3);
+        $phase2 = round($totalDuration * 0.4);
+        $phase3 = $totalDuration - $phase1 - $phase2;
+        
+        $timeline = "<h3>Fase 1 – Inisiasi dan Discovery ($phase1 $unit)</h3>\n\n";
+        $timeline .= "Memvalidasi kebutuhan bisnis dan menetapkan fondasi proyek yang solid.\n\n";
+        $timeline .= "<strong>Aktivitas Utama:</strong>\n\n";
+        $timeline .= "- Analisis kebutuhan dan riset mendalam\n";
+        $timeline .= "- Persiapan infrastruktur dan arsitektur sistem\n\n";
+        
+        $timeline .= "<h3>Fase 2 – Pengembangan dan Integrasi ($phase2 $unit)</h3>\n\n";
+        $timeline .= "Membangun sistem inti dan memastikan integrasi berjalan lancar.\n\n";
+        $timeline .= "<strong>Aktivitas Utama:</strong>\n\n";
+        $timeline .= "- Pengembangan fitur dan modul utama\n";
+        $timeline .= "- Integrasi sistem dan testing awal\n\n";
+        
+        $timeline .= "<h3>Fase 3 – Testing dan Deployment ($phase3 $unit)</h3>\n\n";
+        $timeline .= "Memastikan kualitas sistem dan kelancaran go-live.\n\n";
+        $timeline .= "<strong>Aktivitas Utama:</strong>\n\n";
+        $timeline .= "- Quality Assurance dan User Acceptance Testing\n";
+        $timeline .= "- Deployment dan pelatihan tim\n\n";
+        
+        return $timeline;
     }
 
     protected function getErrorProposal($lastError)
@@ -374,12 +411,17 @@ Nilai Investasi Estimasi: IDR ' . number_format($total, 0, ',', '.') . '
 - Gunakan data kuantitatif jika memungkinkan (contoh: "mengurangi waktu proses 70%").
 - Hindari kalimat pasif dan ambigu.
 
-📅 KHUSUS TIMELINE:
-- Total durasi semua fase HARUS sesuai dengan deadline: ' . $deadline . '
+📅 KHUSUS TIMELINE (WAJIB DIPATUHI):
+- **DEADLINE MUTLAK**: ' . $deadline . '
+- Total durasi SEMUA fase HARUS PERSIS sama dengan deadline di atas.
+- Jika deadline "14 Hari Kerja", maka total fase = 14 hari (contoh: Fase 1: 4 hari + Fase 2: 6 hari + Fase 3: 4 hari = 14 hari).
+- Jika deadline "2 Bulan", maka total fase = 8 minggu (contoh: Fase 1: 3 minggu + Fase 2: 3 minggu + Fase 3: 2 minggu = 8 minggu).
+- Jika deadline "30 Hari", maka total fase = 30 hari (contoh: Fase 1: 10 hari + Fase 2: 12 hari + Fase 3: 8 hari = 30 hari).
 - Nama fase JANGAN menggunakan prefix "Fase 1:", "Fase 2:", dll (akan ditambahkan otomatis).
 - Contoh BENAR: "phase": "Inisiasi dan Discovery"
 - Contoh SALAH: "phase": "Fase 1: Inisiasi dan Discovery"
 - Bagi timeline menjadi 3-4 fase yang realistis dan proporsional.
+- PENTING: Durasi harus dalam format yang sama dengan deadline (jika deadline "Hari", gunakan "Hari"; jika "Minggu", gunakan "Minggu"; jika "Bulan", gunakan "Bulan").
 
 💰 KHUSUS ESTIMASI INVESTASI:
 - JANGAN menampilkan rumus matematika atau perhitungan teknis ke klien.
