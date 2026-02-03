@@ -76,6 +76,7 @@ class ProposalController extends Controller
                 'roi_impact' => 'nullable|string',
                 'value_add' => 'nullable|string',
                 'closing_cta' => 'nullable|string',
+                'investment' => 'nullable|string',
                 'pricing' => 'nullable|string|max:255',
                 'status' => 'nullable|string|in:Draft,Sent,Approved,Rejected',
             ]);
@@ -116,6 +117,7 @@ class ProposalController extends Controller
             'roi_impact' => 'nullable|string',
             'value_add' => 'nullable|string',
             'closing_cta' => 'nullable|string',
+            'investment' => 'nullable|string',
             'pricing' => 'nullable|string|max:255',
             'status' => 'nullable|string|in:Draft,Sent,Approved,Rejected',
         ]);

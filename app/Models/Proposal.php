@@ -22,6 +22,7 @@ class Proposal extends Model
         'roi_impact',
         'value_add',
         'closing_cta',
+        'investment',
         'pricing',
         'status',
     ];
