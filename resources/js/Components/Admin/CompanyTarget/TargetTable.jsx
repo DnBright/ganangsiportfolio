@@ -389,161 +389,240 @@ const TargetTable = () => {
                 )
             }
 
-            {/* Modal */}
-            {
-                isModalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-                        <div className="bg-[#1a2042] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
-                            <div className="p-6 border-b border-white/10">
-                                <h3 className="text-xl font-bold text-white">
-                                    {formData.id ? 'Edit Company Target' : 'New Company Target'}
-                                </h3>
-                            </div>
-                            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Company Name</label>
-                                        <input
-                                            type="text"
-                                            name="company_name"
-                                            value={formData.company_name}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="e.g. Acme Corp"
-                                        />
-                                        {errors.company_name && <p className="text-red-400 text-xs">{errors.company_name[0]}</p>}
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Region (Daerah)</label>
-                                        <input
-                                            type="text"
-                                            name="region"
-                                            value={formData.region}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="e.g. Surabaya"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Industry</label>
-                                        <input
-                                            type="text"
-                                            name="industry"
-                                            value={formData.industry}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="e.g. Retail"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Contact Person</label>
-                                        <input
-                                            type="text"
-                                            name="contact_person"
-                                            value={formData.contact_person}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="e.g. John Doe"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Email (Optional)</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="client@example.com"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">WhatsApp (Optional)</label>
-                                        <input
-                                            type="text"
-                                            name="whatsapp_contact"
-                                            value={formData.whatsapp_contact}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="e.g. 0812..."
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Social Media (Optional)</label>
-                                        <input
-                                            type="text"
-                                            name="social_media"
-                                            value={formData.social_media}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                            placeholder="Link or Handle"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Project Type</label>
+            {/* Premium Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    {/* Backdrop with progressive blur */}
+                    <div
+                        className="absolute inset-0 bg-[#060b26]/80 backdrop-blur-md animate-in fade-in duration-300"
+                        onClick={handleCloseModal}
+                    ></div>
+
+                    {/* Modal Content */}
+                    <div className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col">
+
+                        {/* Gradient Header */}
+                        <div className="p-8 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-transparent relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-3xl rounded-full -mr-16 -mt-16"></div>
+                            <h3 className="text-2xl font-bold text-white relative z-10 flex items-center gap-3">
+                                <span className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-blue-600/20">
+                                    {formData.id ? '✏️' : '🎯'}
+                                </span>
+                                {formData.id ? 'Edit Company Target' : 'New Company Target'}
+                            </h3>
+                            <p className="text-white/40 text-xs mt-2 ml-13">Fill in the details to track this business opportunity.</p>
+                        </div>
+
+                        {/* Form Body */}
+                        <form onSubmit={handleSubmit} className="p-8 space-y-8 overflow-y-auto no-scrollbar flex-1">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                {/* Basic Info Section */}
+                                <div className="md:col-span-2">
+                                    <h4 className="text-[10px] uppercase tracking-widest text-blue-400 font-bold mb-4 opacity-70">Client Information</h4>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Company Name</label>
+                                    <input
+                                        type="text"
+                                        name="company_name"
+                                        value={formData.company_name}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="e.g. Acme Corp"
+                                    />
+                                    {errors.company_name && <p className="text-red-400 text-[10px] mt-1 ml-1">{errors.company_name[0]}</p>}
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Region (Daerah)</label>
+                                    <input
+                                        type="text"
+                                        name="region"
+                                        value={formData.region}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="e.g. Surabaya"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Industry / Category</label>
+                                    <input
+                                        type="text"
+                                        name="industry"
+                                        value={formData.industry}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="e.g. Retail / Tech"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Contact Person</label>
+                                    <input
+                                        type="text"
+                                        name="contact_person"
+                                        value={formData.contact_person}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="e.g. John Doe"
+                                    />
+                                </div>
+
+                                {/* Contact Section */}
+                                <div className="md:col-span-2 pt-4">
+                                    <h4 className="text-[10px] uppercase tracking-widest text-blue-400 font-bold mb-4 opacity-70">Communication Channels</h4>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Email Address</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="client@example.com"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">WhatsApp / Phone</label>
+                                    <input
+                                        type="text"
+                                        name="whatsapp_contact"
+                                        value={formData.whatsapp_contact}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="e.g. 0812..."
+                                    />
+                                </div>
+
+                                <div className="space-y-2 md:col-span-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Social Media Link (Optional)</label>
+                                    <input
+                                        type="text"
+                                        name="social_media"
+                                        value={formData.social_media}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                                        placeholder="Instagram / LinkedIn URL"
+                                    />
+                                </div>
+
+                                {/* Proposal Section */}
+                                <div className="md:col-span-2 pt-4">
+                                    <h4 className="text-[10px] uppercase tracking-widest text-blue-400 font-bold mb-4 opacity-70">Proposal Configuration</h4>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Project Type</label>
+                                    <div className="relative">
                                         <select
                                             name="project_type"
                                             value={formData.project_type}
                                             onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all appearance-none cursor-pointer"
                                         >
-                                            <option value="Website">Website</option>
-                                            <option value="Landing Page">Landing Page</option>
-                                            <option value="Dashboard">Dashboard</option>
-                                            <option value="Sistem">Sistem</option>
-                                            <option value="Mobile App">Mobile App</option>
+                                            <option value="Website" className="bg-[#1a2042]">Website</option>
+                                            <option value="Landing Page" className="bg-[#1a2042]">Landing Page</option>
+                                            <option value="Dashboard" className="bg-[#1a2042]">Dashboard</option>
+                                            <option value="Sistem" className="bg-[#1a2042]">Sistem</option>
+                                            <option value="Mobile App" className="bg-[#1a2042]">Mobile App</option>
                                         </select>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/20">▼</div>
                                     </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Proposal Status</label>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Proposal Status</label>
+                                    <div className="relative">
                                         <select
                                             name="proposal_status"
                                             value={formData.proposal_status}
                                             onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white text-sm focus:border-blue-500 focus:bg-white/10 outline-none transition-all appearance-none cursor-pointer"
                                         >
-                                            <option value="Draft">Draft</option>
-                                            <option value="Sent">Sent</option>
-                                            <option value="Revised">Revised</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Archived">Archived</option>
+                                            <option value="Draft" className="bg-[#1a2042]">Draft</option>
+                                            <option value="Sent" className="bg-[#1a2042]">Sent</option>
+                                            <option value="Revised" className="bg-[#1a2042]">Revised</option>
+                                            <option value="Approved" className="bg-[#1a2042]">Approved</option>
+                                            <option value="Archived" className="bg-[#1a2042]">Archived</option>
                                         </select>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Admin In Charge</label>
-                                        <select
-                                            name="admin_in_charge"
-                                            value={formData.admin_in_charge}
-                                            onChange={handleInputChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        >
-                                            <option value="Ganang">Ganang</option>
-                                            <option value="Ipancok">Ipancok</option>
-                                            <option value="Beseren">Beseren</option>
-                                        </select>
-                                    </div>
-                                    <div className="md:col-span-2 space-y-2">
-                                        <label className="text-sm text-white/60 font-medium">Proposal Final (PDF/Doc)</label>
-                                        <input
-                                            type="file"
-                                            onChange={handleFileChange}
-                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white/60 file:bg-blue-600 file:border-none file:text-white file:rounded-md file:mr-4 file:px-4 file:py-1 hover:file:bg-blue-500 cursor-pointer"
-                                        />
-                                        {formData.proposal_final_url && (
-                                            <p className="text-xs text-green-400 mt-1">Current file available. Upload new to replace.</p>
-                                        )}
-                                        {errors.proposal_final && <p className="text-red-400 text-xs">{errors.proposal_final[0]}</p>}
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/20">▼</div>
                                     </div>
                                 </div>
 
-                                <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-white/10">
-                                    <button type="button" onClick={handleCloseModal} className="px-6 py-2 text-white/60 hover:text-white">Cancel</button>
-                                    <button type="submit" className="px-8 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg">Save Target</button>
+                                <div className="space-y-2 md:col-span-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Admin In Charge</label>
+                                    <div className="flex gap-4">
+                                        {['Ganang', 'Ipancok', 'Beseren'].map(admin => (
+                                            <label
+                                                key={admin}
+                                                className={`flex-1 flex items-center justify-center p-3 rounded-xl border cursor-pointer transition-all text-xs font-bold ${formData.admin_in_charge === admin
+                                                        ? 'bg-blue-600/20 border-blue-500 text-blue-400'
+                                                        : 'bg-white/5 border-white/10 text-white/40 hover:bg-white/10'
+                                                    }`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="admin_in_charge"
+                                                    value={admin}
+                                                    checked={formData.admin_in_charge === admin}
+                                                    onChange={handleInputChange}
+                                                    className="hidden"
+                                                />
+                                                {admin}
+                                            </label>
+                                        ))}
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+
+                                <div className="md:col-span-2 space-y-2">
+                                    <label className="text-xs text-white/50 font-bold uppercase tracking-wide ml-1">Proposal Documents (PDF/Doc)</label>
+                                    <div className="relative group/file">
+                                        <input
+                                            type="file"
+                                            onChange={handleFileChange}
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                        />
+                                        <div className="w-full bg-white/5 border-2 border-dashed border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center group-hover/file:border-blue-500/50 transition-all">
+                                            <div className="text-3xl mb-2">📁</div>
+                                            <p className="text-xs text-white/60 font-medium">Click or drag file to upload</p>
+                                            <p className="text-[10px] text-white/20 mt-1">Accepts PDF, DOCX up to 10MB</p>
+                                        </div>
+                                        {formData.proposal_final_url && (
+                                            <div className="flex items-center gap-2 mt-3 p-3 bg-green-500/10 border border-green-500/20 rounded-xl">
+                                                <span className="text-xs">✅</span>
+                                                <p className="text-[10px] text-green-400 font-bold">Existing file detected. Uploading a new one will replace it.</p>
+                                            </div>
+                                        )}
+                                        {errors.proposal_final && <p className="text-red-400 text-[10px] mt-1 ml-1">{errors.proposal_final[0]}</p>}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Sticky Footer for Form */}
+                            <div className="flex justify-end gap-4 pt-6 border-t border-white/10">
+                                <button
+                                    type="button"
+                                    onClick={handleCloseModal}
+                                    className="px-8 py-3 text-sm font-bold text-white/40 hover:text-white transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-10 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 transition-all active:scale-95"
+                                >
+                                    {formData.id ? 'Update Target' : 'Create Target'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                )}
+                </div>
+            )}
         </div>
     );
 };
