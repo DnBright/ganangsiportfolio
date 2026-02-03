@@ -26,6 +26,9 @@
                 height: 297mm !important;
                 width: 210mm !important;
                 overflow: hidden !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: none !important; /* Ensure no borders */
             }
         }
         
