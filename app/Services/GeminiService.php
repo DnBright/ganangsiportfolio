@@ -120,27 +120,15 @@ class GeminiService
             return $out;
         };
 
-        // helper for solutions (Compact Grid ready)
+        // helper for solutions (Consolidated Single Block)
         $toSolutions = function($solutions) {
-            if (!is_array($solutions)) {
-                $text = (string)$solutions;
-                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
-                return "<div class='prose'>" . $text . "</div>";
-            }
-            $out = "<div class='layout-grid'>";
-            $limited = array_slice($solutions, 0, 3);
-            foreach ($limited as $idx => $s) {
-                $num = $idx + 1;
-                $out .= "<div class='grid-item'>";
-                $out .= "<div style='font-family: \"Outfit\"; font-weight: 900; color: #3b82f6; opacity: 0.2; font-size: 24pt; position: absolute; top: 2mm; right: 5mm; z-index: 1;'>0$num</div>";
-                $out .= "<h3 style='color: #0f172a; font-weight: 900; text-transform: uppercase; font-size: 11pt; margin-bottom: 4mm; border-bottom: 2pt solid #3b82f6; display: inline-block; padding-bottom: 1mm;'>" . ($s['module_name'] ?? 'Modul') . "</h3>";
-                $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
-                $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
-                $out .= "<div style='font-size: 9.5pt; color: #475569; margin-bottom: 3mm;'><strong style='color: #3b82f6; font-size: 8pt; text-transform: uppercase; display: block; margin-bottom: 1mm;'>Masalah Teratasi:</strong>" . $problem . "</div>";
-                $out .= "<div style='font-size: 9.5pt; color: #0f172a;'><strong style='color: #3b82f6; font-size: 8pt; text-transform: uppercase; display: block; margin-bottom: 1mm;'>Manfaat Bisnis:</strong>" . $benefit . "</div>";
-                $out .= "</div>";
-            }
-            $out .= "</div>";
+            $text = is_array($solutions) ? implode("\n\n", array_map(fn($s) => ($s['module_name'] ?? '') . ": " . ($s['problem_solved'] ?? ''), $solutions)) : (string)$solutions;
+            $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
+            
+            $out = "<div style='padding: 10mm; background: #f8fafc; border: 1pt solid #e2e8f0; border-radius: 8mm; color: #0f172a !important;'>";
+            $out .= "<div style='font-size: 10.5pt; line-height: 1.7; color: #334155;'>";
+            $out .= $text;
+            $out .= "</div></div>";
             return $out;
         };
 
@@ -391,13 +379,9 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
   "project_goals": {
     "goals": ["Tujuan utama 1 (maksimal 7 kata)", "Tujuan utama 2 (maksimal 7 kata)", "Tujuan utama 3 (maksimal 7 kata)"]
   },
-  "solutions": [
-    {
-      "module_name": "Nama Modul",
-      "problem_solved": "Masalah (maksimal 10 kata)",
-      "business_benefit": "Manfaat (maksimal 10 kata)"
-    }
-  ],
+  "solutions": {
+    "content": "Satu narasi tunggal yang merangkum semua solusi inti (maksimal 3 modul) dalam satu blok teks yang padat dan jelas. Gunakan bullet points jika perlu, tapi pastikan semuanya berada dalam satu kesatuan cerita solusi."
+  },
   "scope_of_work": {
     "deliverables": ["Deliverable 1 (singkat)", "Deliverable 2 (singkat)"]
   },

@@ -404,10 +404,8 @@
                         <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', isset(explode("\n\n", $section['content'])[1]) ? implode("\n\n", array_slice(explode("\n\n", $section['content']), 1)) : '') !!}</div>
 
                     @elseif($section['id'] == 4)
-                        <!-- 4. DYNAMIC GRID SOLUSI -->
-                        <div class="content-body">
-                             {!! $section['content'] !!}
-                        </div>
+                        <!-- 4. SOLUSI TUNGGAL PADAT -->
+                         {!! $section['content'] !!}
 
                     @elseif($section['id'] == 5)
                         <!-- 5. LIST -->
@@ -485,7 +483,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V9</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V10</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
