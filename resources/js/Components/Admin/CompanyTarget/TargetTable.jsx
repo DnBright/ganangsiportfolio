@@ -171,6 +171,48 @@ const TargetTable = () => {
         }
     };
 
+    const handleStatusChange = async (id, newStatus) => {
+        try {
+            // Optimistic update
+            setTargets(prev => prev.map(t =>
+                t.id === id ? { ...t, proposal_status: newStatus } : t
+            ));
+
+            // We need to send other required fields or use PATCH if backend supports it.
+            // Since controller uses validated data for update, let's just send the necessary fields 
+            // but controller update method might require all fields if using 'put' semantic with 'validate'.
+            // However, usually for status update we might want a specific endpoint or just send everything.
+            // To be safe and simple given the current controller:
+
+            const target = targets.find(t => t.id === id);
+            if (!target) return;
+
+            const data = new FormData();
+            data.append('_method', 'PUT');
+            data.append('company_name', target.company_name);
+            data.append('region', target.region || '');
+            data.append('industry', target.industry || '');
+            data.append('contact_person', target.contact_person || '');
+            data.append('email', target.email || '');
+            data.append('whatsapp_contact', target.whatsapp_contact || '');
+            data.append('social_media', target.social_media || '');
+            data.append('project_type', target.project_type || '');
+            data.append('proposal_status', newStatus); // The new status
+            data.append('admin_in_charge', target.admin_in_charge || '');
+
+            // Note: proposal_final file is not re-sent, so it should stay as is in DB (controller handles this if nullable)
+
+            await axios.post(`/company-targets/${id}`, data);
+
+            // Re-fetch to ensure sync (optional if optimistic is enough, but good for consistency)
+            // fetchTargets(); 
+        } catch (err) {
+            console.error('Error updating status:', err);
+            alert('Failed to update status.');
+            fetchTargets(); // Revert on error
+        }
+    };
+
     const getStatusColor = (status) => {
         switch (status) {
             case 'Approved': return 'bg-green-500/20 text-green-400';
@@ -273,9 +315,17 @@ const TargetTable = () => {
                                         </td>
                                         <td className="p-4 text-white/70 text-sm">{target.project_type}</td>
                                         <td className="p-4">
-                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${getStatusColor(target.proposal_status)}`}>
-                                                {target.proposal_status}
-                                            </span>
+                                            <select
+                                                value={target.proposal_status}
+                                                onChange={(e) => handleStatusChange(target.id, e.target.value)}
+                                                className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border-none outline-none cursor-pointer appearance-none text-center min-w-[80px] ${getStatusColor(target.proposal_status)} hover:opacity-80 transition-opacity`}
+                                                style={{ textAlignLast: 'center' }}
+                                            >
+                                                <option value="Draft" className="bg-[#0f1535] text-white">Draft</option>
+                                                <option value="Sent" className="bg-[#0f1535] text-white">Sent</option>
+                                                <option value="Revised" className="bg-[#0f1535] text-white">Revised</option>
+                                                <option value="Approved" className="bg-[#0f1535] text-white">Approved</option>
+                                            </select>
                                         </td>
                                         <td className="p-4 text-white/60 text-[10px]">
                                             {new Date(target.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
