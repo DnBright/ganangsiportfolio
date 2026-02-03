@@ -363,17 +363,17 @@ const TargetTable = () => {
                                                 {target.admin_in_charge}
                                             </td>
                                             <td className="p-4 text-right">
-                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <div className="flex items-center justify-end gap-2 transition-opacity">
                                                     <button
                                                         onClick={() => handleOpenModal(target)}
-                                                        className="w-8 h-8 rounded-lg bg-blue-500/20 hover:bg-blue-500 text-blue-400 hover:text-white flex items-center justify-center transition-all"
+                                                        className="w-8 h-8 rounded-lg bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-white flex items-center justify-center transition-all shadow-sm"
                                                         title="Edit Target"
                                                     >
                                                         ✏️
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(target.id)}
-                                                        className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white flex items-center justify-center transition-all"
+                                                        className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white flex items-center justify-center transition-all shadow-sm"
                                                         title="Delete Target"
                                                     >
                                                         🗑️
@@ -399,8 +399,8 @@ const TargetTable = () => {
 
                     <div className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-5xl max-h-[85vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col">
 
-                        {/* Compact Header */}
-                        <div className="px-8 py-6 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-transparent flex justify-between items-center">
+                        {/* Fixed Compact Header */}
+                        <div className="shrink-0 px-8 py-6 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-transparent flex justify-between items-center z-20">
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-blue-600/20">
                                     {formData.id ? '✏️' : '🎯'}
@@ -416,7 +416,7 @@ const TargetTable = () => {
                         </div>
 
                         {/* Form Body - Split View */}
-                        <form onSubmit={handleSubmit} className="flex-1 overflow-visible flex flex-col md:flex-row">
+                        <form onSubmit={handleSubmit} className="flex-1 overflow-hidden flex flex-col md:flex-row">
 
                             {/* Left: Client Details */}
                             <div className="flex-1 p-8 space-y-6 border-r border-white/5 overflow-y-auto no-scrollbar">
@@ -508,7 +508,7 @@ const TargetTable = () => {
                             </div>
 
                             {/* Right: Status & File Upload */}
-                            <div className="w-full md:w-[380px] bg-black/20 p-8 space-y-6 flex flex-col">
+                            <div className="w-full md:w-[380px] bg-black/20 p-8 space-y-6 flex flex-col overflow-y-auto no-scrollbar">
                                 <h4 className="text-[10px] uppercase tracking-widest text-blue-400 font-bold mb-4">3. Status & Execution</h4>
 
                                 <div className="space-y-4">
@@ -555,8 +555,8 @@ const TargetTable = () => {
                                                     type="button"
                                                     onClick={() => setFormData({ ...formData, admin_in_charge: admin })}
                                                     className={`py-2 rounded-lg text-[10px] font-bold border transition-all ${formData.admin_in_charge === admin
-                                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20'
-                                                            : 'bg-white/5 border-white/10 text-white/30 hover:bg-white/10'
+                                                        ? 'bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-600/20'
+                                                        : 'bg-white/5 border-white/10 text-white/30 hover:bg-white/10'
                                                         }`}
                                                 >
                                                     {admin}
