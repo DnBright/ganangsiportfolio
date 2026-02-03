@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'The Dark and Bright General')</title>
-    <meta name="description" content="@yield('meta_description', 'Professional digital agency services')">
+    <title>@yield('title', 'Dark and Bright - Digital Solution Partner')</title>
+    <meta name="description" content="@yield('meta_description', 'Dark and Bright: Transforming complex business challenges into bright digital solutions.')">
+    <link rel="icon" type="image/png" href="/images/logo-dnb.png">
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }

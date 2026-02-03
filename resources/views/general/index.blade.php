@@ -1,6 +1,7 @@
 @extends('general.layout')
 
-@section('title', 'Home - The Dark and Bright General')
+@section('title', 'Dark and Bright | Strategic Digital Solution Partner')
+@section('meta_description', 'Dark and Bright: Mentransformasi tantangan bisnis yang kompleks menjadi solusi digital yang terang dan berdampak nyata. Partner strategis Anda untuk inovasi dan pertumbuhan tanpa batas.')
 
 @section('content')
 <div id="hero-root" class="scroll-mt-24"></div>
