@@ -447,7 +447,39 @@
 
                     @elseif($section['id'] == 8)
                         <!-- 8. PRICING -->
-                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
+                        @php
+                            // Safety net: If content is just a number, generate breakdown here
+                            $content = $section['content'];
+                            if (is_numeric(str_replace(['.', ',', ' '], '', $content))) {
+                                // Content is just a number, generate breakdown
+                                $totalValue = (float)str_replace(['.', ','], '', $content);
+                                $projectType = $proposal->project_type ?? 'Website Bisnis';
+                                
+                                $splits = [
+                                    'Landing Page' => ['setup' => 40, 'maintenance' => 60],
+                                    'Website Bisnis' => ['setup' => 30, 'maintenance' => 70],
+                                    'Dashboard / Sistem' => ['setup' => 20, 'maintenance' => 80],
+                                    'Sistem Kompleks' => ['setup' => 15, 'maintenance' => 85],
+                                ];
+                                
+                                $split = $splits[$projectType] ?? $splits['Website Bisnis'];
+                                $setupCost = $totalValue * ($split['setup'] / 100);
+                                $maintenanceCost = $totalValue * ($split['maintenance'] / 100);
+                                $maintenanceMonthly = $maintenanceCost / 6;
+                                
+                                $content = "Investasi proyek ini dirancang untuk memberikan nilai bisnis maksimal dengan dukungan berkelanjutan.\n\n";
+                                $content .= "<strong>Rincian Investasi Proyek:</strong>\n\n";
+                                $content .= "- <strong>Biaya Setup Awal</strong>: IDR " . number_format($setupCost, 0, ',', '.') . "\n";
+                                $content .= "  Mencakup pengembangan sistem inti, integrasi data, dan deployment awal.\n\n";
+                                $content .= "- <strong>Dukungan Stabilisasi (6 Bulan)</strong>: IDR " . number_format($maintenanceCost, 0, ',', '.') . "\n";
+                                $content .= "  Maintenance bulanan: IDR " . number_format($maintenanceMonthly, 0, ',', '.') . "\n";
+                                $content .= "  Mencakup monitoring, bug fixing, dan optimasi performa sistem.\n\n";
+                                $content .= "<strong>Total Estimasi Investasi Proyek:</strong>\n";
+                                $content .= "IDR " . number_format($totalValue, 0, ',', '.') . "\n\n";
+                                $content .= "Investasi ini merupakan paket lengkap yang mencakup pengembangan awal dan fase stabilisasi sistem. Dukungan lanjutan setelah periode 6 bulan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
+                            }
+                        @endphp
+                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $content) !!}</div>
                         <div class="pricing-hero">
                              <div style="color: #3b82f6; font-weight: 900; font-size: 14px; letter-spacing: 5px;">OFFICIAL QUOTATION</div>
                              <div class="price-value">STRATEGIC PARTNER</div>
