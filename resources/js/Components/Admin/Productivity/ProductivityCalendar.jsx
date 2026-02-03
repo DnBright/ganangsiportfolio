@@ -156,11 +156,11 @@ const ProductivityCalendar = () => {
                             const adminData = dataForDay[admin];
                             const count = adminData ? adminData.count : 0;
                             const hasLog = adminData && adminData.log;
-                            const isMet = count >= 6;
+                            const isMet = count >= 2;
 
                             // Color logic: Green if met, Yellow if progress, Red/Gray if 0
                             let colorClass = 'bg-white/10';
-                            if (count >= 6) colorClass = 'bg-green-500';
+                            if (count >= 2) colorClass = 'bg-green-500';
                             else if (count > 0) colorClass = 'bg-yellow-500';
                             else if (hasLog) colorClass = 'bg-blue-400'; // Has log but no proposals? maybe planning day
 
@@ -169,7 +169,7 @@ const ProductivityCalendar = () => {
                                     <div className={`h-1.5 w-1.5 rounded-full ${colorClass}`}></div>
                                     <span className="text-white/60 truncate w-12">{admin}</span>
                                     <span className={`ml-auto font-mono ${isMet ? 'text-green-400 font-bold' : 'text-white/40'}`}>
-                                        {count}/6
+                                        {count}/2
                                     </span>
                                 </div>
                             );
@@ -242,7 +242,7 @@ const ProductivityCalendar = () => {
                                             <span className="text-white font-mono">{stats.total_proposals}</span>
                                         </div>
                                         <div className="flex justify-between text-sm text-white/60">
-                                            <span>Days Target Met (6+)</span>
+                                            <span>Days Target Met (2+)</span>
                                             <span className="text-white font-mono">{stats.target_days_met}</span>
                                         </div>
                                     </div>
@@ -253,7 +253,8 @@ const ProductivityCalendar = () => {
 
                     <div className="bg-blue-600/20 backdrop-blur-xl border border-blue-500/30 rounded-[30px] p-6 text-center">
                         <h3 className="text-white font-bold mb-2">Daily Goal 🎯</h3>
-                        <p className="text-blue-200 text-sm">Target: 6 Proposals / Person / Day</p>
+                        <p className="text-blue-200 text-sm">Target: 2 Proposals / Person</p>
+                        <p className="text-white/40 text-xs mt-1">Total Team: 6 Proposals / Day</p>
                         <p className="text-white/40 text-xs mt-4">"Consistency is the key to success."</p>
                     </div>
                 </div>

@@ -88,14 +88,14 @@ class ProductivityController extends Controller
         foreach($admins as $admin) {
             $stats[$admin] = [
                 'total_proposals' => 0,
-                'target_days_met' => 0, // >= 6
+                'target_days_met' => 0, // >= 2
             ];
         }
 
         foreach($proposals as $prop) {
             if (isset($stats[$prop->admin])) {
                 $stats[$prop->admin]['total_proposals'] += $prop->count;
-                if ($prop->count >= 6) {
+                if ($prop->count >= 2) {
                     $stats[$prop->admin]['target_days_met']++;
                 }
             }
