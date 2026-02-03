@@ -166,9 +166,11 @@
         }
         .problem-quote {
             font-size: 28pt; font-weight: 900; color: #0f172a; line-height: 1.05;
-            margin-bottom: 12mm; padding-left: 8mm; border-left: 6pt solid #3b82f6;
-            letter-spacing: -2pt; text-align: left;
+            margin: 0 0 12mm 0 !important; 
+            padding-left: 8mm !important; border-left: 6pt solid #3b82f6 !important;
+            letter-spacing: -2pt; text-align: left !important;
             max-width: 90%;
+            white-space: normal !important; /* Prevent code indentation from affecting text */
         }
 
         /* Objectives (Sec 3) */
@@ -368,9 +370,7 @@
                         <!-- 2. PROBLEM -->
                         <div style="position: relative; padding-top: 5mm;">
                             <span class="problem-bracket">"</span>
-                            <div class="problem-quote">
-                                Menganalisis tantangan anda dengan presisi untuk menciptakan keunggulan kompetitif.
-                            </div>
+                            <div class="problem-quote">Menganalisis tantangan anda dengan presisi untuk menciptakan keunggulan kompetitif.</div>
                             <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         </div>
 
@@ -497,7 +497,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V5</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V6</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
