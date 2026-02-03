@@ -21,6 +21,7 @@ const VisionSidebar = ({ activeTab, onNavigate }) => {
             ]
         },
         { id: 'projects', label: 'Projects', icon: '💼' },
+        { id: 'company_target', label: 'Company Target', icon: '🎯' }, // Added Item
         { id: 'portfolio', label: 'Portfolio', icon: '📁' },
     ];
 

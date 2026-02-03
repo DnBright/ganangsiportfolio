@@ -108,6 +108,14 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     Route::get('/proposals/{proposal}/export', [ProposalController::class, 'exportPdf'])->name('admin.proposals.export');
     Route::delete('/proposals/{proposal}', [ProposalController::class, 'destroy'])->name('admin.proposals.destroy');
 
+    // Company Target Management
+    Route::resource('company-targets', \App\Http\Controllers\Admin\CompanyTargetController::class)->names([
+        'index' => 'admin.targets.index',
+        'store' => 'admin.targets.store',
+        'update' => 'admin.targets.update',
+        'destroy' => 'admin.targets.destroy',
+    ])->except(['create', 'edit', 'show']);
+
     // Temporary Migration & DB Fix Route
     Route::get('/run-migrations', function () {
         try {

@@ -1,0 +1,347 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const TargetTable = () => {
+    const [targets, setTargets] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        id: null,
+        company_name: '',
+        industry: '',
+        contact_person: '',
+        project_type: 'Website',
+        proposal_status: 'Draft',
+        proposal_final: null, // File object for upload
+        proposal_final_url: null, // Display URL for edit
+        admin_in_charge: 'Ganang'
+    });
+    const [errors, setErrors] = useState({});
+
+    // Fetch data
+    const fetchTargets = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.get('/company-targets');
+            // Ensure response.data is an array
+            const data = Array.isArray(response.data) ? response.data : [];
+            setTargets(data);
+        } catch (err) {
+            console.error('Error fetching targets:', err);
+            setTargets([]); // Fallback to empty array
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchTargets();
+    }, []);
+
+    const resetForm = () => {
+        setFormData({
+            id: null,
+            company_name: '',
+            industry: '',
+            contact_person: '',
+            project_type: 'Website',
+            proposal_status: 'Draft',
+            proposal_final: null,
+            proposal_final_url: null,
+            admin_in_charge: 'Ganang'
+        });
+        setErrors({});
+    };
+
+    const handleOpenModal = (target = null) => {
+        if (target) {
+            setFormData({
+                ...target,
+                proposal_final: null, // Reset file input
+                proposal_final_url: target.proposal_final
+            });
+        } else {
+            resetForm();
+        }
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        resetForm();
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e) => {
+        setFormData(prev => ({ ...prev, proposal_final: e.target.files[0] }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErrors({});
+
+        const data = new FormData();
+        data.append('company_name', formData.company_name);
+        data.append('industry', formData.industry || '');
+        data.append('contact_person', formData.contact_person || '');
+        data.append('project_type', formData.project_type || '');
+        data.append('proposal_status', formData.proposal_status || 'Draft');
+        data.append('admin_in_charge', formData.admin_in_charge || '');
+
+        if (formData.proposal_final) {
+            data.append('proposal_final', formData.proposal_final);
+        }
+
+        try {
+            if (formData.id) {
+                // Update (Method spoofing for FormData)
+                data.append('_method', 'PUT');
+                await axios.post(`/company-targets/${formData.id}`, data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+            } else {
+                // Create
+                await axios.post('/company-targets', data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+            }
+            handleCloseModal();
+            fetchTargets();
+        } catch (err) {
+            console.error('Error saving target:', err);
+            if (err.response && err.response.data.errors) {
+                setErrors(err.response.data.errors);
+            } else {
+                alert('An error occurred. Please try again.');
+            }
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this target?')) {
+            try {
+                await axios.delete(`/company-targets/${id}`);
+                fetchTargets();
+            } catch (err) {
+                console.error('Error deleting target:', err);
+                alert('Failed to delete target.');
+            }
+        }
+    };
+
+    // Helper for status colors
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'Approved': return 'bg-green-500/20 text-green-400';
+            case 'Sent': return 'bg-blue-500/20 text-blue-400';
+            case 'Revised': return 'bg-yellow-500/20 text-yellow-400';
+            default: return 'bg-white/10 text-white/60';
+        }
+    };
+
+    return (
+        <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-8 min-h-[500px]">
+            <div className="flex justify-between items-center mb-8">
+                <div>
+                    <h2 className="text-xl font-bold text-white mb-2">Company Targets</h2>
+                    <p className="text-sm text-white/50">Manage your prospective clients and proposals.</p>
+                </div>
+                <button
+                    onClick={() => handleOpenModal()}
+                    className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold text-sm transition-all shadow-lg hover:shadow-blue-500/30"
+                >
+                    + Add New Target
+                </button>
+            </div>
+
+            {loading ? (
+                <div className="flex justify-center py-20">
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white"></div>
+                </div>
+            ) : (
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="border-b border-white/10">
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Company Name</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Industry</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Contact Person</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Project Type</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Last Update</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Proposal Final</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Admin</th>
+                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                            {targets.length === 0 ? (
+                                <tr>
+                                    <td colSpan="8" className="p-8 text-center text-white/30 italic">
+                                        No targets found. Add one to get started.
+                                    </td>
+                                </tr>
+                            ) : (
+                                targets.map((target) => (
+                                    <tr key={target.id} className="hover:bg-white/5 transition-colors group">
+                                        <td className="p-4 font-bold text-white">{target.company_name}</td>
+                                        <td className="p-4 text-white/70">{target.industry}</td>
+                                        <td className="p-4 text-white/70">{target.contact_person}</td>
+                                        <td className="p-4 text-white/70">{target.project_type}</td>
+                                        <td className="p-4">
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${getStatusColor(target.proposal_status)}`}>
+                                                {target.proposal_status}
+                                            </span>
+                                        </td>
+                                        <td className="p-4 text-white/60 text-sm">
+                                            {new Date(target.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                        </td>
+                                        <td className="p-4 text-white/70">
+                                            {target.proposal_final ? (
+                                                <a href={target.proposal_final} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 underline text-sm flex items-center gap-1">
+                                                    <span>📄 View PDF</span>
+                                                </a>
+                                            ) : (
+                                                <span className="text-white/20 text-sm">-</span>
+                                            )}
+                                        </td>
+                                        <td className="p-4 text-white/70">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-[10px] font-bold">
+                                                    {target.admin_in_charge ? target.admin_in_charge.charAt(0) : '?'}
+                                                </div>
+                                                {target.admin_in_charge}
+                                            </div>
+                                        </td>
+                                        <td className="p-4 text-right">
+                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => handleOpenModal(target)} className="text-blue-400 hover:text-white p-2">Edit</button>
+                                                <button onClick={() => handleDelete(target.id)} className="text-red-400 hover:text-red-300 p-2">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                    <div className="bg-[#1a2042] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                        <div className="p-6 border-b border-white/10">
+                            <h3 className="text-xl font-bold text-white">
+                                {formData.id ? 'Edit Company Target' : 'New Company Target'}
+                            </h3>
+                        </div>
+                        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Company Name</label>
+                                    <input
+                                        type="text"
+                                        name="company_name"
+                                        value={formData.company_name}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="e.g. Acme Corp"
+                                    />
+                                    {errors.company_name && <p className="text-red-400 text-xs">{errors.company_name[0]}</p>}
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Industry</label>
+                                    <input
+                                        type="text"
+                                        name="industry"
+                                        value={formData.industry}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="e.g. Retail"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Contact Person</label>
+                                    <input
+                                        type="text"
+                                        name="contact_person"
+                                        value={formData.contact_person}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        placeholder="e.g. John Doe"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Project Type</label>
+                                    <select
+                                        name="project_type"
+                                        value={formData.project_type}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                    >
+                                        <option value="Website">Website</option>
+                                        <option value="Landing Page">Landing Page</option>
+                                        <option value="Dashboard">Dashboard</option>
+                                        <option value="Sistem">Sistem</option>
+                                        <option value="Mobile App">Mobile App</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Proposal Status</label>
+                                    <select
+                                        name="proposal_status"
+                                        value={formData.proposal_status}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                    >
+                                        <option value="Draft">Draft</option>
+                                        <option value="Sent">Sent</option>
+                                        <option value="Revised">Revised</option>
+                                        <option value="Approved">Approved</option>
+                                    </select>
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Admin In Charge</label>
+                                    <select
+                                        name="admin_in_charge"
+                                        value={formData.admin_in_charge}
+                                        onChange={handleInputChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                    >
+                                        <option value="Ganang">Ganang</option>
+                                        <option value="Ipancok">Ipancok</option>
+                                        <option value="Beseren">Beseren</option>
+                                    </select>
+                                </div>
+                                <div className="md:col-span-2 space-y-2">
+                                    <label className="text-sm text-white/60 font-medium">Proposal Final (PDF/Doc)</label>
+                                    <input
+                                        type="file"
+                                        onChange={handleFileChange}
+                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white/60 file:bg-blue-600 file:border-none file:text-white file:rounded-md file:mr-4 file:px-4 file:py-1 hover:file:bg-blue-500 cursor-pointer"
+                                    />
+                                    {formData.proposal_final_url && (
+                                        <p className="text-xs text-green-400 mt-1">Current file available. Upload new to replace.</p>
+                                    )}
+                                    {errors.proposal_final && <p className="text-red-400 text-xs">{errors.proposal_final[0]}</p>}
+                                </div>
+                            </div>
+
+                            <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-white/10">
+                                <button type="button" onClick={handleCloseModal} className="px-6 py-2 text-white/60 hover:text-white">Cancel</button>
+                                <button type="submit" className="px-8 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg">Save Target</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default TargetTable;

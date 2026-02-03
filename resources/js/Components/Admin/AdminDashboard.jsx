@@ -13,6 +13,7 @@ import ProposalEditorComponent from './Proposal/ProposalEditor';
 import ProposalLibrary from './Proposal/ProposalLibrary';
 import TemplatesPrompt from './Proposal/TemplatesPrompt';
 import Performance from './Proposal/Performance';
+import TargetTable from './CompanyTarget/TargetTable';
 import axios from 'axios'; // Added axios import
 
 const AdminDashboard = ({ stats = {} }) => {
@@ -229,6 +230,8 @@ const AdminDashboard = ({ stats = {} }) => {
                 );
             case 'performance':
                 return <Performance proposals={proposals} />;
+            case 'company_target':
+                return <TargetTable />;
             case 'dashboard':
             default:
                 return (
