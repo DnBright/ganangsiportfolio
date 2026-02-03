@@ -30,6 +30,17 @@ class ProposalController extends Controller
         
         $clientName = $request->input('client_name') ?: $request->input('clientName') ?: 'Klien';
         
+        // Use deadline if provided, otherwise use contract_duration
+        $deadline = $request->input('deadline');
+        $contractDuration = $request->input('contract_duration', 6);
+        
+        // If deadline is empty but contract_duration exists, use it
+        if (empty($deadline) && $contractDuration) {
+            $deadline = $contractDuration . ' Bulan';
+        } elseif (empty($deadline)) {
+            $deadline = '14 Hari';
+        }
+        
         $data = [
             'client_name' => $clientName,
             'industry' => $request->input('industry', 'General'),
@@ -37,9 +48,9 @@ class ProposalController extends Controller
             'problem_statement' => $request->input('client_problem', $request->input('problem_statement', 'Standard business optimization')),
             'project_type' => $request->input('project_type', 'Website Bisnis'),
             'total_value' => $request->input('total_value', 0),
-            'contract_duration' => $request->input('contract_duration', 6),
+            'contract_duration' => $contractDuration,
             'project_scale' => $request->input('project_scale', 'medium'),
-            'deadline' => $request->input('deadline', '14 Hari'),
+            'deadline' => $deadline,
         ];
 
         $draft = $this->gemini->generateProposal($data);
