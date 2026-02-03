@@ -186,7 +186,9 @@
         .grid-item { 
             padding: 8mm; border-radius: 6mm; 
             background: #fff; border: 1pt solid #f1f5f9;
+            text-align: left !important;
         }
+        .grid-item h3, .grid-item p, .grid-item li { text-align: left !important; }
         
         /* List (Sec 5) - FIXED SELECTORS */
         .layout-deliverables-list { background: #0f172a !important; border-radius: 10mm; padding: 15mm; color: #ffffff !important; }
@@ -497,7 +499,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V6</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V7</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
