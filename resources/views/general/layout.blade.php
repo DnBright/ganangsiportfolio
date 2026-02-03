@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dark and Bright - Digital Solution Partner')</title>
     <meta name="description" content="@yield('meta_description', 'Dark and Bright: Transforming complex business challenges into bright digital solutions.')">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('title', 'Dark and Bright')">
+    <meta property="og:description" content="@yield('meta_description', 'Dark and Bright: Transforming complex business challenges into bright digital solutions.')">
+    <meta property="og:image" content="{{ asset('images/logo-dnb.png') }}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url()->current() }}">
+    <meta property="twitter:title" content="@yield('title', 'Dark and Bright')">
+    <meta property="twitter:description" content="@yield('meta_description', 'Dark and Bright: Transforming complex business challenges into bright digital solutions.')">
+    <meta property="twitter:image" content="{{ asset('images/logo-dnb.png') }}">
+
     <link rel="icon" type="image/png" href="/images/logo-dnb.png">
     @vite(['resources/css/app.css', 'resources/js/app.jsx'])
     <style>
