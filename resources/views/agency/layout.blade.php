@@ -165,9 +165,10 @@
                 <div>
                     <span class="footer-label">Hubungi Kami</span>
                     <ul class="footer-links">
-                        <li><a href="mailto:hello@thedarkandbright.com">hello@thedarkandbright.com</a></li>
-                        <li><a href="#">LinkedIn</a></li>
-                        <li><a href="#">Kantor Pusat</a></li>
+                        <li><a href="mailto:dnbright000@gmail.com">dnbright000@gmail.com</a></li>
+                        <li><a href="https://wa.me/6285158661152" target="_blank">WhatsApp: +62 851-5866-1152</a></li>
+                        <li><span style="color: #64748b; font-size: 0.95rem;">Yogyakarta, Indonesia</span></li>
+                        <li><a href="https://thedarkandbright.com">thedarkandbright.com</a></li>
                     </ul>
                 </div>
             </div>
