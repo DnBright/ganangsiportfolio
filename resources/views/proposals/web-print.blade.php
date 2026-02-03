@@ -331,7 +331,7 @@
                      <div style="color: rgba(255,255,255,0.5); font-size: 8pt; font-weight: 900; letter-spacing: 2pt; text-transform: uppercase; margin-bottom: 5mm;">Informasi Kontak</div>
                      <div style="color: rgba(255,255,255,0.9); font-size: 10pt; line-height: 1.8;">
                          <div><strong>Email:</strong> dnbright000@gmail.com</div>
-                         <div><strong>Telepon:</strong> +62 812-3456-7890</div>
+                         <div><strong>WhatsApp:</strong> +62 851-5866-1152</div>
                          <div><strong>Alamat:</strong> Yogyakarta, Indonesia</div>
                          <div><strong>Website:</strong> thedarkandbright.com</div>
                      </div>
