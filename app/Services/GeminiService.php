@@ -89,16 +89,35 @@ class GeminiService
                 $text = (string)$arr;
                 // Convert markdown bold (**text**) to HTML <strong>
                 $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
-                // Wrap in paragraphs
+                
+                // If it looks like a manual hyphenated list, convert it
+                if (str_contains($text, "\n- ")) {
+                    $lines = explode("\n", $text);
+                    $out = "<ul>";
+                    foreach ($lines as $line) {
+                        $line = trim($line);
+                        if (str_starts_with($line, '- ')) {
+                            $out .= "<li>" . trim(substr($line, 2)) . "</li>";
+                        } else if (!empty($line)) {
+                            $out .= "<p>" . $line . "</p>";
+                        }
+                    }
+                    return $out . "</ul>";
+                }
+
+                // Wrap in paragraphs if not a list
                 $paragraphs = explode("\n\n", $text);
                 return implode("", array_map(fn($p) => "<p>" . trim($p) . "</p>", array_filter($paragraphs)));
             }
-            $items = array_map(function($item) {
+            
+            $out = "<ul>";
+            foreach ($arr as $item) {
                 // Convert markdown bold to HTML
                 $item = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $item);
-                return $item;
-            }, $arr);
-            return implode("\n\n", array_map(fn($item) => "- " . $item, $items));
+                $out .= "<li>" . $item . "</li>";
+            }
+            $out .= "</ul>";
+            return $out;
         };
 
         // helper for solutions
