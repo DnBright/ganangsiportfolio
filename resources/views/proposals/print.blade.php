@@ -154,15 +154,24 @@
 
         /* --- TYPOGRAPHY UTILS --- */
         .content-body {
-            font-size: 10.5pt; line-height: 1.6; color: #475569; text-align: justify;
+            font-size: 10.5pt; color: #475569;
+        }
+        .content-body p {
+            margin-top: 0;
+            margin-bottom: 4mm;
+            line-height: 1.6;
+            text-align: justify;
         }
         .content-body h3 {
             font-size: 12pt; font-weight: bold; color: #0B1120;
-            margin-top: 5mm; margin-bottom: 3mm;
+            margin-top: 6mm; margin-bottom: 3mm;
             text-transform: uppercase;
+            border-left: 3px solid #2563eb;
+            padding-left: 3mm;
         }
-        .content-body ul { padding-left: 5mm; margin-bottom: 5mm; }
-        .content-body li { margin-bottom: 2mm; }
+        .content-body ul { padding-left: 8mm; margin-bottom: 5mm; list-style-type: square; }
+        .content-body li { margin-bottom: 2mm; line-height: 1.5; text-align: justify; }
+        .content-body strong { color: #1e293b; }
 
         /* Table Styling for Financials */
         .data-table { width: 100%; border-collapse: collapse; margin-top: 5mm; }

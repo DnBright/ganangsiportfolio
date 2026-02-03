@@ -86,9 +86,12 @@ class GeminiService
         // helper to convert array to HTML list with proper formatting
         $toList = function($arr) {
             if (!is_array($arr)) {
+                $text = (string)$arr;
                 // Convert markdown bold (**text**) to HTML <strong>
-                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', (string)$arr);
-                return $text;
+                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
+                // Wrap in paragraphs
+                $paragraphs = explode("\n\n", $text);
+                return implode("", array_map(fn($p) => "<p>" . trim($p) . "</p>", array_filter($paragraphs)));
             }
             $items = array_map(function($item) {
                 // Convert markdown bold to HTML
@@ -101,18 +104,20 @@ class GeminiService
         // helper for solutions
         $toSolutions = function($solutions) {
             if (!is_array($solutions)) {
-                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', (string)$solutions);
-                return $text;
+                $text = (string)$solutions;
+                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
+                $paragraphs = explode("\n\n", $text);
+                return implode("", array_map(fn($p) => "<p>" . trim($p) . "</p>", array_filter($paragraphs)));
             }
             $out = "";
             foreach ($solutions as $s) {
-                $out .= "<h3>" . ($s['module_name'] ?? 'Modul') . "</h3>\n\n";
+                $out .= "<h3>" . ($s['module_name'] ?? 'Modul') . "</h3>\n";
                 $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
                 $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
-                $out .= "<strong>Masalah Teratasi:</strong> " . $problem . "\n\n";
-                $out .= "<strong>Manfaat Bisnis:</strong> " . $benefit . "\n\n";
+                $out .= "<p><strong>Masalah Teratasi:</strong> " . $problem . "</p>\n";
+                $out .= "<p><strong>Manfaat Bisnis:</strong> " . $benefit . "</p>\n";
             }
-            return $out . "Solusi dapat dikembangkan bertahap sesuai kebutuhan.";
+            return $out . "<p>Solusi dapat dikembangkan bertahap sesuai kebutuhan.</p>";
         };
 
         // helper for timeline (REFINED)
@@ -125,13 +130,15 @@ class GeminiService
                 $phaseName = $t['phase'] ?? 'Tahap Pengembangan';
                 $phaseName = preg_replace('/^Fase\s*\d+:\s*/i', '', $phaseName);
                 
-                $out .= "<h3>Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")</h3>\n\n";
-                $out .= ($t['objective'] ?? 'Tujuan fase ini adalah memastikan kelancaran implementasi.') . "\n\n";
+                $out .= "<h3>Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")</h3>\n";
+                $out .= "<p>" . ($t['objective'] ?? 'Tujuan fase ini adalah memastikan kelancaran implementasi.') . "</p>\n";
                 if (isset($t['activities']) && is_array($t['activities'])) {
-                    $out .= "<strong>Aktivitas Utama:</strong>\n\n";
+                    $out .= "<p><strong>Aktivitas Utama:</strong></p>\n";
+                    $out .= "<ul>\n";
                     foreach ($t['activities'] as $act) {
-                        $out .= "- " . $act . "\n";
+                        $out .= "<li>" . $act . "</li>\n";
                     }
+                    $out .= "</ul>\n";
                 }
                 $out .= "\n";
             }
@@ -158,18 +165,17 @@ class GeminiService
             $maintenanceCost = $totalValue * ($split['maintenance'] / 100);
             $maintenanceMonthly = $maintenanceCost / 6; // Default 6 months
             
-            $out = ($inv['narrative'] ?? "Investasi proyek ini dirancang untuk memberikan nilai bisnis maksimal dengan dukungan berkelanjutan.") . "\n\n";
+            $out = "<p>" . ($inv['narrative'] ?? "Investasi proyek ini dirancang untuk memberikan nilai bisnis maksimal dengan dukungan berkelanjutan.") . "</p>\n";
             
-            $out .= "**Rincian Investasi Proyek:**\n\n";
-            $out .= "- **Biaya Setup Awal**: IDR " . number_format($setupCost, 0, ',', '.') . "\n";
-            $out .= "  Mencakup pengembangan sistem inti, integrasi data, dan deployment awal.\n\n";
-            $out .= "- **Dukungan Stabilisasi (6 Bulan)**: IDR " . number_format($maintenanceCost, 0, ',', '.') . "\n";
-            $out .= "  Maintenance bulanan: IDR " . number_format($maintenanceMonthly, 0, ',', '.') . "\n";
-            $out .= "  Mencakup monitoring, bug fixing, dan optimasi performa sistem.\n\n";
+            $out .= "<p><strong>Rincian Investasi Proyek:</strong></p>\n";
+            $out .= "<ul>\n";
+            $out .= "<li><strong>Biaya Setup Awal</strong>: IDR " . number_format($setupCost, 0, ',', '.') . "<br><small>Mencakup pengembangan sistem inti, integrasi data, dan deployment awal.</small></li>\n";
+            $out .= "<li><strong>Dukungan Stabilisasi (6 Bulan)</strong>: IDR " . number_format($maintenanceCost, 0, ',', '.') . "<br><small>Maintenance bulanan: IDR " . number_format($maintenanceMonthly, 0, ',', '.') . ". Mencakup monitoring, bug fixing, dan optimasi performa sistem.</small></li>\n";
+            $out .= "</ul>\n";
             
-            $out .= "**Total Estimasi Investasi Proyek:**\n";
-            $out .= "IDR " . number_format($totalValue, 0, ',', '.') . "\n\n";
-            $out .= "Investasi ini merupakan paket lengkap yang mencakup pengembangan awal dan fase stabilisasi sistem. Dukungan lanjutan setelah periode 6 bulan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
+            $out .= "<p><strong>Total Estimasi Investasi Proyek:</strong><br>\n";
+            $out .= "<span style='font-size: 14pt; color: #2563eb; font-weight: bold;'>IDR " . number_format($totalValue, 0, ',', '.') . "</span></p>\n";
+            $out .= "<p><small>Investasi ini merupakan paket lengkap yang mencakup pengembangan awal dan fase stabilisasi sistem. Dukungan lanjutan setelah periode 6 bulan dapat dibahas secara terpisah sesuai kebutuhan operasional.</small></p>";
             return $out;
         };
 
@@ -185,7 +191,7 @@ class GeminiService
             'investment' => $toInvestment($decoded['investment'] ?? [], $data['project_type'] ?? 'Website Bisnis', $data['total_value'] ?? 0),
             'roi_impact' => $toList($decoded['impact_roi']['impact_points'] ?? $decoded['roi_impact'] ?? []),
             'value_add' => $toList($decoded['value_proposition']['points'] ?? $decoded['value_add'] ?? []),
-            'closing_cta' => $decoded['closing']['call_to_action'] ?? $decoded['closing_cta'] ?? '',
+            'closing_cta' => $decoded['closing']['call_to_action'] ? ("<p>" . $decoded['closing']['call_to_action'] . "</p>") : '',
             'pricing' => $decoded['investment']['total_value'] ?? ($data['total_value'] ? number_format($data['total_value'], 0, ',', '.') : '0'),
             'raw_json' => $decoded 
         ];
