@@ -80,8 +80,10 @@
 
     <!-- FLOATING ACTION BUTTON -->
     <div class="no-print fixed bottom-8 right-8 z-[9999] flex flex-col items-end gap-4 pointer-events-auto">
-        <div class="bg-black/80 text-white text-xs py-1 px-3 rounded mb-2 backdrop-blur-sm">
-            Pastikan Destinasi Printer: <strong>Save as PDF</strong>
+        <div class="bg-black/80 text-white text-xs py-2 px-4 rounded-lg mb-2 backdrop-blur-sm text-right leading-relaxed shadow-xl border border-white/10">
+            <span class="text-yellow-400 font-bold">⚠️ PENTING:</span><br>
+            1. Destination: <strong>Save as PDF</strong><br>
+            2. Options: Centang <strong>✅ Background graphics</strong>
         </div>
         <div class="flex gap-4">
             <button onclick="window.print()" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-2xl transform transition hover:scale-105 flex items-center gap-2 border-2 border-white/20">
