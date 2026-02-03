@@ -165,9 +165,10 @@
             position: absolute; top: -10mm; left: -5mm; opacity: 0.8; z-index: -1;
         }
         .problem-quote {
-            font-size: 24pt; font-weight: 900; color: #0f172a; line-height: 1.1;
-            margin-bottom: 15mm; padding-left: 5mm; border-left: 8pt solid #3b82f6;
-            letter-spacing: -1pt;
+            font-size: 28pt; font-weight: 900; color: #0f172a; line-height: 1.05;
+            margin-bottom: 12mm; padding-left: 8mm; border-left: 6pt solid #3b82f6;
+            letter-spacing: -2pt; text-align: left;
+            max-width: 90%;
         }
 
         /* Objectives (Sec 3) */
@@ -496,7 +497,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V4</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V5</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
