@@ -9,7 +9,8 @@ const TargetTable = () => {
     // Filters State
     const [filters, setFilters] = useState({
         region: '',
-        industry: ''
+        industry: '',
+        status: ''
     });
 
     const [formData, setFormData] = useState({
@@ -56,7 +57,10 @@ const TargetTable = () => {
             const matchIndustry = filters.industry === '' ||
                 (target.industry && target.industry.toLowerCase().includes(filters.industry.toLowerCase()));
 
-            return matchRegion && matchIndustry;
+            const matchStatus = filters.status === '' ||
+                (target.proposal_status && target.proposal_status.toLowerCase() === filters.status.toLowerCase());
+
+            return matchRegion && matchIndustry && matchStatus;
         });
     }, [targets, filters]);
 
@@ -218,6 +222,7 @@ const TargetTable = () => {
             case 'Approved': return 'bg-green-500/20 text-green-400';
             case 'Sent': return 'bg-blue-500/20 text-blue-400';
             case 'Revised': return 'bg-yellow-500/20 text-yellow-400';
+            case 'Archived': return 'bg-gray-500/20 text-gray-400';
             default: return 'bg-white/10 text-white/60';
         }
     };
@@ -250,277 +255,295 @@ const TargetTable = () => {
                         placeholder="All Regions..."
                     />
                 </div>
-                <div className="flex flex-col gap-1">
-                    <label className="text-xs text-white/40 uppercase font-bold tracking-wider">Filter Industry (Jenis Company)</label>
-                    <input
-                        type="text"
-                        name="industry"
-                        value={filters.industry}
-                        onChange={handleFilterChange}
-                        className="bg-[#0f1535] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 outline-none"
-                        placeholder="All Industries..."
-                    />
-                </div>
-                <div className="flex items-end">
-                    <button
-                        onClick={() => setFilters({ region: '', industry: '' })}
-                        className="px-4 py-2 text-sm text-white/40 hover:text-white transition-colors"
-                    >
-                        Clear Filters
-                    </button>
-                </div>
+                <input
+                    type="text"
+                    name="industry"
+                    value={filters.industry}
+                    onChange={handleFilterChange}
+                    className="bg-[#0f1535] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 outline-none"
+                    placeholder="All Industries..."
+                />
+            </div>
+            <div className="flex flex-col gap-1">
+                <label className="text-xs text-white/40 uppercase font-bold tracking-wider">Filter Status</label>
+                <select
+                    name="status"
+                    value={filters.status}
+                    onChange={handleFilterChange}
+                    className="bg-[#0f1535] border border-white/10 rounded-lg px-3 py-2 text-white text-sm focus:border-blue-500 outline-none"
+                >
+                    <option value="">All Statuses</option>
+                    <option value="Draft">DRAFT</option>
+                    <option value="Archived">ARCHIVED</option>
+                    <option value="Sent">SENT</option>
+                    <option value="Approved">APPROVED</option>
+                </select>
+            </div>
+            <div className="flex items-end">
+                <button
+                    onClick={() => setFilters({ region: '', industry: '', status: '' })}
+                    className="px-4 py-2 text-sm text-white/40 hover:text-white transition-colors"
+                >
+                    Clear Filters
+                </button>
             </div>
 
-            {loading ? (
-                <div className="flex justify-center py-20">
-                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white"></div>
-                </div>
-            ) : (
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead>
-                            <tr className="border-b border-white/10">
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Company</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Region</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Industry</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Contact</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Email/WA</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Type</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Update</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Final</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Admin</th>
-                                <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-white/5">
-                            {filteredTargets.length === 0 ? (
-                                <tr>
-                                    <td colSpan="11" className="p-8 text-center text-white/30 italic">
-                                        No targets found matching your filters.
-                                    </td>
+
+            {
+                loading ? (
+                    <div className="flex justify-center py-20">
+                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white"></div>
+                    </div>
+                ) : (
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="border-b border-white/10">
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Company</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Region</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Industry</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Contact</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Email/WA</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Type</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Update</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Final</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Admin</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold text-right">Actions</th>
                                 </tr>
-                            ) : (
-                                filteredTargets.map((target) => (
-                                    <tr key={target.id} className="hover:bg-white/5 transition-colors group">
-                                        <td className="p-4 font-bold text-white max-w-[150px] truncate" title={target.company_name}>{target.company_name}</td>
-                                        <td className="p-4 text-white/70 text-sm">{target.region || '-'}</td>
-                                        <td className="p-4 text-white/70 text-sm">{target.industry}</td>
-                                        <td className="p-4 text-white/70 text-sm">{target.contact_person}</td>
-                                        <td className="p-4 text-white/70">
-                                            <div className="flex flex-col gap-1 text-[10px]">
-                                                {target.email && <span className="text-white/60 truncate max-w-[120px]" title={target.email}>📧 {target.email}</span>}
-                                                {target.whatsapp_contact && <span className="text-green-400">📞 {target.whatsapp_contact}</span>}
-                                            </div>
-                                        </td>
-                                        <td className="p-4 text-white/70 text-sm">{target.project_type}</td>
-                                        <td className="p-4">
-                                            <select
-                                                value={target.proposal_status}
-                                                onChange={(e) => handleStatusChange(target.id, e.target.value)}
-                                                className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border-none outline-none cursor-pointer appearance-none text-center min-w-[80px] ${getStatusColor(target.proposal_status)} hover:opacity-80 transition-opacity`}
-                                                style={{ textAlignLast: 'center' }}
-                                            >
-                                                <option value="Draft" className="bg-[#0f1535] text-white">Draft</option>
-                                                <option value="Sent" className="bg-[#0f1535] text-white">Sent</option>
-                                                <option value="Revised" className="bg-[#0f1535] text-white">Revised</option>
-                                                <option value="Approved" className="bg-[#0f1535] text-white">Approved</option>
-                                            </select>
-                                        </td>
-                                        <td className="p-4 text-white/60 text-[10px]">
-                                            {new Date(target.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                                        </td>
-                                        <td className="p-4 text-white/70">
-                                            {target.proposal_final ? (
-                                                <a href={target.proposal_final} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 underline text-xs flex items-center gap-1">
-                                                    <span>📄 View</span>
-                                                </a>
-                                            ) : (
-                                                <span className="text-white/20 text-sm">-</span>
-                                            )}
-                                        </td>
-                                        <td className="p-4 text-white/70 text-xs">
-                                            {target.admin_in_charge}
-                                        </td>
-                                        <td className="p-4 text-right">
-                                            <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button
-                                                    onClick={() => handleOpenModal(target)}
-                                                    className="w-8 h-8 rounded-lg bg-blue-500/20 hover:bg-blue-500 text-blue-400 hover:text-white flex items-center justify-center transition-all"
-                                                    title="Edit Target"
-                                                >
-                                                    ✏️
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(target.id)}
-                                                    className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white flex items-center justify-center transition-all"
-                                                    title="Delete Target"
-                                                >
-                                                    🗑️
-                                                </button>
-                                            </div>
+                            </thead>
+                            <tbody className="divide-y divide-white/5">
+                                {filteredTargets.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="11" className="p-8 text-center text-white/30 italic">
+                                            No targets found matching your filters.
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                                ) : (
+                                    filteredTargets.map((target) => (
+                                        <tr key={target.id} className="hover:bg-white/5 transition-colors group">
+                                            <td className="p-4 font-bold text-white max-w-[150px] truncate" title={target.company_name}>{target.company_name}</td>
+                                            <td className="p-4 text-white/70 text-sm">{target.region || '-'}</td>
+                                            <td className="p-4 text-white/70 text-sm">{target.industry}</td>
+                                            <td className="p-4 text-white/70 text-sm">{target.contact_person}</td>
+                                            <td className="p-4 text-white/70">
+                                                <div className="flex flex-col gap-1 text-[10px]">
+                                                    {target.email && <span className="text-white/60 truncate max-w-[120px]" title={target.email}>📧 {target.email}</span>}
+                                                    {target.whatsapp_contact && <span className="text-green-400">📞 {target.whatsapp_contact}</span>}
+                                                </div>
+                                            </td>
+                                            <td className="p-4 text-white/70 text-sm">{target.project_type}</td>
+                                            <td className="p-4">
+                                                <select
+                                                    value={target.proposal_status}
+                                                    onChange={(e) => handleStatusChange(target.id, e.target.value)}
+                                                    className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide border-none outline-none cursor-pointer appearance-none text-center min-w-[80px] ${getStatusColor(target.proposal_status)} hover:opacity-80 transition-opacity`}
+                                                    style={{ textAlignLast: 'center' }}
+                                                >
+                                                    <option value="Draft" className="bg-[#0f1535] text-white">Draft</option>
+                                                    <option value="Sent" className="bg-[#0f1535] text-white">Sent</option>
+                                                    <option value="Revised" className="bg-[#0f1535] text-white">Revised</option>
+                                                    <option value="Approved" className="bg-[#0f1535] text-white">Approved</option>
+                                                    <option value="Archived" className="bg-[#0f1535] text-white">Archived</option>
+                                                </select>
+                                            </td>
+                                            <td className="p-4 text-white/60 text-[10px]">
+                                                {new Date(target.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                            </td>
+                                            <td className="p-4 text-white/70">
+                                                {target.proposal_final ? (
+                                                    <a href={target.proposal_final} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 underline text-xs flex items-center gap-1">
+                                                        <span>📄 View</span>
+                                                    </a>
+                                                ) : (
+                                                    <span className="text-white/20 text-sm">-</span>
+                                                )}
+                                            </td>
+                                            <td className="p-4 text-white/70 text-xs">
+                                                {target.admin_in_charge}
+                                            </td>
+                                            <td className="p-4 text-right">
+                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button
+                                                        onClick={() => handleOpenModal(target)}
+                                                        className="w-8 h-8 rounded-lg bg-blue-500/20 hover:bg-blue-500 text-blue-400 hover:text-white flex items-center justify-center transition-all"
+                                                        title="Edit Target"
+                                                    >
+                                                        ✏️
+                                                    </button>
+                                                    <button
+                                                        onClick={() => handleDelete(target.id)}
+                                                        className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white flex items-center justify-center transition-all"
+                                                        title="Delete Target"
+                                                    >
+                                                        🗑️
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
 
             {/* Modal */}
-            {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-                    <div className="bg-[#1a2042] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
-                        <div className="p-6 border-b border-white/10">
-                            <h3 className="text-xl font-bold text-white">
-                                {formData.id ? 'Edit Company Target' : 'New Company Target'}
-                            </h3>
-                        </div>
-                        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Company Name</label>
-                                    <input
-                                        type="text"
-                                        name="company_name"
-                                        value={formData.company_name}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="e.g. Acme Corp"
-                                    />
-                                    {errors.company_name && <p className="text-red-400 text-xs">{errors.company_name[0]}</p>}
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Region (Daerah)</label>
-                                    <input
-                                        type="text"
-                                        name="region"
-                                        value={formData.region}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="e.g. Surabaya"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Industry</label>
-                                    <input
-                                        type="text"
-                                        name="industry"
-                                        value={formData.industry}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="e.g. Retail"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Contact Person</label>
-                                    <input
-                                        type="text"
-                                        name="contact_person"
-                                        value={formData.contact_person}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="e.g. John Doe"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Email (Optional)</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="client@example.com"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">WhatsApp (Optional)</label>
-                                    <input
-                                        type="text"
-                                        name="whatsapp_contact"
-                                        value={formData.whatsapp_contact}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="e.g. 0812..."
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Social Media (Optional)</label>
-                                    <input
-                                        type="text"
-                                        name="social_media"
-                                        value={formData.social_media}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                        placeholder="Link or Handle"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Project Type</label>
-                                    <select
-                                        name="project_type"
-                                        value={formData.project_type}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                    >
-                                        <option value="Website">Website</option>
-                                        <option value="Landing Page">Landing Page</option>
-                                        <option value="Dashboard">Dashboard</option>
-                                        <option value="Sistem">Sistem</option>
-                                        <option value="Mobile App">Mobile App</option>
-                                    </select>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Proposal Status</label>
-                                    <select
-                                        name="proposal_status"
-                                        value={formData.proposal_status}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                    >
-                                        <option value="Draft">Draft</option>
-                                        <option value="Sent">Sent</option>
-                                        <option value="Revised">Revised</option>
-                                        <option value="Approved">Approved</option>
-                                    </select>
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Admin In Charge</label>
-                                    <select
-                                        name="admin_in_charge"
-                                        value={formData.admin_in_charge}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
-                                    >
-                                        <option value="Ganang">Ganang</option>
-                                        <option value="Ipancok">Ipancok</option>
-                                        <option value="Beseren">Beseren</option>
-                                    </select>
-                                </div>
-                                <div className="md:col-span-2 space-y-2">
-                                    <label className="text-sm text-white/60 font-medium">Proposal Final (PDF/Doc)</label>
-                                    <input
-                                        type="file"
-                                        onChange={handleFileChange}
-                                        className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white/60 file:bg-blue-600 file:border-none file:text-white file:rounded-md file:mr-4 file:px-4 file:py-1 hover:file:bg-blue-500 cursor-pointer"
-                                    />
-                                    {formData.proposal_final_url && (
-                                        <p className="text-xs text-green-400 mt-1">Current file available. Upload new to replace.</p>
-                                    )}
-                                    {errors.proposal_final && <p className="text-red-400 text-xs">{errors.proposal_final[0]}</p>}
-                                </div>
+            {
+                isModalOpen && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+                        <div className="bg-[#1a2042] border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                            <div className="p-6 border-b border-white/10">
+                                <h3 className="text-xl font-bold text-white">
+                                    {formData.id ? 'Edit Company Target' : 'New Company Target'}
+                                </h3>
                             </div>
+                            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Company Name</label>
+                                        <input
+                                            type="text"
+                                            name="company_name"
+                                            value={formData.company_name}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="e.g. Acme Corp"
+                                        />
+                                        {errors.company_name && <p className="text-red-400 text-xs">{errors.company_name[0]}</p>}
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Region (Daerah)</label>
+                                        <input
+                                            type="text"
+                                            name="region"
+                                            value={formData.region}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="e.g. Surabaya"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Industry</label>
+                                        <input
+                                            type="text"
+                                            name="industry"
+                                            value={formData.industry}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="e.g. Retail"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Contact Person</label>
+                                        <input
+                                            type="text"
+                                            name="contact_person"
+                                            value={formData.contact_person}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="e.g. John Doe"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Email (Optional)</label>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="client@example.com"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">WhatsApp (Optional)</label>
+                                        <input
+                                            type="text"
+                                            name="whatsapp_contact"
+                                            value={formData.whatsapp_contact}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="e.g. 0812..."
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Social Media (Optional)</label>
+                                        <input
+                                            type="text"
+                                            name="social_media"
+                                            value={formData.social_media}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                            placeholder="Link or Handle"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Project Type</label>
+                                        <select
+                                            name="project_type"
+                                            value={formData.project_type}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        >
+                                            <option value="Website">Website</option>
+                                            <option value="Landing Page">Landing Page</option>
+                                            <option value="Dashboard">Dashboard</option>
+                                            <option value="Sistem">Sistem</option>
+                                            <option value="Mobile App">Mobile App</option>
+                                        </select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Proposal Status</label>
+                                        <select
+                                            name="proposal_status"
+                                            value={formData.proposal_status}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        >
+                                            <option value="Draft">Draft</option>
+                                            <option value="Sent">Sent</option>
+                                            <option value="Revised">Revised</option>
+                                            <option value="Approved">Approved</option>
+                                            <option value="Archived">Archived</option>
+                                        </select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Admin In Charge</label>
+                                        <select
+                                            name="admin_in_charge"
+                                            value={formData.admin_in_charge}
+                                            onChange={handleInputChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white focus:border-blue-500 outline-none"
+                                        >
+                                            <option value="Ganang">Ganang</option>
+                                            <option value="Ipancok">Ipancok</option>
+                                            <option value="Beseren">Beseren</option>
+                                        </select>
+                                    </div>
+                                    <div className="md:col-span-2 space-y-2">
+                                        <label className="text-sm text-white/60 font-medium">Proposal Final (PDF/Doc)</label>
+                                        <input
+                                            type="file"
+                                            onChange={handleFileChange}
+                                            className="w-full bg-[#0f1535] border border-white/20 rounded-lg p-3 text-white/60 file:bg-blue-600 file:border-none file:text-white file:rounded-md file:mr-4 file:px-4 file:py-1 hover:file:bg-blue-500 cursor-pointer"
+                                        />
+                                        {formData.proposal_final_url && (
+                                            <p className="text-xs text-green-400 mt-1">Current file available. Upload new to replace.</p>
+                                        )}
+                                        {errors.proposal_final && <p className="text-red-400 text-xs">{errors.proposal_final[0]}</p>}
+                                    </div>
+                                </div>
 
-                            <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-white/10">
-                                <button type="button" onClick={handleCloseModal} className="px-6 py-2 text-white/60 hover:text-white">Cancel</button>
-                                <button type="submit" className="px-8 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg">Save Target</button>
-                            </div>
-                        </form>
+                                <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-white/10">
+                                    <button type="button" onClick={handleCloseModal} className="px-6 py-2 text-white/60 hover:text-white">Cancel</button>
+                                    <button type="submit" className="px-8 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg">Save Target</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
         </div>
     );
 };
