@@ -366,8 +366,9 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
    - Contoh: "Berdasarkan pengalaman proyek serupa, sistem ini dapat mengurangi beban operasional hingga 50% dalam 6 bulan pertama."
 
 7. **Gaya Bahasa**:
-   - Formal-profesional, rapi, meyakinkan.
-   - Fokus pada: Nilai bisnis, Efisiensi, Mitigasi risiko, Kredibilitas klien.
+   - Manusiawi, empatik, dan persuasif (bukan kaku seperti robot).
+   - Hindari jargon teknis yang rumit. Gunakan bahasa bisnis yang mudah dipahami client awam.
+   - Fokus pada: Solusi praktis, Kenyamanan operasional, dan Pertumbuhan bisnis.
 
 🔹 STRUKTUR OUTPUT (JSON WAJIB):
 {
@@ -377,10 +378,10 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
     "year": "' . date('Y') . '"
   },
   "executive_summary": {
-    "content": "Ringkasan eksekutif maksimal 1 halaman. Fokus pada masalah bisnis, solusi inti, dan dampak terukur. Hindari jargon teknis."
+    "content": "Ringkasan eksekutif yang memikat. Gunakan alur: Masalah yang dihadapi klien -> Bagaimana kami membantu -> Hasil nyata yang akan dirasakan. Gunakan bahasa yang hangat namun tetap profesional. Hindari kata-kata sulit."
   },
   "background_problem": {
-    "points": ["Masalah bisnis 1 (bukan teknis)", "Masalah bisnis 2"]
+    "points": ["Kendala nyata (pain points) yang dirasakan operasional sehari-hari", "Hambatan bisnis yang menghambat pertumbuhan"]
   },
   "project_goals": {
     "goals": ["Tujuan tegas 1 (tanpa kata \'diharapkan\')", "Tujuan tegas 2"]
