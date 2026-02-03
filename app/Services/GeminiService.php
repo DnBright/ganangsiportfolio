@@ -98,9 +98,9 @@ class GeminiService
                         $line = trim($line);
                         if (empty($line)) continue;
                         
-                        // Strip hyphens or bullets if present, then wrap in <li>
-                        $cleanedItem = preg_replace('/^[\-\*\•]\s*/', '', $line);
-                        $out .= "<li>" . $cleanedItem . "</li>";
+                        // Strip hyphens, bullets, arrows, or other common list symbols
+                        $cleanedItem = preg_replace('/^[\-\*\•\→\⇒\>\d\.]+\s*/', '', $line);
+                        $out .= "<li>" . trim($cleanedItem) . "</li>";
                     }
                     return $out . "</ul>";
                 }

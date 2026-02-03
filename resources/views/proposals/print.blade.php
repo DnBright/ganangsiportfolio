@@ -137,15 +137,14 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         .layout-grid-content .content-body,
-        .layout-grid-content .content-body p,
-        .layout-grid-content .content-body li,
-        .layout-grid-content .content-body ul,
-        .layout-grid-content .content-body strong {
+        .layout-grid-content .content-body * {
             color: #ffffff !important;
             opacity: 1 !important;
+            fill: #ffffff !important;
         }
-        .layout-grid-content .content-body strong {
-            color: #ffffff;
+        .layout-grid-content .content-body h3 {
+            color: #ffffff !important;
+            border-left-color: #ffffff !important;
         }
         .layout-grid-content .content-body p, 
         .layout-grid-content .content-body li {
