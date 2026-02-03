@@ -5,6 +5,7 @@ const TargetTable = () => {
     const [targets, setTargets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalY, setModalY] = useState(40);
 
     // Filters State
     const [filters, setFilters] = useState({
@@ -88,7 +89,15 @@ const TargetTable = () => {
         setErrors({});
     };
 
-    const handleOpenModal = (target = null) => {
+    const handleOpenModal = (target = null, e = null) => {
+        if (e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            // Center the modal roughly on the clicked row, but clamp to top
+            setModalY(Math.max(20, rect.top - 150));
+        } else {
+            setModalY(40);
+        }
+
         if (target) {
             setFormData({
                 ...target,
@@ -365,7 +374,7 @@ const TargetTable = () => {
                                             <td className="p-4 text-right">
                                                 <div className="flex items-center justify-end gap-2 transition-opacity">
                                                     <button
-                                                        onClick={() => handleOpenModal(target)}
+                                                        onClick={(e) => handleOpenModal(target, e)}
                                                         className="w-8 h-8 rounded-lg bg-blue-500/10 hover:bg-blue-500 text-blue-400 hover:text-white flex items-center justify-center transition-all shadow-sm"
                                                         title="Edit Target"
                                                     >
@@ -391,13 +400,16 @@ const TargetTable = () => {
 
             {/* Optimized Zero-Scroll Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-10 overflow-y-auto">
+                <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto">
                     <div
                         className="absolute inset-0 bg-[#060b26]/90 backdrop-blur-md animate-in fade-in duration-300"
                         onClick={handleCloseModal}
                     ></div>
 
-                    <div className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-5xl max-h-[85vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col">
+                    <div
+                        className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-5xl max-h-[85vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col"
+                        style={{ marginTop: `${modalY}px` }}
+                    >
 
                         {/* Fixed Compact Header */}
                         <div className="shrink-0 px-8 py-6 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-transparent flex justify-between items-center z-20">
