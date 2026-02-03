@@ -174,6 +174,12 @@ class ProposalController extends Controller
         }
     }
 
+    public function webPrint($id)
+    {
+        $proposal = Proposal::findOrFail($id);
+        return view('proposals.web-print', compact('proposal'));
+    }
+
     public function destroy(Proposal $proposal)
     {
         $proposal->delete();

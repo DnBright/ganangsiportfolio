@@ -104,6 +104,7 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     Route::post('/proposals', [ProposalController::class, 'store'])->name('admin.proposals.store');
     Route::post('/proposals/generate-draft', [ProposalController::class, 'generateDraft'])->name('admin.proposals.generate');
     Route::patch('/proposals/{proposal}', [ProposalController::class, 'update'])->name('admin.proposals.update');
+    Route::get('/proposals/{proposal}/print', [ProposalController::class, 'webPrint'])->name('admin.proposals.print');
     Route::get('/proposals/{proposal}/export', [ProposalController::class, 'exportPdf'])->name('admin.proposals.export');
     Route::delete('/proposals/{proposal}', [ProposalController::class, 'destroy'])->name('admin.proposals.destroy');
 
