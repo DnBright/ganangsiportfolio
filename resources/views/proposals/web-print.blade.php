@@ -185,14 +185,16 @@
             background: #fff; border: 1pt solid #f1f5f9;
         }
         
-        /* List (Sec 5) */
-        .layout-deliverables-list { background: #0f172a; border-radius: 10mm; padding: 15mm; color: #ffffff !important; }
-        .layout-deliverables-list .prose p, 
-        .layout-deliverables-list .prose li,
-        .layout-deliverables-list .prose strong,
-        .layout-deliverables-list .prose * { 
+        /* List (Sec 5) - FIXED SELECTORS */
+        .layout-deliverables-list { background: #0f172a !important; border-radius: 10mm; padding: 15mm; color: #ffffff !important; }
+        .layout-deliverables-list p, 
+        .layout-deliverables-list li,
+        .layout-deliverables-list strong,
+        .layout-deliverables-list span,
+        .layout-deliverables-list * { 
             color: #ffffff !important; 
             opacity: 1 !important;
+            -webkit-print-color-adjust: exact !important;
         }
 
         /* Flow (Sec 6) */
@@ -494,7 +496,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V3</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V4</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
