@@ -193,6 +193,33 @@ class GeminiService
 
     protected function getEmptyProposal($data, $text)
     {
+        // Generate investment breakdown even for empty/fallback proposals
+        $projectType = $data['project_type'] ?? 'Website Bisnis';
+        $totalValue = $data['total_value'] ?? 0;
+        
+        $splits = [
+            'Landing Page' => ['setup' => 40, 'maintenance' => 60],
+            'Website Bisnis' => ['setup' => 30, 'maintenance' => 70],
+            'Dashboard / Sistem' => ['setup' => 20, 'maintenance' => 80],
+            'Sistem Kompleks' => ['setup' => 15, 'maintenance' => 85],
+        ];
+        
+        $split = $splits[$projectType] ?? $splits['Website Bisnis'];
+        $setupCost = $totalValue * ($split['setup'] / 100);
+        $maintenanceCost = $totalValue * ($split['maintenance'] / 100);
+        $maintenanceMonthly = $maintenanceCost / 6;
+        
+        $investmentText = "Investasi proyek ini dirancang untuk memberikan nilai bisnis maksimal dengan dukungan berkelanjutan.\n\n";
+        $investmentText .= "<strong>Rincian Investasi Proyek:</strong>\n\n";
+        $investmentText .= "- <strong>Biaya Setup Awal</strong>: IDR " . number_format($setupCost, 0, ',', '.') . "\n";
+        $investmentText .= "  Mencakup pengembangan sistem inti, integrasi data, dan deployment awal.\n\n";
+        $investmentText .= "- <strong>Dukungan Stabilisasi (6 Bulan)</strong>: IDR " . number_format($maintenanceCost, 0, ',', '.') . "\n";
+        $investmentText .= "  Maintenance bulanan: IDR " . number_format($maintenanceMonthly, 0, ',', '.') . "\n";
+        $investmentText .= "  Mencakup monitoring, bug fixing, dan optimasi performa sistem.\n\n";
+        $investmentText .= "<strong>Total Estimasi Investasi Proyek:</strong>\n";
+        $investmentText .= "IDR " . number_format($totalValue, 0, ',', '.') . "\n\n";
+        $investmentText .= "Investasi ini merupakan paket lengkap yang mencakup pengembangan awal dan fase stabilisasi sistem. Dukungan lanjutan setelah periode 6 bulan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
+        
         return [
             'title' => 'Proposal ' . ($data['client_name'] ?? 'Klien'),
             'executive_summary' => (string)$text,
@@ -202,7 +229,7 @@ class GeminiService
             'scope_of_work' => '',
             'system_walkthrough' => '',
             'timeline' => '',
-            'investment' => '',
+            'investment' => $investmentText,
             'roi_impact' => '',
             'value_add' => '',
             'closing_cta' => '',
