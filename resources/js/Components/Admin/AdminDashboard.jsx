@@ -14,6 +14,7 @@ import ProposalLibrary from './Proposal/ProposalLibrary';
 import TemplatesPrompt from './Proposal/TemplatesPrompt';
 import Performance from './Proposal/Performance';
 import TargetTable from './CompanyTarget/TargetTable';
+import ProductivityCalendar from './Productivity/ProductivityCalendar';
 import axios from 'axios'; // Added axios import
 
 const AdminDashboard = ({ stats = {} }) => {
@@ -232,6 +233,8 @@ const AdminDashboard = ({ stats = {} }) => {
                 return <Performance proposals={proposals} />;
             case 'company_target':
                 return <TargetTable />;
+            case 'productivity':
+                return <ProductivityCalendar />;
             case 'dashboard':
             default:
                 return (

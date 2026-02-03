@@ -116,6 +116,12 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
         'destroy' => 'admin.targets.destroy',
     ])->except(['create', 'edit', 'show']);
 
+    // Productivity Calendar
+    Route::get('/productivity', [\App\Http\Controllers\Admin\ProductivityController::class, 'index'])->name('admin.productivity.index');
+    Route::get('/productivity/data', [\App\Http\Controllers\Admin\ProductivityController::class, 'getData'])->name('admin.productivity.data');
+    Route::get('/productivity/details', [\App\Http\Controllers\Admin\ProductivityController::class, 'getDailyDetails'])->name('admin.productivity.details');
+    Route::post('/productivity/log', [\App\Http\Controllers\Admin\ProductivityController::class, 'storeLog'])->name('admin.productivity.log');
+
     // Temporary Migration & DB Fix Route
     Route::get('/run-migrations', function () {
         try {
