@@ -12,6 +12,7 @@ import PortfolioShowcase from './Components/PortfolioShowcase';
 import Solutions from './Components/Solutions';
 import ContactFooter from './Components/ContactFooter';
 import AdminLogin from './Components/Admin/Auth/AdminLogin';
+import ParallaxAgencyLanding from './Components/Agency/ParallaxAgencyLanding';
 import { LanguageProvider } from './Contexts/LanguageContext';
 
 window.Alpine = Alpine;
@@ -171,5 +172,14 @@ if (adminLoginRoot) {
                 status={data.status}
             />
         </LanguageProvider>
+    );
+}
+
+// Mount Agency Parallax if the container exists
+const agencyRoot = document.getElementById('agency-root');
+if (agencyRoot) {
+    const root = createRoot(agencyRoot);
+    root.render(
+        <ParallaxAgencyLanding />
     );
 }

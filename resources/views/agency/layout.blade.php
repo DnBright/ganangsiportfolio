@@ -119,6 +119,7 @@
     </style>
 </head>
 <body>
+    @if(!request()->routeIs('agency.home'))
     <header>
         <div class="container">
             <nav>
@@ -134,11 +135,13 @@
             </nav>
         </div>
     </header>
+    @endif
 
-    <main>
+    <main style="{{ request()->routeIs('agency.home') ? 'padding-top: 0;' : '' }}">
         @yield('content')
     </main>
 
+    @if(!request()->routeIs('agency.home'))
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -174,5 +177,6 @@
             </div>
         </div>
     </footer>
+    @endif
 </body>
 </html>
