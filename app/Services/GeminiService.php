@@ -121,10 +121,14 @@ class GeminiService
             $out = "";
             foreach ($timeline as $idx => $t) {
                 $faseNum = $idx + 1;
-                $out .= "### Fase $faseNum – " . ($t['phase'] ?? 'Tahap Pengembangan') . " (" . ($t['duration'] ?? '-') . ")\n";
+                // Clean phase name (remove "Fase X:" prefix if AI includes it)
+                $phaseName = $t['phase'] ?? 'Tahap Pengembangan';
+                $phaseName = preg_replace('/^Fase\s*\d+:\s*/i', '', $phaseName);
+                
+                $out .= "### Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")\n\n";
                 $out .= ($t['objective'] ?? 'Tujuan fase ini adalah memastikan kelancaran implementasi.') . "\n\n";
                 if (isset($t['activities']) && is_array($t['activities'])) {
-                    $out .= "**Aktivitas Utama:**\n";
+                    $out .= "**Aktivitas Utama:**\n\n";
                     foreach ($t['activities'] as $act) {
                         $out .= "- " . $act . "\n";
                     }
@@ -291,10 +295,10 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
   },
   "timeline": [
     {
-      "phase": "Nama Fase",
+      "phase": "Inisiasi dan Penemuan Metrik Kunci",
       "objective": "Tujuan fase ini untuk bisnis klien",
       "activities": ["Aktivitas 1", "Aktivitas 2"],
-      "duration": "Durasi realistis"
+      "duration": "Durasi realistis (sesuaikan dengan total deadline ' . $deadline . ')"
     }
   ],
   "investment": {
@@ -326,6 +330,13 @@ Nilai Investasi Estimasi: IDR ' . number_format($total, 0, ',', '.') . '
 - Jangan menulis "sebagai AI" atau "saya sebagai AI".
 - Fokus pada nilai bisnis, bukan fitur teknis.
 - Gunakan data kuantitatif jika memungkinkan (contoh: "mengurangi waktu proses 70%").
-- Hindari kalimat pasif dan ambigu.';
+- Hindari kalimat pasif dan ambigu.
+
+📅 KHUSUS TIMELINE:
+- Total durasi semua fase HARUS sesuai dengan deadline: ' . $deadline . '
+- Nama fase JANGAN menggunakan prefix "Fase 1:", "Fase 2:", dll (akan ditambahkan otomatis).
+- Contoh BENAR: "phase": "Inisiasi dan Discovery"
+- Contoh SALAH: "phase": "Fase 1: Inisiasi dan Discovery"
+- Bagi timeline menjadi 3-4 fase yang realistis dan proporsional.';
     }
 }
