@@ -32,7 +32,13 @@ class ProposalController extends Controller
         
         // Use contract_duration for timeline (no separate deadline field in form)
         $contractDuration = $request->input('contract_duration', 6);
-        $deadline = $contractDuration . ' Bulan';
+        
+        // GRANULARITY FIX: If duration <= 3 months, use Weeks (Minggu) to avoid "0 Bulan" phases
+        if ($contractDuration <= 3) {
+            $deadline = ($contractDuration * 4) . ' Minggu';
+        } else {
+            $deadline = $contractDuration . ' Bulan';
+        }
         
         $data = [
             'client_name' => $clientName,

@@ -421,7 +421,7 @@ Nilai Investasi Estimasi: IDR ' . number_format($total, 0, ',', '.') . '
 - Contoh BENAR: "phase": "Inisiasi dan Discovery"
 - Contoh SALAH: "phase": "Fase 1: Inisiasi dan Discovery"
 - Bagi timeline menjadi 3-4 fase yang realistis dan proporsional.
-- PENTING: Durasi harus dalam format yang sama dengan deadline (jika deadline "Hari", gunakan "Hari"; jika "Minggu", gunakan "Minggu"; jika "Bulan", gunakan "Bulan").
+- PENTING: Durasi fase harus logis. Jika total deadline dalam "Minggu", gunakan satuan "Minggu" atau "Hari". Jika dalam "Bulan", gunakan "Bulan" atau "Minggu" agar tidak terjadi "0 Bulan".
 
 💰 KHUSUS ESTIMASI INVESTASI:
 - JANGAN menampilkan rumus matematika atau perhitungan teknis ke klien.
