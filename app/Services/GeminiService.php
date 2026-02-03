@@ -83,20 +83,34 @@ class GeminiService
 
     protected function mapOutputToFrontend($decoded, $data)
     {
-        // helper to convert array to markdown list
+        // helper to convert array to HTML list with proper formatting
         $toList = function($arr) {
-            if (!is_array($arr)) return (string)$arr;
-            return implode("\n", array_map(fn($item) => "- " . $item, $arr));
+            if (!is_array($arr)) {
+                // Convert markdown bold (**text**) to HTML <strong>
+                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', (string)$arr);
+                return $text;
+            }
+            $items = array_map(function($item) {
+                // Convert markdown bold to HTML
+                $item = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $item);
+                return $item;
+            }, $arr);
+            return implode("\n\n", array_map(fn($item) => "- " . $item, $items));
         };
 
         // helper for solutions
         $toSolutions = function($solutions) {
-            if (!is_array($solutions)) return (string)$solutions;
+            if (!is_array($solutions)) {
+                $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', (string)$solutions);
+                return $text;
+            }
             $out = "";
             foreach ($solutions as $s) {
-                $out .= "### " . ($s['module_name'] ?? 'Modul') . "\n";
-                $out .= "**Masalah Teratasi:** " . ($s['problem_solved'] ?? '-') . "\n";
-                $out .= "**Manfaat Bisnis:** " . ($s['business_benefit'] ?? '-') . "\n\n";
+                $out .= "### " . ($s['module_name'] ?? 'Modul') . "\n\n";
+                $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
+                $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
+                $out .= "**Masalah Teratasi:** " . $problem . "\n\n";
+                $out .= "**Manfaat Bisnis:** " . $benefit . "\n\n";
             }
             return $out . "Solusi dapat dikembangkan bertahap sesuai kebutuhan.";
         };

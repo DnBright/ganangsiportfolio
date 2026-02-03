@@ -103,11 +103,22 @@
         .blue-bar { width: 25mm; height: 2mm; background: #3b82f6; margin-bottom: 10mm; }
 
         /* MARKDOWN STYLES */
-        .prose p { font-size: 11pt; line-height: 1.6; color: #334155; margin-bottom: 1em; }
+        .prose { white-space: pre-wrap; } /* Preserve line breaks */
+        .prose p { font-size: 11pt; line-height: 1.8; color: #334155; margin-bottom: 1.2em; }
         .prose h3 { font-size: 14pt; font-weight: 900; color: #0f172a; margin-top: 8mm; margin-bottom: 4mm; text-transform: uppercase; letter-spacing: 1pt; }
-        .prose ul { list-style-type: none; padding-left: 0; }
-        .prose li { position: relative; padding-left: 6mm; margin-bottom: 3mm; font-size: 11pt; color: #334155; }
+        .prose ul { list-style-type: none; padding-left: 0; margin: 0; }
+        .prose li { 
+            position: relative; 
+            padding-left: 6mm; 
+            margin-bottom: 5mm; /* Increased spacing between list items */
+            font-size: 11pt; 
+            color: #334155; 
+            line-height: 1.6;
+            display: block; /* Force block display */
+        }
         .prose li::before { content: '→'; position: absolute; left: 0; color: #3b82f6; font-weight: 900; }
+        .prose strong { font-weight: 700; color: #0f172a; } /* Ensure bold renders properly */
+        .prose em { font-style: italic; }
         
         /* SPECIFIC LAYOUTS */
         
