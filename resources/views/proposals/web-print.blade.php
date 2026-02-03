@@ -106,17 +106,16 @@
         .prose { white-space: pre-wrap; } /* Preserve line breaks */
         .prose p { font-size: 11pt; line-height: 1.8; color: #334155; margin-bottom: 1.2em; }
         .prose h3 { font-size: 14pt; font-weight: 900; color: #0f172a; margin-top: 8mm; margin-bottom: 4mm; text-transform: uppercase; letter-spacing: 1pt; }
-        .prose ul { list-style-type: none; padding-left: 0; margin: 0; }
+        .prose ul { list-style-type: square; padding-left: 6mm; margin: 0; }
         .prose li { 
             position: relative; 
-            padding-left: 6mm; 
-            margin-bottom: 5mm; /* Increased spacing between list items */
+            margin-bottom: 4mm; 
             font-size: 11pt; 
             color: #334155; 
             line-height: 1.6;
-            display: block; /* Force block display */
+            display: list-item; 
         }
-        .prose li::before { content: '→'; position: absolute; left: 0; color: #3b82f6; font-weight: 900; }
+        /* Removed .prose li::before to eliminate arrows */
         .prose strong { font-weight: 700; color: #0f172a; } /* Ensure bold renders properly */
         .prose em { font-style: italic; }
         
@@ -187,9 +186,14 @@
         }
         
         /* List (Sec 5) */
-        .layout-deliverables-list { background: #0f172a; border-radius: 10mm; padding: 15mm; color: #ffffff; }
-        .layout-deliverables-list .prose p, .layout-deliverables-list .prose li { color: rgba(255,255,255,0.8); }
-        .layout-deliverables-list .prose li::before { color: #3b82f6; }
+        .layout-deliverables-list { background: #0f172a; border-radius: 10mm; padding: 15mm; color: #ffffff !important; }
+        .layout-deliverables-list .prose p, 
+        .layout-deliverables-list .prose li,
+        .layout-deliverables-list .prose strong,
+        .layout-deliverables-list .prose * { 
+            color: #ffffff !important; 
+            opacity: 1 !important;
+        }
 
         /* Flow (Sec 6) */
         .flow-step { 
@@ -490,7 +494,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }}</div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V3</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
