@@ -133,7 +133,7 @@
             background-color: #0B1120 !important;
             border-radius: 12mm;
             padding: 15mm 12mm;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 1pt solid #1e293b;
         }
         .layout-grid-content,
         .layout-grid-content * {
@@ -298,7 +298,7 @@
                     <!-- SECTION 4: CONTROLLED BY HELPER -->
                     {!! $section['content'] !!}
                 <!-- Verification marker -->
-                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V16</div>
+                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V17</div>
                  <div style="position: absolute; bottom: 10mm; right: 20mm; color: #cbd5e1; font-size: 9pt; font-weight: bold;">
                     PAGE {{ $loop->iteration + 1 }}
                 </div>

@@ -176,8 +176,8 @@
         /* Objectives (Sec 3) */
         .layout-objectives-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin: 10mm 0; }
         .objective-card { 
-            background: #fff; padding: 8mm; border-radius: 6mm; 
-            border: 1pt solid #f1f5f9; box-shadow: 0 5mm 15mm rgba(0,0,0,0.02);
+            background: #ffffff; padding: 8mm; border-radius: 6mm; 
+            border: 1pt solid #e2e8f0;
         }
         .obj-icon { width: 10mm; height: 10mm; background: #eff6ff; border-radius: 3mm; margin-bottom: 5mm; display: flex; align-items: center; justify-content: center; color: #3b82f6; font-weight: 900; font-size: 14pt; }
 
@@ -185,10 +185,9 @@
         .layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 10mm; }
         .grid-item { 
             padding: 8mm; border-radius: 8mm; 
-            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); 
-            border: 1pt solid #e2e8f0;
+            background: #f8fafc; 
+            border: 1.5pt solid #e2e8f0;
             text-align: left !important;
-            box-shadow: 0 4mm 15mm rgba(0,0,0,0.03);
             position: relative;
             overflow: hidden;
         }
@@ -252,8 +251,7 @@
         /* Cards (Sec 10) */
         .asymmetric-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5mm; margin-top: 10mm; }
         .value-card-premium {
-            padding: 8mm; background: #fff; border-radius: 6mm; border-top: 4pt solid #0f172a;
-            box-shadow: 0 4mm 10mm rgba(0,0,0,0.05);
+            padding: 8mm; background: #fff; border-radius: 6mm; border: 1pt solid #e2e8f0; border-top: 4pt solid #0f172a;
         }
         .value-card-premium:nth-child(even) { transform: translateY(5mm); border-top-color: #3b82f6; }
 
@@ -485,7 +483,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V16</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V17</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
