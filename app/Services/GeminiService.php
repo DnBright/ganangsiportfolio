@@ -120,40 +120,37 @@ class GeminiService
             return $out;
         };
 
-        // helper for solutions (Compact Grid RESTORED)
+        // helper for solutions (PREMIUM COMPACT GRID)
         $toSolutions = function($solutions) {
-            // Normalize to array if needed
             $modules = [];
             if (is_array($solutions)) {
                 if (isset($solutions['content'])) {
-                    // If it's already a string from the consolidated version
-                    return "<div style='padding:10mm; background:#f8fafc; border-radius:8mm; border:1pt solid #e2e8f0;'>" . preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $solutions['content']) . "</div>";
+                    $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $solutions['content']);
+                    return "<div style='padding:12mm; background:#f8fafc; border-radius:10mm; border:1pt solid #e2e8f0; color:#0f172a; font-size:10.5pt; line-height:1.7; text-align:justify;'>$text</div>";
                 }
                 $modules = isset($solutions[0]) ? $solutions : [];
             } else {
-                return "<div class='prose'>" . preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', (string)$solutions) . "</div>";
+                return "<div style='padding:12mm; background:#f8fafc; border-radius:10mm; border:1pt solid #e2e8f0; text-align:justify;'>" . preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', (string)$solutions) . "</div>";
             }
 
             if (empty($modules)) return "<p>Solusi akan disesuaikan dengan kebutuhan bisnis klien.</p>";
 
-            $out = "<div class='layout-grid'>";
+            $out = "<div style='display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6mm; margin-top: 5mm;'>";
             $limited = array_slice($modules, 0, 3);
             foreach ($limited as $idx => $s) {
                 $num = $idx + 1;
-                $out .= "<div class='grid-item'>";
-                $out .= "<div style='font-family: \"Outfit\"; font-weight: 900; color: #3b82f6; opacity: 0.1; font-size: 32pt; position: absolute; top: 2mm; right: 5mm; z-index: 1;'>0$num</div>";
-                $out .= "<h3 style='color: #0f172a; font-weight: 900; text-transform: uppercase; font-size: 11pt; margin-bottom: 4mm; border-bottom: 2pt solid #3b82f6; display: inline-block; padding-bottom: 1mm;'>" . ($s['module_name'] ?? 'Modul Solusi') . "</h3>";
-                $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
-                $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
-                $out .= "<div style='font-size: 9.5pt; color: #475569; margin-bottom: 3mm;'><strong style='color: #3b82f6; font-size: 8pt; text-transform: uppercase; display: block; margin-bottom: 1mm;'>Masalah Teratasi:</strong>" . $problem . "</div>";
-                $out .= "<div style='font-size: 9.5pt; color: #0f172a;'><strong style='color: #3b82f6; font-size: 8pt; text-transform: uppercase; display: block; margin-bottom: 1mm;'>Manfaat Bisnis:</strong>" . $benefit . "</div>";
+                $out .= "<div style='padding: 6mm; background: #fff; border: 1pt solid #cbd5e1; border-radius: 8mm; position: relative;'>";
+                $out .= "<div style='position: absolute; top: 0; right: 4mm; color: #3b82f6; opacity: 0.1; font-size: 28pt; font-weight: 900;'>0$num</div>";
+                $out .= "<h3 style='font-size: 10pt; font-weight: 900; color: #0f172a; border-bottom: 2pt solid #3b82f6; display: inline-block; margin-bottom: 3mm; padding-bottom: 1mm;'>" . ($s['module_name'] ?? 'Pilar Solusi') . "</h3>";
+                $out .= "<p style='font-size: 9pt; color: #475569; line-height: 1.5; margin-bottom: 2mm;'><strong>Problem:</strong> " . ($s['problem_solved'] ?? '-') . "</p>";
+                $out .= "<p style='font-size: 9pt; color: #0f172a; line-height: 1.5;'><strong>Impact:</strong> " . ($s['business_benefit'] ?? '-') . "</p>";
                 $out .= "</div>";
             }
             $out .= "</div>";
             return $out;
         };
 
-        // helper for timeline (REFINED VERTICAL)
+        // helper for timeline (COMPACT PARAGRAPH)
         $toTimeline = function($timeline) {
             if (!is_array($timeline)) return (string)$timeline;
             $out = "";
@@ -162,17 +159,17 @@ class GeminiService
                 $phaseName = $t['phase'] ?? 'Tahap Pengembangan';
                 $phaseName = preg_replace('/^Fase\s*\d+:\s*/i', '', $phaseName);
                 
-                $out .= "<h3>Fase $faseNum – " . $phaseName . " (" . ($t['duration'] ?? '-') . ")</h3>\n";
-                if (isset($t['objective'])) {
-                    $out .= "<p>" . $t['objective'] . "</p>\n";
-                }
+                $out .= "<div style='margin-bottom: 6mm;'>";
+                $out .= "<h3 style='font-size: 12pt; font-weight: 900; color: #0f172a; margin-bottom: 1mm;'>Fase $faseNum: $phaseName (" . ($t['duration'] ?? '-') . ")</h3>";
+                
+                $desc = $t['objective'] ?? '';
                 if (isset($t['activities']) && is_array($t['activities'])) {
-                    $out .= "<p><strong>Aktivitas Utama:</strong></p>\n<ul>\n";
-                    foreach ($t['activities'] as $act) {
-                        $out .= "<li>" . trim($act) . "</li>\n";
-                    }
-                    $out .= "</ul>\n";
+                    $acts = implode(". ", array_map('trim', $t['activities']));
+                    $desc .= ($desc ? " " : "") . "<strong>Aktivitas Utama:</strong> " . $acts . ".";
                 }
+                
+                $out .= "<p style='font-size: 10pt; line-height: 1.6; color: #475569; text-align: justify; margin: 0;'>$desc</p>";
+                $out .= "</div>";
             }
             return $out;
         };

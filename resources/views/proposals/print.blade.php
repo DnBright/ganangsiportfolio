@@ -295,19 +295,10 @@
                     <div class="layout-grid-title">{{ $section['title'] }}</div>
                 </div>
                 
-                <div class="layout-grid-content" style="background-color: #0B1120 !important; color: #ffffff !important;">
-                    <style>
-                        /* GOD-MODE OVERRIDE FOR GRID CONTENT */
-                        .grid-force-white * { color: #ffffff !important; opacity: 1 !important; visibility: visible !important; }
-                        .grid-force-white li { list-style-type: square !important; margin-bottom: 4mm !important; color: #ffffff !important; text-align: left !important; }
-                        .grid-force-white p { margin-bottom: 4mm !important; color: #ffffff !important; text-align: left !important; }
-                    </style>
-                    <div class="content-body grid-force-white" style="color: #ffffff !important;">
-                         {!! $section['content'] !!}
-                    </div>
-                </div>
+                    <!-- SECTION 4: CONTROLLED BY HELPER -->
+                    {!! $section['content'] !!}
                 <!-- Verification marker -->
-                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V14</div>
+                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V16</div>
                  <div style="position: absolute; bottom: 10mm; right: 20mm; color: #cbd5e1; font-size: 9pt; font-weight: bold;">
                     PAGE {{ $loop->iteration + 1 }}
                 </div>
