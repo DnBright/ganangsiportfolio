@@ -439,7 +439,7 @@
     @endforeach
 
     <!-- 13. CLOSING HERO -->
-    <div class="page-container page-break" style="background-color: #0f172a; color: white; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div class="page-container" style="background-color: #0f172a; color: white; display: flex; align-items: center; justify-content: center; text-align: center;">
          <div style="max-width: 80%;">
              <div style="font-family: 'Outfit'; font-size: 72pt; font-weight: 900; letter-spacing: -3pt; line-height: 0.8; margin-bottom: 10mm;">THANK YOU.</div>
              <div style="font-size: 16pt; color: rgba(255,255,255,0.7); margin-bottom: 20mm;">
