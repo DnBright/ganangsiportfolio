@@ -181,13 +181,23 @@
         }
         .obj-icon { width: 10mm; height: 10mm; background: #eff6ff; border-radius: 3mm; margin-bottom: 5mm; display: flex; align-items: center; justify-content: center; color: #3b82f6; font-weight: 900; font-size: 14pt; }
 
-        /* Grid (Sec 4) */
-        .layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; margin-top: 10mm; }
+        /* Grid (Sec 4) - PREMIUM SOLUTION CARDS */
+        .layout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8mm; margin-top: 10mm; }
         .grid-item { 
-            padding: 8mm; border-radius: 6mm; 
-            background: #fff; border: 1pt solid #f1f5f9;
+            padding: 8mm; border-radius: 8mm; 
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); 
+            border: 1pt solid #e2e8f0;
             text-align: left !important;
+            box-shadow: 0 4mm 15mm rgba(0,0,0,0.03);
+            position: relative;
+            overflow: hidden;
         }
+        .grid-item::after {
+            content: ''; position: absolute; top: 0; right: 0; width: 12mm; height: 12mm;
+            background: #eff6ff; border-radius: 0 0 0 8mm; z-index: 0;
+        }
+        .grid-item h3 { position: relative; z-index: 1; }
+        .grid-item p { position: relative; z-index: 1; margin-top: 3mm !important; }
         .grid-item h3, .grid-item p, .grid-item li { text-align: left !important; }
         
         /* List (Sec 5) - FIXED SELECTORS */
@@ -475,7 +485,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V8</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V9</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>

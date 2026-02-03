@@ -128,14 +128,16 @@ class GeminiService
                 return "<div class='prose'>" . $text . "</div>";
             }
             $out = "<div class='layout-grid'>";
-            $limited = array_slice($solutions, 0, 3); // Limit to 3 for readability
-            foreach ($limited as $s) {
+            $limited = array_slice($solutions, 0, 3);
+            foreach ($limited as $idx => $s) {
+                $num = $idx + 1;
                 $out .= "<div class='grid-item'>";
-                $out .= "<h3 style='color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt; margin-bottom: 2mm;'>" . ($s['module_name'] ?? 'Modul') . "</h3>";
+                $out .= "<div style='font-family: \"Outfit\"; font-weight: 900; color: #3b82f6; opacity: 0.2; font-size: 24pt; position: absolute; top: 2mm; right: 5mm; z-index: 1;'>0$num</div>";
+                $out .= "<h3 style='color: #0f172a; font-weight: 900; text-transform: uppercase; font-size: 11pt; margin-bottom: 4mm; border-bottom: 2pt solid #3b82f6; display: inline-block; padding-bottom: 1mm;'>" . ($s['module_name'] ?? 'Modul') . "</h3>";
                 $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
                 $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
-                $out .= "<p style='font-size: 9pt; line-height: 1.4; color: #475569; margin-bottom: 1mm;'><strong>Masalah:</strong> " . $problem . "</p>";
-                $out .= "<p style='font-size: 9pt; line-height: 1.4; color: #1e293b;'><strong>Manfaat:</strong> " . $benefit . "</p>";
+                $out .= "<div style='font-size: 9.5pt; color: #475569; margin-bottom: 3mm;'><strong style='color: #3b82f6; font-size: 8pt; text-transform: uppercase; display: block; margin-bottom: 1mm;'>Masalah Teratasi:</strong>" . $problem . "</div>";
+                $out .= "<div style='font-size: 9.5pt; color: #0f172a;'><strong style='color: #3b82f6; font-size: 8pt; text-transform: uppercase; display: block; margin-bottom: 1mm;'>Manfaat Bisnis:</strong>" . $benefit . "</div>";
                 $out .= "</div>";
             }
             $out .= "</div>";
