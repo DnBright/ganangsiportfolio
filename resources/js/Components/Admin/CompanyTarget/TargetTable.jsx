@@ -235,8 +235,20 @@ const TargetTable = () => {
                                         </td>
                                         <td className="p-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button onClick={() => handleOpenModal(target)} className="text-blue-400 hover:text-white p-2">Edit</button>
-                                                <button onClick={() => handleDelete(target.id)} className="text-red-400 hover:text-red-300 p-2">Delete</button>
+                                                <button
+                                                    onClick={() => handleOpenModal(target)}
+                                                    className="w-8 h-8 rounded-lg bg-blue-500/20 hover:bg-blue-500 text-blue-400 hover:text-white flex items-center justify-center transition-all"
+                                                    title="Edit Target"
+                                                >
+                                                    ✏️
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(target.id)}
+                                                    className="w-8 h-8 rounded-lg bg-red-500/20 hover:bg-red-500 text-red-400 hover:text-white flex items-center justify-center transition-all"
+                                                    title="Delete Target"
+                                                >
+                                                    🗑️
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
