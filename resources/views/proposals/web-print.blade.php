@@ -69,16 +69,21 @@
 <body>
 
     <!-- FLOATING ACTION BUTTON -->
-    <div class="no-print fixed bottom-8 right-8 z-50 flex gap-4">
-        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition hover:scale-105 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-            </svg>
-            Save as PDF / Print
-        </button>
-        <a href="{{ url()->previous() }}" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition hover:scale-105">
-            Back
-        </a>
+    <div class="no-print fixed bottom-8 right-8 z-[9999] flex flex-col items-end gap-4 pointer-events-auto">
+        <div class="bg-black/80 text-white text-xs py-1 px-3 rounded mb-2 backdrop-blur-sm">
+            Pastikan Destinasi Printer: <strong>Save as PDF</strong>
+        </div>
+        <div class="flex gap-4">
+            <button onclick="window.print()" class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-2xl transform transition hover:scale-105 flex items-center gap-2 border-2 border-white/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Download PDF
+            </button>
+            <a href="{{ url()->previous() }}" class="cursor-pointer bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-full shadow-2xl transform transition hover:scale-105 border-2 border-white/10">
+                Back
+            </a>
+        </div>
     </div>
 
     @php
