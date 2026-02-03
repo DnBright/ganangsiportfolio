@@ -120,23 +120,26 @@ class GeminiService
             return $out;
         };
 
-        // helper for solutions
+        // helper for solutions (Compact Grid ready)
         $toSolutions = function($solutions) {
             if (!is_array($solutions)) {
                 $text = (string)$solutions;
                 $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
-                $paragraphs = explode("\n\n", $text);
-                return implode("", array_map(fn($p) => "<p>" . trim($p) . "</p>", array_filter($paragraphs)));
+                return "<div class='prose'>" . $text . "</div>";
             }
-            $out = "";
-            foreach ($solutions as $s) {
-                $out .= "<h3>" . ($s['module_name'] ?? 'Modul') . "</h3>\n";
+            $out = "<div class='layout-grid'>";
+            $limited = array_slice($solutions, 0, 3); // Limit to 3 for readability
+            foreach ($limited as $s) {
+                $out .= "<div class='grid-item'>";
+                $out .= "<h3 style='color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt; margin-bottom: 2mm;'>" . ($s['module_name'] ?? 'Modul') . "</h3>";
                 $problem = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['problem_solved'] ?? '-');
                 $benefit = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $s['business_benefit'] ?? '-');
-                $out .= "<p><strong>Masalah Teratasi:</strong> " . $problem . "</p>\n";
-                $out .= "<p><strong>Manfaat Bisnis:</strong> " . $benefit . "</p>\n";
+                $out .= "<p style='font-size: 9pt; line-height: 1.4; color: #475569; margin-bottom: 1mm;'><strong>Masalah:</strong> " . $problem . "</p>";
+                $out .= "<p style='font-size: 9pt; line-height: 1.4; color: #1e293b;'><strong>Manfaat:</strong> " . $benefit . "</p>";
+                $out .= "</div>";
             }
-            return $out . "<p>Solusi dapat dikembangkan bertahap sesuai kebutuhan.</p>";
+            $out .= "</div>";
+            return $out;
         };
 
         // helper for timeline (REFINED)
@@ -367,8 +370,8 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
 
 7. **Gaya Bahasa**:
    - Manusiawi, empatik, dan persuasif (bukan kaku seperti robot).
-   - Hindari jargon teknis yang rumit. Gunakan bahasa bisnis yang mudah dipahami client awam.
-   - Fokus pada: Solusi praktis, Kenyamanan operasional, dan Pertumbuhan bisnis.
+   - **Ekstrim Singkat**: Client sibuk. Buat Bab 1-4 sangat padat. Maksimal 3 modul singkat di Bab 4.
+   - Hindari jargon teknis yang rumit. Fokus pada: Solusi praktis dan Pertumbuhan bisnis.
 
 🔹 STRUKTUR OUTPUT (JSON WAJIB):
 {
@@ -378,26 +381,26 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
     "year": "' . date('Y') . '"
   },
   "executive_summary": {
-    "content": "Ringkasan eksekutif yang memikat. Gunakan alur: Masalah yang dihadapi klien -> Bagaimana kami membantu -> Hasil nyata yang akan dirasakan. Gunakan bahasa yang hangat namun tetap profesional. Hindari kata-kata sulit."
+    "content": "Ringkasan eksekutif yang sangat singkat (maksimal 3 paragraf pendek). Fokus pada satu solusi utama dan satu dampak paling besar. Gunakan bahasa yang sangat padat dan menarik."
   },
   "background_problem": {
-    "points": ["Kendala nyata (pain points) yang dirasakan operasional sehari-hari", "Hambatan bisnis yang menghambat pertumbuhan"]
+    "points": ["Kendala utama operasional (maksimal 2 poin singkat)", "Hambatan bisnis paling krusial (maksimal 1 poin singkat)"]
   },
   "project_goals": {
-    "goals": ["Tujuan tegas 1 (tanpa kata \'diharapkan\')", "Tujuan tegas 2"]
+    "goals": ["Tujuan utama 1 (maksimal 7 kata)", "Tujuan utama 2 (maksimal 7 kata)", "Tujuan utama 3 (maksimal 7 kata)"]
   },
   "solutions": [
     {
       "module_name": "Nama Modul",
-      "problem_solved": "Masalah spesifik yang teratasi",
-      "business_benefit": "Dampak langsung bagi operasional dan keputusan bisnis"
+      "problem_solved": "Masalah (maksimal 10 kata)",
+      "business_benefit": "Manfaat (maksimal 10 kata)"
     }
   ],
   "scope_of_work": {
-    "deliverables": ["Deliverable 1 (dengan manfaat bisnis)", "Deliverable 2"]
+    "deliverables": ["Deliverable 1 (singkat)", "Deliverable 2 (singkat)"]
   },
   "system_flow": {
-    "description": "Penjelasan alur sistem dalam bahasa bisnis, bukan diagram teknis. Fokus pada bagaimana sistem mempermudah proses bisnis."
+    "description": "Penjelasan alur kerja yang sangat singkat dan mudah dipahami client (maksimal 3 kalimat)."
   },
   "timeline": [
     {

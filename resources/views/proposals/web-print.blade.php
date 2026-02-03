@@ -394,33 +394,9 @@
                         <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', isset(explode("\n\n", $section['content'])[1]) ? implode("\n\n", array_slice(explode("\n\n", $section['content']), 1)) : '') !!}</div>
 
                     @elseif($section['id'] == 4)
-                        <!-- 4. GRID -->
-                        <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', explode("\n\n", $section['content'])[0] ?? '') !!}</div>
-                        <div class="layout-grid">
-                            <div class="grid-item">
-                                <h3 style="color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt;">Strategy</h3>
-                                <p style="font-size: 10pt; color: #64748b; line-height: 1.6; margin-top: 3mm;">
-                                    Kami menganalisis data bisnis Anda secara mendalam untuk merancang solusi yang tepat sasaran. Setiap keputusan didukung oleh riset pasar dan best practices industri.
-                                </p>
-                            </div>
-                            <div class="grid-item">
-                                <h3 style="color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt;">Execution</h3>
-                                <p style="font-size: 10pt; color: #64748b; line-height: 1.6; margin-top: 3mm;">
-                                    Implementasi menggunakan teknologi terkini dan metodologi Agile. Tim berpengalaman kami memastikan setiap tahap berjalan sesuai timeline dan standar kualitas tinggi.
-                                </p>
-                            </div>
-                            <div class="grid-item">
-                                <h3 style="color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt;">Innovation</h3>
-                                <p style="font-size: 10pt; color: #64748b; line-height: 1.6; margin-top: 3mm;">
-                                    Kami tidak hanya mengikuti tren, tetapi menciptakan solusi unik yang memberikan keunggulan kompetitif. Pendekatan kreatif kami disesuaikan dengan karakter bisnis Anda.
-                                </p>
-                            </div>
-                            <div class="grid-item">
-                                <h3 style="color: #3b82f6; font-weight: 900; text-transform: uppercase; font-size: 11pt;">Scale</h3>
-                                <p style="font-size: 10pt; color: #64748b; line-height: 1.6; margin-top: 3mm;">
-                                    Sistem dirancang untuk tumbuh bersama bisnis Anda. Infrastruktur fleksibel memungkinkan penambahan fitur dan kapasitas tanpa perlu rebuild dari awal.
-                                </p>
-                            </div>
+                        <!-- 4. DYNAMIC GRID SOLUSI -->
+                        <div class="content-body">
+                             {!! $section['content'] !!}
                         </div>
 
                     @elseif($section['id'] == 5)
@@ -499,7 +475,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V7</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V8</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
