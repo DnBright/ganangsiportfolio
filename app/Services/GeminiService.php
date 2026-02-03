@@ -122,12 +122,27 @@ class GeminiService
 
         // helper for solutions (Consolidated Single Block)
         $toSolutions = function($solutions) {
-            $text = is_array($solutions) ? implode("\n\n", array_map(fn($s) => ($s['module_name'] ?? '') . ": " . ($s['problem_solved'] ?? ''), $solutions)) : (string)$solutions;
+            // Handle new structure: {"content": "..."}
+            if (is_array($solutions) && isset($solutions['content'])) {
+                $text = (string)$solutions['content'];
+            } 
+            // Handle legacy structure: [{"module_name": "...", "problem_solved": "..."}, ...]
+            elseif (is_array($solutions) && !empty($solutions) && isset($solutions[0])) {
+                $text = implode("\n\n", array_map(function($s) {
+                    $name = isset($s['module_name']) ? "<strong>" . $s['module_name'] . "</strong>: " : "";
+                    return $name . ($s['problem_solved'] ?? ($s['description'] ?? ''));
+                }, $solutions));
+            }
+            // Fallback for plain string
+            else {
+                $text = (string)$solutions;
+            }
+
             $text = preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $text);
             
             $out = "<div style='padding: 10mm; background: #f8fafc; border: 1pt solid #e2e8f0; border-radius: 8mm; color: #0f172a !important;'>";
             $out .= "<div style='font-size: 10.5pt; line-height: 1.7; color: #334155;'>";
-            $out .= $text;
+            $out .= $text ?: 'Solusi akan disesuaikan dengan kebutuhan spesifik klien.';
             $out .= "</div></div>";
             return $out;
         };

@@ -443,6 +443,8 @@
                         <div>{!! preg_replace('/\*\*(.+?)\*\*/', '<strong>$1</strong>', $section['content']) !!}</div>
                         <div class="pricing-hero">
                              <div style="color: #3b82f6; font-weight: 900; font-size: 14px; letter-spacing: 5px;">OFFICIAL QUOTATION</div>
+                             <!-- Verification marker -->
+                <div style="position: absolute; bottom: 5mm; left: 5mm; font-size: 6pt; color: #f1f5f9; opacity: 0.3;">CODE_SYNC_V12</div>
                              <div class="price-value">STRATEGIC PARTNER</div>
                              <p style="color: rgba(255,255,255,0.4); font-size: 12px;">Investasi masa depan untuk keunggulan bisnis anda.</p>
                         </div>
@@ -483,7 +485,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V11</span></div>
+                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V12</span></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
