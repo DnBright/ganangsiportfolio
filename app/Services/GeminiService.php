@@ -138,22 +138,38 @@ class GeminiService
             return $out;
         };
 
-        // helper for investment (REFINED)
-        $toInvestment = function($inv) {
+        // helper for investment (REFINED WITH FORMULA)
+        $toInvestment = function($inv, $projectType, $totalValue) {
             if (!is_array($inv)) return (string)$inv;
-            $out = ($inv['narrative'] ?? "Estimasi investasi proyek ini mencakup pengembangan sistem inti dan implementasi modul utama.") . "\n\n";
             
-            if (isset($inv['covered_scope']) && is_array($inv['covered_scope'])) {
-                $out .= "**Rincian Investasi Proyek:**\n";
-                foreach ($inv['covered_scope'] as $item) {
-                    $out .= "- " . $item . "\n";
-                }
-                $out .= "\n";
-            }
-
+            // Determine Setup/Maintenance split based on project type
+            $splits = [
+                'Landing Page' => ['setup' => 40, 'maintenance' => 60],
+                'Website Bisnis' => ['setup' => 30, 'maintenance' => 70],
+                'Dashboard / Sistem' => ['setup' => 20, 'maintenance' => 80],
+                'Sistem Kompleks' => ['setup' => 15, 'maintenance' => 85],
+            ];
+            
+            // Default to Website Bisnis if type not found
+            $split = $splits[$projectType] ?? $splits['Website Bisnis'];
+            
+            // Calculate breakdown
+            $setupCost = $totalValue * ($split['setup'] / 100);
+            $maintenanceCost = $totalValue * ($split['maintenance'] / 100);
+            $maintenanceMonthly = $maintenanceCost / 6; // Default 6 months
+            
+            $out = ($inv['narrative'] ?? "Investasi proyek ini dirancang untuk memberikan nilai bisnis maksimal dengan dukungan berkelanjutan.") . "\n\n";
+            
+            $out .= "**Rincian Investasi Proyek:**\n\n";
+            $out .= "- **Biaya Setup Awal**: IDR " . number_format($setupCost, 0, ',', '.') . "\n";
+            $out .= "  Mencakup pengembangan sistem inti, integrasi data, dan deployment awal.\n\n";
+            $out .= "- **Dukungan Stabilisasi (6 Bulan)**: IDR " . number_format($maintenanceCost, 0, ',', '.') . "\n";
+            $out .= "  Maintenance bulanan: IDR " . number_format($maintenanceMonthly, 0, ',', '.') . "\n";
+            $out .= "  Mencakup monitoring, bug fixing, dan optimasi performa sistem.\n\n";
+            
             $out .= "**Total Estimasi Investasi Proyek:**\n";
-            $out .= "IDR " . ($inv['total_value'] ?? '0') . "\n\n";
-            $out .= "Nilai investasi ini merupakan biaya pengembangan awal sistem. Skema dukungan dan pengembangan lanjutan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
+            $out .= "IDR " . number_format($totalValue, 0, ',', '.') . "\n\n";
+            $out .= "Investasi ini merupakan paket lengkap yang mencakup pengembangan awal dan fase stabilisasi sistem. Dukungan lanjutan setelah periode 6 bulan dapat dibahas secara terpisah sesuai kebutuhan operasional.";
             return $out;
         };
 
@@ -166,7 +182,7 @@ class GeminiService
             'scope_of_work' => $toList($decoded['scope_of_work']['deliverables'] ?? $decoded['scope_of_work'] ?? []),
             'system_walkthrough' => $decoded['system_flow']['description'] ?? $decoded['system_walkthrough'] ?? '',
             'timeline' => $toTimeline($decoded['timeline'] ?? []),
-            'investment' => $toInvestment($decoded['investment'] ?? []),
+            'investment' => $toInvestment($decoded['investment'] ?? [], $data['project_type'] ?? 'Website Bisnis', $data['total_value'] ?? 0),
             'roi_impact' => $toList($decoded['impact_roi']['impact_points'] ?? $decoded['roi_impact'] ?? []),
             'value_add' => $toList($decoded['value_proposition']['points'] ?? $decoded['value_add'] ?? []),
             'closing_cta' => $decoded['closing']['call_to_action'] ?? $decoded['closing_cta'] ?? '',
@@ -303,8 +319,7 @@ Tugas Anda adalah merevisi dan menghasilkan proposal proyek yang lebih tajam sec
   ],
   "investment": {
     "total_value": "' . number_format($total, 0, ',', '.') . '",
-    "covered_scope": ["Ruang lingkup investasi 1", "Ruang lingkup investasi 2"],
-    "narrative": "Investasi ini dirancang secara bertahap dan fleksibel, memungkinkan pengembangan modular sesuai prioritas bisnis."
+    "narrative": "Penjelasan profesional tentang nilai investasi ini bagi bisnis klien. JANGAN sebutkan rumus matematika atau rincian teknis. Gunakan istilah: investasi, cakupan layanan, dukungan berkelanjutan, fase stabilisasi."
   },
   "impact_roi": {
     "impact_points": ["Dampak terukur 1 (ilustratif, bukan klaim mutlak)", "Dampak terukur 2"]
@@ -337,6 +352,14 @@ Nilai Investasi Estimasi: IDR ' . number_format($total, 0, ',', '.') . '
 - Nama fase JANGAN menggunakan prefix "Fase 1:", "Fase 2:", dll (akan ditambahkan otomatis).
 - Contoh BENAR: "phase": "Inisiasi dan Discovery"
 - Contoh SALAH: "phase": "Fase 1: Inisiasi dan Discovery"
-- Bagi timeline menjadi 3-4 fase yang realistis dan proporsional.';
+- Bagi timeline menjadi 3-4 fase yang realistis dan proporsional.
+
+💰 KHUSUS ESTIMASI INVESTASI:
+- JANGAN menampilkan rumus matematika atau perhitungan teknis ke klien.
+- JANGAN membuka rincian persentase Setup/Maintenance.
+- JANGAN menggunakan kata "murah" atau "mahal".
+- Gunakan istilah profesional: "investasi", "cakupan layanan", "dukungan berkelanjutan", "fase stabilisasi".
+- Fokus pada nilai bisnis dan manfaat jangka panjang.
+- Sistem akan otomatis menghitung breakdown berdasarkan tipe proyek (' . $type . ').';
     }
 }
