@@ -126,6 +126,15 @@ class ProposalController extends Controller
 
     public function exportPdf(Proposal $proposal)
     {
+        // SHARED HOSTING FIX:
+        // Since we cannot run 'npm run build' on the server to update the React frontend button,
+        // we redirect the OLD 'export' route to the NEW 'print' route.
+        // This ensures users get the new design even if they click the old button.
+        return redirect()->route('admin.proposals.print', $proposal->id);
+    }
+
+    public function exportPdfLegacy(Proposal $proposal)
+    {
         try {
             // 1. Diagnosis: Check if class exists
             if (!class_exists('Barryvdh\\DomPDF\\ServiceProvider')) {

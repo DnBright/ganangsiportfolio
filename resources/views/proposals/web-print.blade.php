@@ -68,6 +68,16 @@
 </head>
 <body>
 
+    @php
+        $logoPathLocal = public_path('images/logo-dnb.png');
+        $logoBase64 = null;
+        if (file_exists($logoPathLocal)) {
+            $type = pathinfo($logoPathLocal, PATHINFO_EXTENSION);
+            $data = file_get_contents($logoPathLocal);
+            $logoBase64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        }
+    @endphp
+
     <!-- FLOATING ACTION BUTTON -->
     <div class="no-print fixed bottom-8 right-8 z-[9999] flex flex-col items-end gap-4 pointer-events-auto">
         <div class="bg-black/80 text-white text-xs py-1 px-3 rounded mb-2 backdrop-blur-sm">
