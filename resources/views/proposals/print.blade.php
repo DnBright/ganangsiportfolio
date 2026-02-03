@@ -130,26 +130,25 @@
         
         .layout-grid-content {
             position: absolute; top: 45mm; left: 20mm; right: 20mm; bottom: 25mm;
-            background-color: #0B1120; /* Premium Dark Background */
-            color: #ffffff;
+            background-color: #0B1120 !important;
             border-radius: 12mm;
             padding: 15mm 12mm;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .layout-grid-content .content-body,
-        .layout-grid-content .content-body * {
+        .layout-grid-content,
+        .layout-grid-content * {
             color: #ffffff !important;
             opacity: 1 !important;
+            visibility: visible !important;
             fill: #ffffff !important;
         }
-        .layout-grid-content .content-body h3 {
-            color: #ffffff !important;
-            border-left-color: #ffffff !important;
+        .layout-grid-content h3 {
+            border-left: 3px solid #ffffff !important;
+            padding-left: 3mm;
         }
-        .layout-grid-content .content-body p, 
-        .layout-grid-content .content-body li {
-            text-align: left; /* Better for card lists */
-            margin-bottom: 5mm;
+        .layout-grid-content ul {
+            list-style-type: square !important;
+            color: #ffffff !important;
         }
 
         /* --- LAYOUT 3: SIDEBAR DATA (Financials) --- */
