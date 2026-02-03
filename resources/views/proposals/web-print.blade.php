@@ -268,10 +268,21 @@
                  <p style="font-size: 22pt; font-weight: 300; color: #3b82f6; margin-top: 10mm; letter-spacing: -0.5pt;">
                     Prepared for {{ $proposal->client_name }}
                  </p>
+                 
+                 <!-- Contact Information Block -->
+                 <div style="margin-top: 20mm; padding: 8mm; background: rgba(255,255,255,0.05); border-radius: 8mm; border-left: 3px solid #3b82f6;">
+                     <div style="color: rgba(255,255,255,0.5); font-size: 8pt; font-weight: 900; letter-spacing: 2pt; text-transform: uppercase; margin-bottom: 5mm;">Informasi Kontak</div>
+                     <div style="color: rgba(255,255,255,0.9); font-size: 10pt; line-height: 1.8;">
+                         <div><strong>Email:</strong> contact@thedarkandbright.com</div>
+                         <div><strong>Telepon:</strong> +62 812-3456-7890</div>
+                         <div><strong>Alamat:</strong> Jakarta, Indonesia</div>
+                         <div><strong>Website:</strong> thedarkandbright.com</div>
+                     </div>
+                 </div>
             </div>
 
             <div style="color: rgba(255,255,255,0.4); font-size: 8pt; font-weight: 900; letter-spacing: 4pt;">
-                 DNB STRATEGIC DOCUMENT / {{ date('Y') }}
+                 DNB STRATEGIC DOCUMENT / {{ strtoupper(date('F Y')) }}
             </div>
         </div>
     </div>
