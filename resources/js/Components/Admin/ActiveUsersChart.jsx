@@ -8,14 +8,14 @@ const ActiveUsersChart = ({ clickStats = {} }) => {
         clickStats.click_akab || 0
     ];
 
-    const maxCount = Math.max(...counts, 10);
+    const maxCount = Math.max(...counts, 1); // Floor at 1 to avoid division by zero and show activity
 
     const barData = counts.flatMap(count => {
-        const baseH = (count / maxCount) * 80 + 10;
+        const baseH = (count / maxCount) * 70 + 20; // Scale from 20% to 90%
         return [
-            Math.min(100, baseH * 0.8),
+            Math.min(100, baseH * 0.7),
             Math.min(100, baseH),
-            Math.min(100, baseH * 0.9)
+            Math.min(100, baseH * 0.85)
         ];
     });
 

@@ -1,10 +1,11 @@
 import React from 'react';
 
 const VisionChart = ({ type, totalVisits = 0 }) => {
-    // Generate a semi-dynamic path height based on total visits
-    const scale = Math.min(1, totalVisits / 1000); // Normalize scale
-    const h1 = 250 - (scale * 50);
-    const h2 = 180 - (scale * 30);
+    // Generate organic motion for the chart based on visits
+    const scale = Math.min(1, totalVisits / 100); // Scale faster for smaller numbers
+    const h1 = 280 - (scale * 80); // Move control point 1
+    const h2 = 180 - (scale * 40); // Move data point peak
+    const h3 = 150 - (scale * 20); // Move point 3
 
     if (type === 'area') {
         return (
@@ -34,14 +35,14 @@ const VisionChart = ({ type, totalVisits = 0 }) => {
 
                 {/* Smooth Area Path */}
                 <path
-                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,150 C700,100 800,180 800,180 V300 H0 Z`}
+                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,${h3} C700,100 800,180 800,180 V300 H0 Z`}
                     fill="url(#areaGradient)"
                     className="transition-all duration-1000"
                 />
 
                 {/* Neon Line */}
                 <path
-                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,150 C700,100 800,180 800,180`}
+                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,${h3} C700,100 800,180 800,180`}
                     fill="none"
                     stroke="#2d5cfe"
                     strokeWidth="3"
