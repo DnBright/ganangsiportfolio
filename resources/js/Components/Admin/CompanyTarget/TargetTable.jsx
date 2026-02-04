@@ -12,7 +12,8 @@ const TargetTable = () => {
     const [eksekusiModalY, setEksekusiModalY] = useState(40);
     const [eksekusiData, setEksekusiData] = useState({
         proposal_file: null,
-        screenshot_file: null
+        screenshot_file: null,
+        admin_in_charge: 'Ganang'
     });
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [executedProject, setExecutedProject] = useState(null);
@@ -327,7 +328,6 @@ const TargetTable = () => {
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Update</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Eksekusi</th>
-                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Admin</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold text-right">Actions</th>
                                 </tr>
                             </thead>
@@ -381,9 +381,6 @@ const TargetTable = () => {
                                                 >
                                                     🚀 Eksekusi
                                                 </button>
-                                            </td>
-                                            <td className="p-4 text-white/70 text-xs">
-                                                {target.admin_in_charge}
                                             </td>
                                             <td className="p-4 text-right">
                                                 <div className="flex items-center justify-end gap-2 transition-opacity">
@@ -600,17 +597,15 @@ const TargetTable = () => {
                                             onChange={handleFileChange}
                                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                                         />
-                                        <div className="flex-1 bg-white/5 border-2 border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center group-hover/file:border-blue-500/50 transition-all p-4 text-center">
-                                            <div className="text-2xl mb-1">📁</div>
-                                            <p className="text-[10px] text-white/60 font-medium">Upload Document</p>
-                                            <p className="text-[8px] text-white/20 mt-1">Click or drag & drop</p>
+                                        <div className="flex-1 bg-white/5 border-2 border-dashed border-white/10 rounded-2xl p-4 flex flex-col items-center justify-center group-hover/file:border-blue-500/50 transition-all text-center">
+                                            <div className="text-2xl mb-2">📄</div>
+                                            <p className="text-[10px] text-white/60 font-medium">
+                                                {formData.proposal_final ? formData.proposal_final.name : 'Click to Upload Final Proposal'}
+                                            </p>
+                                            {formData.proposal_final_url && !formData.proposal_final && (
+                                                <p className="text-[8px] text-blue-400 mt-1">Has existing file</p>
+                                            )}
                                         </div>
-                                        {formData.proposal_final_url && (
-                                            <div className="mt-2 p-2 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center justify-center gap-2">
-                                                <span className="text-[10px]">✅</span>
-                                                <p className="text-[8px] text-green-400 font-bold uppercase tracking-tighter">File Ready</p>
-                                            </div>
-                                        )}
                                         {errors.proposal_final && <p className="text-red-400 text-[10px] mt-1 ml-1">{errors.proposal_final[0]}</p>}
                                     </div>
                                 </div>
@@ -637,7 +632,7 @@ const TargetTable = () => {
                         onClick={() => {
                             setIsEksekusiModalOpen(false);
                             setSelectedTarget(null);
-                            setEksekusiData({ proposal_file: null, screenshot_file: null });
+                            setEksekusiData({ proposal_file: null, screenshot_file: null, admin_in_charge: 'Ganang' });
                         }}
                     ></div>
 
@@ -747,6 +742,27 @@ const TargetTable = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Admin Selection */}
+                            <div className="space-y-4">
+                                <h4 className="text-xs uppercase tracking-widest text-blue-400 font-bold">👤 Admin Pelaksana</h4>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {['Ganang', 'Ipancok', 'Beseren'].map(admin => (
+                                        <button
+                                            key={admin}
+                                            type="button"
+                                            onClick={() => setEksekusiData({ ...eksekusiData, admin_in_charge: admin })}
+                                            className={`py-4 rounded-2xl text-xs font-bold border-2 transition-all flex items-center justify-center gap-2 ${eksekusiData.admin_in_charge === admin
+                                                ? 'bg-blue-600 border-blue-400 text-white shadow-lg shadow-blue-600/30'
+                                                : 'bg-white/5 border-white/10 text-white/40 hover:bg-white/10'
+                                                }`}
+                                        >
+                                            <span className="text-lg">{admin === 'Ganang' ? '👨‍💻' : admin === 'Ipancok' ? '😎' : '🧔'}</span>
+                                            {admin}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
 
                         {/* Footer */}
@@ -755,7 +771,7 @@ const TargetTable = () => {
                                 onClick={() => {
                                     setIsEksekusiModalOpen(false);
                                     setSelectedTarget(null);
-                                    setEksekusiData({ proposal_file: null, screenshot_file: null });
+                                    setEksekusiData({ proposal_file: null, screenshot_file: null, admin_in_charge: 'Ganang' });
                                 }}
                                 className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white font-bold rounded-xl transition-all"
                             >
@@ -763,10 +779,6 @@ const TargetTable = () => {
                             </button>
                             <button
                                 onClick={async () => {
-                                    console.log('=== EKSEKUSI STARTED ===');
-                                    console.log('Selected Target:', selectedTarget);
-                                    console.log('Eksekusi Data:', eksekusiData);
-
                                     if (!eksekusiData.proposal_file || !eksekusiData.screenshot_file) {
                                         alert('Harap upload proposal dan screenshot terlebih dahulu!');
                                         return;
@@ -777,19 +789,11 @@ const TargetTable = () => {
                                         formData.append('company_target_id', selectedTarget.id);
                                         formData.append('proposal_file', eksekusiData.proposal_file);
                                         formData.append('screenshot_file', eksekusiData.screenshot_file);
+                                        formData.append('admin_in_charge', eksekusiData.admin_in_charge);
 
-                                        console.log('FormData created:', {
-                                            company_target_id: selectedTarget.id,
-                                            proposal_file: eksekusiData.proposal_file.name,
-                                            screenshot_file: eksekusiData.screenshot_file.name
-                                        });
-
-                                        console.log('Sending POST request to /projects...');
                                         const response = await axios.post('/projects', formData, {
                                             headers: { 'Content-Type': 'multipart/form-data' }
                                         });
-
-                                        console.log('Response received:', response.data);
 
                                         // Store project data for success modal
                                         setExecutedProject(selectedTarget);
@@ -797,7 +801,7 @@ const TargetTable = () => {
                                         // Close eksekusi modal
                                         setIsEksekusiModalOpen(false);
                                         setSelectedTarget(null);
-                                        setEksekusiData({ proposal_file: null, screenshot_file: null });
+                                        setEksekusiData({ proposal_file: null, screenshot_file: null, admin_in_charge: 'Ganang' });
 
                                         // Refresh the targets list
                                         fetchTargets();
@@ -805,23 +809,11 @@ const TargetTable = () => {
                                         // Show premium success modal
                                         setShowSuccessModal(true);
                                     } catch (error) {
-                                        console.error('=== ERROR DETAILS ===');
-                                        console.error('Error object:', error);
-                                        console.error('Error response:', error.response);
-                                        console.error('Error response data:', error.response?.data);
-                                        console.error('Error status:', error.response?.status);
-                                        console.error('Error headers:', error.response?.headers);
-
+                                        console.error('Eksekusi failed:', error);
                                         let errorMsg = 'Gagal mengeksekusi project. Silakan coba lagi.';
-
-                                        if (error.response?.data?.error) {
-                                            errorMsg = `Error: ${error.response.data.error}\nFile: ${error.response.data.file}\nLine: ${error.response.data.line}`;
-                                        } else if (error.response?.data?.message) {
+                                        if (error.response?.data?.message) {
                                             errorMsg = error.response.data.message;
-                                        } else if (error.message) {
-                                            errorMsg = `Network Error: ${error.message}`;
                                         }
-
                                         alert(errorMsg);
                                     }
                                 }}

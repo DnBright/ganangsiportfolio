@@ -23,6 +23,7 @@ class ProjectController extends Controller
                 'proposal_file' => 'nullable|file|mimes:pdf|max:10240',
                 'screenshot_file' => 'nullable|file|mimes:jpg,jpeg,png|max:5120',
                 'execution_notes' => 'nullable|string',
+                'admin_in_charge' => 'required|string',
             ]);
 
             // Get the company target data
@@ -75,7 +76,7 @@ class ProjectController extends Controller
                 'execution_notes' => $validated['execution_notes'] ?? null,
                 'executed_at' => now(),
                 'project_status' => 'In Progress',
-                'admin_in_charge' => $companyTarget->admin_in_charge,
+                'admin_in_charge' => $validated['admin_in_charge'],
                 'company_target_id' => $companyTarget->id,
             ]);
 
@@ -83,7 +84,7 @@ class ProjectController extends Controller
             $companyTarget->delete();
 
             // Log to Productivity System
-            $this->logToProductivity($companyTarget->admin_in_charge, $companyTarget->company_name);
+            $this->logToProductivity($validated['admin_in_charge'], $companyTarget->company_name);
 
             return response()->json([
                 'message' => 'Project created successfully and company target removed',
