@@ -38,6 +38,9 @@ Route::domain('thedarkandbright.com')->group(function () {
     Route::get('/portfolio', [GeneralController::class, 'portfolio'])->name('general.portfolio');
     Route::get('/contact', [GeneralController::class, 'contact'])->name('general.contact');
     Route::post('/contact', [GeneralController::class, 'storeContact'])->name('general.contact.store');
+    
+    // Analytics tracking (Public)
+    Route::post('/analytics/increment', [\App\Http\Controllers\AnalyticsController::class, 'increment'])->name('analytics.increment');
 
     // Authenticated user routes
     Route::middleware('auth')->group(function () {
@@ -127,6 +130,9 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     Route::post('/projects', [\App\Http\Controllers\ProjectController::class, 'store'])->name('admin.projects.store');
     Route::patch('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('admin.projects.update');
     Route::delete('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('admin.projects.destroy');
+
+    // Analytics Data (Admin Only)
+    Route::get('/analytics/stats', [\App\Http\Controllers\AnalyticsController::class, 'getStats'])->name('admin.analytics.stats');
 
 
     // Temporary Migration & DB Fix Route

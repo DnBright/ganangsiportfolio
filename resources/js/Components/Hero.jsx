@@ -2,10 +2,20 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { useLanguage } from '../Contexts/LanguageContext';
 import { t } from '../translations';
+import axios from 'axios';
 
 const Hero = () => {
     const heroRef = useRef(null);
     const { language } = useLanguage();
+
+    // Track total visits once on mount
+    useEffect(() => {
+        try {
+            axios.post('/analytics/increment', { key: 'total_visits' });
+        } catch (error) {
+            console.error('Failed to track visit:', error);
+        }
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {

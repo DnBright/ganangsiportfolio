@@ -36,6 +36,7 @@ const AdminDashboard = ({ stats = {} }) => {
         closing_cta: ''
     });
     const [proposals, setProposals] = useState([]); // Changed to empty array
+    const [clickStats, setClickStats] = useState({});
     const [savedTemplates, setSavedTemplates] = useState([
         { id: 1, name: 'Standard LPK Template', industry: 'LPK', date: '2026-01-10', quality: 'High' },
         { id: 2, name: 'Creative Agency Pitch', industry: 'Startup', date: '2026-01-12', quality: 'Balanced' },
@@ -52,12 +53,26 @@ const AdminDashboard = ({ stats = {} }) => {
         }
     };
 
+    const fetchClickStats = async () => {
+        try {
+            const response = await axios.get('/analytics/stats');
+            setClickStats(response.data || {});
+        } catch (error) {
+            console.error('Error fetching click stats:', error);
+        }
+    };
+
     useEffect(() => {
         console.log('AdminDashboard: currentProposal updated:', currentProposal);
     }, [currentProposal]);
 
     useEffect(() => {
         fetchProposals();
+        fetchClickStats();
+
+        // Refresh stats every 30 seconds
+        const interval = setInterval(fetchClickStats, 30000);
+        return () => clearInterval(interval);
     }, []);
 
     const handleAddProposal = async (finalData) => {
@@ -248,6 +263,46 @@ const AdminDashboard = ({ stats = {} }) => {
                             <StatCard title="New Leads" value={stats.newLeads || 0} growth="+100%" icon="users" />
                             <StatCard title="Total Portfolios" value={stats.totalPortfolios || 0} growth="" icon="clients" />
                             <StatCard title="Featured Portfolios" value={stats.featuredPortfolios || 0} growth="" icon="sales" />
+                        </div>
+
+                        {/* Website Analytics Row */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="text-blue-400 text-lg">📊</span>
+                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/60">Website Analytics (Real-time)</h3>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                                <div className="bg-gradient-to-br from-blue-600/20 to-transparent backdrop-blur-xl border border-blue-500/20 rounded-[30px] p-6 hover:border-blue-500/40 transition-all">
+                                    <p className="text-[10px] text-blue-400/60 font-black uppercase tracking-widest mb-2">Total Visits</p>
+                                    <div className="flex items-end gap-3">
+                                        <h4 className="text-3xl font-black">{clickStats.total_visits || 0}</h4>
+                                        <span className="text-blue-400 text-xs font-bold mb-1.5 flex items-center gap-1">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>
+                                            Live
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:border-white/20 transition-all">
+                                    <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-2">Saitama Demo</p>
+                                    <h4 className="text-3xl font-black">{clickStats.click_saitama || 0}</h4>
+                                    <p className="text-[10px] text-white/20 mt-2 font-bold uppercase tracking-tighter">Total Clicks</p>
+                                </div>
+                                <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:border-white/20 transition-all">
+                                    <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-2">Kursus Jepang</p>
+                                    <h4 className="text-3xl font-black">{clickStats.click_kursus_jepang || 0}</h4>
+                                    <p className="text-[10px] text-white/20 mt-2 font-bold uppercase tracking-tighter">Total Clicks</p>
+                                </div>
+                                <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:border-white/20 transition-all">
+                                    <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-2">Ayaka Demo</p>
+                                    <h4 className="text-3xl font-black">{clickStats.click_ayaka || 0}</h4>
+                                    <p className="text-[10px] text-white/20 mt-2 font-bold uppercase tracking-tighter">Total Clicks</p>
+                                </div>
+                                <div className="bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 hover:border-white/20 transition-all">
+                                    <p className="text-[10px] text-white/40 font-black uppercase tracking-widest mb-2">AKAB Demo</p>
+                                    <h4 className="text-3xl font-black">{clickStats.click_akab || 0}</h4>
+                                    <p className="text-[10px] text-white/20 mt-2 font-bold uppercase tracking-tighter">Total Clicks</p>
+                                </div>
+                            </div>
                         </div>
 
                         {/* Middle Row (Welcome, Satisfaction, Referral) - 3 columns */}

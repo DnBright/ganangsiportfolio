@@ -8,6 +8,7 @@ import KursusJepangSimulation from './KursusJepangSimulation';
 import AyakaSimulation from './AyakaSimulation';
 import AkabSimulation from './AkabSimulation';
 import { AnimatePresence } from 'framer-motion';
+import axios from 'axios';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,14 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     const [isKursusOpen, setIsKursusOpen] = useState(false);
     const [isAyakaOpen, setIsAyakaOpen] = useState(false);
     const [isAkabOpen, setIsAkabOpen] = useState(false);
+
+    const trackClick = (id) => {
+        try {
+            axios.post('/analytics/increment', { key: `click_${id}` });
+        } catch (error) {
+            console.error('Failed to track click:', error);
+        }
+    };
 
     // Hardcoded projects as requested by user
     const displayPortfolios = [
@@ -125,10 +134,22 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                             key={index}
                             className={`group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden cursor-pointer rounded-2xl md:rounded-3xl border border-white/5`}
                             onClick={() => {
-                                if (item.id === 'saitama') setIsSaitamaOpen(true);
-                                if (item.id === 'kursus') setIsKursusOpen(true);
-                                if (item.id === 'ayaka') setIsAyakaOpen(true);
-                                if (item.id === 'akab') setIsAkabOpen(true);
+                                if (item.id === 'saitama') {
+                                    setIsSaitamaOpen(true);
+                                    trackClick('saitama');
+                                }
+                                if (item.id === 'kursus') {
+                                    setIsKursusOpen(true);
+                                    trackClick('kursus_jepang');
+                                }
+                                if (item.id === 'ayaka') {
+                                    setIsAyakaOpen(true);
+                                    trackClick('ayaka');
+                                }
+                                if (item.id === 'akab') {
+                                    setIsAkabOpen(true);
+                                    trackClick('akab');
+                                }
                             }}
                         >
                             {/* Image with Parallax Hover */}
