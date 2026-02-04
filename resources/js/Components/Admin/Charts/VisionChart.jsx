@@ -1,6 +1,11 @@
 import React from 'react';
 
-const VisionChart = ({ type }) => {
+const VisionChart = ({ type, totalVisits = 0 }) => {
+    // Generate a semi-dynamic path height based on total visits
+    const scale = Math.min(1, totalVisits / 1000); // Normalize scale
+    const h1 = 250 - (scale * 50);
+    const h2 = 180 - (scale * 30);
+
     if (type === 'area') {
         return (
             <svg className="w-full h-full" viewBox="0 0 800 300" preserveAspectRatio="none">
@@ -29,22 +34,23 @@ const VisionChart = ({ type }) => {
 
                 {/* Smooth Area Path */}
                 <path
-                    d="M0,250 C100,200 200,280 300,180 C400,80 500,200 600,150 C700,100 800,180 800,180 V300 H0 Z"
+                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,150 C700,100 800,180 800,180 V300 H0 Z`}
                     fill="url(#areaGradient)"
+                    className="transition-all duration-1000"
                 />
 
                 {/* Neon Line */}
                 <path
-                    d="M0,250 C100,200 200,280 300,180 C400,80 500,200 600,150 C700,100 800,180 800,180"
+                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,150 C700,100 800,180 800,180`}
                     fill="none"
                     stroke="#2d5cfe"
                     strokeWidth="3"
                     filter="url(#glow)"
+                    className="transition-all duration-1000"
                 />
 
-                {/* Floating Data Points */}
-                <circle cx="300" cy="180" r="4" fill="#fff" filter="url(#glow)" />
-                <circle cx="600" cy="150" r="4" fill="#fff" filter="url(#glow)" />
+                {/* Data point at the peak */}
+                <circle cx="300" cy={h2} r="4" fill="#fff" filter="url(#glow)" className="transition-all duration-1000" />
             </svg>
         );
     }

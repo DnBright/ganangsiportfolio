@@ -1,21 +1,29 @@
 import React from 'react';
 
 const ActiveUsersChart = ({ clickStats = {} }) => {
-    const barData = [60, 40, 80, 50, 90, 70, 45, 85, 30, 75, 65, 55];
+    const counts = [
+        clickStats.click_saitama || 0,
+        clickStats.click_kursus_jepang || 0,
+        clickStats.click_ayaka || 0,
+        clickStats.click_akab || 0
+    ];
 
-    const maxVal = Math.max(
-        clickStats.click_saitama || 1,
-        clickStats.click_kursus_jepang || 1,
-        clickStats.click_ayaka || 1,
-        clickStats.click_akab || 1,
-        1
-    );
+    const maxCount = Math.max(...counts, 10);
+
+    const barData = counts.flatMap(count => {
+        const baseH = (count / maxCount) * 80 + 10;
+        return [
+            Math.min(100, baseH * 0.8),
+            Math.min(100, baseH),
+            Math.min(100, baseH * 0.9)
+        ];
+    });
 
     const stats = [
-        { label: 'Saitama', value: clickStats.click_saitama || 0, progress: `${((clickStats.click_saitama || 0) / maxVal) * 100}%` },
-        { label: 'Kursus Jepang', value: clickStats.click_kursus_jepang || 0, progress: `${((clickStats.click_kursus_jepang || 0) / maxVal) * 100}%` },
-        { label: 'Ayaka', value: clickStats.click_ayaka || 0, progress: `${((clickStats.click_ayaka || 0) / maxVal) * 100}%` },
-        { label: 'AKAB', value: clickStats.click_akab || 0, progress: `${((clickStats.click_akab || 0) / maxVal) * 100}%` },
+        { label: 'Saitama', value: clickStats.click_saitama || 0, progress: `${((clickStats.click_saitama || 0) / maxCount) * 100}%` },
+        { label: 'Kursus Jepang', value: clickStats.click_kursus_jepang || 0, progress: `${((clickStats.click_kursus_jepang || 0) / maxCount) * 100}%` },
+        { label: 'Ayaka', value: clickStats.click_ayaka || 0, progress: `${((clickStats.click_ayaka || 0) / maxCount) * 100}%` },
+        { label: 'AKAB', value: clickStats.click_akab || 0, progress: `${((clickStats.click_akab || 0) / maxCount) * 100}%` },
     ];
 
     return (
@@ -25,7 +33,7 @@ const ActiveUsersChart = ({ clickStats = {} }) => {
                     {barData.map((h, i) => (
                         <div
                             key={i}
-                            className="flex-1 bg-white/30 rounded-full hover:bg-white transition-all duration-300"
+                            className="flex-1 bg-white/30 rounded-full hover:bg-white transition-all duration-500 ease-out"
                             style={{ height: `${h}%` }}
                         />
                     ))}

@@ -318,7 +318,7 @@ const AdminDashboard = ({ stats = {} }) => {
                                     <p className="text-xs text-green-400 font-bold mb-8">Live <span className="text-white/40 font-normal">Real-time stats</span></p>
                                 </div>
                                 <div className="h-[280px]">
-                                    <VisionChart type="area" />
+                                    <VisionChart type="area" totalVisits={clickStats.total_visits || 0} />
                                 </div>
                             </div>
                             <div className="lg:col-span-5 h-full">
