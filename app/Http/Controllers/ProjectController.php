@@ -37,13 +37,13 @@ class ProjectController extends Controller
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $file->getClientOriginalName());
                 
                 // Ensure directory exists
-                $uploadDir = public_path('projects/proposals');
+                $uploadDir = public_path('upload-projects/proposals');
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0755, true);
                 }
                 
                 $file->move($uploadDir, $filename);
-                $proposalPath = '/projects/proposals/' . $filename;
+                $proposalPath = '/upload-projects/proposals/' . $filename;
             }
 
             if ($request->hasFile('screenshot_file')) {
@@ -51,13 +51,13 @@ class ProjectController extends Controller
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $file->getClientOriginalName());
                 
                 // Ensure directory exists
-                $uploadDir = public_path('projects/screenshots');
+                $uploadDir = public_path('upload-projects/screenshots');
                 if (!file_exists($uploadDir)) {
                     mkdir($uploadDir, 0755, true);
                 }
                 
                 $file->move($uploadDir, $filename);
-                $screenshotPath = '/projects/screenshots/' . $filename;
+                $screenshotPath = '/upload-projects/screenshots/' . $filename;
             }
 
             // Create project from company target data
