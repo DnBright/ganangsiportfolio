@@ -122,6 +122,13 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     Route::get('/productivity/details', [\App\Http\Controllers\Admin\ProductivityController::class, 'getDailyDetails'])->name('admin.productivity.details');
     Route::post('/productivity/log', [\App\Http\Controllers\Admin\ProductivityController::class, 'storeLog'])->name('admin.productivity.log');
 
+    // Projects Management
+    Route::get('/projects', [\App\Http\Controllers\ProjectController::class, 'index'])->name('admin.projects.index');
+    Route::post('/projects', [\App\Http\Controllers\ProjectController::class, 'store'])->name('admin.projects.store');
+    Route::patch('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'update'])->name('admin.projects.update');
+    Route::delete('/projects/{project}', [\App\Http\Controllers\ProjectController::class, 'destroy'])->name('admin.projects.destroy');
+
+
     // Temporary Migration & DB Fix Route
     Route::get('/run-migrations', function () {
         try {

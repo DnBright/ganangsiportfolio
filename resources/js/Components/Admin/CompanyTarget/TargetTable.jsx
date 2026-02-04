@@ -760,8 +760,34 @@ const TargetTable = () => {
                             </button>
                             <button
                                 onClick={async () => {
-                                    // TODO: Implement file upload logic
-                                    alert('Upload functionality will be implemented next!');
+                                    if (!eksekusiData.proposal_file || !eksekusiData.screenshot_file) {
+                                        alert('Harap upload proposal dan screenshot terlebih dahulu!');
+                                        return;
+                                    }
+
+                                    try {
+                                        const formData = new FormData();
+                                        formData.append('company_target_id', selectedTarget.id);
+                                        formData.append('proposal_file', eksekusiData.proposal_file);
+                                        formData.append('screenshot_file', eksekusiData.screenshot_file);
+
+                                        await axios.post('/projects', formData, {
+                                            headers: { 'Content-Type': 'multipart/form-data' }
+                                        });
+
+                                        // Close modal and refresh
+                                        setIsEksekusiModalOpen(false);
+                                        setSelectedTarget(null);
+                                        setEksekusiData({ proposal_file: null, screenshot_file: null });
+
+                                        // Refresh the targets list
+                                        fetchTargets();
+
+                                        alert('✅ Project berhasil dieksekusi! Data telah dipindahkan ke halaman Projects.');
+                                    } catch (error) {
+                                        console.error('Error executing project:', error);
+                                        alert('Gagal mengeksekusi project. Silakan coba lagi.');
+                                    }
                                 }}
                                 className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95"
                             >
