@@ -61,10 +61,51 @@ class ProjectController extends Controller
         // Delete the company target after moving to projects
         $companyTarget->delete();
 
+        // Log to Productivity System
+        $this->logToProductivity($companyTarget->admin_in_charge, $companyTarget->company_name);
+
         return response()->json([
             'message' => 'Project created successfully and company target removed',
             'project' => $project
         ], 201);
+    }
+
+    /**
+     * Log project execution to productivity system
+     */
+    private function logToProductivity($adminName, $companyName)
+    {
+        try {
+            $today = now()->format('Y-m-d');
+            
+            // Check if there's already a log for today
+            $log = \App\Models\ProductivityLog::firstOrCreate(
+                [
+                    'admin_name' => $adminName,
+                    'log_date' => $today
+                ],
+                [
+                    'focus_of_day' => '',
+                    'blockers' => '',
+                    'next_day_plan' => ''
+                ]
+            );
+
+            // Append project execution to focus_of_day
+            $currentFocus = $log->focus_of_day ?? '';
+            $newEntry = "✅ Project Executed: {$companyName}";
+            
+            if (empty($currentFocus)) {
+                $updatedFocus = $newEntry;
+            } else {
+                $updatedFocus = $currentFocus . "\n" . $newEntry;
+            }
+
+            $log->update(['focus_of_day' => $updatedFocus]);
+        } catch (\Exception $e) {
+            // Silent fail - don't break project creation if logging fails
+            \Log::error('Failed to log to productivity: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request, Project $project)

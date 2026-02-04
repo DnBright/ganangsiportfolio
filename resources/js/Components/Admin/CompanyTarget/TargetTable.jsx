@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
+import SuccessModal from '../UI/SuccessModal';
 
 const TargetTable = () => {
     const [targets, setTargets] = useState([]);
@@ -13,6 +14,8 @@ const TargetTable = () => {
         proposal_file: null,
         screenshot_file: null
     });
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [executedProject, setExecutedProject] = useState(null);
 
     // Filters State
     const [filters, setFilters] = useState({
@@ -775,7 +778,10 @@ const TargetTable = () => {
                                             headers: { 'Content-Type': 'multipart/form-data' }
                                         });
 
-                                        // Close modal and refresh
+                                        // Store project data for success modal
+                                        setExecutedProject(selectedTarget);
+
+                                        // Close eksekusi modal
                                         setIsEksekusiModalOpen(false);
                                         setSelectedTarget(null);
                                         setEksekusiData({ proposal_file: null, screenshot_file: null });
@@ -783,7 +789,8 @@ const TargetTable = () => {
                                         // Refresh the targets list
                                         fetchTargets();
 
-                                        alert('✅ Project berhasil dieksekusi! Data telah dipindahkan ke halaman Projects.');
+                                        // Show premium success modal
+                                        setShowSuccessModal(true);
                                     } catch (error) {
                                         console.error('Error executing project:', error);
                                         alert('Gagal mengeksekusi project. Silakan coba lagi.');
@@ -797,6 +804,16 @@ const TargetTable = () => {
                     </div>
                 </div>
             )}
+
+            {/* Success Modal */}
+            <SuccessModal
+                isOpen={showSuccessModal}
+                onClose={() => {
+                    setShowSuccessModal(false);
+                    setExecutedProject(null);
+                }}
+                projectData={executedProject}
+            />
         </div>
     );
 };
