@@ -333,7 +333,7 @@
                          <div><strong>Email:</strong> dnbright000@gmail.com</div>
                          <div><strong>WhatsApp:</strong> +62 851-5866-1152</div>
                          <div><strong>Alamat:</strong> Yogyakarta, Indonesia</div>
-                         <div><strong>Website:</strong> thedarkandbright.com</div>
+                         <div><strong>Website:</strong> <a href="https://thedarkandbright.com" style="color: #3b82f6; font-weight: 900; text-decoration: none;">thedarkandbright.com</a></div>
                      </div>
                  </div>
             </div>
@@ -483,7 +483,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / STRATEGIC PROPOSAL {{ date('Y') }} / <span style="font-size: 6pt; opacity: 0.5;">CODE_SYNC_V17</span></div>
+                <div>DNB AGENCY / <a href="https://thedarkandbright.com" style="color: #3b82f6; text-decoration: none;">THEDARKANDBRIGHT.COM</a></div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
@@ -498,7 +498,7 @@
              </div>
              
              <div style="width: 300px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10mm;">
-                 <p style="font-weight: 900; font-size: 14px; letter-spacing: 2px;">THE DARK AND BRIGHT</p>
+                 <p style="font-weight: 900; font-size: 14px; letter-spacing: 2px;"><a href="https://thedarkandbright.com" style="color: #3b82f6; text-decoration: none;">THE DARK AND BRIGHT</a></p>
                  <p style="font-size: 10px; color: rgba(255,255,255,0.4);">Your Strategic Digital Partner</p>
              </div>
          </div>
