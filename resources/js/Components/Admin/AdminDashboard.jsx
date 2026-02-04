@@ -314,15 +314,15 @@ const AdminDashboard = ({ stats = {} }) => {
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                             <div className="lg:col-span-7 bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6">
                                 <div className="mb-0">
-                                    <h3 className="text-sm font-bold mb-1">Sales overview</h3>
-                                    <p className="text-xs text-green-400 font-bold mb-8">(+5) more <span className="text-white/40 font-normal">in 2021</span></p>
+                                    <h3 className="text-sm font-bold mb-1">Total Visits Overview</h3>
+                                    <p className="text-xs text-green-400 font-bold mb-8">Live <span className="text-white/40 font-normal">Real-time stats</span></p>
                                 </div>
                                 <div className="h-[280px]">
                                     <VisionChart type="area" />
                                 </div>
                             </div>
                             <div className="lg:col-span-5 h-full">
-                                <ActiveUsersChart />
+                                <ActiveUsersChart clickStats={clickStats} />
                             </div>
                         </div>
 

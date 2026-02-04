@@ -1,7 +1,22 @@
 import React from 'react';
 
-const ActiveUsersChart = () => {
+const ActiveUsersChart = ({ clickStats = {} }) => {
     const barData = [60, 40, 80, 50, 90, 70, 45, 85, 30, 75, 65, 55];
+
+    const maxVal = Math.max(
+        clickStats.click_saitama || 1,
+        clickStats.click_kursus_jepang || 1,
+        clickStats.click_ayaka || 1,
+        clickStats.click_akab || 1,
+        1
+    );
+
+    const stats = [
+        { label: 'Saitama', value: clickStats.click_saitama || 0, progress: `${((clickStats.click_saitama || 0) / maxVal) * 100}%` },
+        { label: 'Kursus Jepang', value: clickStats.click_kursus_jepang || 0, progress: `${((clickStats.click_kursus_jepang || 0) / maxVal) * 100}%` },
+        { label: 'Ayaka', value: clickStats.click_ayaka || 0, progress: `${((clickStats.click_ayaka || 0) / maxVal) * 100}%` },
+        { label: 'AKAB', value: clickStats.click_akab || 0, progress: `${((clickStats.click_akab || 0) / maxVal) * 100}%` },
+    ];
 
     return (
         <div className="h-full w-full bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 flex flex-col">
@@ -20,25 +35,23 @@ const ActiveUsersChart = () => {
             </div>
 
             <div>
-                <h3 className="text-sm font-bold mb-1">Active Users</h3>
-                <p className="text-xs text-green-400 font-bold mb-6">(+23) <span className="text-white/40 font-normal">than last week</span></p>
+                <h3 className="text-sm font-bold mb-1">Click Prototype</h3>
+                <p className="text-xs text-green-400 font-bold mb-6">Live <span className="text-white/40 font-normal">Tracking Report</span></p>
             </div>
 
             <div className="grid grid-cols-4 gap-4">
-                {[
-                    { label: 'Users', value: '32,984', progress: 'w-[60%]' },
-                    { label: 'Clicks', value: '2.42m', progress: 'w-[80%]' },
-                    { label: 'Sales', value: '2,400$', progress: 'w-[45%]' },
-                    { label: 'Items', value: '320', progress: 'w-[90%]' },
-                ].map((stat, i) => (
+                {stats.map((stat, i) => (
                     <div key={i} className="space-y-2">
                         <div className="flex items-center gap-2">
                             <div className="w-1.5 h-1.5 rounded-full bg-[#2d5cfe]" />
-                            <p className="text-[10px] text-white/40 font-bold uppercase">{stat.label}</p>
+                            <p className="text-[10px] text-white/40 font-bold uppercase truncate">{stat.label}</p>
                         </div>
-                        <p className="text-sm font-bold tracking-tight">{stat.value}</p>
+                        <p className="text-sm font-black tracking-tight">{stat.value}</p>
                         <div className="h-[3px] w-full bg-white/10 rounded-full overflow-hidden">
-                            <div className={`h-full bg-white rounded-full ${stat.progress}`} />
+                            <div
+                                className="h-full bg-white rounded-full transition-all duration-1000"
+                                style={{ width: stat.progress }}
+                            />
                         </div>
                     </div>
                 ))}
