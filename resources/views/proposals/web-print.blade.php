@@ -308,26 +308,26 @@
         <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1mm 1mm, rgba(255,255,255,0.05) 0.5mm, transparent 0); background-size: 10mm 10mm; z-index: 2;"></div>
 
         <!-- Content -->
-        <div class="relative z-10 h-full flex flex-col justify-between p-[25mm] box-border">
+        <div class="relative z-10 h-full flex flex-col justify-between p-[20mm] box-border">
             <div>
                  @if($logoBase64)
-                     <img src="{{ $logoBase64 }}" style="width: 35mm; filter: brightness(0) invert(1); margin-bottom: 15mm;" alt="DNB Logo">
+                     <img src="{{ $logoBase64 }}" style="width: 35mm; filter: brightness(0) invert(1); margin-bottom: 10mm;" alt="DNB Logo">
                 @else
-                    <div class="text-white text-4xl font-bold mb-12 tracking-tighter">DNB AGENCY</div>
+                    <div class="text-white text-4xl font-bold mb-10 tracking-tighter">DNB AGENCY</div>
                 @endif
             </div>
 
             <div>
-                 <div style="width: 25mm; height: 1.5mm; background: #3b82f6; margin-bottom: 15mm;"></div>
-                 <h1 class="text-white" style="font-family: 'Outfit'; font-size: 54pt; font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -2pt;">
+                 <div style="width: 25mm; height: 1.5mm; background: #3b82f6; margin-bottom: 10mm;"></div>
+                 <h1 class="text-white" style="font-family: 'Outfit'; font-size: 50pt; font-weight: 900; line-height: 0.95; text-transform: uppercase; letter-spacing: -2pt;">
                     {{ $proposal->title ?? 'DIGITAL TRANSFORMATION' }}
                  </h1>
-                 <p style="font-size: 22pt; font-weight: 300; color: #3b82f6; margin-top: 10mm; letter-spacing: -0.5pt;">
+                 <p style="font-size: 20pt; font-weight: 300; color: #3b82f6; margin-top: 8mm; letter-spacing: -0.5pt;">
                     Prepared for {{ $proposal->client_name }}
                  </p>
                  
                  <!-- Contact Information Block -->
-                 <div style="margin-top: 20mm; padding: 8mm; background: rgba(255,255,255,0.05); border-radius: 8mm; border-left: 3px solid #3b82f6;">
+                 <div style="margin-top: 10mm; padding: 8mm; background: rgba(255,255,255,0.05); border-radius: 8mm; border-left: 3px solid #3b82f6;">
                      <div style="color: rgba(255,255,255,0.5); font-size: 8pt; font-weight: 900; letter-spacing: 2pt; text-transform: uppercase; margin-bottom: 5mm;">Informasi Kontak</div>
                      <div style="color: rgba(255,255,255,0.9); font-size: 10pt; line-height: 1.8;">
                          <div><strong>Email:</strong> dnbright000@gmail.com</div>
