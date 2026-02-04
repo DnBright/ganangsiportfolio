@@ -133,6 +133,7 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
 
     // Analytics Data (Admin Only)
     Route::get('/analytics/stats', [\App\Http\Controllers\AnalyticsController::class, 'getStats'])->name('admin.analytics.stats');
+    Route::get('/analytics/yearly', [\App\Http\Controllers\AnalyticsController::class, 'getYearlyStats'])->name('admin.analytics.yearly');
 
 
     // Temporary Migration & DB Fix Route

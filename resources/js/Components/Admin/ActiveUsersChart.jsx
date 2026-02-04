@@ -1,29 +1,39 @@
 import React from 'react';
 
-const ActiveUsersChart = ({ clickStats = {} }) => {
-    const counts = [
-        clickStats.click_saitama || 0,
-        clickStats.click_kursus_jepang || 0,
-        clickStats.click_ayaka || 0,
-        clickStats.click_akab || 0
-    ];
-
-    const maxCount = Math.max(...counts, 1); // Floor at 1 to avoid division by zero and show activity
-
-    const barData = counts.flatMap(count => {
-        const baseH = (count / maxCount) * 70 + 20; // Scale from 20% to 90%
-        return [
-            Math.min(100, baseH * 0.7),
-            Math.min(100, baseH),
-            Math.min(100, baseH * 0.85)
-        ];
+const ActiveUsersChart = ({ yearlyStats = {}, clickStats = {} }) => {
+    // Generate 12 months data for bars (Total Interaction: visits + all clicks)
+    const monthlyTotals = Array.from({ length: 12 }, (_, i) => {
+        const month = str_pad(i + 1, 2, '0', STR_PAD_LEFT);
+        const stats = yearlyStats[month] || {};
+        return (stats.total_visits || 0) +
+            (stats.click_saitama || 0) +
+            (stats.click_kursus_jepang || 0) +
+            (stats.click_ayaka || 0) +
+            (stats.click_akab || 0);
     });
 
+    function str_pad(n, width, z) {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+    }
+
+    const maxMonthly = Math.max(...monthlyTotals, 1);
+    const barData = monthlyTotals.map(total => Math.min(100, (total / maxMonthly) * 70 + 20));
+
+    const maxVal = Math.max(
+        clickStats.click_saitama || 1,
+        clickStats.click_kursus_jepang || 1,
+        clickStats.click_ayaka || 1,
+        clickStats.click_akab || 1,
+        1
+    );
+
     const stats = [
-        { label: 'Saitama', value: clickStats.click_saitama || 0, progress: `${((clickStats.click_saitama || 0) / maxCount) * 100}%` },
-        { label: 'Kursus Jepang', value: clickStats.click_kursus_jepang || 0, progress: `${((clickStats.click_kursus_jepang || 0) / maxCount) * 100}%` },
-        { label: 'Ayaka', value: clickStats.click_ayaka || 0, progress: `${((clickStats.click_ayaka || 0) / maxCount) * 100}%` },
-        { label: 'AKAB', value: clickStats.click_akab || 0, progress: `${((clickStats.click_akab || 0) / maxCount) * 100}%` },
+        { label: 'Saitama', value: clickStats.click_saitama || 0, progress: `${((clickStats.click_saitama || 0) / maxVal) * 100}%` },
+        { label: 'Kursus Jepang', value: clickStats.click_kursus_jepang || 0, progress: `${((clickStats.click_kursus_jepang || 0) / maxVal) * 100}%` },
+        { label: 'Ayaka', value: clickStats.click_ayaka || 0, progress: `${((clickStats.click_ayaka || 0) / maxVal) * 100}%` },
+        { label: 'AKAB', value: clickStats.click_akab || 0, progress: `${((clickStats.click_akab || 0) / maxVal) * 100}%` },
     ];
 
     return (

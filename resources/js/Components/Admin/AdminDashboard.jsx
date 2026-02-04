@@ -37,6 +37,8 @@ const AdminDashboard = ({ stats = {} }) => {
     });
     const [proposals, setProposals] = useState([]); // Changed to empty array
     const [clickStats, setClickStats] = useState({});
+    const [yearlyStats, setYearlyStats] = useState({});
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [savedTemplates, setSavedTemplates] = useState([
         { id: 1, name: 'Standard LPK Template', industry: 'LPK', date: '2026-01-10', quality: 'High' },
         { id: 2, name: 'Creative Agency Pitch', industry: 'Startup', date: '2026-01-12', quality: 'Balanced' },
@@ -62,6 +64,15 @@ const AdminDashboard = ({ stats = {} }) => {
         }
     };
 
+    const fetchYearlyStats = async () => {
+        try {
+            const response = await axios.get(`/analytics/yearly?year=${selectedYear}`);
+            setYearlyStats(response.data || {});
+        } catch (error) {
+            console.error('Error fetching yearly stats:', error);
+        }
+    };
+
     useEffect(() => {
         console.log('AdminDashboard: currentProposal updated:', currentProposal);
     }, [currentProposal]);
@@ -69,11 +80,15 @@ const AdminDashboard = ({ stats = {} }) => {
     useEffect(() => {
         fetchProposals();
         fetchClickStats();
+        fetchYearlyStats();
 
         // Refresh stats every 30 seconds
-        const interval = setInterval(fetchClickStats, 30000);
+        const interval = setInterval(() => {
+            fetchClickStats();
+            fetchYearlyStats();
+        }, 30000);
         return () => clearInterval(interval);
-    }, []);
+    }, [selectedYear]);
 
     const handleAddProposal = async (finalData) => {
         try {
@@ -259,9 +274,20 @@ const AdminDashboard = ({ stats = {} }) => {
                     <>
                         {/* Website Analytics Row */}
                         <div className="space-y-4">
-                            <div className="flex items-center gap-2 mb-1">
-                                <span className="text-blue-400 text-lg">📊</span>
-                                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/60">Website Analytics (Real-time)</h3>
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-blue-400 text-lg">📊</span>
+                                    <h3 className="text-xs font-black uppercase tracking-[0.2em] text-white/60">Website Analytics (Real-time)</h3>
+                                </div>
+                                <select
+                                    value={selectedYear}
+                                    onChange={(e) => setSelectedYear(Number(e.target.value))}
+                                    className="bg-[#0f1535]/60 border border-white/10 rounded-lg text-[10px] font-black uppercase tracking-widest text-white/60 px-3 py-1.5 outline-none hover:border-blue-500/40 transition-all cursor-pointer"
+                                >
+                                    {[2024, 2025, 2026].map(year => (
+                                        <option key={year} value={year}>{year}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
                                 <div className="bg-gradient-to-br from-blue-600/20 to-transparent backdrop-blur-xl border border-blue-500/20 rounded-[30px] p-6 hover:border-blue-500/40 transition-all">
@@ -314,15 +340,21 @@ const AdminDashboard = ({ stats = {} }) => {
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                             <div className="lg:col-span-7 bg-[#0f1535]/60 backdrop-blur-xl border border-white/10 rounded-[30px] p-6">
                                 <div className="mb-0">
-                                    <h3 className="text-sm font-bold mb-1">Total Visits Overview</h3>
-                                    <p className="text-xs text-green-400 font-bold mb-8">Live <span className="text-white/40 font-normal">Real-time stats</span></p>
+                                    <h3 className="text-sm font-bold mb-1">Total Visits Overview ({selectedYear})</h3>
+                                    <p className="text-xs text-green-400 font-bold mb-8">Live <span className="text-white/40 font-normal">Monthly trend</span></p>
                                 </div>
                                 <div className="h-[280px]">
-                                    <VisionChart type="area" totalVisits={clickStats.total_visits || 0} />
+                                    <VisionChart
+                                        type="area"
+                                        monthlyData={Object.keys(yearlyStats).sort().map(m => yearlyStats[m].total_visits || 0)}
+                                    />
                                 </div>
                             </div>
                             <div className="lg:col-span-5 h-full">
-                                <ActiveUsersChart clickStats={clickStats} />
+                                <ActiveUsersChart
+                                    yearlyStats={yearlyStats}
+                                    clickStats={clickStats}
+                                />
                             </div>
                         </div>
 

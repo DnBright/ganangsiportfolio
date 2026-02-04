@@ -1,11 +1,34 @@
 import React from 'react';
 
-const VisionChart = ({ type, totalVisits = 0 }) => {
-    // Generate organic motion for the chart based on visits
-    const scale = Math.min(1, totalVisits / 100); // Scale faster for smaller numbers
-    const h1 = 280 - (scale * 80); // Move control point 1
-    const h2 = 180 - (scale * 40); // Move data point peak
-    const h3 = 150 - (scale * 20); // Move point 3
+const VisionChart = ({ type, monthlyData = [] }) => {
+    // Fallback if no data
+    const data = monthlyData.length === 12 ? monthlyData : Array(12).fill(0);
+    const maxVal = Math.max(...data, 10);
+
+    // Generate path points for 12 months
+    // SVG width is 800, so each month is ~72px apart (800 / 11)
+    const points = data.map((val, i) => {
+        const x = i * (800 / 11);
+        const y = 250 - (val / maxVal) * 200; // Scale to 250-50 range
+        return { x, y };
+    });
+
+    // Create a smooth SVG path string from points
+    const pathD = points.length > 0
+        ? `M${points[0].x},${points[0].y} ` + points.slice(1).map((p, i) => {
+            const prev = points[i];
+            const cpX = (prev.x + p.x) / 2;
+            return `C${cpX},${prev.y} ${cpX},${p.y} ${p.x},${p.y}`;
+        }).join(' ') + " V300 H0 Z"
+        : "";
+
+    const lineD = points.length > 0
+        ? `M${points[0].x},${points[0].y} ` + points.slice(1).map((p, i) => {
+            const prev = points[i];
+            const cpX = (prev.x + p.x) / 2;
+            return `C${cpX},${prev.y} ${cpX},${p.y} ${p.x},${p.y}`;
+        }).join(' ')
+        : "";
 
     if (type === 'area') {
         return (
@@ -35,14 +58,14 @@ const VisionChart = ({ type, totalVisits = 0 }) => {
 
                 {/* Smooth Area Path */}
                 <path
-                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,${h3} C700,100 800,180 800,180 V300 H0 Z`}
+                    d={pathD}
                     fill="url(#areaGradient)"
                     className="transition-all duration-1000"
                 />
 
                 {/* Neon Line */}
                 <path
-                    d={`M0,250 C100,200 200,${h1} 300,${h2} C400,80 500,200 600,${h3} C700,100 800,180 800,180`}
+                    d={lineD}
                     fill="none"
                     stroke="#2d5cfe"
                     strokeWidth="3"
@@ -50,8 +73,10 @@ const VisionChart = ({ type, totalVisits = 0 }) => {
                     className="transition-all duration-1000"
                 />
 
-                {/* Data point at the peak */}
-                <circle cx="300" cy={h2} r="4" fill="#fff" filter="url(#glow)" className="transition-all duration-1000" />
+                {/* Monthly Data Points */}
+                {points.map((p, i) => (
+                    <circle key={i} cx={p.x} cy={p.y} r="3" fill="#fff" filter="url(#glow)" className="opacity-40 hover:opacity-100 transition-all cursor-pointer" />
+                ))}
             </svg>
         );
     }
