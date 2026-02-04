@@ -27,16 +27,22 @@ class ProjectController extends Controller
         // Get the company target data
         $companyTarget = CompanyTarget::findOrFail($validated['company_target_id']);
 
-        // Handle file uploads
+        // Handle file uploads - Save to public/projects directory
         $proposalPath = null;
         $screenshotPath = null;
 
         if ($request->hasFile('proposal_file')) {
-            $proposalPath = $request->file('proposal_file')->store('projects/proposals', 'public');
+            $file = $request->file('proposal_file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('projects/proposals'), $filename);
+            $proposalPath = '/projects/proposals/' . $filename;
         }
 
         if ($request->hasFile('screenshot_file')) {
-            $screenshotPath = $request->file('screenshot_file')->store('projects/screenshots', 'public');
+            $file = $request->file('screenshot_file');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('projects/screenshots'), $filename);
+            $screenshotPath = '/projects/screenshots/' . $filename;
         }
 
         // Create project from company target data
@@ -49,8 +55,8 @@ class ProjectController extends Controller
             'whatsapp_contact' => $companyTarget->whatsapp_contact,
             'social_media' => $companyTarget->social_media,
             'project_type' => $companyTarget->project_type,
-            'proposal_file' => $proposalPath ? Storage::url($proposalPath) : null,
-            'screenshot_file' => $screenshotPath ? Storage::url($screenshotPath) : null,
+            'proposal_file' => $proposalPath,
+            'screenshot_file' => $screenshotPath,
             'execution_notes' => $validated['execution_notes'] ?? null,
             'executed_at' => now(),
             'project_status' => 'In Progress',
@@ -125,15 +131,19 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
-        // Delete associated files
+        // Delete associated files from public directory
         if ($project->proposal_file) {
-            $path = str_replace('/storage/', '', $project->proposal_file);
-            Storage::disk('public')->delete($path);
+            $filePath = public_path($project->proposal_file);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
         }
 
         if ($project->screenshot_file) {
-            $path = str_replace('/storage/', '', $project->screenshot_file);
-            Storage::disk('public')->delete($path);
+            $filePath = public_path($project->screenshot_file);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
         }
 
         $project->delete();
