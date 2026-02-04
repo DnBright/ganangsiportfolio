@@ -3,7 +3,7 @@ import React from 'react';
 const ActiveUsersChart = ({ yearlyStats = {}, clickStats = {} }) => {
     // Generate 12 months data for bars (Total Interaction: visits + all clicks)
     const monthlyTotals = Array.from({ length: 12 }, (_, i) => {
-        const month = str_pad(i + 1, 2, '0', STR_PAD_LEFT);
+        const month = (i + 1).toString().padStart(2, '0');
         const stats = yearlyStats[month] || {};
         return (stats.total_visits || 0) +
             (stats.click_saitama || 0) +
@@ -11,12 +11,6 @@ const ActiveUsersChart = ({ yearlyStats = {}, clickStats = {} }) => {
             (stats.click_ayaka || 0) +
             (stats.click_akab || 0);
     });
-
-    function str_pad(n, width, z) {
-        z = z || '0';
-        n = n + '';
-        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-    }
 
     const maxMonthly = Math.max(...monthlyTotals, 1);
     const barData = monthlyTotals.map(total => Math.min(100, (total / maxMonthly) * 70 + 20));
