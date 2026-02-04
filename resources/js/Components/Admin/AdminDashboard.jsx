@@ -257,14 +257,6 @@ const AdminDashboard = ({ stats = {} }) => {
             default:
                 return (
                     <>
-                        {/* Stats Row (4 columns) */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <StatCard title="Total Leads" value={stats.totalLeads || 0} growth={stats.newLeads > 0 ? `+${stats.newLeads}` : "0"} icon="money" />
-                            <StatCard title="New Leads" value={stats.newLeads || 0} growth="+100%" icon="users" />
-                            <StatCard title="Total Portfolios" value={stats.totalPortfolios || 0} growth="" icon="clients" />
-                            <StatCard title="Featured Portfolios" value={stats.featuredPortfolios || 0} growth="" icon="sales" />
-                        </div>
-
                         {/* Website Analytics Row */}
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 mb-1">
