@@ -763,6 +763,10 @@ const TargetTable = () => {
                             </button>
                             <button
                                 onClick={async () => {
+                                    console.log('=== EKSEKUSI STARTED ===');
+                                    console.log('Selected Target:', selectedTarget);
+                                    console.log('Eksekusi Data:', eksekusiData);
+
                                     if (!eksekusiData.proposal_file || !eksekusiData.screenshot_file) {
                                         alert('Harap upload proposal dan screenshot terlebih dahulu!');
                                         return;
@@ -774,9 +778,18 @@ const TargetTable = () => {
                                         formData.append('proposal_file', eksekusiData.proposal_file);
                                         formData.append('screenshot_file', eksekusiData.screenshot_file);
 
-                                        await axios.post('/projects', formData, {
+                                        console.log('FormData created:', {
+                                            company_target_id: selectedTarget.id,
+                                            proposal_file: eksekusiData.proposal_file.name,
+                                            screenshot_file: eksekusiData.screenshot_file.name
+                                        });
+
+                                        console.log('Sending POST request to /projects...');
+                                        const response = await axios.post('/projects', formData, {
                                             headers: { 'Content-Type': 'multipart/form-data' }
                                         });
+
+                                        console.log('Response received:', response.data);
 
                                         // Store project data for success modal
                                         setExecutedProject(selectedTarget);
@@ -792,12 +805,22 @@ const TargetTable = () => {
                                         // Show premium success modal
                                         setShowSuccessModal(true);
                                     } catch (error) {
-                                        console.error('Error executing project:', error);
-                                        console.error('Error response:', error.response?.data);
+                                        console.error('=== ERROR DETAILS ===');
+                                        console.error('Error object:', error);
+                                        console.error('Error response:', error.response);
+                                        console.error('Error response data:', error.response?.data);
+                                        console.error('Error status:', error.response?.status);
+                                        console.error('Error headers:', error.response?.headers);
 
-                                        const errorMsg = error.response?.data?.error
-                                            ? `Error: ${error.response.data.error}\nFile: ${error.response.data.file}\nLine: ${error.response.data.line}`
-                                            : 'Gagal mengeksekusi project. Silakan coba lagi.';
+                                        let errorMsg = 'Gagal mengeksekusi project. Silakan coba lagi.';
+
+                                        if (error.response?.data?.error) {
+                                            errorMsg = `Error: ${error.response.data.error}\nFile: ${error.response.data.file}\nLine: ${error.response.data.line}`;
+                                        } else if (error.response?.data?.message) {
+                                            errorMsg = error.response.data.message;
+                                        } else if (error.message) {
+                                            errorMsg = `Network Error: ${error.message}`;
+                                        }
 
                                         alert(errorMsg);
                                     }
