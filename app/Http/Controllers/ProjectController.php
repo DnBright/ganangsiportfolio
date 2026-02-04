@@ -17,63 +17,95 @@ class ProjectController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'company_target_id' => 'required|exists:company_targets,id',
-            'proposal_file' => 'nullable|file|mimes:pdf|max:10240',
-            'screenshot_file' => 'nullable|file|mimes:jpg,jpeg,png|max:5120',
-            'execution_notes' => 'nullable|string',
-        ]);
+        try {
+            $validated = $request->validate([
+                'company_target_id' => 'required|exists:company_targets,id',
+                'proposal_file' => 'nullable|file|mimes:pdf|max:10240',
+                'screenshot_file' => 'nullable|file|mimes:jpg,jpeg,png|max:5120',
+                'execution_notes' => 'nullable|string',
+            ]);
 
-        // Get the company target data
-        $companyTarget = CompanyTarget::findOrFail($validated['company_target_id']);
+            // Get the company target data
+            $companyTarget = CompanyTarget::findOrFail($validated['company_target_id']);
 
-        // Handle file uploads - Save to public/projects directory
-        $proposalPath = null;
-        $screenshotPath = null;
+            // Handle file uploads - Save to public/projects directory
+            $proposalPath = null;
+            $screenshotPath = null;
 
-        if ($request->hasFile('proposal_file')) {
-            $file = $request->file('proposal_file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('projects/proposals'), $filename);
-            $proposalPath = '/projects/proposals/' . $filename;
+            if ($request->hasFile('proposal_file')) {
+                $file = $request->file('proposal_file');
+                $filename = time() . '_' . preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $file->getClientOriginalName());
+                
+                // Ensure directory exists
+                $uploadDir = public_path('projects/proposals');
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
+                $file->move($uploadDir, $filename);
+                $proposalPath = '/projects/proposals/' . $filename;
+            }
+
+            if ($request->hasFile('screenshot_file')) {
+                $file = $request->file('screenshot_file');
+                $filename = time() . '_' . preg_replace('/[^A-Za-z0-9_\-\.]/', '_', $file->getClientOriginalName());
+                
+                // Ensure directory exists
+                $uploadDir = public_path('projects/screenshots');
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0755, true);
+                }
+                
+                $file->move($uploadDir, $filename);
+                $screenshotPath = '/projects/screenshots/' . $filename;
+            }
+
+            // Create project from company target data
+            $project = Project::create([
+                'company_name' => $companyTarget->company_name,
+                'region' => $companyTarget->region,
+                'industry' => $companyTarget->industry,
+                'contact_person' => $companyTarget->contact_person,
+                'email' => $companyTarget->email,
+                'whatsapp_contact' => $companyTarget->whatsapp_contact,
+                'social_media' => $companyTarget->social_media,
+                'project_type' => $companyTarget->project_type,
+                'proposal_file' => $proposalPath,
+                'screenshot_file' => $screenshotPath,
+                'execution_notes' => $validated['execution_notes'] ?? null,
+                'executed_at' => now(),
+                'project_status' => 'In Progress',
+                'admin_in_charge' => $companyTarget->admin_in_charge,
+                'company_target_id' => $companyTarget->id,
+            ]);
+
+            // Delete the company target after moving to projects
+            $companyTarget->delete();
+
+            // Log to Productivity System
+            $this->logToProductivity($companyTarget->admin_in_charge, $companyTarget->company_name);
+
+            return response()->json([
+                'message' => 'Project created successfully and company target removed',
+                'project' => $project
+            ], 201);
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            \Log::error('Project execution failed: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+            
+            return response()->json([
+                'message' => 'Gagal mengeksekusi project',
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => basename($e->getFile())
+            ], 500);
         }
-
-        if ($request->hasFile('screenshot_file')) {
-            $file = $request->file('screenshot_file');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('projects/screenshots'), $filename);
-            $screenshotPath = '/projects/screenshots/' . $filename;
-        }
-
-        // Create project from company target data
-        $project = Project::create([
-            'company_name' => $companyTarget->company_name,
-            'region' => $companyTarget->region,
-            'industry' => $companyTarget->industry,
-            'contact_person' => $companyTarget->contact_person,
-            'email' => $companyTarget->email,
-            'whatsapp_contact' => $companyTarget->whatsapp_contact,
-            'social_media' => $companyTarget->social_media,
-            'project_type' => $companyTarget->project_type,
-            'proposal_file' => $proposalPath,
-            'screenshot_file' => $screenshotPath,
-            'execution_notes' => $validated['execution_notes'] ?? null,
-            'executed_at' => now(),
-            'project_status' => 'In Progress',
-            'admin_in_charge' => $companyTarget->admin_in_charge,
-            'company_target_id' => $companyTarget->id,
-        ]);
-
-        // Delete the company target after moving to projects
-        $companyTarget->delete();
-
-        // Log to Productivity System
-        $this->logToProductivity($companyTarget->admin_in_charge, $companyTarget->company_name);
-
-        return response()->json([
-            'message' => 'Project created successfully and company target removed',
-            'project' => $project
-        ], 201);
     }
 
     /**

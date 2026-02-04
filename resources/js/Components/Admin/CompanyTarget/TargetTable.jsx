@@ -793,7 +793,13 @@ const TargetTable = () => {
                                         setShowSuccessModal(true);
                                     } catch (error) {
                                         console.error('Error executing project:', error);
-                                        alert('Gagal mengeksekusi project. Silakan coba lagi.');
+                                        console.error('Error response:', error.response?.data);
+
+                                        const errorMsg = error.response?.data?.error
+                                            ? `Error: ${error.response.data.error}\nFile: ${error.response.data.file}\nLine: ${error.response.data.line}`
+                                            : 'Gagal mengeksekusi project. Silakan coba lagi.';
+
+                                        alert(errorMsg);
                                     }
                                 }}
                                 className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95"
