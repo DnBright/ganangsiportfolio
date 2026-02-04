@@ -22,16 +22,16 @@ class ProductivityController extends Controller
         $month = $request->input('month', Carbon::now()->format('Y-m'));
         $startOfMonth = Carbon::parse($month)->startOfMonth();
         $endOfMonth = Carbon::parse($month)->endOfMonth();
+        $today = Carbon::today();
 
-        // 1. Get Proposal Counts (Quantitative)
+        // 1. Get Project Execution Counts (Quantitative)
         // Group by Date and Admin Name
-        // Note: admin_in_charge in company_targets matches admin_name in logs
-        $proposals = CompanyTarget::select(
-            DB::raw('DATE(created_at) as date'),
+        $executions = \App\Models\Project::select(
+            DB::raw('DATE(executed_at) as date'),
             'admin_in_charge as admin',
             DB::raw('count(*) as count')
         )
-        ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+        ->whereBetween('executed_at', [$startOfMonth, $endOfMonth])
         ->groupBy('date', 'admin')
         ->get();
 
@@ -39,22 +39,19 @@ class ProductivityController extends Controller
         $logs = ProductivityLog::whereBetween('log_date', [$startOfMonth, $endOfMonth])->get();
 
         // 3. Structure Data for Calendar
-        // Structure: { "2024-02-01": { "Ganang": { count: 5, log: {...} }, ... } }
         $calendarData = [];
-
-        // Initialize calendar skeleton with admins
         $admins = ['Ganang', 'Ipancok', 'Beseren'];
         
-        // Populate Proposals
-        foreach ($proposals as $prop) {
-            $date = $prop->date;
-            $admin = $prop->admin;
-            if (!in_array($admin, $admins)) continue; // Skip unknown admins if any
+        // Populate Executions
+        foreach ($executions as $exe) {
+            $date = $exe->date;
+            $admin = $exe->admin;
+            if (!in_array($admin, $admins)) continue;
 
             if (!isset($calendarData[$date])) $calendarData[$date] = [];
             if (!isset($calendarData[$date][$admin])) $calendarData[$date][$admin] = ['count' => 0, 'log' => null];
 
-            $calendarData[$date][$admin]['count'] = $prop->count;
+            $calendarData[$date][$admin]['count'] = $exe->count;
         }
 
         // Populate Logs
@@ -79,24 +76,24 @@ class ProductivityController extends Controller
         return response()->json([
             'calendar' => $calendarData,
             'admins' => $admins,
-            'month_stats' => $this->calculateMonthStats($proposals, $admins)
+            'month_stats' => $this->calculateMonthStats($executions, $admins)
         ]);
     }
 
-    private function calculateMonthStats($proposals, $admins) {
+    private function calculateMonthStats($executions, $admins) {
         $stats = [];
         foreach($admins as $admin) {
             $stats[$admin] = [
-                'total_proposals' => 0,
+                'total_executions' => 0,
                 'target_days_met' => 0, // >= 2
             ];
         }
 
-        foreach($proposals as $prop) {
-            if (isset($stats[$prop->admin])) {
-                $stats[$prop->admin]['total_proposals'] += $prop->count;
-                if ($prop->count >= 2) {
-                    $stats[$prop->admin]['target_days_met']++;
+        foreach($executions as $exe) {
+            if (isset($stats[$exe->admin])) {
+                $stats[$exe->admin]['total_executions'] += $exe->count;
+                if ($exe->count >= 2) {
+                    $stats[$exe->admin]['target_days_met']++;
                 }
             }
         }
@@ -106,12 +103,12 @@ class ProductivityController extends Controller
     public function getDailyDetails(Request $request) {
         $date = $request->input('date');
         
-        $proposals = CompanyTarget::whereDate('created_at', $date)
-                                ->orderBy('created_at', 'desc')
+        $projects = \App\Models\Project::whereDate('executed_at', $date)
+                                ->orderBy('executed_at', 'desc')
                                 ->get()
                                 ->groupBy('admin_in_charge');
                                 
-        return response()->json($proposals);
+        return response()->json($projects);
     }
 
     public function storeLog(Request $request)

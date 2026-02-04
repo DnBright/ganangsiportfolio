@@ -1,18 +1,21 @@
 import React from 'react';
 
-const SuccessModal = ({ isOpen, onClose, projectData }) => {
+const SuccessModal = ({ isOpen, onClose, projectData, yOffset = 40 }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300">
+        <div className="fixed inset-0 z-[100] flex items-start justify-center p-4 overflow-y-auto animate-in fade-in duration-300">
             {/* Backdrop */}
             <div
-                className="absolute inset-0 bg-[#060b26]/95 backdrop-blur-lg"
+                className="absolute inset-0 bg-[#060b26]/90 backdrop-blur-sm"
                 onClick={onClose}
             ></div>
 
             {/* Modal */}
-            <div className="relative z-10 bg-gradient-to-br from-[#1a2042] to-[#0f1535] border-2 border-green-500/30 rounded-[32px] w-full max-w-md overflow-hidden shadow-2xl shadow-green-500/20 animate-in zoom-in-95 duration-500">
+            <div
+                className="relative z-10 bg-gradient-to-br from-[#1a2042] to-[#0f1535] border-2 border-green-500/30 rounded-[32px] w-full max-w-md overflow-hidden shadow-2xl shadow-green-500/20 animate-in zoom-in-95 duration-500"
+                style={{ marginTop: `${yOffset}px` }}
+            >
                 {/* Confetti Effect */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     {[...Array(20)].map((_, i) => (

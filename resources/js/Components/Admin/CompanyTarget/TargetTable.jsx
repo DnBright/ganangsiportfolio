@@ -842,6 +842,7 @@ const TargetTable = () => {
                     setExecutedProject(null);
                 }}
                 projectData={executedProject}
+                yOffset={eksekusiModalY}
             />
         </div>
     );

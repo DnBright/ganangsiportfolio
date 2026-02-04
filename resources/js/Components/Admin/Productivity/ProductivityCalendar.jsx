@@ -224,7 +224,7 @@ const ProductivityCalendar = () => {
                         <h3 className="text-lg font-bold text-white mb-4">Monthly Summary</h3>
                         <div className="space-y-4">
                             {admins.map(admin => {
-                                const stats = monthStats[admin] || { total_proposals: 0, target_days_met: 0 };
+                                const stats = monthStats[admin] || { total_executions: 0, target_days_met: 0 };
                                 const daysInMonth = getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth());
                                 // Just a rough calculation for working days or just total days
                                 const consistency = Math.round((stats.target_days_met / daysInMonth) * 100);
@@ -238,8 +238,8 @@ const ProductivityCalendar = () => {
                                             </span>
                                         </div>
                                         <div className="flex justify-between text-sm text-white/60 mb-1">
-                                            <span>Total Proposals</span>
-                                            <span className="text-white font-mono">{stats.total_proposals}</span>
+                                            <span>Total Eksekusi</span>
+                                            <span className="text-white font-mono">{stats.total_executions}</span>
                                         </div>
                                         <div className="flex justify-between text-sm text-white/60">
                                             <span>Days Target Met (2+)</span>
@@ -253,8 +253,8 @@ const ProductivityCalendar = () => {
 
                     <div className="bg-blue-600/20 backdrop-blur-xl border border-blue-500/30 rounded-[30px] p-6 text-center">
                         <h3 className="text-white font-bold mb-2">Daily Goal 🎯</h3>
-                        <p className="text-blue-200 text-sm">Target: 2 Proposals / Person</p>
-                        <p className="text-white/40 text-xs mt-1">Total Team: 6 Proposals / Day</p>
+                        <p className="text-blue-200 text-sm">Target: 2 Eksekusi / Person</p>
+                        <p className="text-white/40 text-xs mt-1">Total Team: 6 Eksekusi / Day</p>
                         <p className="text-white/40 text-xs mt-4">"Consistency is the key to success."</p>
                     </div>
                 </div>
@@ -293,7 +293,7 @@ const ProductivityCalendar = () => {
 
                                 <div className="p-6 flex-1 overflow-y-auto">
                                     <h4 className="text-white/60 text-xs uppercase font-bold tracking-wider mb-4">
-                                        Proposals Created ({dailyDetails && dailyDetails[selectedAdminTab] ? dailyDetails[selectedAdminTab].length : 0})
+                                        Project Dieksekusi ({dailyDetails && dailyDetails[selectedAdminTab] ? dailyDetails[selectedAdminTab].length : 0})
                                     </h4>
 
                                     <div className="space-y-3">
@@ -309,7 +309,7 @@ const ProductivityCalendar = () => {
                                             ))
                                         ) : (
                                             <div className="text-center text-white/20 italic py-10">
-                                                No proposals recorded for this admin on this day.
+                                                No projects executed by this admin on this day.
                                             </div>
                                         )}
                                     </div>
