@@ -8,6 +8,7 @@ const TargetTable = () => {
     const [modalY, setModalY] = useState(40);
     const [isEksekusiModalOpen, setIsEksekusiModalOpen] = useState(false);
     const [selectedTarget, setSelectedTarget] = useState(null);
+    const [eksekusiModalY, setEksekusiModalY] = useState(40);
     const [eksekusiData, setEksekusiData] = useState({
         proposal_file: null,
         screenshot_file: null
@@ -367,7 +368,9 @@ const TargetTable = () => {
                                             </td>
                                             <td className="p-4">
                                                 <button
-                                                    onClick={() => {
+                                                    onClick={(e) => {
+                                                        const rect = e.currentTarget.getBoundingClientRect();
+                                                        setEksekusiModalY(Math.max(20, rect.top - 100));
                                                         setSelectedTarget(target);
                                                         setIsEksekusiModalOpen(true);
                                                     }}
@@ -625,7 +628,7 @@ const TargetTable = () => {
 
             {/* Eksekusi Modal */}
             {isEksekusiModalOpen && selectedTarget && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div className="fixed inset-0 z-50 flex items-start justify-center p-4 overflow-y-auto">
                     <div
                         className="absolute inset-0 bg-[#060b26]/90 backdrop-blur-md animate-in fade-in duration-300"
                         onClick={() => {
@@ -635,7 +638,10 @@ const TargetTable = () => {
                         }}
                     ></div>
 
-                    <div className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col">
+                    <div
+                        className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-3xl max-h-[85vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col"
+                        style={{ marginTop: `${eksekusiModalY}px` }}
+                    >
                         {/* Header */}
                         <div className="shrink-0 px-8 py-6 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-transparent flex justify-between items-center">
                             <div className="flex items-center gap-4">
