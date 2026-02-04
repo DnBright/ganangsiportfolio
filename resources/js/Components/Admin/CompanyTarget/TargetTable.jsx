@@ -6,6 +6,12 @@ const TargetTable = () => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalY, setModalY] = useState(40);
+    const [isEksekusiModalOpen, setIsEksekusiModalOpen] = useState(false);
+    const [selectedTarget, setSelectedTarget] = useState(null);
+    const [eksekusiData, setEksekusiData] = useState({
+        proposal_file: null,
+        screenshot_file: null
+    });
 
     // Filters State
     const [filters, setFilters] = useState({
@@ -316,7 +322,7 @@ const TargetTable = () => {
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Type</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Status</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Update</th>
-                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Final</th>
+                                    <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Eksekusi</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold">Admin</th>
                                     <th className="p-4 text-xs uppercase tracking-wider text-white/40 font-bold text-right">Actions</th>
                                 </tr>
@@ -359,14 +365,16 @@ const TargetTable = () => {
                                             <td className="p-4 text-white/60 text-[10px]">
                                                 {new Date(target.updated_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                                             </td>
-                                            <td className="p-4 text-white/70">
-                                                {target.proposal_final ? (
-                                                    <a href={target.proposal_final} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 underline text-xs flex items-center gap-1">
-                                                        <span>📄 View</span>
-                                                    </a>
-                                                ) : (
-                                                    <span className="text-white/20 text-sm">-</span>
-                                                )}
+                                            <td className="p-4">
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedTarget(target);
+                                                        setIsEksekusiModalOpen(true);
+                                                    }}
+                                                    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-xs rounded-lg transition-all shadow-lg hover:shadow-blue-500/30 active:scale-95"
+                                                >
+                                                    🚀 Eksekusi
+                                                </button>
                                             </td>
                                             <td className="p-4 text-white/70 text-xs">
                                                 {target.admin_in_charge}
@@ -611,6 +619,149 @@ const TargetTable = () => {
                                 </div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Eksekusi Modal */}
+            {isEksekusiModalOpen && selectedTarget && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <div
+                        className="absolute inset-0 bg-[#060b26]/90 backdrop-blur-md animate-in fade-in duration-300"
+                        onClick={() => {
+                            setIsEksekusiModalOpen(false);
+                            setSelectedTarget(null);
+                            setEksekusiData({ proposal_file: null, screenshot_file: null });
+                        }}
+                    ></div>
+
+                    <div className="bg-[#1a2042] border border-white/10 rounded-[32px] w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl relative z-10 animate-in zoom-in-95 duration-300 flex flex-col">
+                        {/* Header */}
+                        <div className="shrink-0 px-8 py-6 border-b border-white/10 bg-gradient-to-r from-blue-600/10 to-transparent flex justify-between items-center">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-2xl shadow-lg shadow-blue-600/20">
+                                    🚀
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-white">Eksekusi Project</h3>
+                                    <p className="text-white/40 text-xs uppercase tracking-widest font-bold">Upload Proposal & Screenshot</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => {
+                                    setIsEksekusiModalOpen(false);
+                                    setSelectedTarget(null);
+                                    setEksekusiData({ proposal_file: null, screenshot_file: null });
+                                }}
+                                className="w-10 h-10 rounded-full hover:bg-white/5 flex items-center justify-center text-white/40 hover:text-white transition-colors"
+                            >
+                                ✕
+                            </button>
+                        </div>
+
+                        {/* Body */}
+                        <div className="flex-1 overflow-y-auto p-8 space-y-6">
+                            {/* Project Data Display */}
+                            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4">
+                                <h4 className="text-xs uppercase tracking-widest text-blue-400 font-bold mb-4">📊 Data Project</h4>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Company</p>
+                                        <p className="text-white font-bold">{selectedTarget.company_name}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Region</p>
+                                        <p className="text-white/70">{selectedTarget.region || '-'}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Industry</p>
+                                        <p className="text-white/70">{selectedTarget.industry}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Project Type</p>
+                                        <p className="text-white/70">{selectedTarget.project_type}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Contact Person</p>
+                                        <p className="text-white/70">{selectedTarget.contact_person}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] text-white/40 uppercase font-bold mb-1">Status</p>
+                                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${getStatusColor(selectedTarget.proposal_status)}`}>
+                                            {selectedTarget.proposal_status}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* File Uploads */}
+                            <div className="space-y-4">
+                                <h4 className="text-xs uppercase tracking-widest text-blue-400 font-bold">📁 Upload Files</h4>
+
+                                {/* Proposal Upload */}
+                                <div className="space-y-2">
+                                    <label className="text-[10px] text-white/40 font-bold uppercase ml-1">Proposal (PDF)</label>
+                                    <div className="relative group/file">
+                                        <input
+                                            type="file"
+                                            accept=".pdf"
+                                            onChange={(e) => setEksekusiData({ ...eksekusiData, proposal_file: e.target.files[0] })}
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                        />
+                                        <div className="bg-white/5 border-2 border-dashed border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center group-hover/file:border-blue-500/50 transition-all text-center">
+                                            <div className="text-3xl mb-2">📄</div>
+                                            <p className="text-sm text-white/60 font-medium">
+                                                {eksekusiData.proposal_file ? eksekusiData.proposal_file.name : 'Upload Proposal PDF'}
+                                            </p>
+                                            <p className="text-[10px] text-white/20 mt-1">Click or drag & drop</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Screenshot Upload */}
+                                <div className="space-y-2">
+                                    <label className="text-[10px] text-white/40 font-bold uppercase ml-1">Screenshot (JPG/PNG)</label>
+                                    <div className="relative group/file">
+                                        <input
+                                            type="file"
+                                            accept=".jpg,.jpeg,.png"
+                                            onChange={(e) => setEksekusiData({ ...eksekusiData, screenshot_file: e.target.files[0] })}
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                        />
+                                        <div className="bg-white/5 border-2 border-dashed border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center group-hover/file:border-blue-500/50 transition-all text-center">
+                                            <div className="text-3xl mb-2">🖼️</div>
+                                            <p className="text-sm text-white/60 font-medium">
+                                                {eksekusiData.screenshot_file ? eksekusiData.screenshot_file.name : 'Upload Screenshot'}
+                                            </p>
+                                            <p className="text-[10px] text-white/20 mt-1">Click or drag & drop</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="shrink-0 px-8 py-6 border-t border-white/10 flex justify-end gap-4">
+                            <button
+                                onClick={() => {
+                                    setIsEksekusiModalOpen(false);
+                                    setSelectedTarget(null);
+                                    setEksekusiData({ proposal_file: null, screenshot_file: null });
+                                }}
+                                className="px-6 py-3 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white font-bold rounded-xl transition-all"
+                            >
+                                Batal
+                            </button>
+                            <button
+                                onClick={async () => {
+                                    // TODO: Implement file upload logic
+                                    alert('Upload functionality will be implemented next!');
+                                }}
+                                className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition-all active:scale-95"
+                            >
+                                Submit Eksekusi
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -5,7 +5,6 @@ const VisionSidebar = ({ activeTab, onNavigate }) => {
 
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
-        { id: 'leads', label: 'Leads', icon: '👥' },
         {
             id: 'proposal',
             label: 'Proposal Generator',
@@ -21,7 +20,7 @@ const VisionSidebar = ({ activeTab, onNavigate }) => {
             ]
         },
         { id: 'projects', label: 'Projects', icon: '💼' },
-        { id: 'company_target', label: 'Company Target', icon: '🎯' }, // Added Item
+        { id: 'company_target', label: 'Company Target', icon: '🎯' },
         { id: 'productivity', label: 'Productivity', icon: '📅' },
         { id: 'portfolio', label: 'Portfolio', icon: '📁' },
     ];
@@ -35,12 +34,17 @@ const VisionSidebar = ({ activeTab, onNavigate }) => {
         <div className="w-64 h-[calc(100vh-48px)] bg-gradient-to-b from-[#060b26] to-[#0b1437] border border-white/10 rounded-[30px] p-6 flex flex-col fixed shadow-2xl overflow-y-auto no-scrollbar selection:bg-blue-500/30">
             {/* Brand Header */}
             <div className="flex items-center gap-3 px-4 mb-10">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-blue-400 rounded-lg flex items-center justify-center font-bold text-lg shadow-[0_0_15px_rgba(45,92,254,0.4)] text-white">D</div>
+                <img
+                    src="/images/logo-dnb.png"
+                    alt="DNB Logo"
+                    className="w-10 h-10 object-contain filter brightness-0 invert"
+                />
                 <div className="flex flex-col">
                     <span className="font-bold text-xs tracking-widest uppercase text-white">DNB Admin</span>
                     <span className="text-[8px] text-white/30 tracking-tighter uppercase font-bold">Proposal Command</span>
                 </div>
             </div>
+
 
             {/* Navigation */}
             <div className="flex-1 space-y-8">
