@@ -231,8 +231,8 @@ const PillNav = ({
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-6 pointer-events-none">
-            <div className="flex items-center gap-3 pointer-events-auto">
+        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-6 pointer-events-none px-2 sm:px-4">
+            <div className="flex items-center gap-1.5 md:gap-3 pointer-events-auto max-w-full">
                 {/* Logo Section */}
                 <a
                     href="/"
@@ -249,11 +249,11 @@ const PillNav = ({
 
                 {/* Nav Items Pill */}
                 <nav
-                    className={`relative h-[var(--nav-h)] flex items-center justify-start bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm ${className}`}
+                    className={`relative h-[var(--nav-h)] flex items-center justify-start bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm min-w-0 ${className}`}
                     aria-label="Primary"
                     style={cssVars}
                 >
-                    <div ref={navItemsRef} className="relative flex items-center h-full overflow-x-auto no-scrollbar max-w-[calc(100vw-150px)]">
+                    <div ref={navItemsRef} className="relative flex items-center h-full overflow-x-auto no-scrollbar max-w-full sm:max-w-[calc(100vw-150px)]">
                         <ul
                             role="menubar"
                             className="list-none flex items-stretch m-0 p-0 h-full"
@@ -333,7 +333,7 @@ const PillNav = ({
                 <div className="flex items-center gap-1 bg-white/95 backdrop-blur-md rounded-full border border-black/10 p-1 shadow-sm h-[var(--nav-h)]">
                     <button
                         onClick={() => language !== 'id' && toggleLanguage()}
-                        className={`px-3 md:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'id'
+                        className={`px-2.5 sm:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'id'
                             ? 'bg-black text-white'
                             : 'text-black/60 hover:text-black hover:bg-black/5'
                             }`}
@@ -342,7 +342,7 @@ const PillNav = ({
                     </button>
                     <button
                         onClick={() => language !== 'en' && toggleLanguage()}
-                        className={`px-3 md:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'en'
+                        className={`px-2.5 sm:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'en'
                             ? 'bg-black text-white'
                             : 'text-black/60 hover:text-black hover:bg-black/5'
                             }`}
