@@ -351,7 +351,7 @@
             <div class="bg-number">{{ sprintf('%02d', $section['id']) }}</div>
             
             <div class="internal-header">
-                <div>DARK AND BRIGHT / STRATEGIC PROPOSAL</div>
+                <div><a href="https://thedarkandbright.com" style="color: #3b82f6; text-decoration: none;">THEDARKANDBRIGHT.COM</a> / STRATEGIC PROPOSAL</div>
                 <div>SECTION {{ sprintf('%02d', $section['id']) }}</div>
             </div>
 
@@ -483,7 +483,7 @@
             </div>
 
             <div class="internal-footer">
-                <div>DNB AGENCY / <a href="https://thedarkandbright.com" style="color: #3b82f6; text-decoration: none;">THEDARKANDBRIGHT.COM</a></div>
+                <div>DNB AGENCY</div>
                 <div>CONFIDENTIAL DOCUMENT</div>
             </div>
         </div>
