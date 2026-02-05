@@ -108,7 +108,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
             </div>
 
             {/* Horizontal Scroll Container */}
-            <div className="h-screen w-full flex items-center overflow-hidden">
+            <div className="h-screen w-full flex items-center overflow-x-auto md:overflow-hidden no-scrollbar snap-x snap-mandatory">
                 <div
                     ref={containerRef}
                     className="flex gap-12 md:gap-24 px-6 md:px-24 items-center"
@@ -132,7 +132,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                     {displayPortfolios.map((item, index) => (
                         <div
                             key={index}
-                            className={`group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden cursor-pointer rounded-2xl md:rounded-3xl border border-white/5`}
+                            className={`group relative w-[85vw] md:w-[60vw] h-[60vh] md:h-[70vh] flex-shrink-0 bg-gray-900 overflow-hidden cursor-pointer rounded-2xl md:rounded-3xl border border-white/5 snap-center`}
                             onClick={() => {
                                 if (item.id === 'saitama') {
                                     setIsSaitamaOpen(true);

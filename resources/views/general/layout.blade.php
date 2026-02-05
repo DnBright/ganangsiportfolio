@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>@yield('title', 'Dark and Bright - Digital Solution Partner')</title>
     <meta name="description" content="@yield('meta_description', 'Dark and Bright: Transforming complex business challenges into bright digital solutions.')">
     

@@ -226,7 +226,7 @@ const PillNav = ({
         ['--pill-text']: resolvedPillTextColor,
         ['--nav-h']: '46px',
         ['--logo']: '32px',
-        ['--pill-pad-x']: '20px',
+        ['--pill-pad-x']: window.innerWidth < 380 ? '12px' : '20px',
         ['--pill-gap']: '4px'
     };
 
@@ -333,7 +333,7 @@ const PillNav = ({
                 <div className="flex items-center gap-1 bg-white/95 backdrop-blur-md rounded-full border border-black/10 p-1 shadow-sm h-[var(--nav-h)]">
                     <button
                         onClick={() => language !== 'id' && toggleLanguage()}
-                        className={`px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${language === 'id'
+                        className={`px-3 md:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'id'
                             ? 'bg-black text-white'
                             : 'text-black/60 hover:text-black hover:bg-black/5'
                             }`}
@@ -342,7 +342,7 @@ const PillNav = ({
                     </button>
                     <button
                         onClick={() => language !== 'en' && toggleLanguage()}
-                        className={`px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[11px] font-bold transition-all duration-300 ${language === 'en'
+                        className={`px-3 md:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'en'
                             ? 'bg-black text-white'
                             : 'text-black/60 hover:text-black hover:bg-black/5'
                             }`}

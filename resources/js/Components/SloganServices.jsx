@@ -72,7 +72,7 @@ const SloganServices = () => {
             {/* Slogan Container */}
             <div className="container mx-auto max-w-6xl mb-40">
                 <div ref={textRef} className="overflow-hidden">
-                    <h2 className="text-4xl md:text-7xl font-black leading-[1.1] tracking-tight uppercase mb-8">
+                    <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight uppercase mb-8">
                         {t('slogan.headline', language)}
                     </h2>
                 </div>

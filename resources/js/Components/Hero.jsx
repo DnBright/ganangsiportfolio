@@ -51,16 +51,16 @@ const Hero = () => {
     return (
         <section ref={heroRef} className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden bg-white">
             {/* Dark & Bright Identity Badge */}
-            <div className="absolute top-12 left-1/2 -translate-x-1/2 z-50 gsap-stagger">
-                <span className="text-white mix-blend-difference font-black text-[10px] md:text-xs tracking-[0.6em] uppercase opacity-40">
+            <div className="absolute top-10 md:top-12 left-1/2 -translate-x-1/2 z-50 gsap-stagger w-full px-4 text-center">
+                <span className="text-white mix-blend-difference font-black text-[9px] md:text-xs tracking-[0.4em] md:tracking-[0.6em] uppercase opacity-40">
                     {t('hero.tagline', language)}
                 </span>
             </div>
 
             {/* DARK Side (Black background, White Text) */}
             <div className="side-dark relative h-1/2 md:h-full w-full md:w-1/2 bg-black flex items-center justify-center md:justify-end md:pr-[12vw] z-10 border-b md:border-b-0 md:border-r border-white/5">
-                <div className="gsap-stagger text-right">
-                    <h2 className="text-[16vw] md:text-[11vw] font-black text-white leading-[0.8] tracking-tighter uppercase select-none opacity-90">
+                <div className="gsap-stagger text-center md:text-right">
+                    <h2 className="text-[18vw] md:text-[11vw] font-black text-white leading-[0.8] tracking-tighter uppercase select-none opacity-90">
                         DARK
                     </h2>
                     <p className="text-white/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
@@ -71,8 +71,8 @@ const Hero = () => {
 
             {/* BRIGHT Side (White background, Black Text) */}
             <div className="side-bright relative h-1/2 md:h-full w-full md:w-1/2 bg-white flex items-center justify-center md:justify-start md:pl-[12vw] z-10">
-                <div className="gsap-stagger">
-                    <h2 className="text-[16vw] md:text-[11vw] font-black text-black leading-[0.8] tracking-tighter uppercase select-none opacity-90">
+                <div className="gsap-stagger text-center md:text-left">
+                    <h2 className="text-[18vw] md:text-[11vw] font-black text-black leading-[0.8] tracking-tighter uppercase select-none opacity-90">
                         BRIGHT
                     </h2>
                     <p className="text-black/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
