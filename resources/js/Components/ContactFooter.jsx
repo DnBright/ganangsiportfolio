@@ -63,11 +63,11 @@ const ContactFooter = () => {
 
                     <div className="space-y-4">
                         <p className="text-sm uppercase tracking-widest text-gray-500 font-semibold">{t('contact.email', language)}</p>
-                        <a href="mailto:dnbright000@gmail.com" className="block text-3xl md:text-4xl hover:text-gray-300 transition-colors duration-300 border-b border-transparent hover:border-white w-fit">
-                            dnbright000@gmail.com
+                        <a href="mailto:darkandbright.official@gmail.com" className="block text-3xl md:text-4xl hover:text-gray-300 transition-colors duration-300 border-b border-transparent hover:border-white w-fit">
+                            darkandbright.official@gmail.com
                         </a>
-                        <a href="https://wa.me/6285158661152" target="_blank" rel="noopener noreferrer" className="block text-2xl text-gray-400 hover:text-white transition-colors mt-2">
-                            WhatsApp: +62 851-5866-1152
+                        <a href="https://wa.me/6287882794909" target="_blank" rel="noopener noreferrer" className="block text-2xl text-gray-400 hover:text-white transition-colors mt-2">
+                            WhatsApp: +62 878-8279-4909
                         </a>
                         <p className="text-xl text-gray-500 mt-2">Yogyakarta, Indonesia</p>
                     </div>
