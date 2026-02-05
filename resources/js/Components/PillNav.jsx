@@ -231,8 +231,8 @@ const PillNav = ({
     };
 
     return (
-        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-6 pointer-events-none px-2 sm:px-4">
-            <div className="flex items-center gap-1.5 md:gap-3 pointer-events-auto max-w-full">
+        <div className="fixed top-0 left-0 w-full z-[5000] flex justify-center py-6 pointer-events-none px-4">
+            <div className="flex items-center gap-2 md:gap-3 pointer-events-auto max-w-full relative">
                 {/* Logo Section */}
                 <a
                     href="/"
@@ -241,19 +241,19 @@ const PillNav = ({
                     ref={el => {
                         logoRef.current = el;
                     }}
-                    className="flex h-[var(--nav-h)] w-[var(--nav-h)] items-center justify-center rounded-full bg-white shadow-sm border border-black/5"
+                    className="flex h-[var(--nav-h)] w-[var(--nav-h)] items-center justify-center rounded-full bg-white shadow-sm border border-black/5 flex-shrink-0"
                     style={cssVars}
                 >
                     <img src="/images/logo-3d-user.png" alt="Logo" ref={logoImgRef} className="w-8 h-8 object-contain" />
                 </a>
 
-                {/* Nav Items Pill */}
+                {/* Desktop Nav Items Pill */}
                 <nav
-                    className={`relative h-[var(--nav-h)] flex items-center justify-start bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm min-w-0 ${className}`}
+                    className={`hidden md:flex relative h-[var(--nav-h)] items-center justify-start bg-white/95 backdrop-blur-md rounded-full border border-black/5 px-1 shadow-sm ${className}`}
                     aria-label="Primary"
                     style={cssVars}
                 >
-                    <div ref={navItemsRef} className="relative flex items-center h-full overflow-x-auto no-scrollbar max-w-full sm:max-w-[calc(100vw-150px)]">
+                    <div ref={navItemsRef} className="relative flex items-center h-full overflow-x-auto no-scrollbar max-w-[calc(100vw-150px)]">
                         <ul
                             role="menubar"
                             className="list-none flex items-stretch m-0 p-0 h-full"
@@ -284,7 +284,7 @@ const PillNav = ({
                                         />
                                         <span className="label-stack relative inline-block leading-[1] z-[2]">
                                             <span
-                                                className="pill-label relative z-[2] inline-block leading-[1] text-[13px] md:text-[14px] font-bold"
+                                                className="pill-label relative z-[2] inline-block leading-[1] text-[14px] font-bold"
                                                 style={{
                                                     willChange: 'transform',
                                                     color: isActive ? 'var(--hover-text)' : 'inherit'
@@ -293,7 +293,7 @@ const PillNav = ({
                                                 {t(item.label, language)}
                                             </span>
                                             <span
-                                                className="pill-label-hover absolute left-0 top-0 z-[3] inline-block text-[13px] md:text-[14px] font-bold"
+                                                className="pill-label-hover absolute left-0 top-0 z-[3] inline-block text-[14px] font-bold"
                                                 style={{
                                                     color: 'var(--hover-text)',
                                                     willChange: 'transform, opacity'
@@ -329,11 +329,26 @@ const PillNav = ({
                     </div>
                 </nav>
 
+                {/* Mobile Hamburger Trigger */}
+                <button
+                    ref={hamburgerRef}
+                    onClick={toggleMobileMenu}
+                    className="flex md:hidden h-[var(--nav-h)] px-6 items-center justify-center rounded-full bg-white/95 backdrop-blur-md shadow-sm border border-black/5 gap-3"
+                    aria-label="Toggle Menu"
+                    style={cssVars}
+                >
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] pt-0.5">Menu</span>
+                    <div className="flex flex-col gap-1 w-4">
+                        <div className="hamburger-line h-[2px] w-full bg-black origin-center"></div>
+                        <div className="hamburger-line h-[2px] w-full bg-black origin-center"></div>
+                    </div>
+                </button>
+
                 {/* Language Switcher */}
-                <div className="flex items-center gap-1 bg-white/95 backdrop-blur-md rounded-full border border-black/10 p-1 shadow-sm h-[var(--nav-h)]">
+                <div className="flex items-center gap-1 bg-white/95 backdrop-blur-md rounded-full border border-black/10 p-1 shadow-sm h-[var(--nav-h)] flex-shrink-0">
                     <button
                         onClick={() => language !== 'id' && toggleLanguage()}
-                        className={`px-2.5 sm:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'id'
+                        className={`px-3 sm:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'id'
                             ? 'bg-black text-white'
                             : 'text-black/60 hover:text-black hover:bg-black/5'
                             }`}
@@ -342,13 +357,35 @@ const PillNav = ({
                     </button>
                     <button
                         onClick={() => language !== 'en' && toggleLanguage()}
-                        className={`px-2.5 sm:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'en'
+                        className={`px-3 sm:px-4 h-[calc(var(--nav-h)-8px)] rounded-full text-[10px] md:text-[11px] font-bold transition-all duration-300 ${language === 'en'
                             ? 'bg-black text-white'
                             : 'text-black/60 hover:text-black hover:bg-black/5'
                             }`}
                     >
                         ENG
                     </button>
+                </div>
+
+                {/* Mobile Menu Overlay */}
+                <div
+                    ref={mobileMenuRef}
+                    className="absolute top-[calc(var(--nav-h)+12px)] left-0 w-full bg-black text-white rounded-[24px] p-4 shadow-2xl border border-white/10 md:hidden z-[6000] invisible opacity-0"
+                    style={{ ...cssVars, transformOrigin: 'top center' }}
+                >
+                    <ul className="flex flex-col gap-2">
+                        {items.map((item, i) => (
+                            <li key={item.href}>
+                                <a
+                                    href={item.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className={`block px-6 py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all ${activeHref === item.href ? 'bg-white text-black' : 'hover:bg-white/5'
+                                        }`}
+                                >
+                                    {t(item.label, language)}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
 
             </div>
