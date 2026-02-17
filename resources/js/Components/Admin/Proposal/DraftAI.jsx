@@ -87,7 +87,7 @@ const DraftAI = ({ analysisData, onBack, onNext }) => {
 
                 setDraftContent({
                     title: 'Error Generation',
-                    executive_summary: `Maaf, terjadi kesalahan: ${errorText}. Pastikan GEMINI_API_KEY terpasang di .env server.`,
+                    executive_summary: `Maaf, terjadi kesalahan: ${errorText}. Pastikan XAI_API_KEY terpasang di .env server (jika di produksi) atau periksa koneksi internet Anda.`,
                 });
                 setIsGenerating(false);
                 clearInterval(interval);
