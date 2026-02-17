@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 class XaiService
 {
     protected $apiKey;
-    protected $baseUrl = 'https://api.xai.ai/v1/chat/completions';
+    protected $baseUrl = 'https://api.x.ai/v1/chat/completions';
     protected $model;
 
     public function __construct()
@@ -47,12 +47,17 @@ class XaiService
                 $result = $response->json();
                 $text = $result['choices'][0]['message']['content'] ?? '';
                 
+                Log::info("xAI API Raw Response Content:", ['content' => substr($text, 0, 500)]);
+
                 $decoded = json_decode($text, true);
                 
                 if (is_array($decoded)) {
-                    return $this->mapOutputToFrontend($decoded, $data);
+                    $mapped = $this->mapOutputToFrontend($decoded, $data);
+                    Log::info("xAI Mapped Keys:", ['keys' => array_keys($mapped)]);
+                    return $mapped;
                 }
 
+                Log::warning("xAI API returned non-JSON content", ['text' => substr($text, 0, 200)]);
                 return $this->getEmptyProposal($data, $text);
             }
 
