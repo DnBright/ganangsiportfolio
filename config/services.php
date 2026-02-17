@@ -39,4 +39,9 @@ return [
         'key' => env('GEMINI_API_KEY'),
     ],
 
+    'xai' => [
+        'key' => env('XAI_API_KEY'),
+        'model' => env('XAI_MODEL', 'grok-2-latest'),
+    ],
+
 ];
