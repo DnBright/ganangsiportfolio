@@ -246,6 +246,30 @@ export const translations = {
         desc2: {
             id: "Dark and Bright Agency menyediakan berbagai layanan mulai dari pengembangan brand identity, pembuatan company profile, perancangan dan pengelolaan website termasuk optimasi SEO, digital advertising, hingga manajemen media sosial. Selain itu, agensi ini juga berkomitmen dalam pengembangan sumber daya manusia melalui pelatihan dan edukasi di bidang digital kreatif. Dengan tim yang kompeten, berdedikasi tinggi, serta menjunjung integritas profesional, Dark and Bright Agency siap menjadi mitra dalam mendukung pertumbuhan dan transformasi digital bisnis klien secara berkelanjutan.",
             en: "Dark and Bright Agency provides various services ranging from brand identity development, company profile creation, website design and management including SEO optimization, digital advertising, to social media management. In addition, this agency is also committed to developing human resources through training and education in the creative digital field. With a competent, highly dedicated team that upholds professional integrity, Dark and Bright Agency is ready to be a partner in supporting the sustainable growth and digital transformation of clients' businesses."
+        },
+        vision: {
+            title: { id: "Visi", en: "Vision" },
+            content: {
+                id: "Menjadi agensi digital kreatif terpercaya yang membantu bisnis berkembang melalui branding kuat dan pemasaran digital yang efektif.",
+                en: "To be a trusted creative digital agency that helps businesses grow through strong branding and effective digital marketing."
+            }
+        },
+        mission: {
+            title: { id: "Misi", en: "Mission" },
+            list: {
+                id: [
+                    "Menyediakan layanan branding dan digital marketing yang terintegrasi dan berkualitas",
+                    "Membantu klien membangun identitas brand dan kehadiran digital yang kuat",
+                    "Menggunakan strategi kreatif dan berbasis data untuk hasil yang optimal",
+                    "Mengembangkan SDM di bidang digital kreatif secara berkelanjutan"
+                ],
+                en: [
+                    "Providing integrated and high-quality branding and digital marketing services",
+                    "Helping clients build strong brand identity and digital presence",
+                    "Using creative and data-driven strategies for optimal results",
+                    "Continuously developing human resources in the creative digital field"
+                ]
+            }
         }
     },
     actions: {

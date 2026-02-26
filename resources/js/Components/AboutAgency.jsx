@@ -64,7 +64,33 @@ const AboutAgency = () => {
                         </p>
                     </div>
 
-                    <div className="w-20 h-[2px] bg-black opacity-20 gsap-stagger"></div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-8">
+                        <div className="gsap-stagger">
+                            <h4 className="text-xl font-black uppercase tracking-tighter mb-4 flex items-center gap-3">
+                                <span className="w-8 h-[2px] bg-black"></span>
+                                {t('about.vision.title', language)}
+                            </h4>
+                            <p className="text-gray-600 font-light">
+                                {t('about.vision.content', language)}
+                            </p>
+                        </div>
+                        <div className="gsap-stagger">
+                            <h4 className="text-xl font-black uppercase tracking-tighter mb-4 flex items-center gap-3">
+                                <span className="w-8 h-[2px] bg-black"></span>
+                                {t('about.mission.title', language)}
+                            </h4>
+                            <ul className="flex flex-col gap-3">
+                                {(t('about.mission.list', language) || []).map((item, index) => (
+                                    <li key={index} className="flex gap-3 text-gray-600 font-light">
+                                        <span className="text-black font-black">•</span>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="w-20 h-[2px] bg-black opacity-20 gsap-stagger mt-8"></div>
                 </div>
             </div>
         </section>
