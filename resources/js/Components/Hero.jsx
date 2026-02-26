@@ -53,11 +53,11 @@ const Hero = () => {
             {/* Final Branding & Service List */}
             <div className="absolute top-12 md:top-16 left-1/2 -translate-x-1/2 z-50 gsap-stagger w-full px-6 text-center">
                 <div className="flex flex-col items-center gap-3">
-                    <h1 className="text-white mix-blend-difference font-black text-sm md:text-2xl tracking-[0.4em] md:tracking-[0.8em] uppercase opacity-90 whitespace-nowrap">
+                    <h1 className="text-white mix-blend-difference font-black text-[10px] md:text-2xl tracking-[0.3em] md:tracking-[0.8em] uppercase whitespace-nowrap">
                         {t('hero.branding1', language)}
                     </h1>
-                    <div className="h-[1px] w-12 md:w-24 bg-white/20 mix-blend-difference"></div>
-                    <p className="text-white mix-blend-difference font-medium text-[7px] md:text-[10px] tracking-[0.1em] md:tracking-[0.2em] uppercase opacity-60 max-w-[90vw] md:max-w-4xl leading-relaxed">
+                    <div className="h-[1px] w-12 md:w-24 bg-white/40 mix-blend-difference"></div>
+                    <p className="text-white mix-blend-difference font-bold text-[8px] md:text-[11px] tracking-[0.05em] md:tracking-[0.2em] uppercase max-w-[95vw] md:max-w-5xl leading-tight">
                         {t('hero.branding2', language)}
                     </p>
                 </div>
