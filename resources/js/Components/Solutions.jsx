@@ -71,7 +71,7 @@ const Solutions = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} className="w-full bg-white text-black py-24 px-6 md:px-12 lg:px-24">
+        <section ref={sectionRef} className="w-full bg-white text-black py-32 md:py-48 px-6 md:px-12 lg:px-24 border-t border-black/[0.03]">
             <div className="max-w-7xl mx-auto">
                 {/* Prototype Trigger Section */}
                 <div className="mb-24 w-full bg-[#0a0a0a] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden group border border-white/10 shadow-2xl">

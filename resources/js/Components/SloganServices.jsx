@@ -58,9 +58,9 @@ const SloganServices = () => {
     ];
 
     return (
-        <section ref={sectionRef} className="bg-white text-black py-24 md:py-32 px-6 relative overflow-hidden">
+        <section ref={sectionRef} className="bg-white text-black py-32 md:py-48 px-6 relative overflow-hidden border-t border-black/[0.03]">
             {/* Transition: Service Ticker */}
-            <div className="mb-24 md:mb-32">
+            <div className="mb-32 md:mb-40">
                 <div className="container mx-auto max-w-6xl mb-12">
                     <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between border-b border-black/10 pb-6 mb-12 slogan-reveal">
                         <div className="flex items-center gap-4">

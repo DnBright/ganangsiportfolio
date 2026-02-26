@@ -47,7 +47,7 @@ const ContactFooter = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative w-full bg-neutral-900 text-white py-24 px-6 md:px-12 lg:px-24 overflow-hidden border-t border-white/10">
+        <section ref={sectionRef} className="relative w-full bg-[#0a0a0a] text-white py-32 md:py-48 px-6 md:px-12 lg:px-24 overflow-hidden border-t border-white/5">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 md:gap-24">
 
                 {/* Left Side: Info & Direct Contact */}
