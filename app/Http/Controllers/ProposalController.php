@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proposal;
-use App\Services\XaiService;
+use App\Services\GeminiService;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ProposalController extends Controller
 {
-    protected $xai;
+    protected $gemini;
 
-    public function __construct(XaiService $xai)
+    public function __construct(GeminiService $gemini)
     {
-        $this->xai = $xai;
+        $this->gemini = $gemini;
     }
 
     public function index()
@@ -52,7 +52,7 @@ class ProposalController extends Controller
             'deadline' => $deadline,
         ];
 
-        $draft = $this->xai->generateProposal($data);
+        $draft = $this->gemini->generateProposal($data);
         Log::info('Draft generated keys:', is_array($draft) ? array_keys($draft) : ['not an array']);
         if (isset($draft['executive_summary'])) {
              Log::info('Executive Summary Preview:', [substr($draft['executive_summary'], 0, 100)]);
