@@ -119,6 +119,13 @@ section { padding: 120px 60px; }
 .value-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 1px; margin-bottom: 8px; color: var(--white); }
 .value-desc { font-size: 13px; line-height: 1.6; color: var(--dim); }
 
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--mid); }
+.stat-card { background: var(--gray); padding: 32px 24px; border-radius: 16px; text-align: center; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); border: 1px solid transparent; }
+.stat-card:hover { background: #ffffff; border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: var(--accent); line-height: 1; margin-bottom: 8px; }
+.stat-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); font-weight: 700; }
+
 @media (max-width: 1024px) {
     .about-section { grid-template-columns: 1fr; gap: 60px; }
     .about-visual { height: 400px; }
@@ -169,6 +176,7 @@ section { padding: 120px 60px; }
 }
 @media (max-width: 640px) {
     .target-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr; gap: 16px; }
 }
 
 /* TESTIMONI */
@@ -384,15 +392,15 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
       </div>
     </div>
     <div class="stats-row reveal">
-      <div>
+      <div class="stat-card">
         <div class="stat-num">100+</div>
         <div class="stat-label">Proyek Selesai</div>
       </div>
-      <div>
+      <div class="stat-card">
         <div class="stat-num">50+</div>
         <div class="stat-label">Klien Puas</div>
       </div>
-      <div>
+      <div class="stat-card">
         <div class="stat-num">3+</div>
         <div class="stat-label">Tahun Aktif</div>
       </div>
