@@ -58,6 +58,32 @@ export const translations = {
                 id: "Strategi digital yang disesuaikan dengan tujuan bisnis Anda",
                 en: "Digital strategies tailored to your business goals"
             }
+        },
+        agencies: {
+            title: {
+                id: "Layanan Jasa",
+                en: "Service Offerings"
+            },
+            dnb: {
+                name: {
+                    id: "Dark And Bright Agency",
+                    en: "Dark And Bright Agency"
+                },
+                focus: {
+                    id: "Web Development & Digital Marketing",
+                    en: "Web Development & Digital Marketing"
+                }
+            },
+            gro: {
+                name: {
+                    id: "Gro Visual",
+                    en: "Gro Visual"
+                },
+                focus: {
+                    id: "Graphic Design, Logo Branding, Social Media Management",
+                    en: "Graphic Design, Logo Branding, Social Media Management"
+                }
+            }
         }
     },
 
