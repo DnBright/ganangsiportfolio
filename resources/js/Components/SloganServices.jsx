@@ -70,11 +70,27 @@ const SloganServices = () => {
     return (
         <section ref={sectionRef} className="bg-white text-black py-32 md:py-48 px-6 relative overflow-hidden">
             {/* Slogan Container */}
-            <div className="container mx-auto max-w-6xl mb-40">
+            <div className="container mx-auto max-w-6xl mb-32">
                 <div ref={textRef} className="overflow-hidden">
-                    <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight uppercase mb-8">
-                        {t('slogan.headline', language)}
-                    </h2>
+                    <div className="flex flex-col gap-6 mb-16">
+                        <h4 className="text-xs md:text-sm font-black uppercase tracking-[0.5em] text-gray-400">
+                            {t('hero.branding1', language)}
+                        </h4>
+                        <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight uppercase">
+                            {t('slogan.headline', language)}
+                        </h2>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 max-w-4xl border-l-2 border-black pl-6">
+                        {t('hero.branding2', language).split('|').map((service, idx) => (
+                            <React.Fragment key={idx}>
+                                <span>{service.trim()}</span>
+                                {idx < t('hero.branding2', language).split('|').length - 1 && (
+                                    <span className="text-black/20">•</span>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </div>
                 </div>
             </div>
 
