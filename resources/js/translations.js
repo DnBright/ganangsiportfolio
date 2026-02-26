@@ -1,10 +1,13 @@
 export const translations = {
-    // Last Update: 2026-02-26 18:55
     // Hero Section
     hero: {
-        tagline: {
-            id: "Digital Marketing & Creative Agency v1.1",
-            en: "Digital Marketing & Creative Agency v1.1"
+        branding1: {
+            id: "Digital Marketing & Creative Agency",
+            en: "Digital Marketing & Creative Agency"
+        },
+        branding2: {
+            id: "Digital Marketing | Graphic Design | Logo Branding | Social Media Management | Web Development",
+            en: "Digital Marketing | Graphic Design | Logo Branding | Social Media Management | Web Development"
         },
         dark: {
             id: "Integritas Absolut",
@@ -237,7 +240,7 @@ export const translations = {
             en: "About Dark and Bright Agency"
         },
         desc1: {
-            id: "Dark and Bright Agency merupakan perusahaan yang bergerak di bidang digital marketing dan creative agency yang berfokus pada penyediaan solusi branding serta pemasaran digital secara menyeluruh bagi berbagai jenis bisnis. Berdiri sebagai partner strategis bagi klien, Dark and Bright Agency menghadirkan layanan yang dirancang untuk memperkuat identitas brand dan meningkatkan kehadiran digital secara efektif. Didukung oleh tim profesional berpengalaman di bidang kreatif dan teknologi, agensi ini terus berinovasi untuk memastikan kualitas layanan yang terpercaya dan relevan dengan perkembangan industri digital.",
+            id: "Dark and Bright Agency merupakan perusahaan yang bergerak di bidang digital marketing dan creative agency yang berfokus pada penyediaan solusi branding serta pemasaran digital secara menyeluruh bagi berbagai jenis bisnis. Berdiri sebagai partner strategis bagi klien, Dark and Bright Agency menghadirkan layanan yang dirancang untuk memperkuat identitas brand and meningkatkan kehadiran digital secara efektif. Didukung oleh tim profesional berpengalaman di bidang kreatif dan teknologi, agensi ini terus berinovasi untuk memastikan kualitas layanan yang terpercaya dan relevan dengan perkembangan industri digital.",
             en: "Dark and Bright Agency is a company engaged in digital marketing and creative agency focusing on providing comprehensive branding and digital marketing solutions for various types of businesses. Standing as a strategic partner for clients, Dark and Bright Agency provides services designed to strengthen brand identity and effectively increase digital presence. Supported by a professional team experienced in creative and technology fields, this agency continues to innovate to ensure reliable service quality that is relevant to digital industry developments."
         },
         desc2: {

@@ -50,11 +50,17 @@ const Hero = () => {
 
     return (
         <section ref={heroRef} className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden bg-white">
-            {/* Dark & Bright Identity Badge */}
-            <div className="absolute top-10 md:top-12 left-1/2 -translate-x-1/2 z-50 gsap-stagger w-full px-4 text-center">
-                <span className="text-white mix-blend-difference font-black text-[9px] md:text-xs tracking-[0.4em] md:tracking-[0.6em] uppercase opacity-40">
-                    {t('hero.tagline', language)}
-                </span>
+            {/* Final Branding & Service List */}
+            <div className="absolute top-12 md:top-16 left-1/2 -translate-x-1/2 z-50 gsap-stagger w-full px-6 text-center">
+                <div className="flex flex-col items-center gap-3">
+                    <h1 className="text-white mix-blend-difference font-black text-sm md:text-2xl tracking-[0.4em] md:tracking-[0.8em] uppercase opacity-90 whitespace-nowrap">
+                        {t('hero.branding1', language)}
+                    </h1>
+                    <div className="h-[1px] w-12 md:w-24 bg-white/20 mix-blend-difference"></div>
+                    <p className="text-white mix-blend-difference font-medium text-[7px] md:text-[10px] tracking-[0.1em] md:tracking-[0.2em] uppercase opacity-60 max-w-[90vw] md:max-w-4xl leading-relaxed">
+                        {t('hero.branding2', language)}
+                    </p>
+                </div>
             </div>
 
             {/* DARK Side (Black background, White Text) */}
