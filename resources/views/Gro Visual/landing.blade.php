@@ -358,11 +358,7 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   <div class="about-visual reveal">
     <div class="about-box main">
       <div class="about-grid-bg"></div>
-      <svg class="about-logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="60,360 360,40 360,360" fill="none" stroke="#3554e8" stroke-width="1.5"/>
-        <polygon points="145,218 338,158 338,244 145,244" fill="none" stroke="#3554e8" stroke-width="1.5"/>
-        <polygon points="80,290 338,262 338,340 80,340" fill="none" stroke="#3554e8" stroke-width="1.5"/>
-      </svg>
+      <img src="{{ asset('images/gro-visual/about-concept.jpg') }}" alt="Gro Visual Concept" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9; mix-blend-mode: luminosity;">
     </div>
     <div class="about-box accent-box">
       <span class="accent-box-num">3+</span>
