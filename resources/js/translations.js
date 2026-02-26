@@ -76,6 +76,10 @@ export const translations = {
                 desc: {
                     id: "Partner strategis Anda dalam membangun ekosistem digital yang kuat. Kami menghadirkan solusi pengembangan web kustom yang canggih dan strategi pemasaran digital berbasis data untuk memastikan bisnis Anda mendominasi pasar digital dengan performa tinggi dan skalabilitas yang terjamin.",
                     en: "Your strategic partner in building a strong digital ecosystem. We deliver sophisticated custom web development solutions and data-driven digital marketing strategies to ensure your business dominates the digital market with high performance and guaranteed scalability."
+                },
+                cta: {
+                    id: "Kunjungi Situs",
+                    en: "Visit Website"
                 }
             },
             gro: {
@@ -90,6 +94,10 @@ export const translations = {
                 desc: {
                     id: "Spesialis estetika visual dan identitas brand yang berkarakter. Kami menciptakan desain grafis yang memukau, branding logo yang ikonik, dan manajemen media sosial yang kreatif untuk membangun koneksi mendalam antara brand Anda dengan audiens secara visual dan emosional.",
                     en: "Specialists in visual aesthetics and character-driven brand identity. We create stunning graphic designs, iconic logo branding, and creative social media management to build deep visual and emotional connections between your brand and your audience."
+                },
+                cta: {
+                    id: "Lihat Portfolio",
+                    en: "View Portfolio"
                 }
             }
         }

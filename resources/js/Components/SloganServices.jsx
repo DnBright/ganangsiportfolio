@@ -118,9 +118,16 @@ const SloganServices = () => {
                                 {t('slogan.agencies.dnb.focus', language)}
                             </p>
 
-                            <p className="text-base font-light text-white/60 leading-relaxed italic">
+                            <p className="text-base font-light text-white/60 leading-relaxed italic mb-8">
                                 "{t('slogan.agencies.dnb.desc', language)}"
                             </p>
+
+                            <a href="#" className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold text-sm uppercase tracking-wider hover:bg-gray-200 transition-all duration-300 group/btn">
+                                {t('slogan.agencies.dnb.cta', language)}
+                                <svg className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </a>
                         </div>
                         {/* Subtle background glow */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-white/10 transition-colors duration-700"></div>
@@ -141,9 +148,16 @@ const SloganServices = () => {
                                 {t('slogan.agencies.gro.focus', language)}
                             </p>
 
-                            <p className="text-base font-light text-gray-500 leading-relaxed italic">
+                            <p className="text-base font-light text-gray-500 leading-relaxed italic mb-8">
                                 "{t('slogan.agencies.gro.desc', language)}"
                             </p>
+
+                            <a href="#" className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white rounded-full font-bold text-sm uppercase tracking-wider hover:bg-gray-800 transition-all duration-300 group/btn">
+                                {t('slogan.agencies.gro.cta', language)}
+                                <svg className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                    <path d="M5 12h14m-7-7l7 7-7 7" />
+                                </svg>
+                            </a>
                         </div>
                         {/* Subtle background decoration */}
                         <div className="absolute bottom-0 right-0 w-64 h-64 bg-gray-200/50 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2 group-hover:bg-gray-200 transition-colors duration-700"></div>

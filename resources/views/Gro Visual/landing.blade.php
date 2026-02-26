@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gro Visual — Studio Desain Kreatif</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #09090d;
+  --white: #eef0f5;
+  --accent: #1a3bcc;
+  --accent-light: #3554e8;
+  --gray: #111116;
+  --gray2: #17171e;
+  --mid: #25252f;
+  --dim: #6b6b80;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-weight: 300; overflow-x: hidden; cursor: none; }
+
+/* CURSOR */
+.cursor { position: fixed; width: 10px; height: 10px; background: var(--accent-light); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform 0.1s; }
+.cursor-ring { position: fixed; width: 38px; height: 38px; border: 1px solid rgba(53,84,232,0.45); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: all 0.14s ease; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; }
+nav::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(9,9,13,0.97) 60%, transparent); pointer-events: none; }
+.logo { position: relative; z-index: 1; font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 4px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-mark { width: 32px; height: 32px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--white); font-family: 'Bebas Neue', sans-serif; clip-path: polygon(0 0, 100% 0, 100% 100%, 18% 100%); }
+.nav-links { position: relative; z-index: 1; display: flex; gap: 36px; list-style: none; }
+.nav-links a { color: var(--dim); text-decoration: none; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta { position: relative; z-index: 1; padding: 9px 22px; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; }
+.nav-cta:hover { background: var(--accent); color: var(--white); }
+
+/* HERO */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+.hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 130px 60px 80px; position: relative; z-index: 2; }
+.hero-tag { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-light); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(70px, 8.5vw, 130px); line-height: 0.92; letter-spacing: -1px; color: var(--white); opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+.hero-title span { color: var(--accent-light); }
+.hero-desc { margin-top: 36px; font-size: 15px; line-height: 1.8; color: var(--dim); max-width: 400px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+.hero-actions { margin-top: 44px; display: flex; gap: 20px; align-items: center; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+.btn-primary { padding: 15px 34px; background: var(--accent); color: var(--white); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; display: inline-block; }
+.btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(26,59,204,0.4); }
+.btn-ghost { color: var(--dim); text-decoration: none; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
+.btn-ghost:hover { color: var(--white); }
+.btn-ghost::after { content: '→'; transition: transform 0.3s; }
+.btn-ghost:hover::after { transform: translateX(5px); }
+.hero-right { position: relative; overflow: hidden; opacity: 0; animation: fadeIn 1.2s 0.5s forwards; }
+.hero-visual { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.grid-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(26,59,204,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(26,59,204,0.05) 1px, transparent 1px); background-size: 56px 56px; }
+.scan-line { position: absolute; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-light), transparent); animation: scan 4s linear infinite; opacity: 0.35; }
+.hero-logo-svg { width: 400px; height: 400px; animation: floatUp 7s ease-in-out infinite; filter: drop-shadow(0 24px 60px rgba(26,59,204,0.3)); position: relative; z-index: 2; }
+
+/* MARQUEE */
+.marquee-wrap { overflow: hidden; border-top: 1px solid var(--mid); border-bottom: 1px solid var(--mid); background: var(--gray); padding: 14px 0; }
+.marquee-track { display: flex; gap: 56px; animation: marquee 18s linear infinite; white-space: nowrap; width: max-content; }
+.marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--dim); display: flex; align-items: center; gap: 18px; }
+.marquee-item .dot { width: 5px; height: 5px; background: var(--accent-light); border-radius: 50%; }
+
+/* SECTIONS */
+section { padding: 110px 60px; }
+.section-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-light); margin-bottom: 18px; display: block; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px, 5.5vw, 84px); line-height: 0.95; letter-spacing: -1px; }
+
+/* SERVICES */
+#services { background: var(--black); }
+.services-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 60px; }
+.services-intro-desc { font-size: 15px; line-height: 1.85; color: var(--dim); padding-top: 20px; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.service-card { background: var(--gray2); padding: 44px 36px; position: relative; overflow: hidden; transition: all 0.4s; border-bottom: 3px solid transparent; cursor: none; }
+.service-card:hover { background: #1c1c25; border-bottom-color: var(--accent-light); transform: translateY(-4px); }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--mid); }
+.service-num { font-family: 'Bebas Neue', sans-serif; font-size: 68px; color: rgba(26,59,204,0.08); position: absolute; top: 16px; right: 24px; line-height: 1; transition: color 0.4s; }
+.service-card:hover .service-num { color: rgba(53,84,232,0.18); }
+.service-icon { font-size: 30px; margin-bottom: 20px; color: var(--accent-light); }
+.service-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; margin-bottom: 14px; }
+.service-desc { font-size: 14px; line-height: 1.85; color: var(--dim); margin-bottom: 20px; }
+.service-list { list-style: none; }
+.service-list li { font-size: 12px; letter-spacing: 0.5px; color: var(--dim); padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 10px; }
+.service-list li::before { content: '—'; color: var(--accent-light); font-size: 10px; flex-shrink: 0; }
+.service-list li:last-child { border-bottom: none; }
+
+/* ABOUT */
+.about-section { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; padding: 110px 60px; background: var(--gray); }
+.about-visual { position: relative; height: 480px; }
+.about-box { position: absolute; background: var(--black); border: 1px solid var(--mid); }
+.about-box.main { inset: 0 60px 60px 0; overflow: hidden; }
+.about-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(26,59,204,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(26,59,204,0.07) 1px, transparent 1px); background-size: 36px 36px; }
+.about-logo-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 220px; height: 220px; opacity: 0.2; }
+.about-box.accent-box { width: 190px; height: 190px; bottom: 0; right: 0; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 4px; }
+.accent-box-num { font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: var(--white); line-height: 1; }
+.accent-box-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+.about-desc { font-size: 15px; line-height: 1.9; color: var(--dim); margin-top: 24px; max-width: 460px; }
+.about-values { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 36px; }
+.value-item { padding: 20px; background: var(--black); border: 1px solid var(--mid); border-left: 3px solid var(--accent); }
+.value-title { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; margin-bottom: 6px; }
+.value-desc { font-size: 12px; line-height: 1.7; color: var(--dim); }
+.stats-row { display: flex; gap: 44px; margin-top: 36px; padding-top: 36px; border-top: 1px solid var(--mid); }
+.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent-light); line-height: 1; }
+.stat-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--dim); margin-top: 4px; }
+
+/* WHY US */
+.why-section { background: var(--black); }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; }
+.why-card { padding: 40px 32px; background: var(--gray2); border-top: 1px solid var(--mid); position: relative; overflow: hidden; transition: background 0.3s; }
+.why-card:hover { background: #1c1c25; }
+.why-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+.why-card:hover::after { transform: scaleX(1); }
+.why-icon { font-size: 28px; color: var(--accent-light); margin-bottom: 20px; }
+.why-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 12px; }
+.why-desc { font-size: 13px; line-height: 1.85; color: var(--dim); }
+
+/* PROCESS */
+.process-section { background: var(--gray2); }
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 60px; }
+.process-step { padding: 44px 32px; background: var(--black); position: relative; overflow: hidden; }
+.process-step::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 2px; background: var(--mid); }
+.process-step:last-child::after { display: none; }
+.step-num { font-family: 'Bebas Neue', sans-serif; font-size: 76px; color: rgba(26,59,204,0.09); line-height: 1; margin-bottom: 18px; }
+.step-name { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 12px; }
+.step-desc { font-size: 13px; line-height: 1.85; color: var(--dim); }
+
+/* TARGET */
+.target-section { background: var(--gray); }
+.target-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.target-intro-desc { font-size: 15px; line-height: 1.85; color: var(--dim); }
+.target-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 60px; }
+.target-card { padding: 36px 28px; background: var(--black); border-top: 1px solid var(--mid); transition: all 0.3s; }
+.target-card:hover { background: #141420; transform: translateY(-3px); }
+.target-icon { font-size: 28px; margin-bottom: 16px; }
+.target-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; margin-bottom: 10px; color: var(--white); }
+.target-desc { font-size: 13px; line-height: 1.75; color: var(--dim); }
+
+/* TESTIMONI */
+.testi-section { background: var(--black); }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; }
+.testi-card { padding: 40px 36px; background: var(--gray2); border-top: 1px solid var(--mid); transition: background 0.3s; }
+.testi-card:hover { background: #1c1c26; }
+.testi-stars { color: var(--accent-light); font-size: 16px; margin-bottom: 20px; letter-spacing: 3px; }
+.testi-quote { font-size: 14px; line-height: 1.85; color: var(--dim); font-style: italic; margin-bottom: 24px; }
+.testi-divider { width: 32px; height: 2px; background: var(--accent); margin-bottom: 18px; }
+.testi-name { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 1px; }
+.testi-role { font-size: 11px; color: var(--dim); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+
+/* CTA */
+.cta-section { background: var(--accent); padding: 110px 60px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 60px; position: relative; overflow: hidden; }
+.cta-section::before { content: 'G'; position: absolute; right: -20px; top: -60px; font-family: 'Bebas Neue', sans-serif; font-size: 380px; color: rgba(255,255,255,0.05); line-height: 1; pointer-events: none; }
+.cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px, 6.5vw, 100px); line-height: 0.95; color: var(--white); letter-spacing: -1px; }
+.cta-sub { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; margin-top: 16px; max-width: 340px; }
+.btn-dark { padding: 18px 44px; background: var(--black); color: var(--white); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; transition: all 0.3s; display: inline-block; border: 1px solid transparent; }
+.btn-dark:hover { background: transparent; color: var(--white); border-color: var(--white); transform: translateY(-2px); }
+.cta-contact { margin-top: 14px; font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 1px; }
+.cta-contact a { color: rgba(255,255,255,0.7); text-decoration: none; }
+
+/* FOOTER */
+footer { background: var(--black); border-top: 1px solid var(--mid); padding: 60px; display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 60px; }
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 4px; color: var(--white); display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.footer-tagline { font-size: 13px; color: var(--dim); line-height: 1.75; max-width: 280px; }
+.footer-col-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-light); margin-bottom: 22px; display: block; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 11px; }
+.footer-links a { color: var(--dim); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.footer-links a:hover { color: var(--white); }
+.footer-bottom { border-top: 1px solid var(--mid); padding: 22px 60px; display: flex; justify-content: space-between; align-items: center; }
+.footer-copy { font-size: 11px; color: var(--dim); letter-spacing: 1px; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes floatUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+@keyframes scan { 0% { top: -2px; } 100% { top: 100%; } }
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-mark">G</div>
+    GRO VISUAL
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Layanan</a></li>
+    <li><a href="#about">Tentang</a></li>
+    <li><a href="#why">Keunggulan</a></li>
+    <li><a href="#process">Proses</a></li>
+    <li><a href="#contact">Kontak</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Mulai Proyek</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Studio Desain Kreatif — Yogyakarta</p>
+    <h1 class="hero-title">Bangun<br><span>Kuat.</span><br>Tumbuh<br>Lebih Jauh.</h1>
+    <p class="hero-desc">Gro Visual membantu bisnis membangun identitas visual yang kuat, modern, dan profesional — dari desain grafis, branding logo, hingga pengelolaan media sosial.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Konsultasi Gratis</a>
+      <a href="#services" class="btn-ghost">Lihat Layanan</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-visual">
+      <div class="grid-lines"></div>
+      <div class="scan-line"></div>
+      <svg class="hero-logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="60,360 360,40 360,360" fill="#0d0d12" stroke="rgba(26,59,204,0.12)" stroke-width="1"/>
+        <polygon points="80,340 340,62 340,340" fill="#111118"/>
+        <polygon points="252,98 338,62 338,148 288,148" fill="#09090d"/>
+        <polygon points="255,101 336,65 336,145 290,145" fill="none" stroke="#3554e8" stroke-width="1.5"/>
+        <polygon points="145,218 338,158 338,244 145,244" fill="#09090d"/>
+        <polygon points="148,221 336,161 336,241 148,241" fill="none" stroke="#3554e8" stroke-width="1.5"/>
+        <polygon points="80,290 338,262 338,340 80,340" fill="#09090d"/>
+        <polygon points="83,293 336,265 336,337 83,337" fill="none" stroke="#3554e8" stroke-width="1.5"/>
+        <polygon points="340,340 380,370 365,340" fill="rgba(53,84,232,0.07)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="dot"></span> Desain Grafis</div>
+    <div class="marquee-item"><span class="dot"></span> Branding Logo</div>
+    <div class="marquee-item"><span class="dot"></span> Manajemen Media Sosial</div>
+    <div class="marquee-item"><span class="dot"></span> Identitas Visual</div>
+    <div class="marquee-item"><span class="dot"></span> Strategi Brand</div>
+    <div class="marquee-item"><span class="dot"></span> Pertumbuhan Digital</div>
+    <div class="marquee-item"><span class="dot"></span> Desain Grafis</div>
+    <div class="marquee-item"><span class="dot"></span> Branding Logo</div>
+    <div class="marquee-item"><span class="dot"></span> Manajemen Media Sosial</div>
+    <div class="marquee-item"><span class="dot"></span> Identitas Visual</div>
+    <div class="marquee-item"><span class="dot"></span> Strategi Brand</div>
+    <div class="marquee-item"><span class="dot"></span> Pertumbuhan Digital</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-intro">
+    <div>
+      <span class="section-label reveal">Apa yang Kami Lakukan</span>
+      <h2 class="section-title reveal">Layanan<br>Unggulan</h2>
+    </div>
+    <p class="services-intro-desc reveal">Kami menyediakan tiga layanan inti yang saling melengkapi untuk membangun brand Anda dari nol hingga siap bersaing di era digital — dengan pendekatan strategis, bukan sekadar estetis.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-num">01</span>
+      <div class="service-icon">✦</div>
+      <h3 class="service-name">Desain Grafis</h3>
+      <p class="service-desc">Desain visual yang tegas, berkarakter, dan mampu berkomunikasi langsung dengan target audiens Anda. Setiap karya dirancang dengan tujuan strategis yang jelas.</p>
+      <ul class="service-list">
+        <li>Poster & Flyer Promosi</li>
+        <li>Desain Konten Digital</li>
+        <li>Banner & Iklan Visual</li>
+        <li>Kemasan & Label Produk</li>
+        <li>Materi Presentasi</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">02</span>
+      <div class="service-icon">◈</div>
+      <h3 class="service-name">Logo & Branding</h3>
+      <p class="service-desc">Identitas brand yang kuat, konsisten, dan mudah diingat. Kami tidak hanya merancang logo — kami membangun keseluruhan sistem visual yang merepresentasikan nilai bisnis Anda.</p>
+      <ul class="service-list">
+        <li>Desain Logo Profesional</li>
+        <li>Panduan Identitas Brand</li>
+        <li>Palet Warna & Tipografi</li>
+        <li>Paket Alat Tulis Brand</li>
+        <li>Rebranding & Pembaruan</li>
+      </ul>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-num">03</span>
+      <div class="service-icon">⊞</div>
+      <h3 class="service-name">Manajemen Media Sosial</h3>
+      <p class="service-desc">Kelola kehadiran digital Anda secara menyeluruh dan strategis. Konten visual yang konsisten, menarik, dan mendorong pertumbuhan brand nyata di semua platform.</p>
+      <ul class="service-list">
+        <li>Pembuatan Konten Visual</li>
+        <li>Strategi & Kalender Konten</li>
+        <li>Pengelolaan Feed Instagram</li>
+        <li>Caption & Penulisan Konten</li>
+        <li>Laporan Performa Bulanan</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-section" id="about">
+  <div class="about-visual reveal">
+    <div class="about-box main">
+      <div class="about-grid-bg"></div>
+      <svg class="about-logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="60,360 360,40 360,360" fill="none" stroke="#3554e8" stroke-width="1.5"/>
+        <polygon points="145,218 338,158 338,244 145,244" fill="none" stroke="#3554e8" stroke-width="1.5"/>
+        <polygon points="80,290 338,262 338,340 80,340" fill="none" stroke="#3554e8" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <div class="about-box accent-box">
+      <span class="accent-box-num">3+</span>
+      <span class="accent-box-label">Tahun Pengalaman</span>
+    </div>
+  </div>
+  <div>
+    <span class="section-label reveal">Tentang Kami</span>
+    <h2 class="section-title reveal">Desain yang<br>Menggerakkan<br>Bisnis</h2>
+    <p class="about-desc reveal">Gro Visual lahir dari keyakinan bahwa desain bukan sekadar estetika — ia adalah strategi. Dengan konsep minimalis, tegas, dan berkarakter, kami hadir sebagai solusi bagi UMKM, startup, hingga perusahaan yang ingin meningkatkan citra brand mereka secara berkelanjutan di era digital.</p>
+    <div class="about-values reveal">
+      <div class="value-item">
+        <div class="value-title">Strategis</div>
+        <div class="value-desc">Setiap desain dibangun berdasarkan riset dan tujuan bisnis yang nyata.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Berkarakter</div>
+        <div class="value-desc">Visual yang khas dan konsisten membangun kepercayaan audiens.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Modern</div>
+        <div class="value-desc">Mengikuti tren desain terkini namun tetap relevan jangka panjang.</div>
+      </div>
+      <div class="value-item">
+        <div class="value-title">Kolaboratif</div>
+        <div class="value-desc">Kami bekerja bersama klien, bukan hanya untuk klien.</div>
+      </div>
+    </div>
+    <div class="stats-row reveal">
+      <div>
+        <div class="stat-num">100+</div>
+        <div class="stat-label">Proyek Selesai</div>
+      </div>
+      <div>
+        <div class="stat-num">50+</div>
+        <div class="stat-label">Klien Puas</div>
+      </div>
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Tahun Aktif</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY US -->
+<section id="why" class="why-section">
+  <span class="section-label reveal">Mengapa Gro Visual</span>
+  <h2 class="section-title reveal">Keunggulan<br>Kami</h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon">◎</div>
+      <h3 class="why-title">Pendekatan Strategis</h3>
+      <p class="why-desc">Kami tidak hanya membuat desain yang indah. Setiap keputusan visual didasarkan pada pemahaman mendalam tentang brand, target pasar, dan tujuan bisnis Anda — agar desain benar-benar menghasilkan dampak nyata.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">⬡</div>
+      <h3 class="why-title">Identitas yang Konsisten</h3>
+      <p class="why-desc">Brand yang kuat butuh visual yang konsisten di semua platform. Kami memastikan setiap elemen — dari logo hingga konten media sosial — berbicara dalam satu bahasa visual yang kohesif dan mudah dikenali.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">↗</div>
+      <h3 class="why-title">Hasil yang Terukur</h3>
+      <p class="why-desc">Desain yang baik berdampak nyata pada pertumbuhan bisnis. Kami berkomitmen membangun komunikasi visual yang meningkatkan kepercayaan audiens, daya saing, dan pertumbuhan brand secara berkelanjutan.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">◈</div>
+      <h3 class="why-title">Revisi Tanpa Batas</h3>
+      <p class="why-desc">Kepuasan Anda adalah prioritas utama kami. Kami menyediakan revisi hingga hasil akhir benar-benar sesuai dengan visi dan ekspektasi Anda — tidak ada kompromi pada kualitas hasil akhir.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">✦</div>
+      <h3 class="why-title">Proses yang Transparan</h3>
+      <p class="why-desc">Anda selalu tahu perkembangan proyek Anda. Kami menjaga komunikasi terbuka di setiap tahap — dari briefing awal, proses desain, review, hingga file final diserahterimakan secara lengkap.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">⊕</div>
+      <h3 class="why-title">Dukungan Pasca Proyek</h3>
+      <p class="why-desc">Hubungan kami tidak berhenti saat proyek selesai. Kami siap mendampingi dan memberikan panduan penerapan aset brand agar identitas visual Anda digunakan secara tepat dan konsisten di semua media.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <span class="section-label reveal">Bagaimana Kami Bekerja</span>
+  <h2 class="section-title reveal">Proses<br>Kerja Kami</h2>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-num">01</div>
+      <h3 class="step-name">Konsultasi & Penggalian</h3>
+      <p class="step-desc">Kami mendengarkan dan memahami bisnis Anda secara mendalam — mulai dari target audiens, nilai brand, kompetitor, hingga tujuan jangka panjang yang ingin dicapai bersama.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">02</div>
+      <h3 class="step-name">Strategi Visual</h3>
+      <p class="step-desc">Merumuskan arah visual yang tepat — mencakup palet warna, tipografi, gaya desain, nada komunikasi, dan panduan visual yang menjadi fondasi identitas brand Anda.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">03</div>
+      <h3 class="step-name">Eksekusi & Revisi</h3>
+      <p class="step-desc">Tim desainer kami mengeksekusi dengan presisi tinggi. Anda mendapatkan kesempatan revisi hingga hasilnya benar-benar sesuai visi — setiap detail diperhatikan penuh.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-num">04</div>
+      <h3 class="step-name">Serah Terima & Tumbuh</h3>
+      <p class="step-desc">Berkas final dalam berbagai format siap pakai, panduan brand lengkap, dan pendampingan penerapan agar identitas visual brand Anda berjalan konsisten di semua platform digital.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TARGET -->
+<section class="target-section" id="target">
+  <div class="target-intro">
+    <div>
+      <span class="section-label reveal">Yang Kami Bantu</span>
+      <h2 class="section-title reveal">Untuk Siapa<br>Gro Visual?</h2>
+    </div>
+    <p class="target-intro-desc reveal">Gro Visual dirancang untuk melayani berbagai jenis bisnis dan pelaku usaha yang ingin tampil lebih profesional, meningkatkan kepercayaan pelanggan, dan tumbuh lebih cepat melalui kekuatan identitas visual yang strategis dan konsisten.</p>
+  </div>
+  <div class="target-grid">
+    <div class="target-card reveal">
+      <div class="target-icon">🏪</div>
+      <h3 class="target-name">UMKM</h3>
+      <p class="target-desc">Usaha kecil dan menengah yang ingin tampil lebih profesional dan dipercaya pelanggan melalui identitas visual yang kuat, konsisten, dan berkarakter.</p>
+    </div>
+    <div class="target-card reveal">
+      <div class="target-icon">🚀</div>
+      <h3 class="target-name">Startup</h3>
+      <p class="target-desc">Bisnis rintisan yang membutuhkan brand identity solid sejak awal agar mampu bersaing, menarik perhatian investor, dan meninggalkan kesan kuat pada pengguna.</p>
+    </div>
+    <div class="target-card reveal">
+      <div class="target-icon">🏢</div>
+      <h3 class="target-name">Perusahaan</h3>
+      <p class="target-desc">Korporasi yang ingin me-refresh brand atau membutuhkan materi visual profesional dan konsisten untuk berbagai keperluan bisnis dan komunikasi internal-eksternal.</p>
+    </div>
+    <div class="target-card reveal">
+      <div class="target-icon">👤</div>
+      <h3 class="target-name">Brand Personal</h3>
+      <p class="target-desc">Freelancer, content creator, dan profesional yang ingin membangun personal brand yang berkarakter kuat dan mudah dikenal di industri mereka.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONI -->
+<section class="testi-section">
+  <span class="section-label reveal">Kata Klien Kami</span>
+  <h2 class="section-title reveal">Apa yang Mereka<br>Katakan</h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Gro Visual benar-benar memahami apa yang kami butuhkan. Logo yang mereka buat sekarang jadi identitas brand kami yang paling dikenal pelanggan. Prosesnya cepat, komunikatif, dan hasilnya melebihi ekspektasi kami."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-name">Rizky Pratama</div>
+      <div class="testi-role">Pemilik — Kedai Kopi Lokal, Yogyakarta</div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Konten media sosial kami jauh lebih konsisten dan profesional sejak dikelola Gro Visual. Engagement naik signifikan dan brand kami terasa lebih matang di mata audiens. Sangat direkomendasikan!"</p>
+      <div class="testi-divider"></div>
+      <div class="testi-name">Anindita Sari</div>
+      <div class="testi-role">Pendiri — Merek Fashion, Solo</div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Kami startup yang baru mulai dan butuh brand identity yang kuat. Gro Visual membantu dari nol — logo, warna, panduan brand, hingga template konten. Hasilnya sangat memuaskan dan benar-benar worth it."</p>
+      <div class="testi-divider"></div>
+      <div class="testi-name">Dimas Wicaksono</div>
+      <div class="testi-role">Pendiri Bersama — Perusahaan Rintisan Teknologi, Jakarta</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <div>
+    <h2 class="cta-title reveal">Siap Tumbuh<br>Bersama?</h2>
+    <p class="cta-sub reveal">Mulai perjalanan membangun brand yang kuat, profesional, dan berkarakter bersama Gro Visual hari ini. Konsultasi pertama gratis, tanpa komitmen.</p>
+  </div>
+  <div class="reveal">
+    <a href="https://wa.me/6281234567890" class="btn-dark">Hubungi Kami Sekarang</a>
+    <p class="cta-contact" style="margin-top:18px;">WhatsApp: <a href="https://wa.me/6281234567890">+62 812-3456-7890</a></p>
+    <p class="cta-contact" style="margin-top:6px;">Email: <a href="mailto:hello@grovisual.id">hello@grovisual.id</a></p>
+    <p class="cta-contact" style="margin-top:6px;">Instagram: <a href="#">@grovisual</a></p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">
+      <div class="logo-mark">G</div>
+      GRO VISUAL
+    </div>
+    <p class="footer-tagline">Studio kreatif yang membantu bisnis tumbuh melalui identitas visual yang kuat, modern, dan profesional di era digital.</p>
+  </div>
+  <div>
+    <span class="footer-col-title">Layanan</span>
+    <ul class="footer-links">
+      <li><a href="#services">Desain Grafis</a></li>
+      <li><a href="#services">Logo & Branding</a></li>
+      <li><a href="#services">Manajemen Media Sosial</a></li>
+      <li><a href="#why">Strategi Brand</a></li>
+    </ul>
+  </div>
+  <div>
+    <span class="footer-col-title">Hubungi Kami</span>
+    <ul class="footer-links">
+      <li><a href="mailto:hello@grovisual.id">hello@grovisual.id</a></li>
+      <li><a href="#">Instagram @grovisual</a></li>
+      <li><a href="#">WhatsApp</a></li>
+      <li><a href="#">Yogyakarta, Indonesia</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2024 Gro Visual. Hak Cipta Dilindungi.</span>
+  <span class="footer-copy" style="color:var(--accent-light);">Bangun Kuat. Tumbuh Lebih Jauh.</span>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+(function animate() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animate);
+})();
+document.querySelectorAll('a, button, .service-card, .why-card, .target-card, .testi-card, .value-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1.4)';
+    ring.style.borderColor = '#3554e8';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.borderColor = 'rgba(53,84,232,0.45)';
+  });
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 60);
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
