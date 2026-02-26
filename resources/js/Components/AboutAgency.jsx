@@ -90,7 +90,7 @@ const AboutAgency = () => {
                         </div>
                     </div>
 
-                    <div className="w-20 h-[2px] bg-black opacity-20 gsap-stagger mt-8"></div>
+                    {/* Removed decorative line to reduce section gap */}
                 </div>
             </div>
         </section>
