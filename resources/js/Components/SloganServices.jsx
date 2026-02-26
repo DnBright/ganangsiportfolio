@@ -101,7 +101,7 @@ const SloganServices = () => {
             </div>
 
             {/* Dual Agency Section */}
-            <div className="container mx-auto max-w-6xl mb-12 slogan-reveal">
+            <div className="container mx-auto max-w-6xl mb-32 md:mb-48 slogan-reveal">
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Dark And Bright Agency Card */}
                     <div className="flex-1 group relative p-10 md:p-12 bg-black text-white rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
@@ -151,8 +151,8 @@ const SloganServices = () => {
                 </div>
             </div>
 
-            {/* Slogan Container - Aggressive spacing fix */}
-            <div className="container mx-auto max-w-6xl py-32 md:py-48 slogan-reveal border-t border-black/5 mt-12">
+            {/* Slogan Container - Massive spacing fix */}
+            <div className="container mx-auto max-w-6xl py-24 md:py-32 slogan-reveal mt-24 md:mt-48">
                 <div className="max-w-4xl">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.05] tracking-tight uppercase">
                         {t('slogan.headline', language)}
