@@ -105,7 +105,7 @@ section { padding: 120px 60px; }
 
 /* ABOUT */
 .about-section { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; padding: 120px 60px; background: var(--gray); }
-.about-visual { position: relative; height: 500px; }
+.about-visual { position: relative; width: 100%; max-width: 500px; aspect-ratio: 1/1; margin: 0 auto; }
 .about-box.main { inset: 0 40px 40px 0; background: var(--black); border: 1px solid var(--mid); position: absolute; overflow: hidden; border-radius: 20px; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
 .about-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--mid) 1px, transparent 1px), linear-gradient(90deg, var(--mid) 1px, transparent 1px); background-size: 40px 40px; opacity: 0.2; }
 .about-logo-svg { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200px; opacity: 0.1; }
@@ -128,7 +128,7 @@ section { padding: 120px 60px; }
 
 @media (max-width: 1024px) {
     .about-section { grid-template-columns: 1fr; gap: 60px; }
-    .about-visual { height: 400px; }
+    .about-visual { aspect-ratio: 1/1; }
     .about-box.main { inset: 0 20px 20px 0; }
     .about-box.accent-box { width: 160px; height: 140px; }
     .accent-box-num { font-size: 48px; }
@@ -358,7 +358,7 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   <div class="about-visual reveal">
     <div class="about-box main">
       <div class="about-grid-bg"></div>
-      <img src="{{ asset('images/gro-visual/about-concept.jpg') }}" alt="Gro Visual Concept" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9; mix-blend-mode: luminosity;">
+      <img src="{{ asset('images/gro-visual/about-concept.jpg') }}" alt="Gro Visual Concept" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.9; mix-blend-mode: luminosity;">
     </div>
     <div class="about-box accent-box">
       <span class="accent-box-num">3+</span>
