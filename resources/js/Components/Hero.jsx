@@ -51,13 +51,13 @@ const Hero = () => {
     return (
         <section ref={heroRef} className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden bg-white">
             {/* Final Branding & Service List */}
-            <div className="absolute top-12 md:top-20 left-1/2 -translate-x-1/2 z-50 gsap-stagger w-full px-4 text-center">
-                <div className="flex flex-col items-center gap-2 md:gap-4">
-                    <h1 className="text-white mix-blend-difference font-black text-xs md:text-3xl tracking-[0.2em] md:tracking-[0.6em] uppercase whitespace-nowrap leading-none">
+            <div className="absolute top-12 md:top-20 left-1/2 -translate-x-1/2 z-[60] gsap-stagger w-full px-4 text-center pointer-events-none">
+                <div className="flex flex-col items-center gap-3 md:gap-5">
+                    <h1 className="text-white mix-blend-difference font-black text-sm md:text-4xl tracking-[0.2em] md:tracking-[0.6em] uppercase whitespace-nowrap leading-none filter drop-shadow-[0_2px_10px_rgba(0,0,0,0.2)]">
                         {t('hero.branding1', language)}
                     </h1>
-                    <div className="h-[2px] w-8 md:w-20 bg-white/60 mix-blend-difference"></div>
-                    <p className="text-white mix-blend-difference font-black text-[7px] md:text-xs tracking-tight md:tracking-[0.25em] uppercase max-w-[95vw] md:max-w-5xl leading-tight md:leading-relaxed">
+                    <div className="h-[2px] w-12 md:w-24 bg-white/60 mix-blend-difference"></div>
+                    <p className="text-white mix-blend-difference font-black text-[9px] md:text-sm tracking-tight md:tracking-[0.25em] uppercase max-w-[95vw] md:max-w-6xl leading-tight md:leading-relaxed filter drop-shadow-[0_1px_5px_rgba(0,0,0,0.1)]">
                         {t('hero.branding2', language)}
                     </p>
                 </div>
