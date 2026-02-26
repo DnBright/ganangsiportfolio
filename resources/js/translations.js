@@ -72,6 +72,10 @@ export const translations = {
                 focus: {
                     id: "Web Development & Digital Marketing",
                     en: "Web Development & Digital Marketing"
+                },
+                desc: {
+                    id: "Partner strategis Anda dalam membangun ekosistem digital yang kuat. Kami menghadirkan solusi pengembangan web kustom yang canggih dan strategi pemasaran digital berbasis data untuk memastikan bisnis Anda mendominasi pasar digital dengan performa tinggi dan skalabilitas yang terjamin.",
+                    en: "Your strategic partner in building a strong digital ecosystem. We deliver sophisticated custom web development solutions and data-driven digital marketing strategies to ensure your business dominates the digital market with high performance and guaranteed scalability."
                 }
             },
             gro: {
@@ -82,6 +86,10 @@ export const translations = {
                 focus: {
                     id: "Graphic Design, Logo Branding, Social Media Management",
                     en: "Graphic Design, Logo Branding, Social Media Management"
+                },
+                desc: {
+                    id: "Spesialis estetika visual dan identitas brand yang berkarakter. Kami menciptakan desain grafis yang memukau, branding logo yang ikonik, dan manajemen media sosial yang kreatif untuk membangun koneksi mendalam antara brand Anda dengan audiens secara visual dan emosional.",
+                    en: "Specialists in visual aesthetics and character-driven brand identity. We create stunning graphic designs, iconic logo branding, and creative social media management to build deep visual and emotional connections between your brand and your audience."
                 }
             }
         }

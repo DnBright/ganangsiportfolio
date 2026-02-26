@@ -104,7 +104,7 @@ const SloganServices = () => {
             <div className="container mx-auto max-w-6xl mb-12 slogan-reveal">
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Dark And Bright Agency Card */}
-                    <div className="flex-1 group relative p-12 bg-black text-white rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
+                    <div className="flex-1 group relative p-10 md:p-12 bg-black text-white rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
                         <div className="relative z-10">
                             <h4 className="text-xs font-mono uppercase tracking-[0.4em] mb-8 text-white/40">
                                 {t('slogan.agencies.title', language)}
@@ -113,8 +113,13 @@ const SloganServices = () => {
                                 {t('slogan.agencies.dnb.name', language)}
                             </h3>
                             <div className="h-[2px] w-12 bg-white/20 mb-8 group-hover:w-24 transition-all duration-500"></div>
-                            <p className="text-xl font-light text-white/70 leading-relaxed">
+
+                            <p className="text-lg font-bold text-white mb-6 uppercase tracking-tight">
                                 {t('slogan.agencies.dnb.focus', language)}
+                            </p>
+
+                            <p className="text-base font-light text-white/60 leading-relaxed italic">
+                                "{t('slogan.agencies.dnb.desc', language)}"
                             </p>
                         </div>
                         {/* Subtle background glow */}
@@ -122,7 +127,7 @@ const SloganServices = () => {
                     </div>
 
                     {/* Gro Visual Card */}
-                    <div className="flex-1 group relative p-12 bg-gray-50 border border-gray-100 rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
+                    <div className="flex-1 group relative p-10 md:p-12 bg-gray-50 border border-gray-100 rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
                         <div className="relative z-10">
                             <h4 className="text-xs font-mono uppercase tracking-[0.4em] mb-8 text-gray-400">
                                 {t('slogan.agencies.title', language)}
@@ -131,14 +136,14 @@ const SloganServices = () => {
                                 {t('slogan.agencies.gro.name', language)}
                             </h3>
                             <div className="h-[2px] w-12 bg-black/10 mb-8 group-hover:w-24 transition-all duration-500"></div>
-                            <ul className="flex flex-col gap-4">
-                                {t('slogan.agencies.gro.focus', language).split(',').map((item, i) => (
-                                    <li key={i} className="text-xl font-light text-gray-600 flex items-center gap-3">
-                                        <span className="w-1.5 h-1.5 bg-black rounded-full"></span>
-                                        {item.trim()}
-                                    </li>
-                                ))}
-                            </ul>
+
+                            <p className="text-lg font-bold text-black mb-6 uppercase tracking-tight">
+                                {t('slogan.agencies.gro.focus', language)}
+                            </p>
+
+                            <p className="text-base font-light text-gray-500 leading-relaxed italic">
+                                "{t('slogan.agencies.gro.desc', language)}"
+                            </p>
                         </div>
                         {/* Subtle background decoration */}
                         <div className="absolute bottom-0 right-0 w-64 h-64 bg-gray-200/50 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2 group-hover:bg-gray-200 transition-colors duration-700"></div>
@@ -146,10 +151,10 @@ const SloganServices = () => {
                 </div>
             </div>
 
-            {/* Slogan Container */}
-            <div className="container mx-auto max-w-6xl mt-32 md:mt-40 mb-32 slogan-reveal">
+            {/* Slogan Container - Aggressive spacing fix */}
+            <div className="container mx-auto max-w-6xl py-32 md:py-48 slogan-reveal border-t border-black/5 mt-12">
                 <div className="max-w-4xl">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight uppercase">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.05] tracking-tight uppercase">
                         {t('slogan.headline', language)}
                     </h2>
                 </div>
