@@ -1,10 +1,4 @@
-import React, { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useLanguage } from '../Contexts/LanguageContext';
-import { t } from '../translations';
-
-gsap.registerPlugin(ScrollTrigger);
+import { motion } from 'framer-motion';
 
 const SloganServices = () => {
     const sectionRef = useRef(null);
@@ -12,34 +6,23 @@ const SloganServices = () => {
     const gridRef = useRef(null);
     const { language } = useLanguage();
 
+    const servicesList = t('hero.branding2', language).split('|').map(s => s.trim());
+
     useEffect(() => {
         const ctx = gsap.context(() => {
             // Slogan Reveal
-            gsap.from(textRef.current.children, {
+            gsap.from(".slogan-reveal", {
                 scrollTrigger: {
-                    trigger: textRef.current,
-                    start: "top 80%",
+                    trigger: ".slogan-reveal",
+                    start: "top 85%",
                     toggleActions: "play none none reverse"
                 },
-                y: 100,
+                y: 50,
                 opacity: 0,
-                duration: 1.5,
+                duration: 1.2,
                 stagger: 0.1,
-                ease: "power4.out"
+                ease: "power3.out"
             });
-
-            // Services Grid Reveal
-            // gsap.from(gridRef.current.children, {
-            //     scrollTrigger: {
-            //         trigger: gridRef.current,
-            //         start: "top 85%",
-            //     },
-            //     y: 50,
-            //     opacity: 0,
-            //     duration: 1,
-            //     stagger: 0.2,
-            //     ease: "power3.out"
-            // });
 
         }, sectionRef);
 
@@ -68,29 +51,54 @@ const SloganServices = () => {
     ];
 
     return (
-        <section ref={sectionRef} className="bg-white text-black py-32 md:py-48 px-6 relative overflow-hidden">
-            {/* Slogan Container */}
-            <div className="container mx-auto max-w-6xl mb-32">
-                <div ref={textRef} className="overflow-hidden">
-                    <div className="flex flex-col gap-6 mb-16">
-                        <h4 className="text-xs md:text-sm font-black uppercase tracking-[0.5em] text-gray-400">
+        <section ref={sectionRef} className="bg-white text-black py-24 md:py-32 px-6 relative overflow-hidden">
+            {/* Transition: Service Ticker */}
+            <div className="mb-24 md:mb-32">
+                <div className="container mx-auto max-w-6xl mb-12">
+                    <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between border-b border-black/10 pb-6 mb-12 slogan-reveal">
+                        <div className="flex items-center gap-4">
+                            <span className="w-12 h-[1px] bg-black"></span>
+                            <h4 className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-black">
+                                {t('slogan.services', language)}
+                            </h4>
+                        </div>
+                        <p className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">
                             {t('hero.branding1', language)}
-                        </h4>
-                        <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight uppercase">
-                            {t('slogan.headline', language)}
-                        </h2>
+                        </p>
                     </div>
+                </div>
 
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-500 max-w-4xl border-l-2 border-black pl-6">
-                        {t('hero.branding2', language).split('|').map((service, idx) => (
-                            <React.Fragment key={idx}>
-                                <span>{service.trim()}</span>
-                                {idx < t('hero.branding2', language).split('|').length - 1 && (
-                                    <span className="text-black/20">•</span>
-                                )}
-                            </React.Fragment>
+                <div className="relative flex overflow-x-hidden border-y border-black/5 py-8 bg-gray-50/50">
+                    <motion.div
+                        className="flex whitespace-nowrap gap-12 px-6"
+                        animate={{ x: [0, -1000] }}
+                        transition={{
+                            x: {
+                                repeat: Infinity,
+                                repeatType: "loop",
+                                duration: 25,
+                                ease: "linear",
+                            },
+                        }}
+                    >
+                        {[...servicesList, ...servicesList, ...servicesList].map((service, idx) => (
+                            <div key={idx} className="flex items-center gap-12">
+                                <span className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-black/90">
+                                    {service}
+                                </span>
+                                <span className="w-3 h-3 md:w-4 md:h-4 bg-black rounded-full"></span>
+                            </div>
                         ))}
-                    </div>
+                    </motion.div>
+                </div>
+            </div>
+
+            {/* Slogan Container */}
+            <div className="container mx-auto max-w-6xl mb-32 slogan-reveal">
+                <div className="max-w-4xl">
+                    <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight uppercase">
+                        {t('slogan.headline', language)}
+                    </h2>
                 </div>
             </div>
 
