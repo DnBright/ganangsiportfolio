@@ -43,7 +43,7 @@ const AboutAgency = () => {
     }, []);
 
     return (
-        <section ref={sectionRef} className="w-full bg-white text-black py-32 md:py-48 px-6 md:px-12 lg:px-24 overflow-hidden border-t border-black/[0.03]">
+        <section ref={sectionRef} className="w-full bg-white text-black pt-32 md:pt-48 pb-12 md:pb-24 px-6 md:px-12 lg:px-24 overflow-hidden border-t border-black/[0.03]">
             <div className="max-w-4xl mx-auto">
                 <div className="flex flex-col gap-12">
                     <div ref={titleRef}>
