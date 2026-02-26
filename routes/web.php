@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Temporary Preview Route for Gro Visual (Global)
+Route::get('/gro-test', function () {
+    return view('Gro Visual.landing');
+})->name('gro.test');
+
 // -----------------------------------------------------------------------------
 // Global Auth Routes (Accessible from any domain)
 // -----------------------------------------------------------------------------
@@ -57,10 +62,6 @@ Route::domain('thedarkandbright.com')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
-    // Temporary Preview Route for Gro Visual
-    Route::get('/gro-test', function () {
-        return view('Gro Visual.landing');
-    })->name('gro.test');
 });
 
 // -----------------------------------------------------------------------------
