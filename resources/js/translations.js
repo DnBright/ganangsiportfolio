@@ -3,8 +3,8 @@ export const translations = {
     // Hero Section
     hero: {
         tagline: {
-            id: "Digital Marketing & Creative Agency",
-            en: "Digital Marketing & Creative Agency"
+            id: "Digital Marketing & Creative Agency v1.1",
+            en: "Digital Marketing & Creative Agency v1.1"
         },
         dark: {
             id: "Integritas Absolut",
