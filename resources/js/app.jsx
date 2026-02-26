@@ -11,6 +11,7 @@ import SloganServices from './Components/SloganServices';
 import PortfolioShowcase from './Components/PortfolioShowcase';
 import Solutions from './Components/Solutions';
 import ContactFooter from './Components/ContactFooter';
+import AboutAgency from './Components/AboutAgency';
 import AdminLogin from './Components/Admin/Auth/AdminLogin';
 import ParallaxAgencyLanding from './Components/Agency/ParallaxAgencyLanding';
 import { LanguageProvider } from './Contexts/LanguageContext';
@@ -28,6 +29,7 @@ if (navbarRoot) {
 
     const navItems = [
         { label: 'nav.home', href: isLandingPage ? '#beranda' : '/#beranda' },
+        { label: 'nav.about', href: isLandingPage ? '#tentang-agensi' : '/#tentang-agensi' },
         { label: 'nav.services', href: isLandingPage ? '#layanan' : '/#layanan' },
         { label: 'nav.solutions', href: isLandingPage ? '#solusi' : '/#solusi' },
         { label: 'nav.portfolio', href: isLandingPage ? '#portfolio' : '/#portfolio' },
@@ -60,6 +62,7 @@ if (navbarRoot) {
                     const id = winner.target.id;
                     let activeId = '#' + id;
                     if (id === 'hero-root') activeId = '#beranda';
+                    if (id === 'about-agency-root') activeId = '#tentang-agensi';
                     if (id === 'slogan-services-root') activeId = '#layanan';
                     if (id === 'solutions-root') activeId = '#solusi';
                     if (id === 'portfolio-root') activeId = '#portfolio';
@@ -71,7 +74,7 @@ if (navbarRoot) {
 
             const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-            ['hero-root', 'slogan-services-root', 'solutions-root', 'portfolio-root', 'contact-footer-root'].forEach(id => {
+            ['hero-root', 'about-agency-root', 'slogan-services-root', 'solutions-root', 'portfolio-root', 'contact-footer-root'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) observer.observe(el);
             });
@@ -96,6 +99,17 @@ if (heroRoot) {
     root.render(
         <LanguageProvider>
             <Hero />
+        </LanguageProvider>
+    );
+}
+
+// Mount AboutAgency if the container exists
+const aboutAgencyRoot = document.getElementById('about-agency-root');
+if (aboutAgencyRoot) {
+    const root = createRoot(aboutAgencyRoot);
+    root.render(
+        <LanguageProvider>
+            <AboutAgency />
         </LanguageProvider>
     );
 }
