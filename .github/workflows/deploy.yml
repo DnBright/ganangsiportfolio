@@ -19,10 +19,27 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 2222
           script: |
-            cd /home/they9636/public_html/laravel_app
-            git pull origin main
-            composer install --no-dev --optimize-autoloader
+            echo "Starting deployment..."
+            cd /home/they9636/public_html/laravel_app || { echo "Directory not found"; exit 1; }
+            
+            echo "Fetching latest changes..."
+            git fetch origin main
+            
+            echo "Resetting to origin/main..."
+            git reset --hard origin/main
+            
+            echo "Installing dependencies..."
+            composer install --no-dev --optimize-autoloader || { echo "Composer failed"; exit 1; }
+            
+            echo "Running migrations..."
             php artisan migrate --force
+            
+            echo "Clearing and caching..."
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan view:clear
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
+            
+            echo "Deployment finished successfully!"
