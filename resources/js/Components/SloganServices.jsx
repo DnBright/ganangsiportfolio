@@ -58,9 +58,9 @@ const SloganServices = () => {
     ];
 
     return (
-        <section ref={sectionRef} className="bg-white text-black py-32 md:py-48 px-6 relative overflow-hidden border-t border-black/[0.03]">
+        <section ref={sectionRef} id="slogan-services-root" className="bg-white text-black pt-12 md:pt-24 pb-32 md:pb-48 px-6 relative overflow-hidden">
             {/* Transition: Service Ticker */}
-            <div className="mb-32 md:mb-40">
+            <div className="mb-24 md:mb-32">
                 <div className="container mx-auto max-w-6xl mb-12">
                     <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between border-b border-black/10 pb-6 mb-12 slogan-reveal">
                         <div className="flex items-center gap-4">
@@ -101,7 +101,7 @@ const SloganServices = () => {
             </div>
 
             {/* Dual Agency Section */}
-            <div className="container mx-auto max-w-6xl mb-32 slogan-reveal">
+            <div className="container mx-auto max-w-6xl mb-24 md:mb-32 slogan-reveal">
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Dark And Bright Agency Card */}
                     <div className="flex-1 group relative p-12 bg-black text-white rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
