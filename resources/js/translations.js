@@ -2,67 +2,67 @@ export const translations = {
     // Hero Section
     hero: {
         branding1: {
-            id: "Digital Marketing & Creative Agency",
-            en: "Digital Marketing & Creative Agency"
+            id: "Creative Catalyst for Digital Growth",
+            en: "Creative Catalyst for Digital Growth"
         },
         branding2: {
-            id: "Digital Marketing | Graphic Design | Logo Branding | Social Media Management | Web Development",
-            en: "Digital Marketing | Graphic Design | Logo Branding | Social Media Management | Web Development"
+            id: "Software Engineering | Strategic Branding | Performance Marketing | UI/UX Mastery",
+            en: "Software Engineering | Strategic Branding | Performance Marketing | UI/UX Mastery"
         },
         dark: {
-            id: "Integritas Absolut",
-            en: "Absolute Integrity"
+            id: "Integritas Tanpa Batas",
+            en: "Unyielding Integrity"
         },
         bright: {
-            id: "Kejernihan Digital",
-            en: "Digital Clarity"
+            id: "Visi Masa Depan",
+            en: "Future-Forward Vision"
         }
     },
 
     // Slogan & Services
     slogan: {
         headline: {
-            id: "Kami membangun solusi digital yang presisi dan fokus pada kebutuhan bisnis Anda",
-            en: "We build digital solutions with precision and focus on your business needs"
+            id: "Kami mendefinisikan ulang standar digital melalui presisi teknik dan estetika visioner.",
+            en: "Redefining digital standards through engineering precision and visionary aesthetics."
         },
         services: {
-            id: "Layanan Kami",
-            en: "Our Services"
+            id: "Spektrum Keunggulan",
+            en: "Spectrum of Excellence"
         },
         webDev: {
             title: {
-                id: "Pengembangan Web",
-                en: "Web Development"
+                id: "Arsitektur Perangkat Lunak",
+                en: "Software Architecture"
             },
             desc: {
-                id: "Sistem web kustom yang dirancang untuk efisiensi maksimal",
-                en: "Custom web systems designed for maximum efficiency"
+                id: "Membangun ekosistem web yang scalable, aman, dan berkinerja tinggi sesuai standar industri global.",
+                en: "Building scalable, secure, and high-performance web ecosystems that meet global industry standards."
             }
         },
         uiux: {
             title: {
-                id: "Desain UI/UX",
-                en: "UI/UX Design"
+                id: "Pengalaman Digital Imersif",
+                en: "Immersive Digital Experiences"
             },
             desc: {
-                id: "Antarmuka yang intuitif dan pengalaman pengguna yang mulus",
-                en: "Intuitive interfaces and seamless user experiences"
+                id: "Antarmuka futuristik yang menggabungkan psikologi pengguna dengan keindahan visual tanpa cela.",
+                en: "Futuristic interfaces blending user psychology with flawless visual beauty."
             }
         },
         consulting: {
             title: {
-                id: "Konsultasi Digital",
-                en: "Digital Consulting"
+                id: "Akselerasi Strategis",
+                en: "Strategic Acceleration"
             },
             desc: {
-                id: "Strategi digital yang disesuaikan dengan tujuan bisnis Anda",
-                en: "Digital strategies tailored to your business goals"
+                id: "Navigasi cerdas melalui lanskap digital untuk mencapai dominasi pasar dan pertumbuhan eksponensial.",
+                en: "Intelligent navigation through the digital landscape to achieve market dominance and exponential growth."
             }
         },
         agencies: {
             title: {
-                id: "Layanan Jasa",
-                en: "Service Offerings"
+                id: "Struktur Agensi Kami",
+                en: "Our Agency Structure"
             },
             dnb: {
                 name: {
@@ -70,16 +70,16 @@ export const translations = {
                     en: "Dark And Bright Agency"
                 },
                 focus: {
-                    id: "Web Development & Digital Marketing",
-                    en: "Web Development & Digital Marketing"
+                    id: "Software Engineering & Digital Supremacy",
+                    en: "Software Engineering & Digital Supremacy"
                 },
                 desc: {
-                    id: "Partner strategis Anda dalam membangun ekosistem digital yang kuat. Kami menghadirkan solusi pengembangan web kustom yang canggih dan strategi pemasaran digital berbasis data untuk memastikan bisnis Anda mendominasi pasar digital dengan performa tinggi dan skalabilitas yang terjamin.",
-                    en: "Your strategic partner in building a strong digital ecosystem. We deliver sophisticated custom web development solutions and data-driven digital marketing strategies to ensure your business dominates the digital market with high performance and guaranteed scalability."
+                    id: "Fokus pada pengembangan infrastruktur digital yang kompleks dan solusi pemasaran berbasis data tingkat lanjut. Kami adalah arsitek di balik sistem yang menggerakkan bisnis modern.",
+                    en: "Focusing on complex digital infrastructure development and advanced data-driven marketing solutions. We are the architects behind the systems that power modern business."
                 },
                 cta: {
-                    id: "Kunjungi Situs",
-                    en: "Visit Website"
+                    id: "Eksplorasi Solusi",
+                    en: "Explore Solutions"
                 }
             },
             gro: {
@@ -88,12 +88,12 @@ export const translations = {
                     en: "Gro Visual"
                 },
                 focus: {
-                    id: "Graphic Design, Logo Branding, Social Media Management",
-                    en: "Graphic Design, Logo Branding, Social Media Management"
+                    id: "Visual Mastery & Brand Identity",
+                    en: "Visual Mastery & Brand Identity"
                 },
                 desc: {
-                    id: "Spesialis estetika visual dan identitas brand yang berkarakter. Kami menciptakan desain grafis yang memukau, branding logo yang ikonik, dan manajemen media sosial yang kreatif untuk membangun koneksi mendalam antara brand Anda dengan audiens secara visual dan emosional.",
-                    en: "Specialists in visual aesthetics and character-driven brand identity. We create stunning graphic designs, iconic logo branding, and creative social media management to build deep visual and emotional connections between your brand and your audience."
+                    id: "Spesialis dalam menciptakan identitas visual yang meninggalkan jejak permanen di benak audiens. Kami mengubah persepsi melalui desain yang berani dan tak terlupakan.",
+                    en: "Specialists in creating visual identities that leave a permanent mark in the audience's mind. We transform perceptions through bold and unforgettable design."
                 },
                 cta: {
                     id: "Lihat Portfolio",
@@ -106,51 +106,51 @@ export const translations = {
     // Solutions Section
     solutions: {
         headline: {
-            id: "Solusi Kami",
-            en: "Our Solutions"
+            id: "Solusi Tanpa Kompromi",
+            en: "Uncompromising Solutions"
         },
         subtitle: {
-            id: "Kamu bukan tukang website, tapi problem solver",
-            en: "You're not just a website builder, but a problem solver"
+            id: "Kami tidak sekadar membangun platform; kami memecahkan hambatan pertumbuhan bisnis Anda.",
+            en: "We don't just build platforms; we break down the barriers to your business growth."
         },
         education: {
             title: {
-                id: "Institusi & Pendidikan",
-                en: "Institutions & Education"
+                id: "Infrastruktur Edukasi Modern",
+                en: "Modern Education Infrastructure"
             },
             desc: {
-                id: "Transformasi digital untuk ekosistem pendidikan masa depan. Sistem manajemen pembelajaran, administrasi, dan operasional yang terintegrasi.",
-                en: "Digital transformation for future educational ecosystems. Integrated learning management, administration, and operational systems."
+                id: "Digitalisasi total ekosistem pendidikan untuk efisiensi tanpa batas. Dari sistem administrasi cerdas hingga platform pembelajaran interaktif.",
+                en: "Total digitalization of educational ecosystems for boundless efficiency. From smart administrative systems to interactive learning platforms."
             }
         },
         business: {
             title: {
-                id: "Perusahaan & Bisnis",
-                en: "Companies & Business"
+                id: "Dominasi Bisnis & Korporat",
+                en: "Business & Corporate Dominance"
             },
             desc: {
-                id: "Solusi enterprise yang scalable untuk mempercepat pertumbuhan bisnis. Otomasi workflow, analitik data, dan efisiensi operasional.",
-                en: "Scalable enterprise solutions to accelerate business growth. Workflow automation, data analytics, and operational efficiency."
+                id: "Solusi enterprise yang dirancang untuk skala besar. Kami mempercepat transformasi digital korporasi Anda untuk memimpin di pasar global.",
+                en: "Enterprise solutions engineered for scale. We accelerate your corporate digital transformation to lead in the global market."
             }
         },
         digitalization: {
             title: {
-                id: "Digitalisasi Proses Administrasi",
-                en: "Administrative Process Digitalization"
+                id: "Otomasi & Digitalisasi Alur Kerja",
+                en: "Workflow Automation & Digitalization"
             },
             desc: {
-                id: "Ubah tumpukan kertas menjadi data digital yang mudah diakses. Hemat waktu, kurangi error, dan tingkatkan produktivitas tim.",
-                en: "Transform paper stacks into easily accessible digital data. Save time, reduce errors, and increase team productivity."
+                id: "Menghapus inefisiensi manual melalui sistem otomasi yang cerdas. Mengubah operasional menjadi aset strategis yang lincah.",
+                en: "Eliminating manual inefficiencies through intelligent automation systems. Transforming operations into agile strategic assets."
             }
         },
         custom: {
             title: {
-                id: "Sistem Berbasis Kebutuhan",
-                en: "Need-Based Systems"
+                id: "Sistem Kustom High-End",
+                en: "High-End Custom Systems"
             },
             desc: {
-                id: "Bukan solusi generik. Kami membangun sistem yang dirancang khusus untuk memecahkan masalah unik organisasi Anda.",
-                en: "Not generic solutions. We build systems specifically designed to solve your organization's unique problems."
+                id: "Mahakarya teknik yang dibangun khusus untuk tantangan paling unik. Solusi yang tidak ditemukan di tempat lain.",
+                en: "Engineering masterpieces built specifically for the most unique challenges. Solutions you won't find anywhere else."
             }
         }
     },
@@ -256,8 +256,8 @@ export const translations = {
             en: "Home"
         },
         about: {
-            id: "Tentang",
-            en: "About"
+            id: "Tentang Kami",
+            en: "About Us"
         },
         services: {
             id: "Layanan",
@@ -269,17 +269,22 @@ export const translations = {
         },
         portfolio: {
             id: "Portfolio",
-            en: "Portfolio"
+            en: "Work"
         },
         contact: {
             id: "Kontak",
-            en: "Contact"
+            en: "Inquiry"
         }
+    },
+    stats: {
+        projects: { id: "Proyek Selesai", en: "Projects Done" },
+        clients: { id: "Klien Puas", en: "Happy Clients" },
+        years: { id: "Tahun Beroperasi", en: "Years Active" }
     },
     about: {
         title: {
-            id: "Tentang Dark and Bright Agency",
-            en: "About Dark and Bright Agency"
+            id: "Masa Depan Digital Dimulai Di Sini",
+            en: "The Digital Future Starts Here"
         },
         desc1: {
             id: "Dark and Bright Agency merupakan perusahaan yang bergerak di bidang digital marketing dan creative agency yang berfokus pada penyediaan solusi branding serta pemasaran digital secara menyeluruh bagi berbagai jenis bisnis. Berdiri sebagai partner strategis bagi klien, Dark and Bright Agency menghadirkan layanan yang dirancang untuk memperkuat identitas brand and meningkatkan kehadiran digital secara efektif. Didukung oleh tim profesional berpengalaman di bidang kreatif dan teknologi, agensi ini terus berinovasi untuk memastikan kualitas layanan yang terpercaya dan relevan dengan perkembangan industri digital.",

@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const Hero = () => {
     const heroRef = useRef(null);
+    const canvasRef = useRef(null);
     const { language } = useLanguage();
 
     // Track total visits once on mount
@@ -19,26 +20,29 @@ const Hero = () => {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            const tl = gsap.timeline({ defaults: { ease: "expo.inOut" } });
-            const isMobile = window.innerWidth < 768;
+            const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
 
-            // Reset states for cinematic entrance
-            gsap.set(".side-dark", { [isMobile ? 'yPercent' : 'xPercent']: -100 });
-            gsap.set(".side-bright", { [isMobile ? 'yPercent' : 'xPercent']: 100 });
-            gsap.set(".hero-logo", { scale: 0, opacity: 0, rotateY: 180 });
-            gsap.set(".gsap-stagger", { y: 50, opacity: 0 });
+            // Initial states
+            gsap.set(".hero-bg-accent", { opacity: 0, scale: 0.8 });
+            gsap.set(".hero-title-main", { y: 100, opacity: 0 });
+            gsap.set(".hero-subtitle", { y: 30, opacity: 0 });
+            gsap.set(".hero-logo-center", { scale: 0.5, opacity: 0, filter: "blur(20px)" });
+            gsap.set(".gsap-action", { y: 20, opacity: 0 });
 
-            tl.to(".side-dark", { [isMobile ? 'yPercent' : 'xPercent']: 0, duration: 1.8 })
-                .to(".side-bright", { [isMobile ? 'yPercent' : 'xPercent']: 0, duration: 1.8 }, "<")
-                .to(".hero-logo", { scale: 1, opacity: 1, rotateY: 0, duration: 1.5, ease: "back.out(1.2)" }, "-=0.8")
-                .to(".gsap-stagger", { y: 0, opacity: 1, stagger: 0.15, duration: 1 }, "-=1");
+            tl.to(".hero-bg-accent", { opacity: 0.6, scale: 1, duration: 2, stagger: 0.5 })
+                .to(".hero-logo-center", { scale: 1, opacity: 1, filter: "blur(0px)", duration: 2, ease: "elastic.out(1, 0.75)" }, "-=1.5")
+                .to(".hero-title-main", { y: 0, opacity: 1, duration: 1.5 }, "-=1.5")
+                .to(".hero-subtitle", { y: 0, opacity: 0.6, duration: 1 }, "-=1")
+                .to(".gsap-action", { y: 0, opacity: 1, stagger: 0.2, duration: 0.8 }, "-=0.5");
 
-            // Interactive logo movement
+            // Mouse move parallax
             const handleMove = (e) => {
                 const { clientX, clientY } = e;
-                const x = (clientX / window.innerWidth - 0.5) * 25;
-                const y = (clientY / window.innerHeight - 0.5) * 25;
-                gsap.to(".hero-logo", { rotationY: x, rotationX: -y, duration: 0.8, ease: "power2.out" });
+                const xPos = (clientX / window.innerWidth - 0.5) * 40;
+                const yPos = (clientY / window.innerHeight - 0.5) * 40;
+
+                gsap.to(".hero-logo-center", { x: xPos * 0.5, y: yPos * 0.5, rotationY: xPos * 0.2, rotationX: -yPos * 0.2, duration: 1, ease: "power2.out" });
+                gsap.to(".hero-bg-accent", { x: -xPos, y: -yPos, duration: 1.5, ease: "power2.out" });
             };
 
             window.addEventListener("mousemove", handleMove);
@@ -49,68 +53,69 @@ const Hero = () => {
     }, []);
 
     return (
-        <section ref={heroRef} className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden bg-white">
+        <section ref={heroRef} className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#050508]">
 
-            {/* DARK Side (Black background, White Text) */}
-            <div className="side-dark relative h-1/2 md:h-full w-full md:w-1/2 bg-black flex items-center justify-center md:justify-end md:pr-[12vw] z-10 border-b md:border-b-0 md:border-r border-white/5">
-                <div className="gsap-stagger text-center md:text-right">
-                    <h2 className="text-[18vw] md:text-[11vw] font-black text-white leading-[0.8] tracking-tighter uppercase select-none opacity-90">
-                        DARK
-                    </h2>
-                    <p className="text-white/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
-                        {t('hero.dark', language)}
+            {/* Immersive Background Layers */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="hero-bg-accent absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-blue-600/10 blur-[150px]"></div>
+                <div className="hero-bg-accent absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-600/10 blur-[150px]"></div>
+            </div>
+
+            {/* Content Container */}
+            <div className="relative z-20 flex flex-col items-center text-center px-6 max-w-7xl">
+
+                {/* Branding Top */}
+                <span className="gsap-action text-blue-500 font-bold text-[10px] md:text-xs tracking-[0.5em] uppercase mb-6">
+                    {t('hero.branding1', language)}
+                </span>
+
+                {/* Main Heading Overlaid on Logo */}
+                <div className="relative flex items-center justify-center mb-12">
+                    <div className="hero-logo-center absolute h-[40vh] md:h-[70vh] w-auto pointer-events-none opacity-40 mix-blend-screen">
+                        <img
+                            src="/images/logo-3d-user.png"
+                            alt="3D Logo"
+                            className="h-full w-full object-contain filter brightness-125"
+                        />
+                    </div>
+
+                    <h1 className="hero-title-main relative z-10 font-black leading-[0.85] tracking-tighter text-white select-none">
+                        <span className="block text-[14vw] md:text-[10vw]">DARK</span>
+                        <span className="block text-[14vw] md:text-[10vw] text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">BRIGHT</span>
+                    </h1>
+                </div>
+
+                {/* Subtitle / Core Values */}
+                <div className="hero-subtitle mb-12 max-w-2xl">
+                    <p className="text-white text-lg md:text-xl font-medium tracking-tight leading-relaxed mb-4">
+                        {t('hero.dark', language)} — {t('hero.bright', language)}
+                    </p>
+                    <p className="text-white/40 text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase">
+                        {t('hero.branding2', language)}
                     </p>
                 </div>
-            </div>
 
-            {/* BRIGHT Side (White background, Black Text) */}
-            <div className="side-bright relative h-1/2 md:h-full w-full md:w-1/2 bg-white flex items-center justify-center md:justify-start md:pl-[12vw] z-10">
-                <div className="gsap-stagger text-center md:text-left">
-                    <h2 className="text-[18vw] md:text-[11vw] font-black text-black leading-[0.8] tracking-tighter uppercase select-none opacity-90">
-                        BRIGHT
-                    </h2>
-                    <p className="text-black/30 text-[10px] md:text-xs font-mono tracking-[0.4em] mt-4 uppercase">
-                        {t('hero.bright', language)}
-                    </p>
-                </div>
-            </div>
-
-            {/* The 3D Logo Centerpiece */}
-            <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                <div className="hero-logo w-[28vh] h-[28vh] md:w-[55vh] md:h-[55vh] flex items-center justify-center pointer-events-auto">
-                    <img
-                        src="/images/logo-3d-user.png"
-                        alt="Dark and Bright"
-                        className="w-full h-auto object-contain drop-shadow-[0_0_80px_rgba(255,255,255,0.12)]"
-                    />
-                </div>
-            </div>
-
-            {/* Action Overlay */}
-            <div className="absolute bottom-[12vh] left-0 w-full flex flex-col items-center z-40 px-6">
-                <div className="gsap-stagger flex gap-8 md:gap-12">
-                    <a href="#work" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden">
-                        <span className="relative z-10 text-white mix-blend-difference font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-black">
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row gap-4 md:gap-6 mt-4">
+                    <a href="#portfolio" className="gsap-action group relative px-12 py-4 bg-white rounded-full overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95">
+                        <span className="relative z-10 text-black font-black uppercase tracking-widest text-[11px]">
                             {t('actions.projects', language)}
                         </span>
-                        <div className="absolute inset-0 bg-white translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
-                        <div className="absolute inset-0 border border-white/30"></div>
                     </a>
-                    <a href="#contact" className="group relative px-10 md:px-14 py-4 md:py-5 overflow-hidden bg-white shadow-2xl">
-                        <span className="relative z-10 text-black font-black uppercase tracking-widest text-[10px] transition-colors duration-500 group-hover:text-white">
+                    <a href="#contact" className="gsap-action group relative px-12 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-full overflow-hidden transition-all duration-300 hover:bg-white/10 hover:scale-105 active:scale-95 text-white">
+                        <span className="relative z-10 font-black uppercase tracking-widest text-[11px]">
                             {t('actions.discuss', language)}
                         </span>
-                        <div className="absolute inset-0 bg-black -translate-y-full transition-transform duration-500 group-hover:translate-y-0"></div>
                     </a>
                 </div>
             </div>
 
-            {/* Subtle Cinematic Grain */}
-            <div className="absolute inset-0 opacity-[0.04] pointer-events-none mix-blend-overlay z-50" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+            {/* Cinematic Scanlines / Noise */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay z-50 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
-            {/* Vertical Scroll Hint */}
-            <div className="absolute bottom-10 right-10 md:right-20 z-40 flex flex-col items-center opacity-10">
-                <div className="w-[1px] h-20 bg-white mix-blend-difference gsap-stagger"></div>
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-20">
+                <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
             </div>
         </section>
     );

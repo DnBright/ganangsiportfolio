@@ -9,211 +9,184 @@ gsap.registerPlugin(ScrollTrigger);
 
 const SloganServices = () => {
     const sectionRef = useRef(null);
-    const textRef = useRef(null);
-    const gridRef = useRef(null);
     const { language } = useLanguage();
 
-    const servicesList = t('hero.branding2', language).split('|').map(s => s.trim());
+    const tickerItems = t('hero.branding2', language).split('|').map(s => s.trim());
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Slogan Reveal
-            gsap.from(".slogan-reveal", {
-                scrollTrigger: {
-                    trigger: ".slogan-reveal",
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                },
-                y: 50,
+            gsap.from(".service-card", {
+                y: 60,
                 opacity: 0,
                 duration: 1.2,
                 stagger: 0.1,
-                ease: "power3.out"
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: ".service-grid",
+                    start: "top 80%",
+                }
             });
 
+            gsap.from(".agency-card-reveal", {
+                x: (i) => i === 0 ? -100 : 100,
+                opacity: 0,
+                duration: 1.5,
+                ease: "expo.out",
+                stagger: 0.3,
+                scrollTrigger: {
+                    trigger: ".agency-section",
+                    start: "top 70%",
+                }
+            });
         }, sectionRef);
 
         return () => ctx.revert();
     }, []);
 
     const services = [
-        {
-            titleKey: "slogan.webDev.title",
-            descKey: "slogan.webDev.desc",
-            icon: "01",
-            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-        },
-        {
-            titleKey: "slogan.uiux.title",
-            descKey: "slogan.uiux.desc",
-            icon: "02",
-            image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?auto=format&fit=crop&w=800&q=80"
-        },
-        {
-            titleKey: "slogan.consulting.title",
-            descKey: "slogan.consulting.desc",
-            icon: "03",
-            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
-        }
+        { key: "slogan.webDev", icon: "01" },
+        { key: "slogan.uiux", icon: "02" },
+        { key: "slogan.consulting", icon: "03" }
     ];
 
     return (
-        <section ref={sectionRef} id="slogan-services-root" className="bg-white text-black pt-0 pb-32 md:pb-48 px-6 relative overflow-hidden">
-            {/* Transition: Service Ticker */}
-            <div className="mb-24 md:mb-32">
-                <div className="container mx-auto max-w-6xl mb-12">
-                    <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between border-b border-black/10 pb-6 mb-12 slogan-reveal">
-                        <div className="flex items-center gap-4">
-                            <span className="w-12 h-[1px] bg-black"></span>
-                            <h4 className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-black">
-                                {t('slogan.services', language)}
-                            </h4>
-                        </div>
-                        <p className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">
-                            {t('hero.branding1', language)}
-                        </p>
-                    </div>
-                </div>
+        <section ref={sectionRef} className="bg-[#050508] text-white py-24 md:py-48 relative overflow-hidden">
 
-                <div className="relative flex overflow-x-hidden border-y border-black/5 py-8 bg-gray-50/50">
-                    <motion.div
-                        className="flex whitespace-nowrap gap-12 px-6"
-                        animate={{ x: [0, -1000] }}
-                        transition={{
-                            x: {
-                                repeat: Infinity,
-                                repeatType: "loop",
-                                duration: 25,
-                                ease: "linear",
-                            },
-                        }}
-                    >
-                        {[...servicesList, ...servicesList, ...servicesList].map((service, idx) => (
-                            <div key={idx} className="flex items-center gap-12">
-                                <span className="text-2xl md:text-4xl font-black uppercase tracking-tighter text-black/90">
-                                    {service}
-                                </span>
-                                <span className="w-3 h-3 md:w-4 md:h-4 bg-black rounded-full"></span>
-                            </div>
-                        ))}
-                    </motion.div>
+            {/* 1. Immersive Slogan (Massive Text) */}
+            <div className="container mx-auto px-6 mb-32 md:mb-48 text-center">
+                <h2 className="text-[12vw] md:text-[8vw] font-black leading-[0.8] tracking-tighter uppercase opacity-10 select-none absolute top-0 left-0 w-full">
+                    DIGITAL SUPREMACY
+                </h2>
+                <div className="relative z-10 max-w-5xl mx-auto">
+                    <span className="text-blue-500 font-bold text-xs tracking-[0.4em] uppercase mb-8 block">
+                        Our Manifest
+                    </span>
+                    <h3 className="text-4xl md:text-7xl font-black leading-tight tracking-tight uppercase">
+                        {t('slogan.headline', language)}
+                    </h3>
                 </div>
             </div>
 
-            {/* Dual Agency Section */}
-            <div className="container mx-auto max-w-6xl mb-32 md:mb-48 slogan-reveal">
-                <div className="flex flex-col md:flex-row gap-8">
-                    {/* Dark And Bright Agency Card */}
-                    <div className="flex-1 group relative p-10 md:p-12 bg-black text-white rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
+            {/* 2. Agency Tryptich (DNB vs Gro) */}
+            <div className="agency-section container mx-auto px-6 mb-48">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                    {/* Dark & Bright */}
+                    <div className="agency-card-reveal group relative p-12 bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3rem] overflow-hidden transition-all duration-700 hover:border-blue-500/50">
                         <div className="relative z-10">
-                            <h4 className="text-xs font-mono uppercase tracking-[0.4em] mb-8 text-white/40">
-                                {t('slogan.agencies.title', language)}
-                            </h4>
-                            <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter">
+                            <h4 className="text-[10px] font-bold text-blue-500 tracking-[0.4em] uppercase mb-8">Engineering Division</h4>
+                            <h3 className="text-4xl font-black uppercase mb-6 tracking-tighter text-white">
                                 {t('slogan.agencies.dnb.name', language)}
                             </h3>
-                            <div className="h-[2px] w-12 bg-white/20 mb-8 group-hover:w-24 transition-all duration-500"></div>
-
-                            <p className="text-lg font-bold text-white mb-6 uppercase tracking-tight">
+                            <p className="text-lg font-bold text-white/90 mb-6 uppercase">
                                 {t('slogan.agencies.dnb.focus', language)}
                             </p>
-
-                            <p className="text-base font-light text-white/60 leading-relaxed italic mb-8">
-                                "{t('slogan.agencies.dnb.desc', language)}"
+                            <p className="text-white/40 leading-relaxed mb-10 max-w-md">
+                                {t('slogan.agencies.dnb.desc', language)}
                             </p>
-
-                            <a href="#" className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-bold text-sm uppercase tracking-wider hover:bg-gray-200 transition-all duration-300 group/btn">
+                            <a href="#" className="inline-flex items-center gap-4 text-xs font-black uppercase tracking-widest text-white group-hover:text-blue-400 transition-colors">
                                 {t('slogan.agencies.dnb.cta', language)}
-                                <svg className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
+                                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-blue-500 group-hover:border-blue-500 transition-all">
+                                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                        <path d="M5 12h14m-7-7l7 7-7 7" />
+                                    </svg>
+                                </div>
                             </a>
                         </div>
-                        {/* Subtle background glow */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-white/10 transition-colors duration-700"></div>
+                        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                     </div>
 
-                    {/* Gro Visual Card */}
-                    <div className="flex-1 group relative p-10 md:p-12 bg-gray-50 border border-gray-100 rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-700 hover:-translate-y-2">
+                    {/* Gro Visual */}
+                    <div className="agency-card-reveal group relative p-12 bg-white text-black rounded-[3rem] overflow-hidden transition-all duration-700 hover:shadow-[0_40px_100px_rgba(0,0,0,0.4)]">
                         <div className="relative z-10">
-                            <h4 className="text-xs font-mono uppercase tracking-[0.4em] mb-8 text-gray-400">
-                                {t('slogan.agencies.title', language)}
-                            </h4>
-                            <h3 className="text-3xl font-black uppercase mb-6 tracking-tighter text-black">
+                            <h4 className="text-[10px] font-bold text-gray-400 tracking-[0.4em] uppercase mb-8">Creative Division</h4>
+                            <h3 className="text-4xl font-black uppercase mb-6 tracking-tighter">
                                 {t('slogan.agencies.gro.name', language)}
                             </h3>
-                            <div className="h-[2px] w-12 bg-black/10 mb-8 group-hover:w-24 transition-all duration-500"></div>
-
-                            <p className="text-lg font-bold text-black mb-6 uppercase tracking-tight">
+                            <p className="text-lg font-bold mb-6 uppercase italic">
                                 {t('slogan.agencies.gro.focus', language)}
                             </p>
-
-                            <p className="text-base font-light text-gray-500 leading-relaxed italic mb-8">
-                                "{t('slogan.agencies.gro.desc', language)}"
+                            <p className="text-black/50 leading-relaxed mb-10 max-w-md">
+                                {t('slogan.agencies.gro.desc', language)}
                             </p>
-
-                            <a href="#" className="inline-flex items-center gap-3 px-8 py-4 bg-black text-white rounded-full font-bold text-sm uppercase tracking-wider hover:bg-gray-800 transition-all duration-300 group/btn">
+                            <a href="#" className="inline-flex items-center gap-4 text-xs font-black uppercase tracking-widest group-hover:text-blue-600 transition-colors">
                                 {t('slogan.agencies.gro.cta', language)}
-                                <svg className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                </svg>
+                                <div className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                        <path d="M5 12h14m-7-7l7 7-7 7" />
+                                    </svg>
+                                </div>
                             </a>
                         </div>
-                        {/* Subtle background decoration */}
-                        <div className="absolute bottom-0 right-0 w-64 h-64 bg-gray-200/50 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2 group-hover:bg-gray-200 transition-colors duration-700"></div>
+                    </div>
+
+                </div>
+            </div>
+
+            {/* 3. Rolling Ticker of Expertise */}
+            <div className="relative flex overflow-x-hidden border-y border-white/5 py-12 mb-48 rotate-[-1deg] bg-blue-600 scale-[1.05]">
+                <motion.div
+                    className="flex whitespace-nowrap gap-16 px-8"
+                    animate={{ x: [0, -2000] }}
+                    transition={{
+                        x: { repeat: Infinity, duration: 30, ease: "linear" },
+                    }}
+                >
+                    {[...tickerItems, ...tickerItems, ...tickerItems, ...tickerItems].map((item, idx) => (
+                        <div key={idx} className="flex items-center gap-16">
+                            <span className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
+                                {item}
+                            </span>
+                            <span className="text-white/30 text-4xl italic font-serif">/</span>
+                        </div>
+                    ))}
+                </motion.div>
+            </div>
+
+            {/* 4. Services Grid (The Spectrum) */}
+            <div className="container mx-auto px-6">
+                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                    <div className="max-w-xl">
+                        <span className="text-blue-500 font-bold text-xs tracking-[0.4em] uppercase mb-4 block">Precision Engineering</span>
+                        <h3 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{t('slogan.services', language)}</h3>
+                    </div>
+                    <div className="text-white/30 text-[10px] font-mono tracking-widest hidden md:block">
+                        SPECTRUM_OF_EXCELLENCE_v2.0
                     </div>
                 </div>
-            </div>
 
-            {/* Slogan Container - Massive spacing fix */}
-            <div className="container mx-auto max-w-6xl py-24 md:py-32 slogan-reveal mt-24 md:mt-48">
-                <div className="max-w-4xl">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-[1.05] tracking-tight uppercase">
-                        {t('slogan.headline', language)}
-                    </h2>
-                </div>
-            </div>
+                <div className="service-grid grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {services.map((service, i) => (
+                        <div key={i} className="service-card group relative p-12 bg-white/5 border border-white/10 rounded-[2.5rem] h-[450px] flex flex-col justify-between transition-all duration-500 hover:bg-white/10 hover:border-blue-500/30">
 
-            {/* Services Grid */}
-            <div className="container mx-auto max-w-6xl">
-                <div className="flex justify-between items-end mb-16 border-b-2 border-black pb-6">
-                    <h3 className="text-xs font-black uppercase tracking-[0.3em]">{t('slogan.services', language)}</h3>
-                    <span className="text-xs font-mono">Service List // 2024</span>
-                </div>
-
-                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {services.map((service, index) => (
-                        <div key={index} className="group relative p-10 border border-gray-100 hover:border-transparent transition-all duration-500 bg-gray-50 hover:shadow-2xl hover:-translate-y-2 rounded-3xl overflow-hidden h-[400px] flex flex-col justify-between">
-
-                            {/* Background Image on Hover */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                                <img
-                                    src={service.image}
-                                    alt={t(service.titleKey, language)}
-                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
-                                />
-                                <div className="absolute inset-0 bg-black/60 group-hover:bg-black/40 transition-colors duration-500"></div>
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className="text-5xl font-black text-gray-200 mb-8 group-hover:text-white/20 transition-colors duration-500">
+                            {/* Card Content */}
+                            <div>
+                                <div className="text-6xl font-black text-white/5 mb-8 group-hover:text-blue-500/20 transition-colors uppercase font-display">
                                     {service.icon}
                                 </div>
-                                <h4 className="text-2xl font-bold mb-4 uppercase tracking-tight group-hover:text-white transition-colors duration-300">{t(service.titleKey, language)}</h4>
-                                <p className="text-gray-500 leading-relaxed text-sm group-hover:text-white/80 transition-colors duration-300">{t(service.descKey, language)}</p>
+                                <h4 className="text-3xl font-black mb-4 uppercase tracking-tight group-hover:text-blue-400 transition-colors">
+                                    {t(`${service.key}.title`, language)}
+                                </h4>
+                                <p className="text-white/40 leading-relaxed text-sm group-hover:text-white/70 transition-colors">
+                                    {t(`${service.key}.desc`, language)}
+                                </p>
                             </div>
 
-                            <div className="relative z-10 self-end opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
-                                <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            {/* Decorative Interaction */}
+                            <div className="flex justify-between items-end">
+                                <div className="w-12 h-[2px] bg-white/10 group-hover:w-24 group-hover:bg-blue-500 transition-all duration-500"></div>
+                                <div className="w-14 h-14 rounded-full border border-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0">
+                                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                                         <path d="M7 17L17 7M17 7H7M17 7V17" />
                                     </svg>
                                 </div>
                             </div>
+
                         </div>
                     ))}
                 </div>
             </div>
+
         </section>
     );
 };
