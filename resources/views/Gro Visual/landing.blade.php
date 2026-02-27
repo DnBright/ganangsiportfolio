@@ -86,9 +86,9 @@ section { padding: 120px 60px; }
 .services-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: end; margin-bottom: 80px; }
 .services-intro-desc { font-size: 17px; line-height: 1.8; color: var(--dim); }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-.service-card { background: var(--gray2); padding: 50px 40px; border: 1px solid var(--mid); transition: all 0.4s ease; border-radius: 20px; position: relative; }
-.service-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-.service-num { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: var(--gray); position: absolute; top: 10px; right: 30px; line-height: 1; opacity: 0.5; z-index: 0; }
+.service-card { background: var(--gray2); padding: 0; border: 1px solid var(--mid); transition: all 0.4s ease; border-radius: 24px; position: relative; overflow: hidden; }
+.service-card:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
+.service-num { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: var(--gray); position: absolute; top: 10px; right: 20px; line-height: 1; opacity: 0.3; z-index: 0; }
 .service-icon { font-size: 36px; margin-bottom: 24px; color: var(--accent); position: relative; z-index: 1; }
 .service-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 1px; margin-bottom: 18px; position: relative; z-index: 1; }
 .service-desc { font-size: 15px; line-height: 1.7; color: var(--dim); margin-bottom: 28px; position: relative; z-index: 1; }
@@ -100,8 +100,13 @@ section { padding: 120px 60px; }
 @media (max-width: 1024px) {
     .services-intro { grid-template-columns: 1fr; gap: 30px; text-align: center; }
     .services-grid { grid-template-columns: 1fr; }
-    .service-card { padding: 40px 30px; }
+    .service-card { padding: 0; }
+    .service-content { padding: 40px 30px; }
 }
+.service-img-wrapper { width: 100%; height: 220px; overflow: hidden; border-radius: 20px 20px 0 0; position: relative; }
+.service-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; filter: grayscale(20%) brightness(0.9); }
+.service-card:hover .service-img-wrapper img { transform: scale(1.08); filter: grayscale(0%) brightness(1); }
+.service-content { padding: 40px; position: relative; z-index: 1; }
 
 /* ABOUT */
 .about-section { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; padding: 120px 60px; background: var(--gray); }
@@ -312,54 +317,66 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   </div>
   <div class="services-grid">
     <div class="service-card reveal">
-      <span class="service-num">01</span>
-      <div class="service-icon">✦</div>
-      <h3 class="service-name">Desain Grafis</h3>
-      <p class="service-desc">Desain visual yang tegas, berkarakter, dan mampu berkomunikasi langsung dengan target audiens Anda. Setiap karya dirancang dengan tujuan strategis yang jelas.</p>
-      <ul class="service-list">
-        <li>Poster & Flyer Promosi</li>
-        <li>Desain Konten Digital</li>
-        <li>Banner & Iklan Visual</li>
-        <li>Kemasan & Label Produk</li>
-        <li>Materi Presentasi</li>
-      </ul>
+      <div class="service-img-wrapper">
+        <img src="{{ asset('images/gro-visual/graphic_design_service.jpg') }}" alt="Desain Grafis Professional">
+      </div>
+      <div class="service-content">
+        <span class="service-num">01</span>
+        <div class="service-icon">✦</div>
+        <h3 class="service-name">Desain Grafis</h3>
+        <p class="service-desc">Desain visual yang tegas, berkarakter, dan mampu berkomunikasi langsung dengan target audiens Anda.</p>
+        <ul class="service-list">
+          <li>Poster & Flyer Promosi</li>
+          <li>Desain Konten Digital</li>
+          <li>Banner & Iklan Visual</li>
+          <li>Kemasan & Label Produk</li>
+        </ul>
+      </div>
     </div>
     <div class="service-card reveal">
-      <span class="service-num">02</span>
-      <div class="service-icon">◈</div>
-      <h3 class="service-name">Logo & Branding</h3>
-      <p class="service-desc">Identitas brand yang kuat, konsisten, dan mudah diingat. Kami tidak hanya merancang logo — kami membangun keseluruhan sistem visual yang merepresentasikan nilai bisnis Anda.</p>
-      <ul class="service-list">
-        <li>Desain Logo Profesional</li>
-        <li>Panduan Identitas Brand</li>
-        <li>Palet Warna & Tipografi</li>
-        <li>Paket Alat Tulis Brand</li>
-        <li>Rebranding & Pembaruan</li>
-      </ul>
+      <div class="service-img-wrapper">
+        <img src="{{ asset('images/gro-visual/branding_service.jpg') }}" alt="Branding & Logo Professional">
+      </div>
+      <div class="service-content">
+        <span class="service-num">02</span>
+        <div class="service-icon">◈</div>
+        <h3 class="service-name">Logo & Branding</h3>
+        <p class="service-desc">Identitas brand yang kuat dan mudah diingat. Kami membangun sistem visual yang merepresentasikan nilai bisnis Anda.</p>
+        <ul class="service-list">
+          <li>Desain Logo Profesional</li>
+          <li>Panduan Identitas Brand</li>
+          <li>Palet Warna & Tipografi</li>
+          <li>Rebranding & Pembaruan</li>
+        </ul>
+      </div>
     </div>
     <div class="service-card reveal">
-      <span class="service-num">03</span>
-      <div class="service-icon">⊞</div>
-      <h3 class="service-name">Manajemen Media Sosial</h3>
-      <p class="service-desc">Kelola kehadiran digital Anda secara menyeluruh dan strategis. Konten visual yang konsisten, menarik, dan mendorong pertumbuhan brand nyata di semua platform.</p>
-      <ul class="service-list">
-        <li>Pembuatan Konten Visual</li>
-        <li>Strategi & Kalender Konten</li>
-        <li>Pengelolaan Feed Instagram</li>
-        <li>Caption & Penulisan Konten</li>
-        <li>Laporan Performa Bulanan</li>
-      </ul>
+      <div class="service-img-wrapper">
+        <img src="{{ asset('images/gro-visual/social_media_service.jpg') }}" alt="Social Media Management">
+      </div>
+      <div class="service-content">
+        <span class="service-num">03</span>
+        <div class="service-icon">⊞</div>
+        <h3 class="service-name">Manajemen Media Sosial</h3>
+        <p class="service-desc">Kelola kehadiran digital Anda secara strategis dengan konten visual yang konsisten dan mendorong pertumbuhan.</p>
+        <ul class="service-list">
+          <li>Pembuatan Konten Visual</li>
+          <li>Strategi & Kalender Konten</li>
+          <li>Pengelolaan Feed Instagram</li>
+          <li>Caption & Penulisan Konten</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
 <div class="about-section" id="about">
-  <div class="about-visual reveal">
-    <div class="about-box main">
-      <div class="about-grid-bg"></div>
-      <img src="{{ asset('images/gro-visual/about-concept.jpg') }}" alt="Gro Visual Concept" style="width: 100%; height: 100%; object-fit: contain; opacity: 0.9; mix-blend-mode: luminosity;">
-    </div>
+    <div class="about-visual reveal">
+      <div class="about-box main">
+        <div class="about-grid-bg"></div>
+        <img src="{{ asset('images/gro-visual/creative_studio_concept.jpg') }}" alt="Gro Visual Studio" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">
+      </div>
     <div class="about-box accent-box">
       <span class="accent-box-num">3+</span>
       <span class="accent-box-label">Tahun Pengalaman</span>
