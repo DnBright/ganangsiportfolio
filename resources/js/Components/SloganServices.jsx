@@ -33,9 +33,21 @@ const SloganServices = () => {
     }, []);
 
     const services = [
-        { key: "slogan.webDev", icon: "01" },
-        { key: "slogan.uiux", icon: "02" },
-        { key: "slogan.consulting", icon: "03" }
+        {
+            key: "slogan.webDev",
+            icon: "01",
+            image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+            key: "slogan.uiux",
+            icon: "02",
+            image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+            key: "slogan.consulting",
+            icon: "03",
+            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
+        }
     ];
 
     return (
@@ -163,26 +175,36 @@ const SloganServices = () => {
 
                 <div className="service-grid grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                     {services.map((service, i) => (
-                        <div key={i} className="service-card group relative p-10 bg-white border border-black/10 rounded-2xl h-[380px] flex flex-col justify-between transition-all duration-300 hover:border-black/40 hover:-translate-y-2 hover:shadow-xl">
+                        <div key={i} className="service-card group relative bg-white border border-black/10 rounded-2xl h-[420px] flex flex-col overflow-hidden transition-all duration-300 hover:border-black/30 hover:-translate-y-2 hover:shadow-xl"
+                            style={{ animationDelay: `${i * 100}ms` }}>
 
-                            {/* Card Content */}
-                            <div>
-                                <div className="text-4xl font-black text-black/10 mb-6 group-hover:text-black/30 transition-colors uppercase font-mono">
+                            {/* Photo Top Section */}
+                            <div className="relative h-52 overflow-hidden bg-gray-100 flex-shrink-0">
+                                <img
+                                    src={service.image}
+                                    alt={t(`${service.key}.title`, language)}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/80"></div>
+                                {/* Number badge */}
+                                <span className="absolute bottom-4 right-5 text-5xl font-black text-black/10 font-mono leading-none group-hover:text-black/20 transition-colors">
                                     {service.icon}
+                                </span>
+                            </div>
+
+                            {/* Text Content Bottom */}
+                            <div className="p-8 flex flex-col justify-between flex-1">
+                                <div>
+                                    <h4 className="text-xl font-black mb-3 uppercase tracking-tighter text-black">
+                                        {t(`${service.key}.title`, language)}
+                                    </h4>
+                                    <p className="text-gray-600 leading-relaxed text-sm">
+                                        {t(`${service.key}.desc`, language)}
+                                    </p>
                                 </div>
-                                <h4 className="text-2xl font-black mb-4 uppercase tracking-tighter text-black">
-                                    {t(`${service.key}.title`, language)}
-                                </h4>
-                                <p className="text-gray-600 leading-relaxed text-sm">
-                                    {t(`${service.key}.desc`, language)}
-                                </p>
+                                {/* Decorative Interaction */}
+                                <div className="w-8 h-[2px] bg-black/10 group-hover:w-16 group-hover:bg-black transition-all duration-300 mt-6"></div>
                             </div>
-
-                            {/* Decorative Interaction */}
-                            <div className="flex justify-between items-end">
-                                <div className="w-8 h-[2px] bg-black/10 group-hover:w-16 group-hover:bg-black transition-all duration-300"></div>
-                            </div>
-
                         </div>
                     ))}
                 </div>

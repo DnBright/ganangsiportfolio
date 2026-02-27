@@ -338,8 +338,14 @@ export const t = (path, lang = 'id') => {
 
     for (const key of keys) {
         value = value[key];
-        if (!value) return path;
+        if (value === undefined || value === null) return path;
     }
 
-    return value[lang] || value['id'];
+    // If the value is an array (e.g. mission.list), return the language variant directly
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+        const result = value[lang] || value['id'];
+        return result !== undefined ? result : path;
+    }
+
+    return value;
 };
