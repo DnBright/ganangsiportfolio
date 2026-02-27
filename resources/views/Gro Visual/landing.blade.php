@@ -215,7 +215,7 @@ section { padding: 120px 60px; }
 .marquee-row { display: flex; gap: 20px; width: max-content; }
 .marquee-row.forward { animation: marquee-horiz 80s linear infinite; }
 .marquee-row.backward { animation: marquee-horiz-rev 80s linear infinite; }
-.portfolio-item { width: 160px; height: 160px; flex-shrink: 0; background: var(--gray); border: 1px solid var(--mid); border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 30px; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+.portfolio-item { width: 160px; height: 160px; flex-shrink: 0; background: var(--gray); border: 1px solid var(--mid); border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 12px; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
 .portfolio-item img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s ease; }
 .portfolio-item:hover { background: #ffffff; border-color: var(--accent); transform: translateY(-5px) scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
 
@@ -229,7 +229,7 @@ section { padding: 120px 60px; }
 }
 
 @media (max-width: 768px) {
-    .portfolio-item { width: 130px; height: 130px; padding: 20px; }
+    .portfolio-item { width: 130px; height: 130px; padding: 10px; }
     .marquee-row.forward, .marquee-row.backward { animation-duration: 40s; }
 }
 
