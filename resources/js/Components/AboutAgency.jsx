@@ -13,37 +13,24 @@ const AboutAgency = () => {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // General entrance animations
-            gsap.from(".about-visual", {
-                x: -100,
-                opacity: 0,
-                duration: 1.5,
-                ease: "expo.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 70%",
-                }
-            });
-
-            gsap.from(".about-content-stagger", {
-                y: 50,
+            gsap.from(".about-fade-up", {
+                y: 40,
                 opacity: 0,
                 duration: 1,
-                stagger: 0.15,
+                stagger: 0.1,
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: sectionRef.current,
-                    start: "top 60%",
+                    start: "top 75%",
                 }
             });
 
-            // Stats counters animation
             const counters = document.querySelectorAll(".stat-value");
             counters.forEach(counter => {
                 const target = parseInt(counter.dataset.target);
                 gsap.to(counter, {
                     innerText: target,
-                    duration: 2,
+                    duration: 1.5,
                     snap: { innerText: 1 },
                     scrollTrigger: {
                         trigger: statsRef.current,
@@ -51,7 +38,6 @@ const AboutAgency = () => {
                     }
                 });
             });
-
         }, sectionRef);
 
         return () => ctx.revert();
@@ -64,60 +50,56 @@ const AboutAgency = () => {
     ];
 
     return (
-        <section ref={sectionRef} className="w-full bg-white text-black py-24 md:py-40 px-6 md:px-12 lg:px-24 overflow-hidden">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        <section ref={sectionRef} id="about-agency-root" className="w-full bg-[#fcfcfc] text-black py-24 md:py-32 px-6 border-b border-black/5">
+            <div className="max-w-6xl mx-auto">
 
-                {/* Visual Side */}
-                <div className="about-visual lg:col-span-5 relative">
-                    <div className="aspect-[4/5] rounded-[2rem] bg-gray-100 overflow-hidden relative border border-black/5 shadow-2xl">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-transparent mix-blend-overlay"></div>
-                        {/* Placeholder for professional team photo */}
-                        <div className="w-full h-full flex items-center justify-center bg-[#07070a]">
-                            <img
-                                src="/images/logo-3d-user.png"
-                                alt="Agency Spirit"
-                                className="w-1/2 opacity-20 filter grayscale brightness-200"
-                            />
+                <div className="flex flex-col md:flex-row gap-16 md:gap-24">
+
+                    {/* Left Typography Block */}
+                    <div className="md:w-1/2 flex flex-col">
+                        <span className="about-fade-up text-black/40 font-bold text-[10px] tracking-[0.3em] uppercase mb-8 block">
+                            {t('nav.about', language)}
+                        </span>
+
+                        <h2 className="about-fade-up text-4xl md:text-6xl font-black tracking-tight leading-[1.1] mb-8 uppercase text-black">
+                            {t('about.title', language)}
+                        </h2>
+
+                        <div className="about-fade-up space-y-6 text-base md:text-lg text-gray-600 font-normal leading-relaxed">
+                            <p>{t('about.desc1', language)}</p>
+                            <p>{t('about.desc2', language)}</p>
                         </div>
                     </div>
-                    {/* Floating Badge */}
-                    <div className="absolute -bottom-10 -right-6 md:-right-10 bg-black text-white p-8 rounded-3xl shadow-2xl hidden md:block">
-                        <div className="text-[10px] uppercase tracking-[0.3em] opacity-40 mb-2">Since</div>
-                        <div className="font-black text-4xl font-display leading-none">2019</div>
+
+                    {/* Right Grid Block (Stats & Visual) */}
+                    <div className="md:w-1/2 flex flex-col justify-between">
+
+                        {/* Minimalist Visual Placeholder */}
+                        <div className="about-fade-up w-full h-[30vh] md:h-[40vh] bg-gray-100 rounded-2xl mb-12 flex items-center justify-center border border-black/5 overflow-hidden">
+                            <img
+                                src="/images/logo-3d-user.png"
+                                alt="Agency Indicator"
+                                className="w-32 h-32 opacity-10 filter grayscale"
+                            />
+                        </div>
+
+                        {/* Clean Stats Grid */}
+                        <div ref={statsRef} className="about-fade-up grid grid-cols-3 gap-6 pt-8 border-t border-black/10">
+                            {statItems.map((stat, i) => (
+                                <div key={i} className="flex flex-col">
+                                    <div className="text-3xl md:text-5xl font-black mb-1 text-black tracking-tighter">
+                                        <span className="stat-value" data-target={stat.target}>0</span>
+                                        <span className="text-gray-400">{stat.suffix}</span>
+                                    </div>
+                                    <div className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
+                                        {t(stat.label, language)}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
                     </div>
                 </div>
-
-                {/* Content Side */}
-                <div className="lg:col-span-7 flex flex-col">
-                    <span className="about-content-stagger text-blue-600 font-bold text-xs tracking-[0.4em] uppercase mb-6 block">
-                        {t('nav.about', language)}
-                    </span>
-
-                    <h2 className="about-content-stagger text-5xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-12 uppercase">
-                        {t('about.title', language)}
-                    </h2>
-
-                    <div className="about-content-stagger space-y-8 text-lg text-gray-500 font-medium leading-relaxed max-w-2xl mb-16">
-                        <p>{t('about.desc1', language)}</p>
-                        <p>{t('about.desc2', language)}</p>
-                    </div>
-
-                    {/* Stats Grid */}
-                    <div ref={statsRef} className="about-content-stagger grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-black/5 pt-12">
-                        {statItems.map((stat, i) => (
-                            <div key={i}>
-                                <div className="text-4xl md:text-5xl font-black mb-2 flex items-baseline">
-                                    <span className="stat-value" data-target={stat.target}>0</span>
-                                    <span className="text-blue-600">{stat.suffix}</span>
-                                </div>
-                                <div className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-400">
-                                    {t(stat.label, language)}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
             </div>
         </section>
     );
