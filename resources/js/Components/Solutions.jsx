@@ -43,36 +43,38 @@ const Solutions = () => {
     const { language } = useLanguage();
 
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.from(".solution-card", {
-                y: 30,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: ".solution-grid",
-                    start: "top 80%",
-                }
-            });
+        // Use IntersectionObserver for reliable visibility - never opacity:0 hidden
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
 
-            gsap.from(".solution-header", {
-                y: 20,
-                opacity: 0,
-                duration: 0.8,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top 85%",
-                }
-            });
-        }, sectionRef);
+        const cards = sectionRef.current?.querySelectorAll('.solution-card, .solution-header');
+        cards?.forEach(el => observer.observe(el));
 
-        return () => ctx.revert();
+        return () => observer.disconnect();
     }, []);
 
     return (
         <section ref={sectionRef} className="w-full bg-[#f3f4f6] text-black py-24 md:py-32 px-6">
+            <style>{`
+                @keyframes fadeUp {
+                    from { opacity: 0; transform: translateY(24px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .solution-card {
+                    animation: fadeUp 0.6s ease forwards;
+                }
+                .solution-header {
+                    animation: fadeUp 0.6s ease forwards;
+                }
+            `}</style>
             <div className="max-w-6xl mx-auto">
 
                 {/* 1. Narrative Header */}
@@ -106,7 +108,9 @@ const Solutions = () => {
                 {/* 3. Solution Matrix (Bento) */}
                 <div className="solution-grid grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
                     {solutions.map((item, index) => (
-                        <div key={index} className={`solution-card group relative ${item.span} aspect-square md:aspect-auto md:h-[400px] bg-white border border-black/5 rounded-[2rem] overflow-hidden transition-all duration-300 hover:border-black/20 hover:shadow-lg hover:-translate-y-1`}>
+                        <div key={index} className={`solution-card group relative ${item.span} aspect-square md:aspect-auto md:h-[400px] bg-white border border-black/5 rounded-[2rem] overflow-hidden transition-all hover:border-black/20 hover:shadow-lg hover:-translate-y-1`}
+                            style={{ animationDelay: `${index * 100}ms` }}
+                        >
 
                             {/* Icon/Decoration */}
                             <div className="absolute top-8 right-8 text-3xl opacity-30 filter grayscale group-hover:opacity-100 transition-opacity">

@@ -14,33 +14,22 @@ const SloganServices = () => {
     const tickerItems = t('hero.branding2', language).split('|').map(s => s.trim());
 
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.from(".service-card", {
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: ".service-grid",
-                    start: "top 80%",
-                }
-            });
+        // Use IntersectionObserver for reliable visibility
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            },
+            { threshold: 0.05 }
+        );
 
-            gsap.from(".agency-card-reveal", {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out",
-                stagger: 0.2,
-                scrollTrigger: {
-                    trigger: ".agency-section",
-                    start: "top 75%",
-                }
-            });
-        }, sectionRef);
+        const els = sectionRef.current?.querySelectorAll('.service-card, .agency-card-reveal');
+        els?.forEach(el => observer.observe(el));
 
-        return () => ctx.revert();
+        return () => observer.disconnect();
     }, []);
 
     const services = [
@@ -51,6 +40,18 @@ const SloganServices = () => {
 
     return (
         <section ref={sectionRef} className="bg-white text-black py-24 md:py-32 relative overflow-hidden">
+            <style>{`
+                @keyframes fadeUp {
+                    from { opacity: 0; transform: translateY(24px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .agency-card-reveal {
+                    animation: fadeUp 0.7s ease forwards;
+                }
+                .service-card {
+                    animation: fadeUp 0.6s ease forwards;
+                }
+            `}</style>
 
             {/* 1. Immersive Slogan (Massive Text) */}
             <div className="max-w-7xl mx-auto px-6 mb-24 md:mb-40 text-center relative">
