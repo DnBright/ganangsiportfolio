@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\GeneralController;
 use App\Http\Controllers\Public\AgencyController;
+use App\Http\Controllers\Public\GroVisualController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\LeadController;
@@ -20,11 +21,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-// Temporary Preview Route for Gro Visual (Global)
-Route::get('/gro-test', function () {
-    return view('Gro Visual.landing');
-})->name('gro.test');
 
 // -----------------------------------------------------------------------------
 // Global Auth Routes (Accessible from any domain)
@@ -75,7 +71,14 @@ Route::domain('agency.thedarkandbright.com')->group(function () {
 });
 
 // -----------------------------------------------------------------------------
-// 3. Admin Domain: admin.thedarkandbright.com
+// 3. Gro Visual Domain: gro.thedarkandbright.com
+// -----------------------------------------------------------------------------
+Route::domain('gro.thedarkandbright.com')->group(function () {
+    Route::get('/', [GroVisualController::class, 'index'])->name('gro.home');
+});
+
+// -----------------------------------------------------------------------------
+// 4. Admin Domain: admin.thedarkandbright.com
 // -----------------------------------------------------------------------------
 Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])->group(function () {
     // Dashboard
