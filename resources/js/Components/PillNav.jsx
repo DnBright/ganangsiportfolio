@@ -11,7 +11,7 @@ const PillNav = ({
     className = '',
     ease = 'power3.easeOut',
     baseColor = '#000000',
-    pillColor = '#060010',
+    pillColor = '#000000',
     hoveredPillTextColor = '#FFFFFF',
     pillTextColor,
     onMobileMenuClick,
@@ -369,7 +369,7 @@ const PillNav = ({
                 {/* Mobile Menu Overlay */}
                 <div
                     ref={mobileMenuRef}
-                    className="absolute top-[calc(var(--nav-h)+12px)] left-0 w-full bg-black text-white rounded-[24px] p-4 shadow-2xl border border-white/10 md:hidden z-[6000] invisible opacity-0"
+                    className="absolute top-[calc(var(--nav-h)+12px)] left-0 w-full bg-white text-black rounded-[24px] p-4 shadow-2xl border border-black/10 md:hidden z-[6000] invisible opacity-0"
                     style={{ ...cssVars, transformOrigin: 'top center' }}
                 >
                     <ul className="flex flex-col gap-2">
@@ -378,7 +378,7 @@ const PillNav = ({
                                 <a
                                     href={item.href}
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className={`block px-6 py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all ${activeHref === item.href ? 'bg-white text-black' : 'hover:bg-white/5'
+                                    className={`block px-6 py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all ${activeHref === item.href ? 'bg-black text-white' : 'hover:bg-black/5'
                                         }`}
                                 >
                                     {t(item.label, language)}

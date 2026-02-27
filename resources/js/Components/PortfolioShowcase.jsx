@@ -7,7 +7,7 @@ import SaitamaSimulation from './SaitamaSimulation';
 import KursusJepangSimulation from './KursusJepangSimulation';
 import AyakaSimulation from './AyakaSimulation';
 import AkabSimulation from './AkabSimulation';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -61,19 +61,15 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
     }, [displayPortfolios]);
 
     return (
-        <section ref={sectionRef} id="portfolio-root" className="relative bg-[#050508] text-white overflow-hidden">
-
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 right-0 w-[50vw] h-[50vw] bg-blue-600/5 rounded-full blur-[200px] pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-[40vw] h-[40vw] bg-indigo-600/5 rounded-full blur-[200px] pointer-events-none"></div>
+        <section ref={sectionRef} id="portfolio-root" className="relative bg-white text-black overflow-hidden border-t border-black/5">
 
             {/* Progress Header */}
             <div className="absolute top-10 left-6 md:left-24 z-20 flex items-center gap-6">
-                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-blue-500">
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/40">
                     Portfolio Matrix
                 </span>
-                <div className="h-[1px] w-24 bg-white/10"></div>
-                <span className="text-[10px] font-mono text-white/20 uppercase tracking-widest hidden md:block">
+                <div className="h-[1px] w-24 bg-black/10"></div>
+                <span className="text-[10px] font-mono text-black/20 uppercase tracking-widest hidden md:block">
                     {t('portfolio.scroll', language)}
                 </span>
             </div>
@@ -85,22 +81,22 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                     className="flex gap-12 md:gap-32 px-6 md:px-24 items-center"
                     style={{ width: 'max-content' }}
                 >
-                    {/* 1. Intro Card - Massive */}
+                    {/* 1. Intro Card - Massive Typography */}
                     <div className="w-[85vw] md:w-[45vw] flex-shrink-0">
-                        <span className="text-white/20 font-mono text-xs mb-8 block">/ SELECTED WORK</span>
-                        <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter leading-[0.85] mb-12">
+                        <span className="text-black/30 font-mono text-xs mb-8 block font-bold uppercase tracking-widest">/ SELECTED WORK</span>
+                        <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter leading-[0.85] mb-12 text-black">
                             {t('portfolio.featured', language)}
                         </h2>
-                        <p className="text-xl md:text-2xl text-white/40 font-light leading-relaxed max-w-xl">
+                        <p className="text-xl md:text-2xl text-gray-600 font-normal leading-relaxed max-w-xl">
                             {t('portfolio.subtitle', language)}
                         </p>
                     </div>
 
-                    {/* 2. Portfolio Items */}
+                    {/* 2. Portfolio Items - Clean Gallery Style */}
                     {displayPortfolios.map((item, index) => (
                         <div
                             key={index}
-                            className="group relative w-[85vw] md:w-[65vw] h-[65vh] md:h-[75vh] flex-shrink-0 bg-transparent overflow-hidden rounded-[3rem] border border-white/5"
+                            className="group relative w-[85vw] md:w-[65vw] h-[65vh] md:h-[75vh] flex-shrink-0 bg-gray-100 overflow-hidden rounded-3xl border border-black/5 cursor-pointer"
                             onClick={() => {
                                 if (item.id === 'saitama') { setIsSaitamaOpen(true); trackClick('saitama'); }
                                 if (item.id === 'kursus') { setIsKursusOpen(true); trackClick('kursus_jepang'); }
@@ -109,43 +105,44 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                             }}
                         >
                             {/* Project Image */}
-                            <div className="absolute inset-0 overflow-hidden">
+                            <div className="absolute inset-0 overflow-hidden bg-white">
                                 <img
                                     src={item.image}
                                     alt={item.title}
-                                    className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:scale-105 group-hover:grayscale-0 opacity-40 group-hover:opacity-100"
+                                    className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#050508] via-transparent to-transparent opacity-80"></div>
+                                {/* Clean subtle gradient for text readability */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                             </div>
 
                             {/* Content Layout */}
-                            <div className="absolute inset-0 p-10 md:p-20 flex flex-col justify-between z-10">
+                            <div className="absolute inset-0 p-8 md:p-16 flex flex-col justify-between z-10">
                                 <div className="flex justify-between items-start">
-                                    <h4 className="text-[10px] md:text-xs font-black uppercase tracking-[0.4em] text-blue-500 bg-black/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+                                    <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-black bg-white/90 backdrop-blur-sm px-6 py-3 rounded-full shadow-sm">
                                         {item.category}
                                     </h4>
-                                    <span className="text-6xl md:text-9xl font-black text-white/5 font-display leading-none pr-4">
-                                        {index + 1}
+                                    <span className="text-6xl md:text-8xl font-black text-white/90 font-display leading-none">
+                                        0{index + 1}
                                     </span>
                                 </div>
 
                                 <div>
-                                    <h3 className="text-4xl md:text-7xl font-black uppercase leading-[0.9] mb-12 tracking-tighter max-w-3xl">
+                                    <h3 className="text-4xl md:text-6xl font-black uppercase leading-[1] mb-8 tracking-tighter max-w-2xl text-white">
                                         {item.title}
                                     </h3>
 
-                                    <div className="flex items-center gap-8">
-                                        <button className="flex items-center gap-4 bg-white text-black px-10 py-5 rounded-full text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">
+                                    <div className="flex items-center gap-6">
+                                        <button className="flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all shadow-lg hover:shadow-xl">
                                             <span>LIVE SIMULATION</span>
-                                            <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center">
-                                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4">
+                                            <div className="w-6 h-6 rounded-full border border-black/10 flex items-center justify-center bg-gray-50 group-hover:bg-white/10 group-hover:border-white/20">
+                                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                                                     <path d="M5 12h14m-7-7l7 7-7 7" />
                                                 </svg>
                                             </div>
                                         </button>
-                                        <div className="w-[1px] h-12 bg-white/10 hidden md:block"></div>
-                                        <span className="text-[10px] font-mono text-white/30 hidden md:block">
-                                            PROJECT_ID: {item.id.toUpperCase()}
+                                        <div className="w-[1px] h-8 bg-white/30 hidden md:block"></div>
+                                        <span className="text-[10px] font-mono text-white/60 hidden md:block">
+                                            ID: {item.id.toUpperCase()}
                                         </span>
                                     </div>
                                 </div>
@@ -155,13 +152,13 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
 
                     {/* 3. Outro - Explore More */}
                     <div className="w-[85vw] md:w-[40vw] flex-shrink-0 flex flex-col items-center text-center">
-                        <div className="w-24 h-[1px] bg-white/10 mb-12"></div>
-                        <h2 className="text-4xl md:text-6xl font-black uppercase leading-tight mb-12 tracking-tighter">
+                        <div className="w-24 h-[1px] bg-black/10 mb-12"></div>
+                        <h2 className="text-4xl md:text-6xl font-black uppercase leading-tight mb-12 tracking-tighter text-black">
                             WANT TO SEE THE FULL RANGE?
                         </h2>
                         <a
                             href="/portfolio"
-                            className="text-xs font-black uppercase tracking-[0.5em] border border-white/20 px-12 py-6 rounded-full hover:bg-white hover:text-black transition-all"
+                            className="text-xs font-bold uppercase tracking-[0.4em] border border-black/20 px-12 py-5 rounded-full hover:bg-black hover:text-white transition-all text-black"
                         >
                             {t('portfolio.viewAll', language)}
                         </a>
