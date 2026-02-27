@@ -207,21 +207,31 @@ section { padding: 120px 60px; }
 .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 6vw, 100px); line-height: 0.95; color: #ffffff; letter-spacing: -1px; position: relative; z-index: 1; }
 .cta-sub { font-size: 16px; color: rgba(255,255,255,0.8); line-height: 1.8; margin-top: 24px; max-width: 400px; position: relative; z-index: 1; }
 .cta-right { position: relative; z-index: 1; }
-.btn-dark { padding: 20px 48px; background: #ffffff; color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; white-space: nowrap; transition: all 0.3s; display: inline-block; border-radius: 4px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
 .btn-dark:hover { transform: translateY(-5px); background: #f0f0f0; }
 
-/* PORTFOLIO GALLERY */
-.portfolio-section { background: var(--black); }
-.portfolio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; margin-top: 60px; }
-.portfolio-item { aspect-ratio: 1/1; background: var(--gray); border: 1px solid var(--mid); border-radius: 16px; display: flex; align-items: center; justify-content: center; padding: 25px; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); overflow: hidden; }
-.portfolio-item img { width: 100%; height: 100%; object-fit: contain; filter: grayscale(100%) contrast(0.8); opacity: 0.6; transition: all 0.4s ease; }
-.portfolio-item:hover { background: #ffffff; border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
-.portfolio-item:hover img { filter: grayscale(0%) contrast(1); opacity: 1; transform: scale(1.1); }
+/* PORTFOLIO MARQUEE */
+.portfolio-section { background: var(--black); overflow: hidden; padding-bottom: 160px; }
+.portfolio-container { display: flex; flex-direction: column; gap: 20px; margin-top: 80px; width: 100%; }
+.marquee-row { display: flex; gap: 20px; width: max-content; }
+.marquee-row.forward { animation: marquee-horiz 80s linear infinite; }
+.marquee-row.backward { animation: marquee-horiz-rev 80s linear infinite; }
+.portfolio-item { width: 160px; height: 160px; flex-shrink: 0; background: var(--gray); border: 1px solid var(--mid); border-radius: 20px; display: flex; align-items: center; justify-content: center; padding: 30px; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); }
+.portfolio-item img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s ease; }
+.portfolio-item:hover { background: #ffffff; border-color: var(--accent); transform: translateY(-5px) scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
 
-.portfolio-item.hidden { display: none; }
-.portfolio-actions { margin-top: 50px; text-align: center; }
-.btn-outline { padding: 16px 40px; border: 1px solid var(--mid); color: var(--white); text-decoration: none; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; transition: all 0.3s; cursor: pointer; background: transparent; }
-.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+@keyframes marquee-horiz {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 10px)); }
+}
+@keyframes marquee-horiz-rev {
+  0% { transform: translateX(calc(-50% - 10px)); }
+  100% { transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+    .portfolio-item { width: 130px; height: 130px; padding: 20px; }
+    .marquee-row.forward, .marquee-row.backward { animation-duration: 40s; }
+}
 
 /* FOOTER */
 footer { background: var(--black); border-top: 1px solid var(--mid); padding: 100px 60px 60px; display: grid; grid-template-columns: 2fr 1fr 1.2fr; gap: 80px; }
@@ -540,28 +550,53 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
       <span class="section-label reveal">Portfolio Kami</span>
       <h2 class="section-title reveal">Logo &<br>Identitas Visual</h2>
     </div>
-    <p class="services-intro-desc reveal">Ini adalah kumpulan beberapa logo dan identitas visual yang telah kami bangun bersama klien. Kami mengedepankan kesederhanaan, kejelasan, dan karakter yang kuat.</p>
+    <p class="services-intro-desc reveal">Ini adalah koleksi identitas visual yang kami bangun bersama klien. Kami fokus pada desain yang bersih, fungsional, dan penuh karakter.</p>
   </div>
 
-  <div class="portfolio-grid" id="portfolioGrid">
+  <div class="portfolio-container">
     @if(count($portfolioImages) > 0)
-        @foreach($portfolioImages as $index => $img)
-            <div class="portfolio-item reveal {{ $index >= 12 ? 'hidden' : '' }}">
-                <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
-            </div>
-        @endforeach
+        @php
+            $count = count($portfolioImages);
+            $half = ceil($count / 2);
+            $row1 = array_slice($portfolioImages, 0, $half);
+            $row2 = array_slice($portfolioImages, $half);
+        @endphp
+
+        {{-- Baris 1: Forward --}}
+        <div class="marquee-row forward">
+            @foreach($row1 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+            {{-- Duplicate for infinite loop --}}
+            @foreach($row1 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+        </div>
+
+        {{-- Baris 2: Backward --}}
+        <div class="marquee-row backward">
+            @foreach($row2 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+            {{-- Duplicate for infinite loop --}}
+            @foreach($row2 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+        </div>
     @else
-        <div style="grid-column: 1/-1; text-align: center; padding: 40px; border: 1px dashed var(--mid); border-radius: 16px; color: var(--dim);">
-            Belum ada portfolio yang diunggah.
+        <div style="text-align: center; padding: 60px; border: 1px dashed var(--mid); border-radius: 20px; color: var(--dim); margin: 0 60px;">
+            Belum ada portfolio yang diunggah ke folder `images/gro-visual/portfolio`.
         </div>
     @endif
   </div>
-
-  @if(count($portfolioImages) > 12)
-  <div class="portfolio-actions reveal">
-    <button id="loadMoreBtn" class="btn-outline">Lihat Lebih Banyak ({{ count($portfolioImages) - 12 }}+)</button>
-  </div>
-  @endif
 </section>
 
 <!-- TESTIMONI -->
@@ -685,25 +720,6 @@ const obs = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 reveals.forEach(el => obs.observe(el));
-
-// LOAD MORE PORTFOLIO
-const loadMoreBtn = document.getElementById('loadMoreBtn');
-if (loadMoreBtn) {
-  loadMoreBtn.addEventListener('click', () => {
-    const hiddenItems = document.querySelectorAll('.portfolio-item.hidden');
-    hiddenItems.forEach((item, index) => {
-      if (index < 12) { // Show next 12
-        item.classList.remove('hidden');
-        obs.observe(item); // Start observing for animation
-      }
-    });
-    
-    // Hide button if no more hidden items
-    if (document.querySelectorAll('.portfolio-item.hidden').length === 0) {
-      loadMoreBtn.style.display = 'none';
-    }
-  });
-}
 </script>
 </body>
 </html>
