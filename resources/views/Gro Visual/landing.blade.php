@@ -26,18 +26,26 @@ body { background: var(--black); color: var(--white); font-family: 'DM Sans', sa
 @media (max-width: 1024px) { .cursor, .cursor-ring { display: none; } body { cursor: auto; } }
 
 /* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; transition: all 0.4s; }
-nav.scrolled { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); padding: 16px 60px; border-bottom: 1px solid var(--mid); }
-.logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 4px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-.logo-mark { width: 32px; height: 32px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 20px; color: #ffffff; font-family: 'Bebas Neue', sans-serif; clip-path: polygon(0 0, 100% 0, 100% 100%, 18% 100%); }
-.nav-links { display: flex; gap: 36px; list-style: none; }
-.nav-links a { color: var(--dim); text-decoration: none; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
-.nav-links a:hover { color: var(--accent); }
-.nav-cta { padding: 10px 24px; background: var(--accent); color: #ffffff; text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s; border-radius: 4px; }
-.nav-cta:hover { background: var(--accent-light); transform: translateY(-1px); }
+nav { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 14px 40px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 100px; backdrop-filter: blur(0px); transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
+nav.scrolled { top: 16px; background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(26, 59, 204, 0.15); backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); width: 85%; }
+
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 3px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 8px; transition: transform 0.3s; }
+.logo:hover { transform: scale(1.05); }
+.logo-mark { width: 30px; height: 30px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #ffffff; font-family: 'Bebas Neue', sans-serif; clip-path: polygon(0 0, 100% 0, 100% 100%, 18% 100%); }
+
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { color: var(--dim); text-decoration: none; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: all 0.3s ease; position: relative; padding: 5px 0; }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s ease; border-radius: 2px; }
+.nav-links a:hover { color: var(--white); }
+.nav-links a.active { color: var(--accent); }
+.nav-links a.active::after { width: 100%; }
+
+.nav-cta { padding: 12px 28px; background: var(--accent); color: #ffffff; text-decoration: none; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: all 0.4s; border-radius: 50px; box-shadow: 0 10px 20px rgba(26, 59, 204, 0.2); }
+.nav-cta:hover { background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 15px 30px rgba(26, 59, 204, 0.35); }
 
 @media (max-width: 1024px) {
-    nav { padding: 20px 30px; }
+    nav { width: 95%; padding: 12px 24px; top: 12px; }
+    nav.scrolled { width: 92%; top: 10px; }
     .nav-links { display: none; }
 }
 
@@ -272,11 +280,11 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
     GRO VISUAL
   </a>
   <ul class="nav-links">
-    <li><a href="#services">Layanan</a></li>
-    <li><a href="#about">Tentang</a></li>
-    <li><a href="#why">Keunggulan</a></li>
-    <li><a href="#process">Proses</a></li>
-    <li><a href="#contact">Kontak</a></li>
+    <li><a href="#services" class="nav-link">Layanan</a></li>
+    <li><a href="#about" class="nav-link">Tentang</a></li>
+    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+    <li><a href="#why" class="nav-link">Keunggulan</a></li>
+    <li><a href="#contact" class="nav-link">Kontak</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Mulai Proyek</a>
 </nav>
@@ -719,8 +727,28 @@ const obs = new IntersectionObserver((entries) => {
       obs.unobserve(entry.target);
     }
   });
-}, { threshold: 0.08 });
+}, { threshold: 0.1 });
 reveals.forEach(el => obs.observe(el));
+
+// ACTIVE SECTION TRACKING
+const sections = document.querySelectorAll('section, .about-section, .cta-section');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const activeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${id}`) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.2, rootMargin: "-20% 0px -60% 0px" });
+
+sections.forEach(section => activeObserver.observe(section));
 </script>
 </body>
 </html>
