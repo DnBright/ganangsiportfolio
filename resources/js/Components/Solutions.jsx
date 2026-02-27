@@ -12,28 +12,28 @@ const solutions = [
         titleKey: "solutions.education.title",
         descKey: "solutions.education.desc",
         icon: "🎓",
-        image: "/images/solutions/education.png",
+        image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
         span: "md:col-span-2 lg:col-span-1"
     },
     {
         titleKey: "solutions.business.title",
         descKey: "solutions.business.desc",
         icon: "🏢",
-        image: "/images/solutions/business.png",
+        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
         span: "md:col-span-2 lg:col-span-1"
     },
     {
         titleKey: "solutions.digitalization.title",
         descKey: "solutions.digitalization.desc",
         icon: "⚡",
-        image: "/images/solutions/digitalization.png",
+        image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
         span: "md:col-span-4 lg:col-span-2"
     },
     {
         titleKey: "solutions.custom.title",
         descKey: "solutions.custom.desc",
         icon: "🎯",
-        image: "/images/solutions/custom.png",
+        image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
         span: "md:col-span-4 lg:col-span-2"
     }
 ];
@@ -108,12 +108,21 @@ const Solutions = () => {
                 {/* 3. Solution Matrix (Bento) */}
                 <div className="solution-grid grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
                     {solutions.map((item, index) => (
-                        <div key={index} className={`solution-card group relative ${item.span} aspect-square md:aspect-auto md:h-[400px] bg-white border border-black/5 rounded-[2rem] overflow-hidden transition-all hover:border-black/20 hover:shadow-lg hover:-translate-y-1`}
+                        <div key={index} className={`solution-card group relative ${item.span} aspect-square md:aspect-auto md:h-[400px] bg-white border border-black/5 rounded-[2rem] overflow-hidden transition-all hover:border-black/20 hover:shadow-xl hover:-translate-y-1`}
                             style={{ animationDelay: `${index * 100}ms` }}
                         >
+                            {/* Background Photo */}
+                            <div className="absolute inset-0">
+                                <img
+                                    src={item.image}
+                                    alt={t(item.titleKey, language)}
+                                    className="w-full h-full object-cover opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-white/20"></div>
+                            </div>
 
                             {/* Icon/Decoration */}
-                            <div className="absolute top-8 right-8 text-3xl opacity-30 filter grayscale group-hover:opacity-100 transition-opacity">
+                            <div className="absolute top-8 right-8 text-3xl opacity-40 group-hover:opacity-80 transition-opacity">
                                 {item.icon}
                             </div>
 
@@ -121,7 +130,7 @@ const Solutions = () => {
                                 <h4 className="text-2xl font-black mb-4 uppercase tracking-tighter text-black">
                                     {t(item.titleKey, language)}
                                 </h4>
-                                <p className="text-gray-500 leading-relaxed text-sm">
+                                <p className="text-gray-600 leading-relaxed text-sm">
                                     {t(item.descKey, language)}
                                 </p>
                             </div>

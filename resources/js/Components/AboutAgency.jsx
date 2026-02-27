@@ -74,13 +74,31 @@ const AboutAgency = () => {
                     {/* Right Grid Block (Stats & Visual) */}
                     <div className="md:w-1/2 flex flex-col justify-between">
 
-                        {/* Minimalist Visual Placeholder */}
-                        <div className="about-fade-up w-full h-[30vh] md:h-[40vh] bg-gray-100 rounded-2xl mb-12 flex items-center justify-center border border-black/5 overflow-hidden">
-                            <img
-                                src="/images/logo-3d-user.png"
-                                alt="Agency Indicator"
-                                className="w-32 h-32 opacity-10 filter grayscale"
-                            />
+                        {/* Professional Photo Grid */}
+                        <div className="about-fade-up w-full mb-12 grid grid-cols-2 gap-3 h-[40vh] md:h-[50vh]">
+                            <div className="rounded-2xl overflow-hidden h-full">
+                                <img
+                                    src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
+                                    alt="Agency Team Meeting"
+                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-3 h-full">
+                                <div className="rounded-2xl overflow-hidden flex-1">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
+                                        alt="Digital Strategy"
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                    />
+                                </div>
+                                <div className="rounded-2xl overflow-hidden flex-1">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80"
+                                        alt="Creative Work"
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         {/* Clean Stats Grid */}

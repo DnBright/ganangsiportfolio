@@ -74,6 +74,14 @@ const SloganServices = () => {
 
                     {/* Dark & Bright */}
                     <div className="agency-card-reveal group relative p-10 md:p-14 bg-[#fcfcfc] border border-black/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-black/30 hover:shadow-xl">
+                        {/* Decorative Background Photo */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                            <img
+                                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80"
+                                alt="Engineering"
+                                className="w-full h-full object-cover opacity-[0.06]"
+                            />
+                        </div>
                         <div className="relative z-10 pr-8">
                             <h4 className="text-[10px] font-bold text-black/40 tracking-[0.3em] uppercase mb-6">Engineering Division</h4>
                             <h3 className="text-3xl md:text-4xl font-black uppercase mb-4 tracking-tighter text-black">
@@ -94,6 +102,15 @@ const SloganServices = () => {
 
                     {/* Gro Visual */}
                     <div className="agency-card-reveal group relative p-10 md:p-14 bg-black text-white rounded-3xl overflow-hidden transition-all duration-500 hover:shadow-2xl">
+                        {/* Decorative Background Photo */}
+                        <div className="absolute inset-0">
+                            <img
+                                src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80"
+                                alt="Creative Design"
+                                className="w-full h-full object-cover opacity-[0.12] group-hover:opacity-[0.2] group-hover:scale-105 transition-all duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/80 to-transparent"></div>
+                        </div>
                         <div className="relative z-10 pr-8">
                             <h4 className="text-[10px] font-bold text-white/40 tracking-[0.3em] uppercase mb-6">Creative Division</h4>
                             <h3 className="text-3xl md:text-4xl font-black uppercase mb-4 tracking-tighter">
