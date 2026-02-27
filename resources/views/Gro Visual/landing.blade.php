@@ -444,6 +444,62 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   </div>
 </div>
 
+<!-- PORTFOLIO -->
+<section id="portfolio" class="portfolio-section">
+  <div class="services-intro">
+    <div>
+      <span class="section-label reveal">Portfolio Kami</span>
+      <h2 class="section-title reveal">Logo &<br>Identitas Visual</h2>
+    </div>
+    <p class="services-intro-desc reveal">Ini adalah koleksi identitas visual yang kami bangun bersama klien. Kami fokus pada desain yang bersih, fungsional, dan penuh karakter.</p>
+  </div>
+
+  <div class="portfolio-container">
+    @if(count($portfolioImages) > 0)
+        @php
+            $count = count($portfolioImages);
+            $half = ceil($count / 2);
+            $row1 = array_slice($portfolioImages, 0, $half);
+            $row2 = array_slice($portfolioImages, $half);
+        @endphp
+
+        {{-- Baris 1: Forward --}}
+        <div class="marquee-row forward">
+            @foreach($row1 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+            {{-- Duplicate for infinite loop --}}
+            @foreach($row1 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+        </div>
+
+        {{-- Baris 2: Backward --}}
+        <div class="marquee-row backward">
+            @foreach($row2 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+            {{-- Duplicate for infinite loop --}}
+            @foreach($row2 as $img)
+                <div class="portfolio-item">
+                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
+                </div>
+            @endforeach
+        </div>
+    @else
+        <div style="text-align: center; padding: 60px; border: 1px dashed var(--mid); border-radius: 20px; color: var(--dim); margin: 0 60px;">
+            Belum ada portfolio yang diunggah ke folder `images/gro-visual/portfolio`.
+        </div>
+    @endif
+  </div>
+</section>
+
 <!-- WHY US -->
 <section id="why" class="why-section">
   <span class="section-label reveal">Mengapa Gro Visual</span>
@@ -543,61 +599,6 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   </div>
 </section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio" class="portfolio-section">
-  <div class="services-intro">
-    <div>
-      <span class="section-label reveal">Portfolio Kami</span>
-      <h2 class="section-title reveal">Logo &<br>Identitas Visual</h2>
-    </div>
-    <p class="services-intro-desc reveal">Ini adalah koleksi identitas visual yang kami bangun bersama klien. Kami fokus pada desain yang bersih, fungsional, dan penuh karakter.</p>
-  </div>
-
-  <div class="portfolio-container">
-    @if(count($portfolioImages) > 0)
-        @php
-            $count = count($portfolioImages);
-            $half = ceil($count / 2);
-            $row1 = array_slice($portfolioImages, 0, $half);
-            $row2 = array_slice($portfolioImages, $half);
-        @endphp
-
-        {{-- Baris 1: Forward --}}
-        <div class="marquee-row forward">
-            @foreach($row1 as $img)
-                <div class="portfolio-item">
-                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
-                </div>
-            @endforeach
-            {{-- Duplicate for infinite loop --}}
-            @foreach($row1 as $img)
-                <div class="portfolio-item">
-                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
-                </div>
-            @endforeach
-        </div>
-
-        {{-- Baris 2: Backward --}}
-        <div class="marquee-row backward">
-            @foreach($row2 as $img)
-                <div class="portfolio-item">
-                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
-                </div>
-            @endforeach
-            {{-- Duplicate for infinite loop --}}
-            @foreach($row2 as $img)
-                <div class="portfolio-item">
-                    <img src="{{ asset('images/gro-visual/portfolio/' . $img) }}" alt="Portfolio Logo">
-                </div>
-            @endforeach
-        </div>
-    @else
-        <div style="text-align: center; padding: 60px; border: 1px dashed var(--mid); border-radius: 20px; color: var(--dim); margin: 0 60px;">
-            Belum ada portfolio yang diunggah ke folder `images/gro-visual/portfolio`.
-        </div>
-    @endif
-  </div>
-</section>
 
 <!-- TESTIMONI -->
 <section class="testi-section">
