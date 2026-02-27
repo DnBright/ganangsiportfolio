@@ -276,7 +276,7 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
 <!-- NAV -->
 <nav>
   <a href="#" class="logo">
-    <div class="logo-mark">G</div>
+    <img src="{{ asset('images/gro-visual/logo-gro.png') }}" alt="Gro Visual Logo" style="height: 32px; width: auto; object-fit: contain;">
     GRO VISUAL
   </a>
   <ul class="nav-links">
@@ -303,18 +303,7 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   <div class="hero-right">
     <div class="hero-visual">
       <div class="grid-lines"></div>
-      <div class="scan-line"></div>
-      <svg class="hero-logo-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="60,360 360,40 360,360" fill="#0d0d12" stroke="rgba(26,59,204,0.12)" stroke-width="1"/>
-        <polygon points="80,340 340,62 340,340" fill="#111118"/>
-        <polygon points="252,98 338,62 338,148 288,148" fill="#09090d"/>
-        <polygon points="255,101 336,65 336,145 290,145" fill="none" stroke="#3554e8" stroke-width="1.5"/>
-        <polygon points="145,218 338,158 338,244 145,244" fill="#09090d"/>
-        <polygon points="148,221 336,161 336,241 148,241" fill="none" stroke="#3554e8" stroke-width="1.5"/>
-        <polygon points="80,290 338,262 338,340 80,340" fill="#09090d"/>
-        <polygon points="83,293 336,265 336,337 83,337" fill="none" stroke="#3554e8" stroke-width="1.5"/>
-        <polygon points="340,340 380,370 365,340" fill="rgba(53,84,232,0.07)"/>
-      </svg>
+      <img src="{{ asset('images/gro-visual/logo-gro.png') }}" alt="Gro Visual" class="hero-logo-large" style="width: 60%; max-width: 400px; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.12)); animation: floatUp 8s ease-in-out infinite;">
     </div>
   </div>
 </section>
@@ -407,6 +396,7 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
       <div class="about-box main">
         <div class="about-grid-bg"></div>
         <img src="{{ asset('images/gro-visual/creative_studio_concept.jpg') }}" alt="Gro Visual Studio" style="width: 100%; height: 100%; object-fit: cover; opacity: 1;">
+        <img src="{{ asset('images/gro-visual/logo-gro.png') }}" class="about-logo-overlay" alt="Branding" style="position: absolute; top: 20px; left: 20px; width: 60px; opacity: 0.15; filter: grayscale(1) brightness(2);">
       </div>
     <div class="about-box accent-box">
       <span class="accent-box-num">3+</span>
@@ -655,7 +645,7 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
 <footer>
   <div>
     <div class="footer-logo">
-      <div class="logo-mark">G</div>
+      <img src="{{ asset('images/gro-visual/logo-gro.png') }}" alt="Gro Visual Logo" style="height: 40px; width: auto; object-fit: contain;">
       GRO VISUAL
     </div>
     <p class="footer-tagline">Studio kreatif yang membantu bisnis tumbuh melalui identitas visual yang kuat, modern, dan profesional di era digital.</p>
