@@ -151,21 +151,32 @@ section { padding: 120px 60px; }
 /* WHY US */
 .why-section { background: var(--black); }
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 80px; }
-.why-card { padding: 40px; background: var(--gray2); border-radius: 24px; border: 1px solid var(--mid); transition: all 0.4s; position: relative; overflow: hidden; }
-.why-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
-.why-icon { font-size: 32px; color: var(--accent); margin-bottom: 24px; }
-.why-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1px; margin-bottom: 16px; color: var(--white); }
-.why-desc { font-size: 14px; line-height: 1.8; color: var(--dim); }
+.why-card { padding: 40px; background: var(--gray2); border-radius: 24px; border: 1px solid var(--mid); transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); position: relative; overflow: hidden; min-height: 320px; display: flex; flex-direction: column; justify-content: flex-end; }
+.why-card-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: all 0.8s ease; z-index: 1; }
+.why-card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(13,13,18,0.2) 0%, rgba(13,13,18,0.95) 100%); opacity: 0; transition: all 0.5s; z-index: 2; }
+.why-card:hover { transform: translateY(-12px); border-color: var(--accent); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+.why-card:hover .why-card-img { opacity: 0.35; transform: scale(1.15); }
+.why-card:hover .why-card-overlay { opacity: 1; }
+.why-icon { font-size: 32px; color: var(--accent); margin-bottom: 24px; position: relative; z-index: 3; transition: all 0.4s; }
+.why-card:hover .why-icon { transform: translateY(-10px) scale(1.1); color: #ffffff; }
+.why-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1px; margin-bottom: 16px; color: var(--white); position: relative; z-index: 3; }
+.why-desc { font-size: 14px; line-height: 1.8; color: var(--dim); position: relative; z-index: 3; transition: color 0.4s; }
+.why-card:hover .why-desc { color: #ffffff; }
 
 @media (max-width: 1024px) {
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-card { min-height: 280px; }
+}
+@media (max-width: 768px) {
     .why-grid { grid-template-columns: 1fr; }
 }
 
 /* PROCESS */
 .process-section { background: var(--gray); }
 .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 80px; background: var(--mid); padding: 2px; border-radius: 24px; overflow: hidden; }
-.process-step { padding: 50px 40px; background: var(--black); transition: all 0.3s; }
-.process-step:hover { background: var(--gray); }
+.process-step { padding: 60px 40px; background: var(--black); transition: all 0.5s; position: relative; overflow: hidden; border-right: 1px solid var(--mid); }
+.process-step:last-child { border-right: none; }
+.process-step:hover { background: var(--gray2); }
 .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 80px; color: var(--mid); line-height: 1; margin-bottom: 20px; opacity: 0.6; }
 .step-name { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1px; margin-bottom: 14px; color: var(--white); }
 .step-desc { font-size: 14px; line-height: 1.8; color: var(--dim); }
@@ -515,31 +526,43 @@ footer { background: var(--black); border-top: 1px solid var(--mid); padding: 10
   <h2 class="section-title reveal">Keunggulan<br>Kami</h2>
   <div class="why-grid">
     <div class="why-card reveal">
+      <img src="{{ asset('images/gro-visual/strategic_approach.png') }}" class="why-card-img" alt="Strategy">
+      <div class="why-card-overlay"></div>
       <div class="why-icon">◎</div>
       <h3 class="why-title">Pendekatan Strategis</h3>
       <p class="why-desc">Kami tidak hanya membuat desain yang indah. Setiap keputusan visual didasarkan pada pemahaman mendalam tentang brand, target pasar, dan tujuan bisnis Anda — agar desain benar-benar menghasilkan dampak nyata.</p>
     </div>
     <div class="why-card reveal">
+      <img src="{{ asset('images/gro-visual/brand_consistency.png') }}" class="why-card-img" alt="Branding">
+      <div class="why-card-overlay"></div>
       <div class="why-icon">⬡</div>
       <h3 class="why-title">Identitas yang Konsisten</h3>
       <p class="why-desc">Brand yang kuat butuh visual yang konsisten di semua platform. Kami memastikan setiap elemen — dari logo hingga konten media sosial — berbicara dalam satu bahasa visual yang kohesif dan mudah dikenali.</p>
     </div>
     <div class="why-card reveal">
+      <img src="{{ asset('images/gro-visual/creative_studio_concept.jpg') }}" class="why-card-img" alt="Growth">
+      <div class="why-card-overlay"></div>
       <div class="why-icon">↗</div>
       <h3 class="why-title">Hasil yang Terukur</h3>
       <p class="why-desc">Desain yang baik berdampak nyata pada pertumbuhan bisnis. Kami berkomitmen membangun komunikasi visual yang meningkatkan kepercayaan audiens, daya saing, dan pertumbuhan brand secara berkelanjutan.</p>
     </div>
     <div class="why-card reveal">
+      <img src="{{ asset('images/gro-visual/branding_service.jpg') }}" class="why-card-img" alt="Satisfaction">
+      <div class="why-card-overlay"></div>
       <div class="why-icon">◈</div>
       <h3 class="why-title">Revisi Tanpa Batas</h3>
       <p class="why-desc">Kepuasan Anda adalah prioritas utama kami. Kami menyediakan revisi hingga hasil akhir benar-benar sesuai dengan visi dan ekspektasi Anda — tidak ada kompromi pada kualitas hasil akhir.</p>
     </div>
     <div class="why-card reveal">
+      <img src="{{ asset('images/gro-visual/graphic_design_service.jpg') }}" class="why-card-img" alt="Process">
+      <div class="why-card-overlay"></div>
       <div class="why-icon">✦</div>
       <h3 class="why-title">Proses yang Transparan</h3>
       <p class="why-desc">Anda selalu tahu perkembangan proyek Anda. Kami menjaga komunikasi terbuka di setiap tahap — dari briefing awal, proses desain, review, hingga file final diserahterimakan secara lengkap.</p>
     </div>
     <div class="why-card reveal">
+      <img src="{{ asset('images/gro-visual/social_media_service.jpg') }}" class="why-card-img" alt="Support">
+      <div class="why-card-overlay"></div>
       <div class="why-icon">⊕</div>
       <h3 class="why-title">Dukungan Pasca Proyek</h3>
       <p class="why-desc">Hubungan kami tidak berhenti saat proyek selesai. Kami siap mendampingi dan memberikan panduan penerapan aset brand agar identitas visual Anda digunakan secara tepat dan konsisten di semua media.</p>
