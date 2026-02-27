@@ -66,12 +66,12 @@ export const translations = {
             },
             dnb: {
                 name: {
-                    id: "Dark And Bright Agency",
-                    en: "Dark And Bright Agency"
+                    id: "Dark & Bright",
+                    en: "Dark & Bright"
                 },
                 focus: {
-                    id: "Software Engineering & Digital Supremacy",
-                    en: "Software Engineering & Digital Supremacy"
+                    id: "Software Engineering Division",
+                    en: "Software Engineering Division"
                 },
                 desc: {
                     id: "Fokus pada pengembangan infrastruktur digital yang kompleks dan solusi pemasaran berbasis data tingkat lanjut. Kami adalah arsitek di balik sistem yang menggerakkan bisnis modern.",
@@ -88,8 +88,8 @@ export const translations = {
                     en: "Gro Visual"
                 },
                 focus: {
-                    id: "Visual Mastery & Brand Identity",
-                    en: "Visual Mastery & Brand Identity"
+                    id: "Creative Branding & Visual Mastery",
+                    en: "Creative Branding & Visual Mastery"
                 },
                 desc: {
                     id: "Spesialis dalam menciptakan identitas visual yang meninggalkan jejak permanen di benak audiens. Kami mengubah persepsi melalui desain yang berani dan tak terlupakan.",
