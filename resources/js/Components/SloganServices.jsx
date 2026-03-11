@@ -134,7 +134,7 @@ const SloganServices = () => {
                             <p className="text-gray-400 leading-relaxed mb-10 max-w-sm text-sm">
                                 {t('slogan.agencies.gro.desc', language)}
                             </p>
-                            <a href="#" className="inline-flex items-center gap-4 text-xs font-bold uppercase tracking-widest group-hover:gap-6 transition-all">
+                            <a href="https://gro.thedarkandbright.com" className="inline-flex items-center gap-4 text-xs font-bold uppercase tracking-widest group-hover:gap-6 transition-all">
                                 {t('slogan.agencies.gro.cta', language)}
                                 <span>→</span>
                             </a>
