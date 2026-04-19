@@ -177,7 +177,7 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                         )}
                                         <div className="w-[1px] h-8 bg-white/30 hidden md:block"></div>
                                         <span className="text-[10px] font-mono text-white/60 hidden md:block">
-                                            ID: {item.id.toUpperCase()}
+                                            ID: {String(item.id).toUpperCase()}
                                         </span>
                                     </div>
                                 </div>
