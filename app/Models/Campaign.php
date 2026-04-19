@@ -13,6 +13,7 @@ class Campaign extends Model
         'name',
         'post_link',
         'target_category',
+        'target_groups',
         'daily_limit',
         'sessions_count',
         'delay_minutes',
@@ -22,6 +23,7 @@ class Campaign extends Model
 
     protected $casts = [
         'settings' => 'array',
+        'target_groups' => 'array',
     ];
 
     public function logs()

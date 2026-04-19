@@ -7,10 +7,27 @@ const CampaignForm = ({ onClose, onSuccess }) => {
         name: '',
         post_link: '',
         target_category: 'UMKM',
+        target_groups: [''], // Array of group names/URLs
         daily_limit: 50,
         sessions_count: 3,
         delay_minutes: 15
     });
+
+    const addGroupField = () => {
+        setFormData({ ...formData, target_groups: [...formData.target_groups, ''] });
+    };
+
+    const removeGroupField = (index) => {
+        const newGroups = formData.target_groups.filter((_, i) => i !== index);
+        setFormData({ ...formData, target_groups: newGroups.length ? newGroups : [''] });
+    };
+
+    const handleGroupChange = (index, value) => {
+        const newGroups = [...formData.target_groups];
+        newGroups[index] = value;
+        setFormData({ ...formData, target_groups: newGroups });
+    };
+
     const [captions, setCaptions] = useState([]);
     const [generatingCaptions, setGeneratingCaptions] = useState(false);
     const [submitting, setSubmitting] = useState(false);
@@ -102,6 +119,40 @@ const CampaignForm = ({ onClose, onSuccess }) => {
                                     <option value="Professional">Professional / B2B</option>
                                     <option value="Entertainment">Entertainment / Viral</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        {/* Group Manager Section */}
+                        <div className="space-y-3 pt-4 border-t border-white/5">
+                            <div className="flex justify-between items-center mb-2">
+                                <label className="text-[10px] font-black text-white/40 uppercase tracking-widest pl-2">Target Groups (multiple)</label>
+                                <button 
+                                    type="button" 
+                                    onClick={addGroupField}
+                                    className="text-[8px] font-black uppercase tracking-widest text-blue-400 hover:text-blue-300 transition-colors"
+                                >
+                                    + Add Group
+                                </button>
+                            </div>
+                            <div className="space-y-3">
+                                {formData.target_groups.map((group, idx) => (
+                                    <div key={idx} className="flex gap-3">
+                                        <input 
+                                            required
+                                            value={group}
+                                            onChange={(e) => handleGroupChange(idx, e.target.value)}
+                                            placeholder="Group Name or URL"
+                                            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs outline-none focus:border-blue-500/50 transition-all"
+                                        />
+                                        <button 
+                                            type="button"
+                                            onClick={() => removeGroupField(idx)}
+                                            className="px-3 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500/20 transition-all text-xs"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 

@@ -47,6 +47,8 @@ class CampaignController extends Controller
             'name' => 'required|string|max:255',
             'post_link' => 'required|url',
             'target_category' => 'required|string',
+            'target_groups' => 'required|array|min:1',
+            'target_groups.*' => 'required|string',
             'daily_limit' => 'required|integer|min:1',
             'sessions_count' => 'required|integer|min:1|max:24',
             'delay_minutes' => 'required|integer|min:1',
