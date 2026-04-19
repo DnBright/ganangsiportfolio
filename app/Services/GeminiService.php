@@ -328,6 +328,74 @@ class GeminiService
         ];
     }
 
+    public function generateCaptions($postLink, $targetAudience)
+    {
+        if (!$this->apiKey) {
+            return "Error: Gemini API Key is not configured.";
+        }
+
+        $prompt = $this->buildCaptionsPrompt($postLink, $targetAudience);
+        $lastError = 'Unknown error';
+
+        foreach ($this->models as $model) {
+            try {
+                $endpoint = $this->baseUrl . $model . ':generateContent?key=' . $this->apiKey;
+                
+                $response = Http::post($endpoint, [
+                    'contents' => [['parts' => [['text' => $prompt]]]],
+                    'generationConfig' => [
+                        'temperature' => 0.8,
+                        'topK' => 40,
+                        'topP' => 0.95,
+                        'maxOutputTokens' => 2048,
+                    ]
+                ]);
+
+                if ($response->successful()) {
+                    $result = $response->json();
+                    $text = $result['candidates'][0]['content']['parts'][0]['text'] ?? '';
+                    
+                    if (preg_match('/\[[\s\S]*\]/', $text, $matches)) {
+                        $text = $matches[0];
+                    }
+                    
+                    $decoded = json_decode($text, true);
+                    if (is_array($decoded)) {
+                        return $decoded;
+                    }
+
+                    return ["Ayo cek postingan terbaru kami di $postLink!"];
+                }
+
+                $lastError = $response->json()['error']['message'] ?? 'Unknown error';
+            } catch (\Exception $e) {
+                $lastError = $e->getMessage();
+            }
+        }
+
+        return ["Error generating captions: $lastError"];
+    }
+
+    protected function buildCaptionsPrompt($postLink, $targetAudience)
+    {
+        return "Anda adalah Social Media Strategist ahli untuk Dark and Bright. 
+Tugas Anda adalah membuat 5 variasi caption promosi Facebook yang berbeda untuk target audiens: $targetAudience.
+
+Caption ini akan digunakan untuk membagikan link postingan berikut: $postLink
+
+⚠️ KRITERIA PENTING (SPAM PREVENTION):
+1. Setiap variasi harus memiliki struktur kalimat dan pilihan kata yang berbeda secara signifikan.
+2. Gunakan gaya bahasa yang natural, persuasif, dan tidak kaku (human-centric).
+3. Gunakan emoji secara proporsional.
+4. Sisipkan Call to Action (CTA) yang menarik.
+5. Jangan gunakan pola yang sama persis di setiap caption.
+6. Fokus pada manfaat yang didapat audiens $targetAudience.
+
+Output harus dalam format JSON array of strings:
+[\"Caption 1\", \"Caption 2\", \"Caption 3\", \"Caption 4\", \"Caption 5\"]
+Hasilkan HANYA JSON array tersebut tanpa teks tambahan.";
+    }
+
     protected function buildPrompt($data)
     {
         $client = $data['client_name'] ?? 'Klien';

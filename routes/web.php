@@ -144,6 +144,16 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
     Route::get('/analytics/stats', [\App\Http\Controllers\AnalyticsController::class, 'getStats'])->name('admin.analytics.stats');
     Route::get('/analytics/yearly', [\App\Http\Controllers\AnalyticsController::class, 'getYearlyStats'])->name('admin.analytics.yearly');
 
+    // Campaign Automation
+    Route::prefix('campaigns')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\CampaignController::class, 'index'])->name('admin.campaigns.index');
+        Route::post('/', [\App\Http\Controllers\Admin\CampaignController::class, 'store'])->name('admin.campaigns.store');
+        Route::post('/generate-captions', [\App\Http\Controllers\Admin\CampaignController::class, 'generateCaptionsPreview'])->name('admin.campaigns.generate-captions');
+        Route::patch('/{campaign}/status', [\App\Http\Controllers\Admin\CampaignController::class, 'updateStatus'])->name('admin.campaigns.update-status');
+        Route::get('/{campaign}/logs', [\App\Http\Controllers\Admin\CampaignController::class, 'getLogs'])->name('admin.campaigns.logs');
+        Route::delete('/{campaign}', [\App\Http\Controllers\Admin\CampaignController::class, 'destroy'])->name('admin.campaigns.destroy');
+    });
+
 
     // Temporary Migration & DB Fix Route
     Route::get('/run-migrations', function () {
