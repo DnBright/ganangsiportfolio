@@ -149,6 +149,8 @@ Route::domain('admin.thedarkandbright.com')->middleware(['auth', 'role:admin'])-
         Route::get('/', [\App\Http\Controllers\Admin\CampaignController::class, 'index'])->name('admin.campaigns.index');
         Route::post('/', [\App\Http\Controllers\Admin\CampaignController::class, 'store'])->name('admin.campaigns.store');
         Route::post('/generate-captions', [\App\Http\Controllers\Admin\CampaignController::class, 'generateCaptionsPreview'])->name('admin.campaigns.generate-captions');
+        Route::get('/global-stats', [\App\Http\Controllers\Admin\CampaignController::class, 'globalStats'])->name('admin.campaigns.global-stats');
+        Route::get('/latest-logs', [\App\Http\Controllers\Admin\CampaignController::class, 'latestLogs'])->name('admin.campaigns.latest-logs');
         Route::patch('/{campaign}/status', [\App\Http\Controllers\Admin\CampaignController::class, 'updateStatus'])->name('admin.campaigns.update-status');
         Route::get('/{campaign}/logs', [\App\Http\Controllers\Admin\CampaignController::class, 'getLogs'])->name('admin.campaigns.logs');
         Route::delete('/{campaign}', [\App\Http\Controllers\Admin\CampaignController::class, 'destroy'])->name('admin.campaigns.destroy');

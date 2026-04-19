@@ -76,6 +76,26 @@ class CampaignController extends Controller
         return response()->json($campaign->logs()->latest()->limit(50)->get());
     }
 
+    public function globalStats()
+    {
+        $today = now()->startOfDay();
+        return response()->json([
+            'total_success_today' => CampaignLog::where('status', 'success')->where('created_at', '>=', $today)->count(),
+            'active_campaigns' => Campaign::where('status', 'running')->count(),
+            'total_failed_today' => CampaignLog::where('status', 'failed')->where('created_at', '>=', $today)->count(),
+        ]);
+    }
+
+    public function latestLogs()
+    {
+        return response()->json(
+            CampaignLog::with('campaign:id,name')
+                ->latest()
+                ->limit(20)
+                ->get()
+        );
+    }
+
     public function destroy(Campaign $campaign)
     {
         $campaign->delete();

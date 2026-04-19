@@ -10,21 +10,29 @@ const CampaignAutomation = () => {
     const [showForm, setShowForm] = useState(false);
     const [selectedCampaign, setSelectedCampaign] = useState(null);
     const [showLogs, setShowLogs] = useState(false);
+    const [globalStats, setGlobalStats] = useState({ total_success_today: 0, active_campaigns: 0, total_failed_today: 0 });
+    const [latestLogs, setLatestLogs] = useState([]);
 
-    const fetchCampaigns = async () => {
+    const fetchData = async () => {
         try {
-            const response = await axios.get('/campaigns');
-            setCampaigns(response.data);
+            const [campaignsRes, statsRes, logsRes] = await Promise.all([
+                axios.get('/campaigns'),
+                axios.get('/campaigns/global-stats'),
+                axios.get('/campaigns/latest-logs')
+            ]);
+            setCampaigns(campaignsRes.data);
+            setGlobalStats(statsRes.data);
+            setLatestLogs(logsRes.data);
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching campaigns:', error);
+            console.error('Error fetching dashboard data:', error);
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchCampaigns();
-        const interval = setInterval(fetchCampaigns, 10000); // Polling every 10s for real-time feel
+        fetchData();
+        const interval = setInterval(fetchData, 10000); 
         return () => clearInterval(interval);
     }, []);
 
@@ -56,14 +64,14 @@ const CampaignAutomation = () => {
 
     return (
         <div className="space-y-6">
-            {/* Header section with Stats */}
+            {/* Header section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h2 className="text-xl font-black uppercase tracking-widest text-white flex items-center gap-3">
                         <span className="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-500/20">🚀</span>
-                        Campaign Automation
+                        Command Center
                     </h2>
-                    <p className="text-xs text-white/40 font-bold mt-1 uppercase tracking-tighter">AI-Powered Content Distribution Command Center</p>
+                    <p className="text-xs text-white/40 font-bold mt-1 uppercase tracking-tighter">Real-Time Bot Performance Monitoring</p>
                 </div>
                 <button
                     onClick={() => setShowForm(true)}
@@ -71,6 +79,60 @@ const CampaignAutomation = () => {
                 >
                     + Create New Campaign
                 </button>
+            </div>
+
+            {/* Global Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-[#0f1535]/40 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center text-xl">✅</div>
+                    <div>
+                        <p className="text-[10px] text-white/40 font-black uppercase tracking-widest">Success Today</p>
+                        <p className="text-2xl font-bold text-green-400">{globalStats.total_success_today}</p>
+                    </div>
+                </div>
+                <div className="bg-[#0f1535]/40 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center text-xl">🤖</div>
+                    <div>
+                        <p className="text-[10px] text-white/40 font-black uppercase tracking-widest">Active Workforce</p>
+                        <p className="text-2xl font-bold text-blue-400">{globalStats.active_campaigns} Bots</p>
+                    </div>
+                </div>
+                <div className="bg-[#0f1535]/40 backdrop-blur-xl border border-white/10 rounded-[30px] p-6 flex items-center gap-4">
+                    <div className="w-12 h-12 bg-red-500/10 rounded-2xl flex items-center justify-center text-xl">⚠️</div>
+                    <div>
+                        <p className="text-[10px] text-white/40 font-black uppercase tracking-widest">Failed Efforts</p>
+                        <p className="text-2xl font-bold text-red-500">{globalStats.total_failed_today}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Live Activity Stream */}
+            <div className="bg-[#0f1535]/20 backdrop-blur-md border border-white/5 rounded-[30px] p-6 overflow-hidden">
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-[10px] font-black text-white/60 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <span className="w-2 h-2 bg-blue-500 rounded-full animate-ping" />
+                        Live Activity Stream
+                    </h3>
+                    <span className="text-[8px] text-white/20 font-black uppercase tracking-tighter">Updated every 10s</span>
+                </div>
+                <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                    {latestLogs.map((log) => (
+                        <div key={log.id} className="flex-shrink-0 bg-white/5 border border-white/5 rounded-2xl p-3 min-w-[200px] flex flex-col gap-2">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[8px] font-black text-blue-400 uppercase tracking-tighter">{log.campaign?.name}</span>
+                                <span className={`w-2 h-2 rounded-full ${log.status === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
+                            </div>
+                            <p className="text-[9px] text-white/80 font-bold truncate">{log.group_name || 'Processing...'}</p>
+                            <span className="text-[7px] text-white/20 font-mono text-right">{new Date(log.executed_at).toLocaleTimeString()}</span>
+                        </div>
+                    ))}
+                    {latestLogs.length === 0 && <p className="text-[10px] text-white/10 py-4">Waiting for telemetry data...</p>}
+                </div>
+            </div>
+
+            {/* Campaign Grid Section Header */}
+            <div>
+                <h3 className="text-sm font-black text-white/40 uppercase tracking-[.3em] mb-4">Active Deployments</h3>
             </div>
 
             {/* Campaign Cards Grid */}
