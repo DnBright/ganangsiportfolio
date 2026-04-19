@@ -99,7 +99,15 @@ const PortfolioTable = () => {
             fetchPortfolios();
         } catch (err) {
             console.error('Error saving portfolio:', err);
-            alert('Failed to save portfolio');
+            const message = err.response?.data?.message || 'Failed to save portfolio';
+            const errors = err.response?.data?.errors;
+            
+            if (errors) {
+                const detailedError = Object.values(errors).flat().join('\n');
+                alert(`${message}\n\n${detailedError}`);
+            } else {
+                alert(message);
+            }
         }
     };
 
