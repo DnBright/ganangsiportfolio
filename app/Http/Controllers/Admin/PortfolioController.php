@@ -29,7 +29,7 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'domain' => 'required|in:agency,lpk,both',
+            'domain' => 'required|in:general,agency,lpk,both',
             'title' => 'required|string|max:255',
             'client_name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -65,7 +65,7 @@ class PortfolioController extends Controller
     public function update(Request $request, Portfolio $portfolio)
     {
         $validated = $request->validate([
-            'domain' => 'required|in:agency,lpk,both',
+            'domain' => 'required|in:general,agency,lpk,both',
             'title' => 'required|string|max:255',
             'client_name' => 'nullable|string|max:255',
             'description' => 'nullable|string',
