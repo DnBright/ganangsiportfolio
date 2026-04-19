@@ -29,7 +29,25 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
         }
     };
 
-    const displayPortfolios = [
+    const displayPortfolios = portfolios.length > 0 ? portfolios.map(p => {
+        // Map common titles to simulation IDs
+        const slug = p.slug?.toLowerCase() || '';
+        const title = p.title.toLowerCase();
+        let id = p.id;
+        
+        if (title.includes('saitama') || slug.includes('saitama')) id = 'saitama';
+        if (title.includes('kursus') || title.includes('jepang') || slug.includes('kursus')) id = 'kursus';
+        if (title.includes('ayaka') || slug.includes('ayaka')) id = 'ayaka';
+        if (title.includes('akab') || slug.includes('akab')) id = 'akab';
+
+        return {
+            id: id,
+            title: p.title,
+            category: p.category || 'Creative Work',
+            image: p.image?.startsWith('http') ? p.image : `/storage/${p.image}`,
+            project_url: p.project_url
+        };
+    }) : [
         { id: 'saitama', title: "PT Saitama Juara Mendunia", category: "Enterprise Architecture", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" },
         { id: 'kursus', title: "Kursus Jepang", category: "LMS ecosystem", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80" },
         { id: 'ayaka', title: "Ayaka Josei Center", category: "Recruitment cloud", image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80" },
@@ -132,14 +150,31 @@ const PortfolioShowcase = ({ portfolios = [] }) => {
                                     </h3>
 
                                     <div className="flex items-center gap-6">
-                                        <button className="flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all shadow-lg hover:shadow-xl">
-                                            <span>LIVE SIMULATION</span>
-                                            <div className="w-6 h-6 rounded-full border border-black/10 flex items-center justify-center bg-gray-50 group-hover:bg-white/10 group-hover:border-white/20">
-                                                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                                    <path d="M5 12h14m-7-7l7 7-7 7" />
-                                                </svg>
-                                            </div>
-                                        </button>
+                                        {['saitama', 'kursus', 'ayaka', 'akab'].includes(item.id) ? (
+                                            <button className="flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all shadow-lg hover:shadow-xl">
+                                                <span>LIVE SIMULATION</span>
+                                                <div className="w-6 h-6 rounded-full border border-black/10 flex items-center justify-center bg-gray-50 group-hover:bg-white/10 group-hover:border-white/20">
+                                                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                                        <path d="M5 12h14m-7-7l7 7-7 7" />
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                        ) : (
+                                            <a 
+                                                href={item.project_url || '#'} 
+                                                target="_blank" 
+                                                rel="noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="flex items-center gap-4 bg-white text-black px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all shadow-lg hover:shadow-xl"
+                                            >
+                                                <span>VIEW PROJECT</span>
+                                                <div className="w-6 h-6 rounded-full border border-black/10 flex items-center justify-center bg-gray-50 group-hover:bg-white/10 group-hover:border-white/20">
+                                                    <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                                                        <path d="M5 12h14m-7-7l7 7-7 7" />
+                                                    </svg>
+                                                </div>
+                                            </a>
+                                        )}
                                         <div className="w-[1px] h-8 bg-white/30 hidden md:block"></div>
                                         <span className="text-[10px] font-mono text-white/60 hidden md:block">
                                             ID: {item.id.toUpperCase()}

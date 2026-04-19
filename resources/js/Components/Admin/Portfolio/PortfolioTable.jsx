@@ -214,6 +214,7 @@ const PortfolioTable = () => {
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-white/40 uppercase tracking-widest pl-2">Domain</label>
                                         <select value={formData.domain} onChange={e => setFormData({...formData, domain: e.target.value})} className="w-full bg-[#0f1535] border border-white/10 rounded-2xl px-5 py-3.5 text-sm outline-none focus:border-blue-500/50 transition-all cursor-pointer">
+                                            <option value="general">General (Landing)</option>
                                             <option value="agency">Agency</option>
                                             <option value="lpk">LPK / Japanese</option>
                                             <option value="both">Both Domains</option>
