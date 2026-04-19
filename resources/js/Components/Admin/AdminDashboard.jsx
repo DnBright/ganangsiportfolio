@@ -17,6 +17,7 @@ import TargetTable from './CompanyTarget/TargetTable';
 import ProductivityCalendar from './Productivity/ProductivityCalendar';
 import ProjectsTable from './Projects/ProjectsTable';
 import CampaignAutomation from './Campaign/CampaignAutomation';
+import PortfolioTable from './Portfolio/PortfolioTable';
 import axios from 'axios'; // Added axios import
 
 const AdminDashboard = ({ stats = {} }) => {
@@ -271,6 +272,8 @@ const AdminDashboard = ({ stats = {} }) => {
                 return <ProjectsTable />;
             case 'campaign_automation':
                 return <CampaignAutomation />;
+            case 'portfolio':
+                return <PortfolioTable />;
             case 'dashboard':
             default:
                 return (

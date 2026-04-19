@@ -12,18 +12,15 @@ class PortfolioController extends Controller
     /**
      * Display a listing of portfolios
      */
-    public function index()
+    public function index(Request $request)
     {
-        $portfolios = Portfolio::ordered()->paginate(20);
+        $portfolios = Portfolio::ordered()->get();
+        
+        if ($request->wantsJson()) {
+            return response()->json($portfolios);
+        }
+        
         return view('admin.portfolios.index', compact('portfolios'));
-    }
-
-    /**
-     * Show the form for creating a new portfolio
-     */
-    public function create()
-    {
-        return view('admin.portfolios.create');
     }
 
     /**
@@ -50,19 +47,16 @@ class PortfolioController extends Controller
 
         // Generate slug
         $validated['slug'] = Str::slug($validated['title']);
+        $validated['is_featured'] = $request->boolean('is_featured');
 
-        Portfolio::create($validated);
+        $portfolio = Portfolio::create($validated);
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Portfolio created successfully', 'portfolio' => $portfolio]);
+        }
 
         return redirect()->route('admin.portfolios.index')
             ->with('success', 'Portfolio created successfully.');
-    }
-
-    /**
-     * Show the form for editing the specified portfolio
-     */
-    public function edit(Portfolio $portfolio)
-    {
-        return view('admin.portfolios.edit', compact('portfolio'));
     }
 
     /**
@@ -84,6 +78,10 @@ class PortfolioController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($portfolio->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($portfolio->image);
+            }
             $validated['image'] = $request->file('image')->store('portfolios', 'public');
         }
 
@@ -91,8 +89,14 @@ class PortfolioController extends Controller
         if ($validated['title'] !== $portfolio->title) {
             $validated['slug'] = Str::slug($validated['title']);
         }
+        
+        $validated['is_featured'] = $request->boolean('is_featured');
 
         $portfolio->update($validated);
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Portfolio updated successfully', 'portfolio' => $portfolio]);
+        }
 
         return redirect()->route('admin.portfolios.index')
             ->with('success', 'Portfolio updated successfully.');
@@ -101,9 +105,17 @@ class PortfolioController extends Controller
     /**
      * Remove the specified portfolio
      */
-    public function destroy(Portfolio $portfolio)
+    public function destroy(Request $request, Portfolio $portfolio)
     {
+        if ($portfolio->image) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($portfolio->image);
+        }
+        
         $portfolio->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Portfolio deleted successfully']);
+        }
 
         return redirect()->route('admin.portfolios.index')
             ->with('success', 'Portfolio deleted successfully.');
